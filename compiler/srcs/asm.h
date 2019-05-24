@@ -55,13 +55,15 @@
 # define COMMENT_LENGTH (2048)
 # define COREWAR_EXEC_MAGIC 0xea83f3
 
+# define TOKENIZE()
+
 typedef enum 			e_token_type {
-	LBL,   /// label (char*)
-	LC,   /// label_char (char)
-	OP,  /// operation (char)
-	T,  /// type (char)
-	D, /// delimiter (char)
-	A /// argument (unsigned int)
+	LBL = 0,   /// label (char*)
+	LC = 1,   /// label_char (char)
+	OP = 2,  /// operation (char)
+	T = 3,  /// type (char)
+	D = 4, /// delimiter (char)
+	A = 5 /// argument (unsigned int)
 }						t_token_type;
 
 typedef struct			s_token

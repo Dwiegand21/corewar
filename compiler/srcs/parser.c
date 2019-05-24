@@ -14,5 +14,7 @@
 
 int 	ft_parse_champ(t_champ *champ) {
 
+	champ = 0;
+	return (1);
 }
 

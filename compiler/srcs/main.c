@@ -15,5 +15,18 @@
 int main()
 {
 
+	void *ptr = ft_memalloc(100);
+	t_token_type type = A;
+
+
+	ft_printf("%#llB\n", ptr);
+
+	size_t p = (size_t)ptr | ((unsigned long)type << 61u);
+
+	ft_printf("%#llB\n", p);
+
+	ft_printf("%#llB\n", (p << 3u) >> 3u);
+	ft_printf("%#llB\n", p >> 61u);
+
 	return 0;
 }

@@ -31,5 +31,11 @@ t_champ		*ft_make_champ()
 	if (!(champ = (t_champ*)ft_memalloc(sizeof(t_champ)))) {
 		return (0);
 	}
-	if (!(champ->tokens = ft_make_vector_free()))
+	return (0);
+	//if (!(champ->tokens = ft_make_vector_free())) // todo try to save pointer in 7 bytes
+}
+
+extern inline void *tokenize(t_token_type type, size_t carry)
+{
+	return ((void*)(carry | ((unsigned long)type << 61u)));
 }
