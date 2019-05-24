@@ -12,6 +12,6 @@ add_compile_options(-Wall -Wextra)
 include_directories(./libft/includes)
 FILE(GLOB LIBFT_SRCS ./libft/*.c ./libft/*/*.c)
 
-add_executable(asm srcs/main.c ${LIBFT_SRCS})
+add_executable(asm srcs/main.c ${LIBFT_SRCS} srcs/ft_utils.c srcs/parser.c)
 
 target_link_libraries(asm ${OPEN_GL} ${APP_KIT})
