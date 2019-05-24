@@ -6,8 +6,8 @@ set(CMAKE_C_STANDARD 99)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 
-set(EXE_FILES   sources/main.c )
+set(EXE_FILES   sources/main.c sources/initialisation.c sources/operations.c)
 
-target_include_directories(virtual_machine includes)
+include_directories(virtual_machine includes)
 
 add_executable(virtual_machine ${EXE_FILES})
