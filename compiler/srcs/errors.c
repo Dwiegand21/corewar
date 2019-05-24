@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                            ::: ::::::::    */
-/*    main.c                                             :+: :+: :+:          */
+/*    errors.c                                           :+: :+: :+:          */
 /*                                                             +:+ +:+ +:+    */
 /*    By: ggerardy <marvin@42.fr>                    +#+ +:+ +#+              */
 /*                                                         +#+#+#+#+#+ +#+    */
-/*    Created: 2019/05/24 09:11:53 by ggerardy          #+# #+#               */
-/*    Updated: 2019/05/24 09:11:53 by ggerardy         ### ########.fr        */
+/*    Created: 2019/05/24 14:46:53 by ggerardy          #+# #+#               */
+/*    Updated: 2019/05/24 14:46:53 by ggerardy         ### ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
-
-int main()
-{
-
-	void *ptr = ft_memalloc(100);
-	t_token_type type = D;
-
-
-	ft_printf("%#llB\n", ptr);
-
-	size_t p = (size_t)tokenize(type, ptr);
-
-	ft_printf("%#llB\n", p);
-
-	ft_printf("%#llB\n", GET_DATA(p));
-	ft_printf("%#hhB\n", GET_TYPE(p));
-
-	return 0;
+char errors[][] = {
+	"{Bold}{Red}ERROR{eof} - Unexpected token >>> {\\226}%.1r{eof} <<<\n"
+ 	"        In {\\202}%d{eof}:%d\n"
+	"        >>> {Green}%c{eof} <<< expected\n",
+	"{Bold}{Red}ERROR{eof} - Expected {\\226}%s{eof} in same line\n"
+	"        In {\\202}%d{eof}:%d\n"
 }
