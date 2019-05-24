@@ -18,14 +18,14 @@ int 	ft_parse_champ(t_champ *champ) {
 	return (1);
 }
 
-int 	ft_check_header(t_champ *champ)
-{
-	if (champ->name)
-	{
-
-	}
-	return (1);
-}
+//int 	ft_check_header(t_champ *champ)
+//{
+//	if (champ->name)
+//	{
+//
+//	}
+//	return (1);
+//}
 
 int 	ft_parse_string(t_champ *champ, const char *ln, t_token_type type)
 {
@@ -37,27 +37,27 @@ int 	ft_parse_string(t_champ *champ, const char *ln, t_token_type type)
 	ln += pos;
 	while (*ln && ft_isspace(*ln) && ++pos)
 		++ln;
-	if (ln[0] != '"')
+	if (ln[0] != '"' && ln[0])
 	{
-		ft_sprintf(&err, errors[UNEXP_TOKEN], ln, champ->line, pos, '"');
+		ft_sprintf(&err, g_errors[UNEXP_TOKEN], ln, champ->file, champ->line, pos, '"');
 		if (!err || !ft_vector_push_back(&champ->errors, err))
 			exit(ft_free_champ(&champ, 666));
 	}
 	else if (!ln[0])
 	{
-		ft_sprintf(&err, errors[SAME_LINE_EXP], type == NAME ?
-			"name" : "comment", champ->line, pos);
+		ft_sprintf(&err, g_errors[SAME_LINE_EXP], type == NAME ?
+			"name" : "comment", champ->file, champ->line, pos);
 		if (!err || !ft_vector_push_back(&champ->errors, err))
 			exit(ft_free_champ(&champ, 666));
 	}
-
+	return (1);
 }
 
 int 	ft_parse_name(t_champ *champ, int fd)
 {
 	char *ln;
 
-	while ((ln = (void*)1lu) && ft_get_next_line(fd, &ln, BUFF_SIZE))
+	while ((ln = (void*)1lu) && ft_get_next_line(fd, &ln, BUFF_SIZE) && ++champ->line)
 	{
 		if (!ln)
 			return (0);
@@ -88,9 +88,9 @@ t_champ 	*ft_parser(char *file)
 	t_champ *champ;
 	int fd;
 
-	if ((fd = open(file, O_RDONLY)) == -1)
+	if ((fd = open(file, O_RDONLY)) == -1) // todo check extension
 		return (0);
-	if (!(champ = ft_make_champ()))
+	if (!(champ = ft_make_champ(file)))
 		return (0);
 	ft_parse_name(champ, fd);
 
@@ -98,6 +98,6 @@ t_champ 	*ft_parser(char *file)
 	{
 		ft_printf("%s", champ->errors->data[e]);
 	}
-
+	return (champ);
 }
 

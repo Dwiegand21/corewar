@@ -1,5 +1,6 @@
-.name "gg"
+
 .comment "gg"
+.name "gg"
 
-
-live %-1
+add r16,r16,r16
+zjmp %-50

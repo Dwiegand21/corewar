@@ -24,7 +24,7 @@ int 		ft_free_champ(t_champ **champ, int ret)
 	return (ret);
 }
 
-t_champ		*ft_make_champ(void)
+t_champ		*ft_make_champ(char *file)
 {
 	t_champ *champ;
 
@@ -34,6 +34,7 @@ t_champ		*ft_make_champ(void)
 		!(champ->exec = ft_make_string(128)) ||
 		!(champ->errors = ft_make_vector_free(32, free)))
 		return ((void*)(size_t)ft_free_champ(&champ, 0));
+	champ->file = file;
 	return (champ);
 }
 

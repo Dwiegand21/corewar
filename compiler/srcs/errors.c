@@ -10,10 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char errors[][] = {
-	"{Bold}{Red}ERROR{eof} - Unexpected token >>> {\\226}%.1r{eof} <<<\n"
- 	"        In {\\202}%d{eof}:%d\n"
-	"        >>> {Green}%c{eof} <<< expected\n",
-	"{Bold}{Red}ERROR{eof} - Expected {\\226}%s{eof} in same line\n"
-	"        In {\\202}%d{eof}:%d\n"
-}
+char g_unexp_token[] =
+"{Bold}{Red}ERROR{eof} - Unexpected token >>> {\\226}%.1r{eof} <<<\n"
+"        In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n"
+"        >>> {Green}%c{eof} <<< expected\n";
+
+char g_exp_same_line[] =
+"{Bold}{Red}ERROR{eof} - Expected {\\226}%s{eof} in same line\n"
+"        In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
+
+char *g_errors[] = {
+		g_unexp_token,
+		g_exp_same_line
+};

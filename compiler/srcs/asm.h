@@ -5,19 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/24 13:50:01 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/24 13:50:01 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/24 16:42:54 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/24 16:42:54 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
-
-# include "libft.h"
-# include "asm.h"
-# include "zconf.h"
-# include "fcntl.h"
-
 # define IND_SIZE 2
 # define REG_SIZE 4
 # define DIR_SIZE REG_SIZE
@@ -48,19 +42,26 @@
 # define PROG_NAME_LENGTH (128)
 # define COMMENT_LENGTH (2048)
 # define COREWAR_EXEC_MAGIC 0xea83f3
-
 # define GET_DATA(p) (((size_t)(p) << 3u) >> 3u)
 # define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
+# define BUFF_SIZE 4096
 
-#define BUFF_SIZE 4096
+# include "fcntl.h"
+# include "libft.h"
+# include "asm.h"
+# include "zconf.h"
 
-extern char[][] errors;
+extern char		*g_errors[];
+extern char		g_unexp_token[];
+extern char		g_exp_same_line[];
 
-typedef enum e_error
+
+
+typedef enum	e_error
 {
 	UNEXP_TOKEN = 0,
 	SAME_LINE_EXP = 1,
-}			t_error;
+}				t_error;
 
 typedef enum e_token_type	{
 	LBL = 0,
@@ -87,14 +88,22 @@ typedef struct	s_champ
 	t_string		*exec;
 	t_vector		*tokens;
 	t_vector		*errors;
-	char 			*tmp;
-	int 			line;
+	char				*tmp;
+	int				line;
+	char				*file;
 }				t_champ;
 
 /*
 **ft_utils.c
 */
 int				ft_free_champ(t_champ **champ, int ret);
-t_champ			*ft_make_champ(void);
+t_champ			*ft_make_champ(char *file);
 void			*tokenize(t_token_type type, void *carry);
+/*
+**parser.c
+*/
+int				ft_parse_string(t_champ *champ, const char *ln,
+			t_token_type type);
+int				ft_parse_name(t_champ *champ, int fd);
+t_champ			*ft_parser(char *file);
 #endif
