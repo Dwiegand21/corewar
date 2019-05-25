@@ -1,0 +1,26 @@
+
+resource:
+
+https://forum.intra.42.fr/topics/19931/messages/1#105288
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.COR :
+
+
+    Magic Header                4 bytes
+- - - - - -
+    Champion Name               128 bytes
+- - - - - -
+    NULL                        4 bytes
+- - - - - -
+    Champion exec code size     4 bytes
+- - - - - -
+    Comment                     2048 bytes
+- - - - - -
+    NULL                        4 bytes
+- - - - - -
+    Champion exec code          682 bytes (max)
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+

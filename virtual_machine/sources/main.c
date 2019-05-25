@@ -22,15 +22,16 @@ int32_t		main(int av, char** ac)
 {
 	t_area*		p;
 
-
 	p = NULL;
 	if (av == 1) {
 		help();
-	} else if (av < 6) {
-		initialisation_area(av - 1, ac);
 	} else {
-		write(2, "corewar: Too many arguments\n", 28);
+		p = initialization_area();
+		read_arguments(p, av - 1, ac + 1);
+
 	}
 
+
+	free_args(&p);
 	return 0;
 }
