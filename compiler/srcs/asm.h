@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/24 16:42:54 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/24 16:42:54 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/25 22:47:46 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/25 22:47:46 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,13 @@
 # include "asm.h"
 # include "zconf.h"
 
-extern char		*g_errors[];
 extern char		g_unexp_token[];
+extern char		g_backslash_literals[];
+extern char		g_bad_byte[];
 extern char		g_exp_same_line[];
+extern char		g_pos[];
+extern char		*g_errors[];
+extern char		g_chars[];
 
 
 
@@ -61,9 +65,11 @@ typedef enum	e_error
 {
 	UNEXP_TOKEN = 0,
 	SAME_LINE_EXP = 1,
+	BAD_BYTE = 3,
 }				t_error;
 
-typedef enum e_token_type	{
+typedef enum	e_token_type
+{
 	LBL = 0,
 	LC = 1,
 	OP = 2,
@@ -82,15 +88,15 @@ typedef struct	s_token
 
 typedef struct	s_champ
 {
-	char			name[PROG_NAME_LENGTH + 1];
+	t_string		*name;
 	unsigned int	size;
-	char			comment[COMMENT_LENGTH + 1];
+	t_string		*comment;
 	t_string		*exec;
 	t_vector		*tokens;
 	t_vector		*errors;
-	char				*tmp;
+	char			*curr_line;
 	int				line;
-	char				*file;
+	char			*file;
 }				t_champ;
 
 /*
@@ -98,11 +104,22 @@ typedef struct	s_champ
 */
 int				ft_free_champ(t_champ **champ, int ret);
 t_champ			*ft_make_champ(char *file);
+void			ft_make_error(t_error type, t_champ *champ, int pos,
+			void* args[4]);
 void			*tokenize(t_token_type type, void *carry);
 /*
 **parser.c
 */
-int				ft_parse_string(t_champ *champ, const char *ln,
+int				ft_validate_string(t_champ *champ, const char *ln,
+			t_token_type type);
+void			ft_parse_byte(char **ln, t_string **res, t_champ *champ);
+void			ft_parse_backslash(char **ln, t_string **res,
+			t_champ *champ);
+void			ft_get_data_from_line(char *ln, t_string **res,
+			t_token_type type, t_champ *champ);
+char			*ft_parse_string(char *ln, t_string **res,
+			t_token_type type);
+int				ft_parse_name_comment(t_champ *champ, const char *ln,
 			t_token_type type);
 int				ft_parse_name(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);

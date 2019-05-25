@@ -32,9 +32,9 @@ int		ft_atoi_m(char **str)
 	return (res);
 }
 
-long	ft_atoi_base_m(const char **str, int radix)
+long	ft_atoi_base_m(char **str, int radix)
 {
-	static char	base[] = "0123456789abcdef";
+	static char	base[] = "0123456789abcdefABCDEF";
 	long		sign;
 	long		res;
 

@@ -85,7 +85,7 @@ int					ft_atoi(const char *str);
 
 int					ft_atoi_m(char **str);
 
-long				ft_atoi_base_m(const char **str, int radix);
+long				ft_atoi_base_m(char **str, int radix);
 
 int					ft_isalpha(int c);
 
