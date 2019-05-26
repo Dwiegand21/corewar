@@ -24,13 +24,14 @@
 
 # include "constants.h"
 # include "types.h"
+
 # include <string.h>
 
 /*
 **		1. Изменить поведение переменной ' standart_ord_n '.
 */
 
-# define DEBUG_				// Debug mode
+//# define DEBUG_				// Debug mode
 
 
 void		ft_error(char*	error);		// libft

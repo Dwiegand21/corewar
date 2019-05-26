@@ -20,18 +20,19 @@ void		help()
 
 int32_t		main(int av, char** ac)
 {
-	t_area*		p;
+	t_area*		area;
 
-	p = NULL;
+	area = NULL;
 	if (av == 1) {
 		help();
 	} else {
-		p = initialization_area();
-		read_arguments(p, av - 1, ac + 1);
+		area = initialization_area();
+		read_arguments(area, av - 1, ac + 1);
 
 	}
 
-
-	free_args(&p);
+	if (DISPLAY)
+		printf("visualizator!\n");
+	free_args(&area);
 	return 0;
 }

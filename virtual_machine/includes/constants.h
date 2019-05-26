@@ -7,18 +7,14 @@
 /*
 **					ERRORS_DEFINES
 */
-# define TOO_MANY_ARGS			"Too_many_arguments\n"
-# define INV_ARGS				"Invalide arguments\n"
+# define ERR_MANY_ARGS			"Too_many_arguments\n"
 # define ERR_FILE 				"File doesn't exist\n"
 # define ERR_READ				"Read file error\n"
 # define ERR_OPEN				"Open file error\n"
 # define ERR_ALLOC				"Memory allocation error\n"
 # define INV_FILE				"Invalid file\n"
-
-/*
-**					BUFFER_SIZE_DEFINE
-*/
-# define BUFFSIZE				4
+# define INV_ARGS				"Invalide arguments\n"
+# define INV_CODE_SIZE			"Invalide code size\n"
 
 /*
 **					FLAGS_DEFINES
@@ -26,6 +22,11 @@
 # define DUMP					1
 # define VISUALIZATION			2
 
+# define DISPLAY (area->flags & 0x02)
+
+/*
+**					OP.H DEFINES
+*/
 # define IND_SIZE				2
 # define REG_SIZE				4
 # define DIR_SIZE				REG_SIZE
@@ -35,7 +36,6 @@
 # define IND_CODE				3
 
 # define MAX_PLAYERS			4
-# define MAX_ARGS_NUMBER		(MAX_PLAYERS * 2)
 
 # define MEM_SIZE				(4 * 1024)
 # define IDX_MOD				(MEM_SIZE / 8)
@@ -59,6 +59,7 @@
 # define PROG_NAME_LENGTH		128
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
+
 
 #endif // COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
 

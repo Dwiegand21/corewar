@@ -42,9 +42,7 @@ int32_t 		set_code_to_map(t_area* area, t_cor_file *files, int p_index)
 	if ( (read(files[p_index].fd,
 			area->map + area->players[p_index].start_pos,
 			files[p_index].code_size)) != files[p_index].code_size )
-		printf("invalid code size\n");
-	else
-		printf("valid code size\n");
+		ft_error(INV_CODE_SIZE);
 
 	close(files->fd);
 }
@@ -161,27 +159,38 @@ int32_t 		read_arguments(t_area *area, int32_t av, char **ac)
 #endif // DEBUG_
 
 	initialization_players(area, files);
+
+#if defined DEBUG_
 	print_map(area->map);
+#endif // DEBUG_
+
 }
 
 
 
 t_area*			initialization_area(void)
 {
-	t_area*		new = NULL;
+	t_area*		new;
 
+	new = NULL;
 	if (!(new = malloc(sizeof(t_area))))
 		ft_error(ERR_ALLOC);
 
+	new->map = NULL;
 	if (!(new->map = ft_memalloc(sizeof(char) * MEM_SIZE)))
 		ft_error(ERR_ALLOC);
 
 	new->cycle_to_die = CYCLE_TO_DIE;
 	new->cycle_step = 0;
 	new->round = 0;
+
+	new->lives_in_round = 0;
+
 	new->n_players = 0;
+	new->n_processes = 0;
 
 	new->processes = NULL;
+	new->players = NULL;
 
 	return (new);
 }
