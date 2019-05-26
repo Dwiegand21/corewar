@@ -26,14 +26,20 @@
 # include "types.h"
 # include <string.h>
 
+/*
+**		1. Изменить поведение переменной ' standart_ord_n '.
+*/
 
-//# define DEBUG_				// Debug mode
+# define DEBUG_				// Debug mode
 
 
 void		ft_error(char*	error);		// libft
 void		ft_print_endian();			// libft
 int 		ft_strnequ_rev(const char *s1, const char *s2, size_t n);
 void		bytes_reverse(void *param, size_t size);
+void		*ft_memalloc(size_t size);
+
+void		print_map(uint8_t *map);
 
 t_area*		initialization_area(void);
 int 		read_arguments(t_area *p, int32_t av, char **ac);
