@@ -24,7 +24,7 @@ int 		ft_free_champ(t_champ **champ, int ret)
 	return (ret);
 }
 
-t_champ		*ft_make_champ(char *file)
+t_champ		*ft_make_champ(char *file, int fd)
 {
 	t_champ *champ;
 
@@ -37,6 +37,7 @@ t_champ		*ft_make_champ(char *file)
 		!(champ->comment = ft_make_string(COMMENT_LENGTH)))
 		return ((void*)(size_t)ft_free_champ(&champ, 0));
 	champ->file = file;
+	champ->fd = fd;
 	return (champ);
 }
 
@@ -58,6 +59,12 @@ void		ft_make_error(t_error type, t_champ *champ, int pos, void* args[4])
 			 free_ret(err, 0) + free_ret(pos_str, 0) + free_ret(res, 0));
 	free(err);
 	free(pos_str);
+}
+
+void 		ft_champ_upd_line(t_champ *champ, char *line)
+{
+	free(champ->curr_line);
+	champ->curr_line = line;
 }
 
 void *tokenize(t_token_type type, void *carry) // fixme make `extern inline`

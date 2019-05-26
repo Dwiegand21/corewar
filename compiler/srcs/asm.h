@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 04:34:51 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/26 04:34:51 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/26 08:43:18 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/26 08:43:18 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@
 # include "asm.h"
 # include "zconf.h"
 
-extern char		g_wrn_too_long[];
 extern char		g_wrn_ignored[];
+extern char		g_wrn_ingored[];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
+extern char		g_wrn_too_long[];
+extern char		g_wrn_double[];
 extern char		g_bad_byte[];
 extern char		g_chars[];
 extern char		g_pos[];
@@ -99,15 +101,17 @@ typedef struct	s_champ
 	char			*curr_line;
 	int				line;
 	char			*file;
+	int				fd;
 }				t_champ;
 
 /*
 **ft_utils.c
 */
 int				ft_free_champ(t_champ **champ, int ret);
-t_champ			*ft_make_champ(char *file);
+t_champ			*ft_make_champ(char *file, int fd);
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void* args[4]);
+void			ft_champ_upd_line(t_champ *champ, char *line);
 void			*tokenize(t_token_type type, void *carry);
 /*
 **parser.c
@@ -121,9 +125,9 @@ int				ft_check_empty_string(char *ln, t_champ *champ,
 			t_token_type type);
 int				ft_get_data_from_line(char *ln, t_string **res,
 			t_token_type type, t_champ *chmp);
-char			*ft_parse_string(char *ln, t_string **res,
-			t_token_type type, t_champ *champ);
-int				ft_parse_name_comment(t_champ *champ, char *ln,
+void			ft_parse_string(char *ln, t_string **res, t_token_type type,
+			t_champ *champ);
+void			ft_parse_name_comment(t_champ *champ, char *ln,
 			t_token_type type);
 int				ft_parse_name(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);

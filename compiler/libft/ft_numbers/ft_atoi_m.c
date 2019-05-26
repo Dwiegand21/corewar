@@ -53,3 +53,23 @@ long	ft_atoi_base_m(char **str, int radix)
 	}
 	return (res);
 }
+
+long	ft_atoi_base_m_non_trim(char **str, int radix)
+{
+	static char	base[] = "0123456789abcdefABCDEF";
+	long		sign;
+	long		res;
+
+	res = 0;
+	if (!str || !*str || !(radix >= 1 && radix <= 16))
+		return (0);
+	sign = (**str == '-') ? -1 : 1;
+	if (**str == '+' || **str == '-')
+		(*str)++;
+	while (**str && ft_strchr(base, **str))
+	{
+		res = res * radix + (ft_strchr(base,
+								ft_tolower(*(*str)++)) - base) * sign;
+	}
+	return (res);
+}

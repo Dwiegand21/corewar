@@ -87,6 +87,8 @@ int					ft_atoi_m(char **str);
 
 long				ft_atoi_base_m(char **str, int radix);
 
+long				ft_atoi_base_m_non_trim(char **str, int radix);
+
 int					ft_isalpha(int c);
 
 int					ft_isdigit(int c);
