@@ -67,3 +67,32 @@ int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 	}
 	return (1);
 }
+
+void	ft_skip_line(char *ln, int *qoute_count)
+{
+	int was_slash;
+
+	was_slash = 0;
+	while (*ln)
+	{
+		*qoute_count -= !was_slash && *ln == '"';
+		was_slash = *ln == '\\';
+		++ln;
+	}
+}
+
+void	ft_skip_string(t_champ *champ, char *ln)
+{
+	int	qoute_count;
+
+	qoute_count = 2;
+	ft_skip_line(ln, &qoute_count);
+	while (qoute_count > 0 && (ln = (void*)1lu) &&
+		ft_get_next_line(champ->fd, &ln, BUFF_SIZE) && ++champ->line)
+	{
+		if (!ln)
+			exit(ft_free_champ(&champ, 13));
+		ft_champ_upd_line(champ, ln);
+		ft_skip_line(ln, &qoute_count);
+	}
+}

@@ -19,7 +19,7 @@ char g_exp_same_line[] =
 
 char g_bad_byte[] =
 "{Bold}{Red}ERROR{eof}  -  Bad hex-byte >>> {\\226}%.*s{eof} <<<\n"
-"          Need to 2-digit long (\\xff for example)\n";
+"          Need to be 2-digit long (\\xff for example)\n";
 
 char g_pos[] =
 "          In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";

@@ -21,7 +21,10 @@ void 	ft_parse_header(t_champ *champ, int fd)
 	{
 		if (!ln)
 			exit(ft_free_champ(&champ, 13));
+//		ft_printf("{Green}%s{eof}\n", ln);
 		ft_champ_upd_line(champ, ln);
+		while (ft_isspace(*ln))
+			++ln;
 		if (!ft_strncmp(ln, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 			ft_parse_name_comment(champ, ln, COMMENT);
 		else if (!ft_strncmp(ln, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
@@ -46,14 +49,13 @@ void 	ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
 		champ->name->offset = 1;
 	else
 		champ->comment->offset = 1;
-
-	ft_validate_string(champ, &ln, type);
+	if (!ft_validate_string(champ, &ln, type))
+		return (ft_skip_string(champ, ln));
 	if (!ignore)
 		ft_parse_string(ln, type == NAME ? &champ->name : &champ->comment,
 						type, champ);
 	else
 		ft_parse_string(ln, 0, type, champ);
-
 }
 
 int 	ft_validate_string(t_champ *champ, char **ln, t_token_type type)
@@ -67,13 +69,13 @@ int 	ft_validate_string(t_champ *champ, char **ln, t_token_type type)
 		++(*ln);
 	if (**ln != '"' && **ln)
 	{
-		ft_make_error(UNEXP_TOKEN, champ, pos + 1,
+		ft_make_error(UNEXP_TOKEN, champ, *ln - champ->curr_line + 1,
 					  (void*[4]){(void*)*ln, (void*)(size_t)'"', 0, 0});
 		return (0);
 	}
 	else if (!**ln)
 	{
-		ft_make_error(SAME_LINE_EXP, champ, pos + 1,
+		ft_make_error(SAME_LINE_EXP, champ, *ln - champ->curr_line + 1,
 		(void*[4]){(type == NAME ? (void*)"name" : (void*)"comment"), 0, 0, 0});
 		return (0);
 	}
@@ -108,7 +110,7 @@ int 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 	static int	name_warning = 0;
 	static int	comment_warning = 0;
 
-	ft_printf("{Blue}<%s>{eof}\n", ln);
+//	ft_printf("{Blue}<%s>{eof}\n", ln);ч
 	while (*++ln)
 	{
 		if (*ln != '"' && (!res || (*res)->len <= max_len))

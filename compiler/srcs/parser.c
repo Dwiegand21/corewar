@@ -30,10 +30,6 @@ t_champ 	*ft_parser(char *file)
 		return (0);
 	ft_parse_header(champ, fd);
 
-	for (size_t e = 0; e < champ->errors->len; e++)
-	{
-		ft_printf("%s", champ->errors->data[e]);
-	}
 	ft_printf("<%s>\n", champ->name->data);
 	ft_printf("<%s>\n", champ->comment->data);
 	ft_printf("<%s>\n", champ->curr_line);

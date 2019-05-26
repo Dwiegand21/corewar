@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 09:09:58 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/26 09:09:58 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/26 12:04:35 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/26 12:04:35 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ typedef struct	s_champ
 	t_string		*comment;
 	t_string		*exec;
 	t_vector		*tokens;
-	t_vector		*errors;
 	char			*curr_line;
 	int				line;
 	char			*file;
 	int				fd;
+	int 			error_count;
 }				t_champ;
 
 /*
@@ -118,6 +118,8 @@ void			ft_parse_backslash(char **ln, t_string **res,
 			t_champ *champ);
 int				ft_check_empty_string(char *ln, t_champ *champ,
 			t_token_type type);
+void			ft_skip_line(char *ln, int *qoute_count);
+void			ft_skip_string(t_champ *champ, char *ln);
 /*
 **ft_parse_header.c
 */
