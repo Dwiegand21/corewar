@@ -24,7 +24,7 @@
 
 # include "constants.h"
 # include "types.h"
-
+# include "libft.h"
 # include <string.h>
 
 /*
