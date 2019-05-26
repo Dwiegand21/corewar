@@ -24,6 +24,12 @@ char g_bad_byte[] =
 char g_pos[] =
 "        In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 
+char g_wrn_too_long[] =
+"{Bold}{\\202}WARNING{eof} - %s too long. Exceeding part is ignored\n  ";
+
+char g_wrn_ignored[] =
+"{Bold}{\\202}WARNING{eof} - Additional chars after %s are ignored\n  ";
+
 char *g_errors[] = {
 		g_unexp_token,
 		g_exp_same_line,

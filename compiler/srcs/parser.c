@@ -27,31 +27,30 @@ int 	ft_parse_champ(t_champ *champ) {
 //	return (1);
 //}
 
-int 	ft_validate_string(t_champ *champ, const char *ln, t_token_type type)
+int 	ft_validate_string(t_champ *champ, char **ln, t_token_type type)
 {
 	int pos;
 
 	pos = type == NAME ? ft_strlen(NAME_CMD_STRING) :
 		  ft_strlen(COMMENT_CMD_STRING);
-	ln += pos;
-	while (*ln && ft_isspace(*ln) && ++pos)
-		++ln;
-	if (ln[0] != '"' && ln[0])
+	*ln += pos;
+	while (**ln && ft_isspace(**ln) && ++pos)
+		++(*ln);
+	if (**ln != '"' && **ln)
 	{
 		ft_make_error(UNEXP_TOKEN, champ, pos + 1,
-				(void*[4]){(void*)ln, (void*)(size_t)'"', 0, 0});
+				(void*[4]){(void*)*ln, (void*)(size_t)'"', 0, 0});
 		return (0);
 	}
-	else if (!ln[0])
+	else if (!**ln)
 	{
 		ft_make_error(SAME_LINE_EXP, champ, pos + 1,
 				(void*[4]){(type == NAME ? (void*)"name" : (void*)"comment"), 0, 0, 0});
 		return (0);
 	}
+	*ln += **ln == '"';
 	return (1);
 }
-
-//   \n / \101(octal) / \xff(hex) / \\(screen)
 
 void 	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 {
@@ -71,7 +70,7 @@ void 	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 	if (radix == 16 && *ln - tmp != 3)
 	{
 		ft_make_error(BAD_BYTE, champ, tmp - champ->curr_line,
-			(void*[4]){tmp, 0, 0, 0});
+			(void*[4]){tmp - 1, 0, 0, 0});
 	}
 }
 
@@ -79,11 +78,11 @@ void 	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
 {
 	char *pos;
 
+//	ft_printf(">> <%#r>\n", *ln);
 	if ((pos = ft_strchr(g_backslash_literals, (**ln))))
 	{
 		if (!ft_string_push_back(res, g_chars[pos - g_backslash_literals]))
 			exit(ft_free_champ(&champ, 666));
-		++(*ln);
 	}
 	if (ft_isdigit(**ln) || **ln == 'x' || **ln == 'X')
 	{
@@ -92,43 +91,64 @@ void 	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
 
 }
 
-void 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type, t_champ *champ)
+int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 {
-	const size_t max_len = type == NAME ? PROG_NAME_LENGTH : COMMENT_LENGTH;
-
-	while (*ln)
+	while (*++ln)
 	{
-		if ((*res)->len < max_len)
+		if (*ln == COMMENT_CHAR)
+			break ;
+		if (!ft_isspace(*ln))
 		{
-			if (*ln != '"' && *ln != '\\')
-			{
-				if (!ft_string_push_back(res, *ln))
-					exit(ft_free_champ(&champ, 666)); // todo save line begin (in champ?) for free
-			}
-			else if (*ln == '\\')
-			{
-
-			}
+			ft_printf(g_wrn_ignored, type == NAME ? "name" : "comment");
+			ft_printf(g_pos, champ->file, champ->line, ln - champ->curr_line);
+			break ;
 		}
-		else
-		{
-
-		}
-		++ln;
 	}
+	return (1);
 }
 
-char 	*ft_parse_string(char *ln, t_string **res, t_token_type type)
+int 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type, t_champ *chmp)
 {
+	const		size_t max_len = (size_t)--ln * 0 + (type == NAME ?
+										PROG_NAME_LENGTH : COMMENT_LENGTH);
+	static int	name_warning = 0;
+	static int	comment_warning = 0;
 
+	while (*++ln)
+	{
+		if (*ln != '"' && (*res)->len <= max_len)
+		{
+			if (*ln != '\\')
+			{
+				if (!ft_string_push_back(res, *ln))
+					exit(ft_free_champ(&chmp, 666)); // todo save line begin (in champ?) for free
+			}
+			else if (++ln)
+				ft_parse_backslash(&ln, res, chmp);
+		}
+		else if (*ln != '"' && (*res)->len > max_len &&
+				 (type == NAME ? name_warning++ : comment_warning++) == 0 &&
+				 ft_printf(g_wrn_too_long, type == NAME ? "Name" : "Comment"))
+			ft_printf(g_pos, chmp->file, chmp->line, ln - chmp->curr_line);
+		if (*ln == '"')
+			return (ft_check_empty_string(ln, chmp, type));
+	}
+	return (0);
+}
+
+char 	*ft_parse_string(char *ln, t_string **res, t_token_type type, t_champ *champ)
+{
+	ft_get_data_from_line(ln, res, type, champ);
 	return (ln);
 }
 
-int 	ft_parse_name_comment(t_champ *champ, const char *ln, t_token_type type)
+int 	ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
 {
 	int valide_res;
 
-	valide_res = ft_validate_string(champ, ln, type);
+	valide_res = ft_validate_string(champ, &ln, type);
+	ft_parse_string(ln,
+			type == NAME ? &champ->name : &champ->comment, type, champ);
 
 	return (1);
 }
@@ -139,8 +159,10 @@ int 	ft_parse_name(t_champ *champ, int fd)
 
 	while ((ln = (void*)1lu) && ft_get_next_line(fd, &ln, BUFF_SIZE) && ++champ->line)
 	{
+//		ft_printf("{Green}%s{eof}\n", ln);
 		if (!ln)
 			return (0);
+		champ->curr_line = ln;
 		if (!ft_strncmp(ln, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 		{
 			if (!ft_parse_name_comment(champ, ln, COMMENT))
@@ -178,6 +200,10 @@ t_champ 	*ft_parser(char *file)
 	{
 		ft_printf("%s", champ->errors->data[e]);
 	}
+	ft_printf("<%#r>\n", champ->name->data);
+	ft_printf("<%#r>\n", champ->comment->data);
+//	ft_printf("<%#r>\n", "\\\\ \n");
+
 	return (champ);
 }
 
