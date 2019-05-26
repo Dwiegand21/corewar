@@ -12,34 +12,7 @@
 
 #include "asm.h"
 
-int 		ft_free_champ(t_champ **champ, int ret)
-{
-	if (!champ || !*champ)
-		return (ret);
-	ft_free_vector(&(*champ)->tokens);
-	ft_free_string(&(*champ)->exec);
-	ft_free_vector(&(*champ)->errors);
-	free(*champ);
-	*champ = 0;
-	return (ret);
-}
 
-t_champ		*ft_make_champ(char *file, int fd)
-{
-	t_champ *champ;
-
-	if (!(champ = (t_champ*)ft_memalloc(sizeof(t_champ))))
-		return (0);
-	if (!(champ->tokens = ft_make_vector_free(64, ft_free_vector_simple)) ||
-		!(champ->exec = ft_make_string(128)) ||
-		!(champ->errors = ft_make_vector_free(32, free)) ||
-		!(champ->name = ft_make_string(PROG_NAME_LENGTH)) ||
-		!(champ->comment = ft_make_string(COMMENT_LENGTH)))
-		return ((void*)(size_t)ft_free_champ(&champ, 0));
-	champ->file = file;
-	champ->fd = fd;
-	return (champ);
-}
 
 void		ft_make_error(t_error type, t_champ *champ, int pos, void* args[4])
 {
@@ -59,12 +32,6 @@ void		ft_make_error(t_error type, t_champ *champ, int pos, void* args[4])
 			 free_ret(err, 0) + free_ret(pos_str, 0) + free_ret(res, 0));
 	free(err);
 	free(pos_str);
-}
-
-void 		ft_champ_upd_line(t_champ *champ, char *line)
-{
-	free(champ->curr_line);
-	champ->curr_line = line;
 }
 
 void *tokenize(t_token_type type, void *carry) // fixme make `extern inline`

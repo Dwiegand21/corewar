@@ -28,7 +28,11 @@ int main()
 //	ft_printf("%#llB\n", GET_DATA(p));
 //	ft_printf("%#hhB\n", GET_TYPE(p));
 
-	ft_parser("gg.test.s");
+	t_champ	*champ;
+
+	champ = ft_parser("gg.test.s");
+
+	ft_free_champ(&champ, 0);
 
 	//printf("<%c>%d\n%s", c, c,BACKSLASH_LITERALS);
 
