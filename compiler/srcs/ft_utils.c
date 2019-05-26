@@ -21,7 +21,21 @@ void		ft_make_error(t_error type, t_champ *champ, int pos, void* args[4])
 	++champ->error_count;
 }
 
-void *tokenize(t_token_type type, void *carry) // fixme make `extern inline`
+void		*tokenize(t_token_type type, void *carry) // fixme make `extern inline`
 {
 	return ((void*)((size_t)carry | ((unsigned long)type << 61u)));
+}
+
+void		ft_check_exist_name_cmt(t_champ *champ)
+{
+	if (!champ->name->offset)
+	{
+		ft_fdprintf(2, g_missing_param, "name");
+		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
+	}
+	if (!champ->comment->offset)
+	{
+		ft_fdprintf(2, g_missing_param, "comment");
+		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
+	}
 }

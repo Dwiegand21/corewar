@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 12:04:35 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/26 12:04:35 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/26 12:43:39 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/26 12:43:39 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ extern char		g_wrn_ignored[];
 extern char		g_wrn_ingored[];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
-extern char		g_pos[];
-extern char		g_wrn_double[];
 extern char		g_bad_byte[];
-extern char		g_exp_same_line[];
+extern char		g_pos[];
+extern char		g_missing_param[];
+extern char		g_wrn_double[];
+extern char		g_chars[];
 extern char		g_wrn_too_long[];
 extern char		*g_errors[];
-extern char		g_chars[];
+extern char		g_exp_same_line[];
+extern char		g_pos_before[];
 
 
 
@@ -101,7 +103,7 @@ typedef struct	s_champ
 	int				line;
 	char			*file;
 	int				fd;
-	int 			error_count;
+	int				error_count;
 }				t_champ;
 
 /*
@@ -138,6 +140,7 @@ int				ft_get_data_from_line(char *ln, t_string **res,
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void* args[4]);
 void			*tokenize(t_token_type type, void *carry);
+void			ft_check_exist_name_cmt(t_champ *champ);
 /*
 **parser.c
 */

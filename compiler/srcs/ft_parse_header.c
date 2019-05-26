@@ -21,7 +21,6 @@ void 	ft_parse_header(t_champ *champ, int fd)
 	{
 		if (!ln)
 			exit(ft_free_champ(&champ, 13));
-//		ft_printf("{Green}%s{eof}\n", ln);
 		ft_champ_upd_line(champ, ln);
 		while (ft_isspace(*ln))
 			++ln;
@@ -29,9 +28,10 @@ void 	ft_parse_header(t_champ *champ, int fd)
 			ft_parse_name_comment(champ, ln, COMMENT);
 		else if (!ft_strncmp(ln, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 			ft_parse_name_comment(champ, ln, NAME);
-		else if (ln[0])
-			return ;
+		else if (ln[0] && ln[0] != COMMENT_CHAR)
+			return (ft_check_exist_name_cmt(champ));
 	}
+	ft_check_exist_name_cmt(champ);
 }
 
 void 	ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
