@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "asm.h"
+
 char g_unexp_token[] =
 "{Bold}{Red}ERROR{eof}  -  Unexpected symbol >>> {\\226}%.1r{eof} <<<\n"
 "          >>> {\\226}%c{eof} <<< expected\n";
@@ -32,7 +34,7 @@ char g_wrn_double[] =
 "ignored\n";
 
 char g_pos[] =
-			 "          In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
+"          In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 char g_pos_before[] =
 "          Before {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 
@@ -57,3 +59,42 @@ char g_chars[] = {
 };
 
 char g_backslash_literals[] = "rtafvbn\"\'\?\\";
+
+
+
+int g_test[3] = (int[3]){3, 3, 3};
+
+t_op g_functions[16] = {
+	{"live",
+		{T_DIR, 0, 0}, 0, 0, 4},
+	{"ld",
+		{T_DIR | T_IND, T_REG, 0}, 1, 0, 2},
+	{"st",
+		{T_REG, T_REG | T_IND, 0}, 1, 0, 2},
+	{"add",
+		{T_REG, T_REG, T_REG}, 1, 0, 3},
+	{"sub",
+		{T_REG, T_REG, T_REG}, 1, 0, 3},
+	{"and",
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 3},
+	{"or",
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 2},
+	{"xor",
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 3},
+	{"zjmp",
+		{T_DIR, 0, 0}, 0, 1, 4},
+	{"ldi",
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG}, 1, 1, 3},
+	{"sti",
+		{T_REG, T_REG | T_DIR | T_IND, T_REG | T_DIR}, 1, 1, 3},
+	{"fork",
+		{T_DIR, 0, 0}, 0, 1, 4},
+	{"lld",
+		{T_DIR | T_IND, T_REG, 0}, 1, 0, 3},
+	{"lldi",
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG}, 1, 1, 4},
+	{"lfork",
+		{T_DIR, 0, 0}, 0, 1, 5},
+	{"aff",
+		{T_REG, 0, 0}, 1, 0, 3}
+};

@@ -12,12 +12,36 @@
 
 #include "asm.h"
 
-int 	ft_parse_champ(t_champ *champ) {
+int 		ft_is_command(char *line)
+{
+	int i;
 
-	champ = 0;
-	return (1);
+	i = -1;
+	while (++i < 16)
+	{
+		if (!ft_strncmp(line, g_functions[i].name, g_functions[i].namelen))
+		{
+			return (i);
+		}
+	}
+	return (-1);
 }
 
+void 		ft_parse_line(t_champ *champ)
+{
+
+}
+
+void 		ft_parse_exec(t_champ *champ, int fd)
+{
+	char *ln;
+
+	while ((ln = (void*)1lu) && ft_get_next_line(fd, &ln, BUFF_SIZE) &&
+		   ++champ->line)
+	{
+
+	}
+}
 
 t_champ 	*ft_parser(char *file)
 {

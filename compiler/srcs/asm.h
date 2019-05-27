@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 12:43:39 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/26 12:43:39 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/27 22:21:14 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/27 22:21:14 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@
 # define CYCLE_DELTA 50
 # define NBR_LIVE	21
 # define MAX_CHECKS  10
-# define T_REG 1
-# define T_DIR 2
-# define T_IND 4
+# define T_REG 1u
+# define T_DIR 2u
+# define T_IND 4u
 # define T_LAB 8
 # define PROG_NAME_LENGTH (128)
 # define COMMENT_LENGTH (2048)
@@ -48,21 +48,23 @@
 
 # include "fcntl.h"
 # include "libft.h"
+# include "stdint.h"
 # include "asm.h"
 # include "zconf.h"
 
 extern char		g_wrn_ignored[];
-extern char		g_wrn_ingored[];
+extern char		g_wrn_double[];
+extern int		g_test[3];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
-extern char		g_bad_byte[];
 extern char		g_pos[];
-extern char		g_missing_param[];
-extern char		g_wrn_double[];
 extern char		g_chars[];
+extern char		g_missing_param[];
+extern char		g_bad_byte[];
+extern t_op		g_functions[16];
+extern char		g_exp_same_line[];
 extern char		g_wrn_too_long[];
 extern char		*g_errors[];
-extern char		g_exp_same_line[];
 extern char		g_pos_before[];
 
 
@@ -91,6 +93,15 @@ typedef struct	s_token
 	t_token_type	type;
 	void			*carry;
 }				t_token;
+
+typedef struct	s_op
+{
+	char			name[5];
+	uint8_t			arg[3];
+	uint8_t			need_types_byte;
+	uint8_t			short_dir;
+	int 			namelen;
+}				t_op;
 
 typedef struct	s_champ
 {
@@ -138,11 +149,14 @@ int				ft_get_data_from_line(char *ln, t_string **res,
 **ft_utils.c
 */
 void			ft_make_error(t_error type, t_champ *champ, int pos,
-			void* args[4]);
+			void *args[4]);
 void			*tokenize(t_token_type type, void *carry);
 void			ft_check_exist_name_cmt(t_champ *champ);
 /*
 **parser.c
 */
+int				ft_is_command(char *line);
+void			ft_parse_line(t_champ *champ);
+void			ft_parse_exec(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);
 #endif

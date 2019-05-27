@@ -14,7 +14,7 @@
 
 
 
-void		ft_make_error(t_error type, t_champ *champ, int pos, void* args[4])
+void		ft_make_error(t_error type, t_champ *champ, int pos, void *args[4])
 {
 	ft_fdprintf(2, g_errors[type], args[0], args[1], args[2], args[3]);
 	ft_fdprintf(2, g_pos, champ->file, champ->line, pos);
