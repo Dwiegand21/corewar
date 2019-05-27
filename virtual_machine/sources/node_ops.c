@@ -1,7 +1,7 @@
 
 #include "virtual_machine.h"
 
-t_process*		start_node(uint8_t *addr, int player)
+t_process*		start_node(uint8_t *addr, int player_i)
 {
 	int32_t 	i;
 	t_process	*new;
@@ -17,13 +17,13 @@ t_process*		start_node(uint8_t *addr, int player)
 		i++;
 	}
 	new->addr = addr;
-	new->reg[0] = player * -1;
+	new->reg[0] = player_i * -1;
 
 	new->carry = false;
 	new->live_in_session = false;
 
 	new->sleep = 0;
-	new->player = player;
+	new->player = player_i;
 
 	new->next = NULL;
 

@@ -1,6 +1,6 @@
 
 #ifndef COREWAR_VIRTUAL_MACHINE_TYPES_H
-#define COREWAR_VIRTUAL_MACHINE_TYPES_H
+# define COREWAR_VIRTUAL_MACHINE_TYPES_H
 
 
 typedef struct s_process	t_process;
@@ -22,7 +22,7 @@ struct		s_process
 
 	uint32_t 		player;
 
-	struct s_node	*next;
+	t_process*		next;
 };
 
 struct		s_player
@@ -52,6 +52,8 @@ struct		s_area
 	int32_t			cycle_to_die;
 
 	int32_t			lives_in_round;
+
+	int32_t 		dump_round;
 
 	uint8_t*		map;
 

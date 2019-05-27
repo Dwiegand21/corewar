@@ -25,6 +25,14 @@
 # define DISPLAY (area->flags & 0x02)
 
 /*
+**					OCTET_OP_DEFINES
+*/
+# define OCT1(x)	(x & 0xFF)
+# define OCT2(x)	((x >> 4) & 0xFF)
+# define OCT3(x)	((x >> 8) & 0xFF)
+# define OCT4(x)	((x >> 12) & 0xFF)
+
+/*
 **					OP.H DEFINES
 */
 # define IND_SIZE				2

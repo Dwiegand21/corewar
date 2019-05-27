@@ -18,21 +18,21 @@ void		help()
 }
 
 
-int32_t		main(int av, char** ac)
+int32_t		main(int argc, char** argv)
 {
 	t_area*		area;
 
 	area = NULL;
-	if (av == 1) {
+	if (argc == 1)
+	{
 		help();
-	} else {
+	}
+	else
+	{
 		area = initialization_area();
-		read_arguments(area, av - 1, ac + 1);
-
+		read_arguments(area, argc - 1, argv + 1);
 	}
 
-	if (DISPLAY)
-		printf("visualizator!\n");
 	free_args(&area);
 	return 0;
 }
