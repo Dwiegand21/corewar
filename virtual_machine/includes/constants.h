@@ -1,8 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   constants.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
 # define COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
-
-//# define PROJECT_NAME			"corewar"
 
 /*
 **					ERRORS_DEFINES
@@ -67,7 +76,6 @@
 # define PROG_NAME_LENGTH		128
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
-
 
 #endif // COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                            ::: ::::::::    */
-/*    main.c                                             :+: :+: :+:          */
-/*                                                             +:+ +:+ +:+    */
-/*    By: dwiegand <marvin@42.fr>                    +#+ +:+ +#+              */
-/*                                                         +#+#+#+#+#+ +#+    */
-/*    Created: 2019/05/24 08:22:24 by dwiegand          #+# #+#               */
-/*    Updated: 2019/05/24 08:22:24 by dwiegand         ### ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/26 18:26:37 by axtazy            #+#    #+#             */
+/*   Updated: 2019/05/26 18:26:37 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void		help()
 }
 
 
-int32_t		main(int argc, char** argv)
+int32_t		main(int argc, char **argv)
 {
-	t_area*		area;
+	t_area		*area;
 
 	area = NULL;
 	if (argc == 1)
@@ -32,7 +32,6 @@ int32_t		main(int argc, char** argv)
 		area = initialization_area();
 		read_arguments(area, argc - 1, argv + 1);
 	}
-
 	free_args(&area);
 	return 0;
 }

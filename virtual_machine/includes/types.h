@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   types.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef COREWAR_VIRTUAL_MACHINE_TYPES_H
 # define COREWAR_VIRTUAL_MACHINE_TYPES_H
-
 
 typedef struct s_process	t_process;
 typedef struct s_player		t_player;
@@ -12,37 +22,37 @@ enum		e_player_pos {FIRST, SECOND, THIRD, FOURTH};
 
 struct		s_process
 {
-	uint8_t*		addr;
+	uint8_t			*addr;
 	int32_t			sleep;
 
-	int32_t 		reg[REG_NUMBER];
+	int32_t			reg[REG_NUMBER];
 
 	bool			carry;
 	bool			live_in_session;
 
-	uint32_t 		player;
+	uint32_t		player;
 
-	t_process*		next;
+	t_process		*next;
 };
 
 struct		s_player
 {
-	char 			name[PROG_NAME_LENGTH + 1];
-	char 			comment[COMMENT_LENGTH + 1];
+	char			name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
 
-	uint32_t 		ordinal_number;
-	uint32_t 		start_pos;
+	uint32_t		ordinal_number;
+	uint32_t		start_pos;
 
 	// ...
 };
 
 struct		s_cor_file
 {
-	char*			file_name;
-	int32_t 		champ_index;
+	char			*file_name;
+	int32_t			champ_index;
 
 	int32_t			fd;
-	int32_t 		code_size;
+	int32_t			code_size;
 };
 
 struct		s_area
@@ -53,15 +63,15 @@ struct		s_area
 
 	int32_t			lives_in_round;
 
-	int32_t 		dump_round;
+	int32_t			dump_round;
 
-	uint8_t*		map;
+	uint8_t			*map;
 
 	int32_t			n_players;
 	int32_t			n_processes;
 
-	t_player*		players;
-	t_process*		processes;
+	t_player		*players;
+	t_process		*processes;
 
 	uint32_t		flags;
 };

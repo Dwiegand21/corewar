@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   read_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/26 15:51:12 by axtazy            #+#    #+#             */
-/*   Updated: 2019/05/26 15:51:12 by axtazy           ###   ########.fr       */
+/*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
-int 			check_cor_file(t_cor_file *file)
+int				check_cor_file(t_cor_file *file)
 {
-	int32_t 	fd;
-	int32_t 	magic;
+	int32_t		fd;
+	int32_t		magic;
 
 	if ((fd = open(file->file_name, O_RDWR)) == -1)
 		ft_error(ERR_OPEN);
@@ -25,7 +25,6 @@ int 			check_cor_file(t_cor_file *file)
 	bytes_reverse(&magic, sizeof(magic));
 	if (magic != COREWAR_EXEC_MAGIC)
 		ft_error(INV_FILE);
-
 	return (fd);
 }
 
@@ -35,7 +34,7 @@ void			skip_2octets(int32_t fd)
 	read(fd, &a, 4);
 }
 
-int32_t 		set_code_to_map(t_area* area, t_cor_file *files, int p_index)
+int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
 {
 	// new process node;
 
@@ -47,7 +46,7 @@ int32_t 		set_code_to_map(t_area* area, t_cor_file *files, int p_index)
 	close(files->fd);
 }
 
-int32_t 		read_cor_file(t_player* player, t_cor_file* files)
+int32_t			read_cor_file(t_player *player, t_cor_file *files)
 {
 	int32_t		code_size;
 
@@ -63,23 +62,22 @@ int32_t 		read_cor_file(t_player* player, t_cor_file* files)
 	if (read(files->fd, player->comment, COMMENT_LENGTH) != COMMENT_LENGTH)
 		ft_error(INV_FILE);
 	skip_2octets(files->fd);
-
-#ifdef DEBUG_
-	printf("\nName: %s\nComment: %s\nExec size: %d\nStart position: %d\nPlayer_number: %d\n",
-				player->name,
-				player->comment,
-				code_size,
-				player->start_pos,
-				player->ordinal_number);
-#endif
-
+	if (DEBUG_)					// DEBUG_ # # #
+	{
+		printf("\nName: %s\nComment: %s\nExec size: %d\nStart position: %d\nPlayer_number: %d\n",
+			   player->name,
+			   player->comment,
+			   code_size,
+			   player->start_pos,
+			   player->ordinal_number);
+	}
 	files->code_size = code_size;
 	return (0);
 }
 
-int 			initialization_players(t_area *area, t_cor_file *files)
+int				initialization_players(t_area *area, t_cor_file *files)
 {
-	int32_t 	i;
+	int32_t		i;
 
 	if (!(area->players = malloc(sizeof(t_player) * area->n_players)))
 		ft_error(ERR_ALLOC);
