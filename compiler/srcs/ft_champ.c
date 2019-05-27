@@ -21,6 +21,7 @@ int 		ft_free_champ(t_champ **champ, int ret)
 	ft_free_string(&(*champ)->name);
 	ft_free_string(&(*champ)->exec);
 	free((*champ)->curr_line);
+	ft_free_map(&(*champ)->labels);
 	ft_get_next_line((*champ)->fd, 0, -1);
 	free(*champ);
 	*champ = 0;
@@ -36,7 +37,9 @@ t_champ		*ft_make_champ(char *file, int fd)
 	if (!(champ->tokens = ft_make_vector_free(64, ft_free_vector_simple)) ||
 		!(champ->exec = ft_make_string(128)) ||
 		!(champ->name = ft_make_string(PROG_NAME_LENGTH)) ||
-		!(champ->comment = ft_make_string(COMMENT_LENGTH)))
+		!(champ->comment = ft_make_string(COMMENT_LENGTH)) ||
+		!(champ->labels = ft_make_std_map(STRING, INT32_T)) ||
+		!(champ->current_labels = ft_make_vector(4)))
 		return ((void*)(size_t)ft_free_champ(&champ, 0));
 	champ->file = file;
 	champ->fd = fd;

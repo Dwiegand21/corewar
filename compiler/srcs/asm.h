@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/27 22:21:14 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/27 22:21:14 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/27 22:40:24 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/27 22:40:24 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,24 @@
 
 # include "fcntl.h"
 # include "libft.h"
-# include "stdint.h"
 # include "asm.h"
+# include "stdint.h"
 # include "zconf.h"
 
 extern char		g_wrn_ignored[];
-extern char		g_wrn_double[];
+extern char		g_pos_before[];
+extern char		g_missing_param[];
 extern int		g_test[3];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
-extern char		g_pos[];
-extern char		g_chars[];
-extern char		g_missing_param[];
+extern char		g_wrn_too_long[];
+extern char		g_wrn_double[];
 extern char		g_bad_byte[];
 extern t_op		g_functions[16];
 extern char		g_exp_same_line[];
-extern char		g_wrn_too_long[];
+extern char		g_pos[];
 extern char		*g_errors[];
-extern char		g_pos_before[];
+extern char		g_chars[];
 
 
 
@@ -74,6 +74,9 @@ typedef enum	e_error
 	UNEXP_TOKEN = 0,
 	SAME_LINE_EXP = 1,
 	BAD_BYTE = 2,
+	MISSING_PARAM = 3,
+	MISS_LBL_CHAR = 4,
+	MULT_LABEL = 5
 }				t_error;
 
 typedef enum	e_token_type
@@ -100,7 +103,7 @@ typedef struct	s_op
 	uint8_t			arg[3];
 	uint8_t			need_types_byte;
 	uint8_t			short_dir;
-	int 			namelen;
+	int				namelen;
 }				t_op;
 
 typedef struct	s_champ
@@ -115,6 +118,8 @@ typedef struct	s_champ
 	char			*file;
 	int				fd;
 	int				error_count;
+	t_map			*labels;
+	t_vector		*current_labels;
 }				t_champ;
 
 /*
@@ -156,7 +161,7 @@ void			ft_check_exist_name_cmt(t_champ *champ);
 **parser.c
 */
 int				ft_is_command(char *line);
-void			ft_parse_line(t_champ *champ);
+void			ft_parse_line(t_champ *champ, char *ln);
 void			ft_parse_exec(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);
 #endif
