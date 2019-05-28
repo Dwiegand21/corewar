@@ -24,13 +24,15 @@ char g_missing_param[] =
 "{Bold}{Red}ERROR{eof}  -  Missing {\\226}player-%s{eof}\n";
 char g_wrong_char_lbl[] =
 "{Bold}{Red}ERROR{eof}  -  Wrong character >>> {\\226}%.1r{eof} <<<\n"
-"          In label >>> {\\226}%s{eof} <<<\n"; // todo add to right po in array and add to enum
+"          In label >>> {\\226}%s{eof} <<<\n";
 char g_miss_lbl_chr[] =
 "{Bold}{Red}ERROR{eof}  -  Missing label-character >>> {\\226}%c{eof} <<<\n"
 "          After label >>> {\\226}%s{eof} <<<\n";
 char g_mult_label[] =
 "{Bold}{Red}ERROR{eof}  -  Multiple definition of label "
-">>> {\\226}%s{eof}<<<\n";
+">>> {\\226}%s{eof} <<<\n";
+char g_bad_cmd[] =
+"{Bold}{Red}ERROR{eof}  -  Invalid operation >>> {\\226}%.*s{eof} <<<\n";
 
 char g_wrn_too_long[] =
 "{Bold}{\\202}WARNING{eof} - {\\226}player-%s{eof} too long. "
@@ -52,8 +54,10 @@ char *g_errors[] = {
 		g_exp_same_line,
 		g_bad_byte,
 		g_missing_param,
+		g_wrong_char_lbl,
 		g_miss_lbl_chr,
-		g_mult_label
+		g_mult_label,
+		g_bad_cmd,
 };
 
 char g_chars[] = {
@@ -73,8 +77,6 @@ char g_chars[] = {
 char g_backslash_literals[] = "rtafvbn\"\'\?\\";
 
 
-
-int g_test[3] = (int[3]){3, 3, 3};
 
 t_op g_functions[16] = {
 	{"live",

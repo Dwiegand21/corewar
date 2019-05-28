@@ -20,3 +20,9 @@ void			ft_free_string(t_string **str)
 	free(*str);
 	*str = 0;
 }
+
+int				ft_free_string_ret(t_string **str, int ret)
+{
+	ft_free_string(str);
+	return (ret);
+}

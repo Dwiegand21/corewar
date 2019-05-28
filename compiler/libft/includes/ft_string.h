@@ -45,18 +45,15 @@ t_int8			ft_vector_fit(t_vector **v_ptr);
 
 void			ft_print_string(t_string *str);
 void			ft_fd_print_string(t_string *str, int fd);
-
 void			ft_free_string(t_string **str);
-
+int				ft_free_string_ret(t_string **str, int ret);
 int				ft_string_fit(t_string **str);
-
 int				ft_string_push_back(t_string **str, char c);
 int				ft_string_push_back_s(t_string **str_ptr, char *str);
 int				ft_string_push_back_n_s(t_string **str_ptr, char *str,
 		size_t n);
 int				ft_string_push_back_n_c(t_string **str_ptr,
 		long n, char c);
-
 int				ft_string_set_value(t_string **str, size_t n, char filler,
 		char value);
 t_string		*ft_make_string(size_t init_size);

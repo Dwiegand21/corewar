@@ -52,10 +52,18 @@
 # include "stdint.h"
 # include "zconf.h"
 
+typedef struct	s_op
+{
+	char			name[5];
+	uint8_t			arg[3];
+	uint8_t			need_types_byte;
+	uint8_t			short_dir;
+	int				namelen;
+}				t_op;
+
 extern char		g_wrn_ignored[];
 extern char		g_pos_before[];
 extern char		g_missing_param[];
-extern int		g_test[3];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
 extern char		g_wrn_too_long[];
@@ -75,8 +83,10 @@ typedef enum	e_error
 	SAME_LINE_EXP = 1,
 	BAD_BYTE = 2,
 	MISSING_PARAM = 3,
-	MISS_LBL_CHAR = 4,
-	MULT_LABEL = 5
+	WRONG_CHAR_LBL = 4,
+	MISS_LBL_CHAR = 5,
+	MULT_LABEL = 6,
+	BAD_CMD = 7
 }				t_error;
 
 typedef enum	e_token_type
@@ -96,15 +106,6 @@ typedef struct	s_token
 	t_token_type	type;
 	void			*carry;
 }				t_token;
-
-typedef struct	s_op
-{
-	char			name[5];
-	uint8_t			arg[3];
-	uint8_t			need_types_byte;
-	uint8_t			short_dir;
-	int				namelen;
-}				t_op;
 
 typedef struct	s_champ
 {

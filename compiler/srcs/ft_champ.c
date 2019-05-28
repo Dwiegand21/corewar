@@ -17,6 +17,7 @@ int 		ft_free_champ(t_champ **champ, int ret)
 	if (!champ || !*champ)
 		return (ret);
 	ft_free_vector(&(*champ)->tokens);
+	ft_free_vector(&(*champ)->current_labels);
 	ft_free_string(&(*champ)->comment);
 	ft_free_string(&(*champ)->name);
 	ft_free_string(&(*champ)->exec);
