@@ -54,7 +54,9 @@ int 		ft_is_command(char *line)
 
 void 		ft_parse_command(t_champ *champ, char *ln, int cmd)
 {
-	ln += g_functions[cmd].namelen;
+	ln += g_functions[cmd].namelen; // todo need parse command and STRUCTURE FOR COMMAND
+	// todo need to save in champion current memory-address
+	// todo and use vector with labels for 'join' them with current command
 
 }
 
