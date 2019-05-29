@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-int				check_cor_file(t_cor_file *file)
+int32_t			check_cor_file(t_cor_file *file)
 {
 	int32_t		fd;
 	int32_t		magic;
@@ -44,6 +44,7 @@ int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
 		ft_error(INV_CODE_SIZE);
 
 	close(files->fd);
+	return (0);
 }
 
 int32_t			read_cor_file(t_player *player, t_cor_file *files)
@@ -64,18 +65,19 @@ int32_t			read_cor_file(t_player *player, t_cor_file *files)
 	skip_2octets(files->fd);
 	if (DEBUG_)					// DEBUG_ # # #
 	{
-		printf("\nName: %s\nComment: %s\nExec size: %d\nStart position: %d\nPlayer_number: %d\n",
-			   player->name,
-			   player->comment,
-			   code_size,
-			   player->start_pos,
-			   player->ordinal_number);
+		printf("\nName: %s\nComment: %s\nExec size: %d\nStart position: %d\n"
+				"Player_number: %d\n",
+				player->name,
+				player->comment,
+				code_size,
+				player->start_pos,
+				player->ordinal_number);
 	}
 	files->code_size = code_size;
 	return (0);
 }
 
-int				initialization_players(t_area *area, t_cor_file *files)
+int32_t			initialization_players(t_area *area, t_cor_file *files)
 {
 	int32_t		i;
 
@@ -90,4 +92,5 @@ int				initialization_players(t_area *area, t_cor_file *files)
 		set_code_to_map(area, files, i);
 		i++;
 	}
+	return (0);
 }

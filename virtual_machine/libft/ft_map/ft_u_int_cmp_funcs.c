@@ -14,17 +14,17 @@
 
 int		ft_cmp_uint8(void *a, void *b)
 {
-	return ((t_uint8)a - (t_uint8)b);
+	return (*((t_uint8 *)a) - *((t_uint8 *)b));
 }
 
 int		ft_cmp_uint16(void *a, void *b)
 {
-	return ((t_uint16)a - (t_uint16)b);
+	return (*((t_uint16 *)a) - *((t_uint16 *)b));
 }
 
 int		ft_cmp_uint32(void *a, void *b)
 {
-	return ((t_uint32)a - (t_uint32)b);
+	return (*((t_uint32 *)a) - *((t_uint32 *)b));
 }
 
 int		ft_cmp_uint64(void *a, void *b)

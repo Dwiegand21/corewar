@@ -17,7 +17,6 @@
 # include "ft_types.h"
 # include "ft_map.h"
 # include "ft_string.h"
-# include "ft_printf.h"
 
 # define FT_ABS(x) (((x) >= 0) ? (x) : -(x))
 

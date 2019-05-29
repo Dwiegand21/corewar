@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-t_process*		start_node(uint8_t *addr, int player_i)
+t_process*	start_node(uint8_t *addr, int player_i)
 {
 	int32_t 	i;
 	t_process	*new;
@@ -43,5 +43,7 @@ t_process*		start_node(uint8_t *addr, int player_i)
 
 void		push_node(t_process **root, t_process *new)
 {
-
+	if (*root != NULL)
+		new->next = *root;
+	*root = new;
 }

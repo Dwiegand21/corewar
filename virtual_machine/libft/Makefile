@@ -17,7 +17,7 @@ ADD_FLAGS =
 OBJS_DIR = objs
 DPDS_DIR = dpds
 
-CC = clang
+CC = gcc
 ADD_FLAGS_LINK = -lmlx -framework OpenGl -framework AppKit
 ADD_FLAGS_COMPILE =
 WFLAGS = -Wall -Wextra -Werror

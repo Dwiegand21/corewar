@@ -76,7 +76,7 @@ void			rb_tree_delete_key(t_map *map, void *key)
 		else
 		{
 			color_n_node = rb_tree_delete_node(current_node, map);
-			if ((char)color_n_node.first == RB_BLACK)
+			if (*((char *)color_n_node.first) == RB_BLACK)
 				rb_tree_balance_delete(((t_rb_tree*)color_n_node.second)->right
 						== map->nil ? ((t_rb_tree*)color_n_node.second)->left :
 						((t_rb_tree*)color_n_node.second)->right, map);

@@ -13,12 +13,13 @@ FILE(GLOB LIBFT_SRCS ./libft/*.c ./libft/*/*.c)
 set(EXE_FILES   sources/main.c
                 sources/initialization.c
                 sources/operations.c
-                mylib/ft_error.c
-                mylib/ft_print_endian.c
-                mylib/ft_bytes_reverse.c
                 sources/free_args.c
                 sources/node_ops.c
-                sources/print_map.c sources/read_files.c sources/read_arguments.c sources/check_flags.c)
+                sources/read_files.c
+                sources/read_arguments.c
+                sources/check_flags.c
+                sources/globals.c
+                sources/helpers.c)
 
 include_directories(virtual_machine includes)
 

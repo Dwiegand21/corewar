@@ -14,7 +14,7 @@
 
 int		ft_cmp_char(void *a, void *b)
 {
-	return ((char)a - (char)b);
+	return (*((char *)a) - *((char *)b));
 }
 
 int		ft_cmp_str(void *v1, void *v2)

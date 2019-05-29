@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-int32_t			check_filename(t_cor_file *file, char *filename, bool valid)
+int32_t		check_filename(t_cor_file *file, char *filename, bool valid)
 {
 	if (valid == false)
 		ft_error(INV_ARGS);
@@ -31,7 +31,7 @@ int32_t			check_filename(t_cor_file *file, char *filename, bool valid)
 	return (0);
 }
 
-int32_t			fix_ordinal_numbers(t_cor_file *files, int32_t n_players)
+int32_t		fix_ordinal_numbers(t_cor_file *files, int32_t n_players)
 {
 	int32_t		i;
 	int32_t		j;
@@ -60,7 +60,7 @@ int32_t			fix_ordinal_numbers(t_cor_file *files, int32_t n_players)
 	return (0);
 }
 
-int32_t			check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
+int32_t		check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 {
 	if (ft_strcmp(*argv, "-n") != 0)
 		return (0);
@@ -76,160 +76,20 @@ int32_t			check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 	return (2);
 }
 
-int32_t			read_arguments(t_area *area, int32_t argc, char **argv)
+int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 {
 	int32_t		i;
 	t_cor_file	files[4];
 
 	area->flags = check_flags(&argc, &argv, &area->dump_round);
 	i = 0;
+	if (argc == 0)
+		ft_error(INV_ARGS);
 	while (i < argc)
 	{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		files[area->n_players].champ_index = -1;
 		i += check_numeric_flag(argv + i,
-								&files[area->n_players].champ_index, i + 2 < argc);
+					&files[area->n_players].champ_index, i + 2 < argc);
 		if (area->n_players < 4)
 			check_filename(files + area->n_players, argv[i], i < argc);
 		else
