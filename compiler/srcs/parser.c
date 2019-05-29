@@ -52,9 +52,23 @@ int 		ft_is_command(char *line)
 	return (-1);
 }
 
-void 		ft_parse_command(t_champ *champ, char *ln, int cmd)
+void		ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 {
-	ln += g_functions[cmd].namelen; // todo need parse command and STRUCTURE FOR COMMAND
+	unsigned char	type;
+}
+
+void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
+{
+	t_cmd *cmd;
+
+	if (!(cmd = (t_cmd*)ft_memalloc(sizeof(t_cmd))))
+		exit(ft_free_champ(&champ, 666));
+	cmd->cmd = (unsigned char)cmd_num;
+	ln += g_functions[cmd_num].namelen;
+	ft_skip_spaces(&ln);
+
+
+	// todo need parse command
 	// todo need to save in champion current memory-address
 	// todo and use vector with labels for 'join' them with current command
 
@@ -97,8 +111,7 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 	int 	cmd;
 
 	label = ft_get_lbl_name(champ, &ln);
-	while (ft_isspace(*ln))
-		++ln;
+	ft_skip_spaces(&ln);
 	if (*ln != LABEL_CHAR)
 		ft_make_error(MISS_LBL_CHAR, champ, ln - champ->curr_line + 1,
 					  (void*[4]){(void*)(size_t)LABEL_CHAR, label, 0, 0});
@@ -119,8 +132,7 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 
 	if (!*ln)
 		return ;
-	while (ft_isspace(*ln))
-		++ln;
+	ft_skip_spaces(&ln);
 	if (*ln == COMMENT_CHAR)
 		return ;
 	if ((cmd = ft_is_command(ln)) >= 0)

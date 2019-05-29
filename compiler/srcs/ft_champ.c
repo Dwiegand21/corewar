@@ -16,7 +16,7 @@ int 		ft_free_champ(t_champ **champ, int ret)
 {
 	if (!champ || !*champ)
 		return (ret);
-	ft_free_vector(&(*champ)->tokens);
+	ft_free_vector(&(*champ)->cmds);
 	ft_free_vector(&(*champ)->current_labels);
 	ft_free_string(&(*champ)->comment);
 	ft_free_string(&(*champ)->name);
@@ -35,7 +35,7 @@ t_champ		*ft_make_champ(char *file, int fd)
 
 	if (!(champ = (t_champ*)ft_memalloc(sizeof(t_champ))))
 		return (0);
-	if (!(champ->tokens = ft_make_vector_free(64, ft_free_vector_simple)) ||
+	if (!(champ->cmds = ft_make_vector_free(64, free)) ||
 		!(champ->exec = ft_make_string(128)) ||
 		!(champ->name = ft_make_string(PROG_NAME_LENGTH)) ||
 		!(champ->comment = ft_make_string(COMMENT_LENGTH)) ||

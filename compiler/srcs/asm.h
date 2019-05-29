@@ -5,13 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/27 22:40:24 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/27 22:40:24 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/29 18:49:51 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/29 18:49:51 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
+# include "fcntl.h"
+# include "libft.h"
+# include "asm.h"
+# include "stdint.h"
+# include "zconf.h"
+
 # define IND_SIZE 2
 # define REG_SIZE 4
 # define DIR_SIZE REG_SIZE
@@ -38,19 +44,13 @@
 # define T_REG 1u
 # define T_DIR 2u
 # define T_IND 4u
-# define T_LAB 8
+# define T_LAB 8u
 # define PROG_NAME_LENGTH (128)
 # define COMMENT_LENGTH (2048)
 # define COREWAR_EXEC_MAGIC 0xea83f3
 # define GET_DATA(p) (((size_t)(p) << 3u) >> 3u)
 # define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
 # define BUFF_SIZE 4096
-
-# include "fcntl.h"
-# include "libft.h"
-# include "asm.h"
-# include "stdint.h"
-# include "zconf.h"
 
 typedef struct	s_op
 {
@@ -60,22 +60,6 @@ typedef struct	s_op
 	uint8_t			short_dir;
 	int				namelen;
 }				t_op;
-
-extern char		g_wrn_ignored[];
-extern char		g_pos_before[];
-extern char		g_missing_param[];
-extern char		g_unexp_token[];
-extern char		g_backslash_literals[];
-extern char		g_wrn_too_long[];
-extern char		g_wrn_double[];
-extern char		g_bad_byte[];
-extern t_op		g_functions[16];
-extern char		g_exp_same_line[];
-extern char		g_pos[];
-extern char		*g_errors[];
-extern char		g_chars[];
-
-
 
 typedef enum	e_error
 {
@@ -107,13 +91,21 @@ typedef struct	s_token
 	void			*carry;
 }				t_token;
 
+typedef struct	s_cmd
+{
+	unsigned char	cmd;
+	unsigned char	arg_types[3];
+	void			*args[3];
+	int				address;
+}				t_cmd;
+
 typedef struct	s_champ
 {
 	t_string		*name;
 	unsigned int	size;
 	t_string		*comment;
 	t_string		*exec;
-	t_vector		*tokens;
+	t_vector		*cmds;
 	char			*curr_line;
 	int				line;
 	char			*file;
@@ -121,7 +113,26 @@ typedef struct	s_champ
 	int				error_count;
 	t_map			*labels;
 	t_vector		*current_labels;
+	int				address;
 }				t_champ;
+
+extern char		g_wrn_ignored[];
+extern char		g_pos_before[];
+extern char		g_missing_param[];
+extern char		g_unexp_token[];
+extern char		g_backslash_literals[];
+extern char		g_wrong_char_lbl[];
+extern char		g_mult_label[];
+extern char		g_wrn_too_long[];
+extern char		g_miss_lbl_chr[];
+extern char		g_wrn_double[];
+extern t_op		g_functions[16];
+extern char		g_exp_same_line[];
+extern char		g_pos[];
+extern char		g_bad_byte[];
+extern char		*g_errors[];
+extern char		g_bad_cmd[];
+extern char		g_chars[];
 
 /*
 **ft_champ.c
@@ -161,7 +172,13 @@ void			ft_check_exist_name_cmt(t_champ *champ);
 /*
 **parser.c
 */
+char			*ft_get_lbl_name(t_champ *champ, char **s);
 int				ft_is_command(char *line);
+void			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
+void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
+size_t			ft_find_bad_cmd_len(char *ln);
+void			ft_add_label(t_champ *champ, char *lbl, char *ln);
+void			ft_parse_label(t_champ *champ, char *ln);
 void			ft_parse_line(t_champ *champ, char *ln);
 void			ft_parse_exec(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);

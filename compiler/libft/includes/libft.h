@@ -81,6 +81,8 @@ int					ft_strcmp(const char *s1, const char *s2);
 
 int					ft_strncmp(const char *s1, const char *s2, unsigned int n);
 
+void				ft_skip_spaces(char **ln);
+
 int					ft_atoi(const char *str);
 
 int					ft_atoi_m(char **str);

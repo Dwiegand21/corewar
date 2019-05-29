@@ -22,8 +22,7 @@ void 	ft_parse_header(t_champ *champ, int fd)
 		if (!ln)
 			exit(ft_free_champ(&champ, 13));
 		ft_champ_upd_line(champ, ln);
-		while (ft_isspace(*ln))
-			++ln;
+		ft_skip_spaces(&ln);
 		if (!ft_strncmp(ln, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 			ft_parse_name_comment(champ, ln, COMMENT);
 		else if (!ft_strncmp(ln, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
@@ -65,8 +64,7 @@ int 	ft_validate_string(t_champ *champ, char **ln, t_token_type type)
 	pos = type == NAME ? ft_strlen(NAME_CMD_STRING) :
 		  ft_strlen(COMMENT_CMD_STRING);
 	*ln += pos;
-	while (**ln && ft_isspace(**ln) && ++pos)
-		++(*ln);
+	ft_skip_spaces(ln);
 	if (**ln != '"' && **ln)
 	{
 		ft_make_error(UNEXP_TOKEN, champ, *ln - champ->curr_line + 1,
@@ -110,7 +108,6 @@ int 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 	static int	name_warning = 0;
 	static int	comment_warning = 0;
 
-//	ft_printf("{Blue}<%s>{eof}\n", ln);ч
 	while (*++ln)
 	{
 		if (*ln != '"' && (!res || (*res)->len <= max_len))
