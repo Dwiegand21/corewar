@@ -11,7 +11,7 @@ SFILES		= main.c \
 					check_flags.c \
 					read_files.c \
 					node_ops.c \
-					operations.c \
+					performing_ops.c \
 					free_args.c \
 					helpers.c
 

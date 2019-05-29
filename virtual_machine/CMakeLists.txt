@@ -12,7 +12,7 @@ FILE(GLOB LIBFT_SRCS ./libft/*.c ./libft/*/*.c)
 
 set(EXE_FILES   sources/main.c
                 sources/initialization.c
-                sources/operations.c
+        sources/performing_ops.c
                 sources/free_args.c
                 sources/node_ops.c
                 sources/read_files.c

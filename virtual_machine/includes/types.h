@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:23:41 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ typedef struct s_process	t_process;
 typedef struct s_player		t_player;
 typedef struct s_cor_file	t_cor_file;
 typedef struct s_area		t_area;
+typedef struct s_ops		t_ops;
 
 enum		e_player_pos {FIRST, SECOND, THIRD, FOURTH};
 
@@ -74,6 +75,13 @@ struct		s_area
 	t_process		*processes;
 
 	uint32_t		flags;
+};
+
+struct		s_ops
+{
+	char		name[6];
+	int32_t 	sleep;
+	void		(*func)(t_area*, t_process*);
 };
 
 #endif // COREWAR_VIRTUAL_MACHINE_TYPES_H

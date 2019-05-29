@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   virtual_machine.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/05/29 16:45:49 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@
 # include "types.h"
 # include "libft.h"
 
-/*
-**		1. Изменить поведение переменной ' standart_ord_n '.
-*/
 # define DEBUG_			1			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
 
@@ -41,22 +38,22 @@ void		bytes_reverse(void *param, size_t size);
 void		print_map(uint8_t *map);
 
 /*
-//		initialization.c
+**		initialization.c
 */
 t_area		*initialization_area(void);
 
 /*
-//		read_arguments.c
+**		read_arguments.c
 */
 int			read_arguments(t_area *p, int32_t av, char **ac);
 
 /*
-//		read_files.c
+**		read_files.c
 */
 int			initialization_players(t_area *area, t_cor_file *files);
 
 /*
-//		free_args.c
+**		free_args.c
 */
 void		free_args(t_area **p);
 
