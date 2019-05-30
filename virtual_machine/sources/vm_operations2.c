@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   globals.c                                          :+:      :+:    :+:   */
+/*   vm_opeartions2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/29 12:12:31 by axtazy            #+#    #+#             */
-/*   Updated: 2019/05/29 17:34:00 by axtazy           ###   ########.fr       */
+/*   Created: 2019/05/30 10:50:20 by axtazy            #+#    #+#             */
+/*   Updated: 2019/05/30 10:50:20 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
-t_ops    g_ops[17] =
+void		sub_op(t_area *area, t_process *p)
 {
-	{ "next",	0,		NULL },
-	{ "live",	10,		NULL },
-	{ "ld",		5,		NULL },
-	{ "st",		5,		NULL },
-	{ "add",	10,		NULL },
-	{ "sub",	10,		NULL },
-	{ "and",	6,		NULL },
-	{ "or",		6,		NULL },
-	{ "xor",	6,		NULL },
-	{ "zjmp",	20,		NULL },
-	{ "ldi",	25,		NULL },
-	{ "sti",	25,		NULL },
-	{ "fork",	800,	NULL },
-	{ "lld",	10,		NULL },
-	{ "lldi",	50,		NULL },
-	{ "lfork",	1000,	NULL },
-	{ "aff",	2,		NULL },
-};
+
+}
+
+void		and_op(t_area *area, t_process *p)
+{
+
+}
+
+void		or_op(t_area *area, t_process *p)
+{
+
+}
+
+void		xor_op(t_area *area, t_process *p)
+{
+
+}
+
+void		zjmp_op(t_area *area, t_process *p)
+{
+
+}

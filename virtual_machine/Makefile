@@ -11,8 +11,11 @@ SFILES		= main.c \
 					check_flags.c \
 					read_files.c \
 					node_ops.c \
-					performing_ops.c \
 					free_args.c \
+					vm_operations1.c \
+					vm_operations2.c \
+					vm_operations3.c \
+					vm_operations4.c \
 					helpers.c
 
 OFILES		= $(addprefix $(OBJDIR),$(SFILES:.c=.o))

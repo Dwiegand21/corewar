@@ -1,13 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operations.c                                       :+:      :+:    :+:   */
+/*   vm_operations4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Created: 2019/05/30 10:51:10 by axtazy            #+#    #+#             */
+/*   Updated: 2019/05/30 10:51:10 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+
+void		lfork_op(t_area *area, t_process *p)
+{
+
+}
+
+void		aff_op(t_area *area, t_process *p)
+{
+
+}

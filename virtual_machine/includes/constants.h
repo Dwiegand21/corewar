@@ -36,10 +36,10 @@
 /*
 **					OCTET_OP_DEFINES
 */
-# define OCT1(x)	(x & 0xFF)
-# define OCT2(x)	((x >> 4) & 0xFF)
-# define OCT3(x)	((x >> 8) & 0xFF)
-# define OCT4(x)	((x >> 12) & 0xFF)
+# define OCT4(x)	(x & 0xF)
+# define OCT3(x)	((x >> 2) & 0xF)
+# define OCT2(x)	((x >> 4) & 0xF)
+# define OCT1(x)	((x >> 6) & 0xF)
 
 /*
 **					OP.H DEFINES

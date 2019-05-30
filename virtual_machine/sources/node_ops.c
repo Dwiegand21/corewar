@@ -27,7 +27,7 @@ t_process*	start_node(uint8_t *addr, int player_i)
 		new->reg[i] = 0;
 		i++;
 	}
-	new->addr = addr;
+	new->pc = addr;
 	new->reg[0] = player_i * -1;
 
 	new->carry = false;

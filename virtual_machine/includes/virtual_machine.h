@@ -69,4 +69,41 @@ int32_t		check_flags(int32_t *av, char ***ac, int32_t *dump);
 t_process*	start_node(uint8_t *addr, int player_i);
 void		push_node(t_process **root, t_process *new);
 
+/*
+**		vm_operations1.c
+*/
+void		next_op(t_area *area, t_process *p);
+void		live_op(t_area *area, t_process *p);
+void		ld_op(t_area *area, t_process *p);
+void		st_op(t_area *area, t_process *p);
+void		add_op(t_area *area, t_process *p);
+
+/*
+**		vm_operations2.c
+*/
+void		sub_op(t_area *area, t_process *p);
+void		and_op(t_area *area, t_process *p);
+void		or_op(t_area *area, t_process *p);
+void		xor_op(t_area *area, t_process *p);
+void		zjmp_op(t_area *area, t_process *p);
+
+/*
+**		vm_operations3.c
+*/
+void		ldi_op(t_area *area, t_process *p);
+void		sti_op(t_area *area, t_process *p);
+void		fork_op(t_area *area, t_process *p);
+void		lld_op(t_area *area, t_process *p);
+void		lldi_op(t_area *area, t_process *p);
+
+/*
+**		vm_operations4.c
+*/
+void		lfork_op(t_area *area, t_process *p);
+void		aff_op(t_area *area, t_process *p);
+
+/*
+**
+*/
+
 #endif // COREWAR_VIRTUAL_MACHINE_H

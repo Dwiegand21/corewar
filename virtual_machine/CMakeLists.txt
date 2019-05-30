@@ -12,14 +12,13 @@ FILE(GLOB LIBFT_SRCS ./libft/*.c ./libft/*/*.c)
 
 set(EXE_FILES   sources/main.c
                 sources/initialization.c
-        sources/performing_ops.c
-                sources/free_args.c
+        sources/free_args.c
                 sources/node_ops.c
                 sources/read_files.c
                 sources/read_arguments.c
                 sources/check_flags.c
                 sources/globals.c
-                sources/helpers.c)
+                sources/helpers.c sources/vm_operations1.c sources/vm_operations2.c sources/vm_operations3.c sources/vm_operations4.c)
 
 include_directories(virtual_machine includes)
 
