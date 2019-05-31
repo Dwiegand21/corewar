@@ -12,9 +12,9 @@
 
 #include "virtual_machine.h"
 
-t_area*			initialization_area(void)
+t_area		*initialization_area(void)
 {
-	t_area*		new;
+	t_area		*new;
 
 	new = NULL;
 	if (!(new = malloc(sizeof(t_area))))

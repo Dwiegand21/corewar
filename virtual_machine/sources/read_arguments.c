@@ -111,3 +111,4 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 	}
 	return (0);
 }
+

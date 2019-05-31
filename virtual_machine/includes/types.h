@@ -68,8 +68,8 @@ struct		s_area
 
 	uint8_t			*map;
 
-	int32_t			n_players;
-	int32_t			n_processes;
+	uint32_t		n_players;
+	uint32_t		n_processes;
 
 	t_player		*players;
 	t_process		*processes;
