@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/29 18:49:51 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/29 18:49:51 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/31 21:01:58 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/05/31 21:01:58 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ASM_H
 # include "fcntl.h"
 # include "libft.h"
-# include "asm.h"
 # include "stdint.h"
+# include "asm.h"
 # include "zconf.h"
 
 # define IND_SIZE 2
@@ -26,7 +26,7 @@
 # define IND_CODE 3
 # define MAX_ARGS_NUMBER 4
 # define MAX_PLAYERS 4
-# define MEM_SIZE (4*1024)
+# define MEM_SIZE (4 * 1024)
 # define IDX_MOD (MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE (MEM_SIZE / 6)
 # define COMMENT_CHAR '#'
@@ -97,6 +97,8 @@ typedef struct	s_cmd
 	unsigned char	arg_types[3];
 	void			*args[3];
 	int				address;
+	int				arg_count;
+	int				size;
 }				t_cmd;
 
 typedef struct	s_champ
@@ -117,22 +119,22 @@ typedef struct	s_champ
 }				t_champ;
 
 extern char		g_wrn_ignored[];
-extern char		g_pos_before[];
-extern char		g_missing_param[];
+extern char		g_miss_lbl_chr[];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
 extern char		g_wrong_char_lbl[];
+extern char		g_pos[];
 extern char		g_mult_label[];
-extern char		g_wrn_too_long[];
-extern char		g_miss_lbl_chr[];
+extern char		g_chars[];
+extern char		g_missing_param[];
 extern char		g_wrn_double[];
 extern t_op		g_functions[16];
 extern char		g_exp_same_line[];
-extern char		g_pos[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_byte[];
 extern char		*g_errors[];
 extern char		g_bad_cmd[];
-extern char		g_chars[];
+extern char		g_pos_before[];
 
 /*
 **ft_champ.c
@@ -172,7 +174,7 @@ void			ft_check_exist_name_cmt(t_champ *champ);
 /*
 **parser.c
 */
-char			*ft_get_lbl_name(t_champ *champ, char **s);
+char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
 int				ft_is_command(char *line);
 void			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
 void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);

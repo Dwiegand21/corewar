@@ -108,7 +108,7 @@ int 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 	static int	name_warning = 0;
 	static int	comment_warning = 0;
 
-	while (*++ln)
+	while (*++ln) // todo maybe need to go `while (*ln != COMMENT_CHAR)`
 	{
 		if (*ln != '"' && (!res || (*res)->len <= max_len))
 		{

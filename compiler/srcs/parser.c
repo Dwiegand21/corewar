@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-char		*ft_get_lbl_name(t_champ *champ, char **s)
+char		*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars)
 {
 	char			*str;
 	t_string		*res;
@@ -21,7 +21,7 @@ char		*ft_get_lbl_name(t_champ *champ, char **s)
 	bad_char = 0;
 	if (!s || !*s || !(res = ft_make_string(8)))
 		return (0);
-	while (**s != LABEL_CHAR && !ft_isspace(**s) && **s)
+	while (!ft_strchr(stop_chars, **s) && !ft_isspace(**s) && **s) // todo check COMMENT_CHAR +?
 	{
 		if (!ft_strchr(LABEL_CHARS, **s))
 			bad_char = bad_char ? bad_char : *s;
@@ -52,9 +52,46 @@ int 		ft_is_command(char *line)
 	return (-1);
 }
 
+static inline unsigned int	ft_get_arg_type(char **ln)
+{
+	if (**ln == DIRECT_CHAR)
+	{
+		ft_skip_spaces(ln);
+		if (**ln == LABEL_CHAR )
+		{
+			++(*ln);
+			ft_skip_spaces(ln);
+			return (T_LAB);
+		}
+		else
+			return (T_DIR);
+	}
+	else if (**ln == 'r')
+	{
+		++(*ln);
+		ft_skip_spaces(ln);
+		return (T_REG);
+	}
+	else
+		return (T_IND);
+}
+
+static inline void		*ft_get_arg_val(char **ln, unsigned int type,
+		t_champ *champ)
+{
+	void *arg;
+
+	arg = (type != T_LAB) ? (void*)(size_t)ft_atoi_m(ln) :
+			ft_get_lbl_name(champ, ln, (char[2]){COMMENT_CHAR, '\0'});
+
+}
+
 void		ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 {
-	unsigned char	type;
+	const unsigned char	type = ft_get_arg_type(ln);
+
+
+
 }
 
 void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
@@ -110,7 +147,7 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 	char	*label;
 	int 	cmd;
 
-	label = ft_get_lbl_name(champ, &ln);
+	label = ft_get_lbl_name(champ, &ln, (char[3]){COMMENT_CHAR, LABEL_CHAR, '\0'});
 	ft_skip_spaces(&ln);
 	if (*ln != LABEL_CHAR)
 		ft_make_error(MISS_LBL_CHAR, champ, ln - champ->curr_line + 1,
@@ -143,6 +180,7 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 }
 
 void 		ft_parse_exec(t_champ *champ, int fd)
+// todo expect comments in mid of label or arg FUCK
 {
 	char *ln;
 

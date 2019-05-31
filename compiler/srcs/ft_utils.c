@@ -29,12 +29,12 @@ void		*tokenize(t_token_type type, void *carry) // fixme make `extern inline`
 void		ft_check_exist_name_cmt(t_champ *champ)
 {
 	if (!champ->name->offset)
-	{
+	{ // todo use ft_make_error
 		ft_fdprintf(2, g_missing_param, "name");
 		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
 	}
 	if (!champ->comment->offset)
-	{
+	{ // todo use ft_make_error
 		ft_fdprintf(2, g_missing_param, "comment");
 		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
 	}
