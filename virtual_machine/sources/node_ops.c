@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   node_ops.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:38:14 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
-t_process*	start_node(uint8_t *addr, int player_i)
+t_process*	start_node(uint32_t pc, int player_i)
 {
 	int32_t 	i;
 	t_process	*new;
@@ -27,7 +27,7 @@ t_process*	start_node(uint8_t *addr, int player_i)
 		new->reg[i] = 0;
 		i++;
 	}
-	new->pc = addr;
+	new->pc = pc;
 	new->reg[0] = player_i * -1;
 
 	new->carry = false;

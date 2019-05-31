@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/30 10:49:38 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/05/30 18:57:31 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ enum		e_player_pos {FIRST, SECOND, THIRD, FOURTH};
 
 struct		s_process
 {
-	uint8_t			*pc;
-	int32_t			sleep;
+	uint32_t		pc;
+	uint32_t		sleep;
 
 	int32_t			reg[REG_NUMBER];
 

@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/29 16:45:49 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/05/30 18:03:16 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int32_t		check_flags(int32_t *av, char ***ac, int32_t *dump);
 /*
 **		node_ops.c
 */
-t_process*	start_node(uint8_t *addr, int player_i);
+t_process*	start_node(uint32_t pc, int player_i);
 void		push_node(t_process **root, t_process *new);
 
 /*
