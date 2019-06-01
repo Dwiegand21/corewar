@@ -33,6 +33,18 @@ char g_mult_label[] =
 ">>> {\\226}%s{eof} <<<\n";
 char g_bad_cmd[] =
 "{Bold}{Red}ERROR{eof}  -  Invalid operation >>> {\\226}%.*s{eof} <<<\n";
+char g_bad_arg[] =
+"{Bold}{Red}ERROR{eof}  -  Invalid argument value >>> {\\226}%.*s{eof} <<<\n";
+char g_bad_reg_idx[] =
+"{Bold}{Red}ERROR{eof}  -  Invalid register index >>> {\\226}%.*s{eof} <<<\n";
+char g_bad_arg_count[] =
+"{Bold}{Red}ERROR{eof}  -  Wrong number of arguments for command "
+">>> {\\226}%s{eof} <<<\n"
+"          Expected {\\226}%d{eof}, but {\\226}%d{eof} got\n";
+char g_missing_sep[] =
+"{Bold}{Red}ERROR{eof}  -  Missing separator ({\\226}%c{eof})\n";
+char g_extra_sep[] =
+"{Bold}{Red}ERROR{eof}  -  Extra separator ({\\226}%c{eof})\n";
 
 char g_wrn_too_long[] =
 "{Bold}{\\202}WARNING{eof} - {\\226}player-%s{eof} too long. "
@@ -58,6 +70,11 @@ char *g_errors[] = {
 		g_miss_lbl_chr,
 		g_mult_label,
 		g_bad_cmd,
+		g_bad_arg,
+		g_bad_reg_idx,
+		g_bad_arg_count,
+		g_missing_sep,
+		g_extra_sep,
 };
 
 char g_chars[] = {
@@ -80,35 +97,35 @@ char g_backslash_literals[] = "rtafvbn\"\'\?\\";
 
 t_op g_functions[16] = {
 	{"live",
-		{T_DIR, 0, 0}, 0, 0, 4},
+		{T_DIR, 0, 0}, 0, 0, 4, 1},
 	{"ld",
-		{T_DIR | T_IND, T_REG, 0}, 1, 0, 2},
+		{T_DIR | T_IND, T_REG, 0}, 1, 0, 2, 2},
 	{"st",
-		{T_REG, T_REG | T_IND, 0}, 1, 0, 2},
+		{T_REG, T_REG | T_IND, 0}, 1, 0, 2, 2},
 	{"add",
-		{T_REG, T_REG, T_REG}, 1, 0, 3},
+		{T_REG, T_REG, T_REG}, 1, 0, 3, 3},
 	{"sub",
-		{T_REG, T_REG, T_REG}, 1, 0, 3},
+		{T_REG, T_REG, T_REG}, 1, 0, 3, 3},
 	{"and",
-		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 3},
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 3, 3},
 	{"or",
-		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 2},
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 2, 3},
 	{"xor",
-		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 3},
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR | T_IND, T_REG}, 1, 0, 3, 3},
 	{"zjmp",
-		{T_DIR, 0, 0}, 0, 1, 4},
+		{T_DIR, 0, 0}, 0, 1, 4, 1},
 	{"ldi",
-		{T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG}, 1, 1, 3},
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG}, 1, 1, 3, 3},
 	{"sti",
-		{T_REG, T_REG | T_DIR | T_IND, T_REG | T_DIR}, 1, 1, 3},
+		{T_REG, T_REG | T_DIR | T_IND, T_REG | T_DIR}, 1, 1, 3, 3},
 	{"fork",
-		{T_DIR, 0, 0}, 0, 1, 4},
+		{T_DIR, 0, 0}, 0, 1, 4, 1},
 	{"lld",
-		{T_DIR | T_IND, T_REG, 0}, 1, 0, 3},
+		{T_DIR | T_IND, T_REG, 0}, 1, 0, 3, 2},
 	{"lldi",
-		{T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG}, 1, 1, 4},
+		{T_REG | T_DIR | T_IND, T_REG | T_DIR, T_REG}, 1, 1, 4, 3},
 	{"lfork",
-		{T_DIR, 0, 0}, 0, 1, 5},
+		{T_DIR, 0, 0}, 0, 1, 5, 1},
 	{"aff",
-		{T_REG, 0, 0}, 1, 0, 3}
+		{T_REG, 0, 0}, 1, 0, 3, 1}
 };

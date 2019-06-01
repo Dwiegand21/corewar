@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/31 21:01:58 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/05/31 21:01:58 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/01 23:00:55 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/01 23:00:55 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ASM_H
 # include "fcntl.h"
 # include "libft.h"
-# include "stdint.h"
 # include "asm.h"
+# include "stdint.h"
 # include "zconf.h"
 
 # define IND_SIZE 2
@@ -59,6 +59,7 @@ typedef struct	s_op
 	uint8_t			need_types_byte;
 	uint8_t			short_dir;
 	int				namelen;
+	int 			arg_count;
 }				t_op;
 
 typedef enum	e_error
@@ -70,7 +71,12 @@ typedef enum	e_error
 	WRONG_CHAR_LBL = 4,
 	MISS_LBL_CHAR = 5,
 	MULT_LABEL = 6,
-	BAD_CMD = 7
+	BAD_CMD = 7,
+	BAD_ARG = 8,
+	BAD_REG_IDX = 9,
+	BAD_ARG_COUNT = 10,
+	MISSING_SEP = 11,
+	EXTRA_SEP = 12,
 }				t_error;
 
 typedef enum	e_token_type
@@ -119,22 +125,24 @@ typedef struct	s_champ
 }				t_champ;
 
 extern char		g_wrn_ignored[];
-extern char		g_miss_lbl_chr[];
+extern char		g_bad_reg_idx[];
+extern char		g_pos_before[];
+extern char		g_missing_param[];
 extern char		g_unexp_token[];
 extern char		g_backslash_literals[];
 extern char		g_wrong_char_lbl[];
-extern char		g_pos[];
 extern char		g_mult_label[];
-extern char		g_chars[];
-extern char		g_missing_param[];
+extern char		g_wrn_too_long[];
+extern char		g_miss_lbl_chr[];
 extern char		g_wrn_double[];
 extern t_op		g_functions[16];
 extern char		g_exp_same_line[];
-extern char		g_wrn_too_long[];
+extern char		g_pos[];
 extern char		g_bad_byte[];
 extern char		*g_errors[];
 extern char		g_bad_cmd[];
-extern char		g_pos_before[];
+extern char		g_chars[];
+extern char		g_bad_arg[];
 
 /*
 **ft_champ.c
@@ -176,7 +184,7 @@ void			ft_check_exist_name_cmt(t_champ *champ);
 */
 char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
 int				ft_is_command(char *line);
-void			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
+int				ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
 void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
 size_t			ft_find_bad_cmd_len(char *ln);
 void			ft_add_label(t_champ *champ, char *lbl, char *ln);
