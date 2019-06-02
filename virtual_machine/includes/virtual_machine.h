@@ -28,6 +28,8 @@
 # include "types.h"
 # include "libft.h"
 
+# include <ncurses.h>		// ???
+
 # define DEBUG_			1			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
 

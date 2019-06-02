@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 set(EXE_FILES   sources/main.c
                 sources/initialization.c
                 sources/free_args.c
-        sources/processes_ops.c
+                sources/processes_ops.c
                 sources/read_files.c
                 sources/read_arguments.c
                 sources/check_flags.c
