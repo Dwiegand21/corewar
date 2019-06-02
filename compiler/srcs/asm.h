@@ -52,6 +52,7 @@
 # define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
 # define BUFF_SIZE 4096
 
+
 typedef struct	s_op
 {
 	char			name[5];
@@ -77,6 +78,8 @@ typedef enum	e_error
 	BAD_ARG_COUNT = 10,
 	MISSING_SEP = 11,
 	EXTRA_SEP = 12,
+	MISS_ARG_AFT_PRFX = 13,
+	MISS_ARG = 14,
 }				t_error;
 
 typedef enum	e_token_type

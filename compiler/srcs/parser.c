@@ -52,40 +52,65 @@ int 		ft_is_command(char *line)
 	return (-1);
 }
 
-static inline unsigned int	ft_get_arg_type(char **ln)
+static inline int	ft_check_arg(t_champ *champ, char **ln, char *begin,
+		int type)
 {
-	if (**ln == DIRECT_CHAR)
+	char *lbl_pref_end;
+
+	if (!(!**ln || **ln == SEPARATOR_CHAR || **ln == COMMENT_CHAR))
+		return (type);
+	if (type == T_DIR || type == T_REG)
 	{
-		ft_skip_spaces(ln);
-		if (**ln == LABEL_CHAR )
-		{
-			++(*ln);
-			ft_skip_spaces(ln);
-			return (T_LAB);
-		}
-		else
-		{
-			++(*ln);
-			return (T_DIR);
-		}
+		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1,
+				(void*[4]){(void*)1lu, begin, 0, 0});
 	}
-	else if (**ln == 'r')
+	if (type == T_IND)
 	{
-		++(*ln);
-		ft_skip_spaces(ln);
-		return (T_REG);
+		ft_make_error(MISS_ARG, champ, begin - champ->curr_line + 1, // fixme
+				(void*[4]){(void*)1lu, begin, 0, 0});
 	}
-	else
-		return (**ln ? T_IND : 0);
+	if (type == T_LAB)
+	{
+		lbl_pref_end = begin;
+		while (*lbl_pref_end != LABEL_CHAR)
+			++lbl_pref_end;
+		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1, // fixme
+				(void*[4]){(void*)(lbl_pref_end - begin + 1), begin, 0, 0});
+	}
+	return (-1 * type);
 }
 
-static inline void		*ft_get_arg_val(char **ln, unsigned int type,
+static inline int	ft_get_arg_type(char **ln, t_champ *champ)
+{
+	char *const begin = *ln;
+
+	if (**ln == DIRECT_CHAR && ++(*ln))
+	{
+		ft_skip_spaces(ln);
+		if (**ln == LABEL_CHAR && ++(*ln))
+		{
+			ft_skip_spaces(ln);
+			return (ft_check_arg(champ, ln, begin, T_LAB));
+		}
+		else
+			return (ft_check_arg(champ, ln, begin, T_DIR));
+	}
+	else if (**ln == 'r' && ++(*ln))
+	{
+		ft_skip_spaces(ln);
+		return (ft_check_arg(champ, ln, begin, T_REG));
+	}
+	else
+		return (ft_check_arg(champ, ln, begin, T_IND));
+}
+
+static inline void		*ft_get_arg_val(char **ln, int type,
 		t_champ *champ, const char *begin)
 {
 	void		*arg;
 	char		*bad_arg;
 
-	if (!type)
+	if (type < 0)
 		return (0);
 	bad_arg = 0;
 	arg = (type != T_LAB) ? (void*)(size_t)ft_atoi_m(ln) :
@@ -99,10 +124,10 @@ static inline void		*ft_get_arg_val(char **ln, unsigned int type,
 		++(*ln);
 	if (bad_arg)
 		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_line,
-				(void*[4]){*ln - *begin, (void*)begin, 0, 0});
+				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	if (type == T_REG && (int)(size_t)arg <= 0)
 		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_line,
-				(void*[4]){*ln - *begin, (void*)begin, 0, 0});
+				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	return (arg);
 }
 
@@ -124,10 +149,10 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 
 int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 {
-	char *const			begin = *ln;
-	const unsigned char	type = ft_get_arg_type(ln);
-	void *const			val = ft_get_arg_val(ln, type, champ, begin);
-	const int 			exp_arg_count = g_functions[cmd->cmd].arg_count;
+	char *const	begin = *ln;
+	const int	type = ft_get_arg_type(ln, champ);
+	void *const	val = ft_get_arg_val(ln, type, champ, begin);
+	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
 
 	if (cmd->arg_count < exp_arg_count && type)
 	{
@@ -162,9 +187,9 @@ void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 		exit(ft_free_champ(&champ, 666));
 
 
-
-	// todo need parse command +
+	// todo need to save command arg types
 	// todo need to save in champion current memory-address
+	// todo need to save command line number and positions of used labels FUCK
 	// todo and use vector with labels for 'join' them with current command
 
 }
@@ -205,7 +230,8 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 	char	*label;
 	int 	cmd;
 
-	label = ft_get_lbl_name(champ, &ln, (char[3]){COMMENT_CHAR, LABEL_CHAR, '\0'});
+	label = ft_get_lbl_name(champ, &ln,
+			(char[3]){COMMENT_CHAR, LABEL_CHAR, '\0'});
 	ft_skip_spaces(&ln);
 	if (*ln != LABEL_CHAR)
 		ft_make_error(MISS_LBL_CHAR, champ, ln - champ->curr_line + 1,
@@ -218,7 +244,7 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 		ft_parse_command(champ, ln, cmd);
 	else if (*ln)
 		ft_make_error(BAD_CMD, champ, ln - champ->curr_line + 1,
-					  (void*[4]){(void*)ft_find_bad_cmd_len(ln), ln, 0, 0});
+				(void*[4]){(void*)ft_find_bad_cmd_len(ln), ln, 0, 0});
 }
 
 void 		ft_parse_line(t_champ *champ, char *ln)

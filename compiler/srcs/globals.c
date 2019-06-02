@@ -45,6 +45,11 @@ char g_missing_sep[] =
 "{Bold}{Red}ERROR{eof}  -  Missing separator ({\\226}%c{eof})\n";
 char g_extra_sep[] =
 "{Bold}{Red}ERROR{eof}  -  Extra separator ({\\226}%c{eof})\n";
+char g_miss_arg_aft_prfx[] = // todo print 'for command'
+"{Bold}{Red}ERROR{eof}  -  Missing argument after prefix "
+">>> {\\226}%.*s{eof} <<<\n";
+char g_miss_arg[] = // todo print 'for command'
+"{Bold}{Red}ERROR{eof}  -  Missing argument\n";
 
 char g_wrn_too_long[] =
 "{Bold}{\\202}WARNING{eof} - {\\226}player-%s{eof} too long. "
@@ -75,6 +80,8 @@ char *g_errors[] = {
 		g_bad_arg_count,
 		g_missing_sep,
 		g_extra_sep,
+		g_miss_arg_aft_prfx,
+		g_miss_arg,
 };
 
 char g_chars[] = {
@@ -92,8 +99,6 @@ char g_chars[] = {
 };
 
 char g_backslash_literals[] = "rtafvbn\"\'\?\\";
-
-
 
 t_op g_functions[16] = {
 	{"live",
