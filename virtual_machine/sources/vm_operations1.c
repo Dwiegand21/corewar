@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:49:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/05/30 17:47:59 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/02 05:55:12 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		next_op(t_area *area, t_process *p)
 {
-	//	???
+	p->pc = area->map[(p->pc + 1) % MEM_SIZE];
 }
 
 void		live_op(t_area *area, t_process *p)

@@ -13,6 +13,11 @@
 #ifndef COREWAR_VIRTUAL_MACHINE_TYPES_H
 # define COREWAR_VIRTUAL_MACHINE_TYPES_H
 
+
+
+#include "libft.h"
+#include "constants.h"
+
 typedef struct s_process	t_process;
 typedef struct s_player		t_player;
 typedef struct s_cor_file	t_cor_file;
@@ -33,7 +38,6 @@ struct		s_process
 
 	uint32_t		player;
 
-	t_process		*next;
 };
 
 struct		s_player
@@ -72,7 +76,7 @@ struct		s_area
 	int32_t			n_processes;
 
 	t_player		*players;
-	t_process		*processes;
+	t_list			*processes;
 
 	uint32_t		flags;
 };

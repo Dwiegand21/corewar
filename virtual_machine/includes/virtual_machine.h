@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/30 18:03:16 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/02 06:35:27 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <stdbool.h>
+# include <limits.h>
+//# include <types.h>
 
 # include <fcntl.h>
 # include <sys/types.h>
@@ -103,7 +105,9 @@ void		lfork_op(t_area *area, t_process *p);
 void		aff_op(t_area *area, t_process *p);
 
 /*
-**
+**		bigendian_ops.c
 */
+int32_t		be_get32(void *p);
+int16_t		be_get16(void *p);
 
 #endif // COREWAR_VIRTUAL_MACHINE_H

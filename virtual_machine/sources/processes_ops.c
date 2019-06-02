@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shapka.c                                           :+:      :+:    :+:   */
+/*   processes_ops.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 17:25:22 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/03/15 00:55:37 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/06/02 05:50:41 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "virtual_machine.h"
 
-void		ft_putchar(char c)
+void		load_process(t_area *area, t_list *processes)
 {
-	ft_putchar_fd(c, 1);
+
 }
+
+void		new_process()
+{
+
+}
+
+void		delete_process(t_list *processes, t_list *node)
+{
+
+}
+

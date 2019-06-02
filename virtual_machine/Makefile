@@ -2,7 +2,7 @@
 NAME		= corewar
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= #-Wall -Wextra -Werror
 
 SFILES		= main.c \
 					globals.c \
@@ -10,12 +10,13 @@ SFILES		= main.c \
 					read_arguments.c \
 					check_flags.c \
 					read_files.c \
-					node_ops.c \
+					processes_ops.c \
 					free_args.c \
 					vm_operations1.c \
 					vm_operations2.c \
 					vm_operations3.c \
 					vm_operations4.c \
+					bigendian_ops.c \
 					helpers.c
 
 OFILES		= $(addprefix $(OBJDIR),$(SFILES:.c=.o))
@@ -29,7 +30,7 @@ OBJDIR		= ./objs/
 FT			= $(addprefix $(FT_DIR),$(FT_NAME))
 FT_NAME		= libft.a
 FT_DIR		= ./libft
-FT_INC		= -I $(FT_DIR)/includes
+FT_INC		= -I $(FT_DIR)
 FT_LIB		= -L $(FT_DIR) -l ft
 
 
@@ -39,10 +40,10 @@ $(NAME): $(OFILES)
 	$(CC) $(OFILES) $(FT_LIB) -o $(NAME)
 
 $(FT):
-	make -C $(FT_DIR) all
+	@make -C $(FT_DIR) all
 
 objs:
-	mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	$(CC) $(CFLAGS) $(FT_INC) $(INC) -o $@ -c $<

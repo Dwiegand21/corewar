@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   libf_gleb.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: axtazy <axtazy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -133,6 +133,8 @@ char			*ft_strncpy(char *dst, const char *src, size_t length);
 
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 
+int 			ft_strnequ_rev(const char *s1, const char *s2, size_t n);
+
 char			*ft_strnew(size_t size);
 
 char			*ft_strnstr(const char *hay, const char *needle, size_t length);
@@ -179,6 +181,5 @@ void			ft_putlst(t_list *lst);
 
 void			ft_tabdel(void ***tab);
 
-void			ft_error(char *error, int size);
 
 #endif

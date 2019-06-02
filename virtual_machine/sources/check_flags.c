@@ -58,7 +58,7 @@ int32_t			check_flags(int32_t *argc, char ***argv, int32_t *dump)
 	{
 		if (check_dupm_flag(argc, argv, dump))
 			flags |= DUMP;
-		else if (strcmp(*(*argv), "-v") == 0)
+		else if (ft_strcmp(*(*argv), "-v") == 0)
 			flags |= VISUALIZATION;
 		else
 			break ;
