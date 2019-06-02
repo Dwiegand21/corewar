@@ -64,7 +64,10 @@ static inline unsigned int	ft_get_arg_type(char **ln)
 			return (T_LAB);
 		}
 		else
+		{
+			++(*ln);
 			return (T_DIR);
+		}
 	}
 	else if (**ln == 'r')
 	{
@@ -73,24 +76,24 @@ static inline unsigned int	ft_get_arg_type(char **ln)
 		return (T_REG);
 	}
 	else
-		return (T_IND);
+		return (**ln ? T_IND : 0);
 }
 
 static inline void		*ft_get_arg_val(char **ln, unsigned int type,
 		t_champ *champ, const char *begin)
 {
 	void		*arg;
-	char		*first_char;
 	char		*bad_arg;
 
+	if (!type)
+		return (0);
 	bad_arg = 0;
-	first_char = *ln;
 	arg = (type != T_LAB) ? (void*)(size_t)ft_atoi_m(ln) :
 			ft_get_lbl_name(champ, ln,
 					(char[3]){COMMENT_CHAR, SEPARATOR_CHAR, '\0'});
-	if (type != T_LAB && ((!ft_isdigit(*first_char) ||
-		(!ft_isspace(**ln) && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR))))
-		bad_arg = *ln;
+	if (type != T_LAB && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR &&
+			**ln && !ft_isspace(**ln))
+		bad_arg = *ln; // fixme
 	while (!ft_isspace(**ln) && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR
 		&& **ln)
 		++(*ln);
@@ -103,40 +106,44 @@ static inline void		*ft_get_arg_val(char **ln, unsigned int type,
 	return (arg);
 }
 
+static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
+{
+	char 				*sep;
+
+	sep = (**ln == SEPARATOR_CHAR) ? *ln : 0;
+	((*ln) += (sep != 0));
+	ft_skip_spaces(ln);
+	if (!sep)
+		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line,
+					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
+	if (!**ln || **ln == COMMENT_CHAR)
+		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line,
+					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
+	return ((!**ln || **ln == COMMENT_CHAR) ? 0 : 1);
+}
+
 int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 {
 	char *const			begin = *ln;
 	const unsigned char	type = ft_get_arg_type(ln);
 	void *const			val = ft_get_arg_val(ln, type, champ, begin);
-	char 				*sep;
+	const int 			exp_arg_count = g_functions[cmd->cmd].arg_count;
 
-	cmd->arg_types[cmd->arg_count] = type;
-	cmd->args[cmd->arg_count] = val;
-	++cmd->arg_count;
-	ft_skip_spaces(ln);
-	if (!**ln || **ln == COMMENT_CHAR)
+	if (cmd->arg_count < exp_arg_count && type)
 	{
-		if (cmd->arg_count != g_functions[cmd->cmd].arg_count)
-			ft_make_error(BAD_ARG_COUNT, champ, *ln - champ->curr_line,
-				(void*[4]){g_functions[cmd->cmd].name,
-				(void*)(size_t)g_functions[cmd->cmd].arg_count,
-				(void*)(size_t)cmd->arg_count, 0});
-		return (0);
+		cmd->arg_types[cmd->arg_count] = type;
+		cmd->args[cmd->arg_count] = val;
 	}
-	sep = (**ln == SEPARATOR_CHAR) ? *ln : 0;
-	(*ln) += (sep != 0);
+	cmd->arg_count += (type != 0);
 	ft_skip_spaces(ln);
-	if (!sep)
-		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line,
-				(void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
+	if (cmd->arg_count > exp_arg_count ||
+		((!**ln || **ln == COMMENT_CHAR) && cmd->arg_count < exp_arg_count))
+		ft_make_error(BAD_ARG_COUNT, champ, *ln - champ->curr_line,
+			(void*[4]){g_functions[cmd->cmd].name, (void*)(size_t)exp_arg_count,
+			(void*)(size_t)cmd->arg_count, 0});
 	if (!**ln || **ln == COMMENT_CHAR)
-	{
-		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line,
-				(void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
 		return (0);
-	}
-// todo throw error about extra args and return 0
-	return (1);
+	return (ft_move_to_next_arg(champ, ln));
 }
 
 void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
@@ -149,9 +156,14 @@ void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 	ln += g_functions[cmd_num].namelen;
 	ft_skip_spaces(&ln);
 
+	while (ft_parse_arg(champ, cmd, &ln))
+		;
+	if (!ft_vector_push_back(&champ->cmds, cmd))
+		exit(ft_free_champ(&champ, 666));
 
 
-	// todo need parse command
+
+	// todo need parse command +
 	// todo need to save in champion current memory-address
 	// todo and use vector with labels for 'join' them with current command
 
