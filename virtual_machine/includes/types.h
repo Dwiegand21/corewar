@@ -48,6 +48,8 @@ struct		s_player
 	uint32_t		ordinal_number;
 	uint32_t		start_pos;
 
+	int32_t			last_live;
+
 	// ...
 };
 

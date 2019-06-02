@@ -15,7 +15,9 @@
 
 void	ft_print_endian()
 {
-	uint16_t x = 1; /* 0x0001 */
+	uint16_t	x;
+
+	x = 1;
 	if (*((uint8_t *) &x) == 0)
 		write(1, "big-endian\n", 11);
 	else
