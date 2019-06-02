@@ -74,42 +74,65 @@ t_process*	start_node(uint32_t pc, int player_i);
 void		push_node(t_process **root, t_process *new);
 
 /*
+**		vm_methods_and.c
+*/
+void		and_method1(t_area *area, t_process *process);
+void		and_method2(t_area *area, t_process *process);
+void		and_method3(t_area *area, t_process *process);
+
+/*
+**		vm_methods_or.c
+*/
+void		or_method1(t_area *area, t_process *process);
+void		or_method2(t_area *area, t_process *process);
+void		or_method3(t_area *area, t_process *process);
+
+/*
+**		vm_methods_xor.c
+*/
+void		xor_method1(t_area *area, t_process *process);
+void		xor_method2(t_area *area, t_process *process);
+void		xor_method3(t_area *area, t_process *process);
+
+/*
 **		vm_operations1.c
 */
-void		next_op(t_area *area, t_process *p);
-void		live_op(t_area *area, t_process *p);
-void		ld_op(t_area *area, t_process *p);
-void		st_op(t_area *area, t_process *p);
-void		add_op(t_area *area, t_process *p);
+void		next_op(t_area *area, t_process *process);
+void		live_op(t_area *area, t_process *process);
+void		ld_op(t_area *area, t_process *process);
+void		st_op(t_area *area, t_process *process);
+void		add_op(t_area *area, t_process *process);
 
 /*
 **		vm_operations2.c
 */
-void		sub_op(t_area *area, t_process *p);
-void		and_op(t_area *area, t_process *p);
-void		or_op(t_area *area, t_process *p);
-void		xor_op(t_area *area, t_process *p);
-void		zjmp_op(t_area *area, t_process *p);
+void		sub_op(t_area *area, t_process *process);
+void		and_op(t_area *area, t_process *process);
+void		or_op(t_area *area, t_process *process);
+void		xor_op(t_area *area, t_process *process);
+void		zjmp_op(t_area *area, t_process *process);
 
 /*
 **		vm_operations3.c
 */
-void		ldi_op(t_area *area, t_process *p);
-void		sti_op(t_area *area, t_process *p);
-void		fork_op(t_area *area, t_process *p);
-void		lld_op(t_area *area, t_process *p);
-void		lldi_op(t_area *area, t_process *p);
+void		ldi_op(t_area *area, t_process *process);
+void		sti_op(t_area *area, t_process *process);
+void		fork_op(t_area *area, t_process *process);
+void		lld_op(t_area *area, t_process *process);
+void		lldi_op(t_area *area, t_process *process);
 
 /*
 **		vm_operations4.c
 */
-void		lfork_op(t_area *area, t_process *p);
-void		aff_op(t_area *area, t_process *p);
+void		lfork_op(t_area *area, t_process *process);
+void		aff_op(t_area *area, t_process *process);
 
 /*
 **		bigendian_ops.c
 */
 int32_t		be_get32(void *p);
 int16_t		be_get16(void *p);
+void		be_set32(void *p, int32_t value);
+void		be_set16(void *p, int16_t value);
 
 #endif // COREWAR_VIRTUAL_MACHINE_H

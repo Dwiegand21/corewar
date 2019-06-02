@@ -25,3 +25,17 @@ int16_t		be_get16(void *p)
 	return ((((*((int16_t *)p) >> 0) & 0xFF) << 8)
 			| (((*((int16_t *)p) >> 8) & 0xFF) << 0));
 }
+
+void		be_set32(void *p, int32_t value)
+{
+	*((int32_t *)p) = ((((value >> 0) & 0xFF) << 24)
+			| (((value >> 8) & 0xFF) << 16)
+			| (((value >> 16) & 0xFF) << 8)
+			| (((value >> 24) & 0xFF) << 0));
+}
+
+void		be_set16(void *p, int16_t value)
+{
+	*((int16_t *)p) = ((((value >> 0) & 0xFF) << 8)
+			| (((value >> 8) & 0xFF) << 0));
+}

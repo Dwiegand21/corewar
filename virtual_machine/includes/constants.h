@@ -27,38 +27,52 @@
 /*
 **					FLAGS_DEFINES
 */
-# define DUMP					1
-# define VISUALIZATION			2
+# define DUMP				1
+# define VISUALIZATION		2
 
 # define DISPLAY (area->flags & 0x02)
 
 /*
 **					OCTET_OP DEFINES
 */
-# define OCT03(x)				(x & 0xF)
-# define OCT02(x)				((x >> 2) & 0xF)
-# define OCT01(x)				((x >> 4) & 0xF)
-# define OCT00(x)				((x >> 6) & 0xF)
+# define OCT03(x)			(x & 0xF)
+# define OCT02(x)			((x >> 2) & 0xF)
+# define OCT01(x)			((x >> 4) & 0xF)
+# define OCT00(x)			((x >> 6) & 0xF)
 
 /*
 **					CHECK_VALUE DEFINES
 */
-# define R_T(x)					(x == REG_CODE)
-# define D_T(x) 				(x == DIR_CODE)
-# define I_T(x) 				(x == IND_CODE)
+# define R_T(x)				(x == REG_CODE)
+# define D_T(x) 			(x == DIR_CODE)
+# define I_T(x) 			(x == IND_CODE)
+# define DI_T(x)			(x == DIR_CODE || x == IND_CODE)
+# define RD_T(x)			(x == REG_CODE || x == DIR_CODE)
+# define RI_T(x)			(x == REG_CODE || x == IND_CODE)
+# define RDI_T(x)			(x == REG_CODE || x == DIR_CODE || x == IND_CODE)
 
-# define DI_T(x)				(x == DIR_CODE || x == IND_CODE)
-# define DR_T(x)				(x == DIR_CODE || x == REG_CODE)
-
-# define IS_REG(x)				(x > 0 && x < 17)
+# define IS_REG(x)			(x > 0 && x < 17)
 
 /*
 **					OPERATION DEFINES
 */
-# define SHIFT(x, y)			((x + y) % MEM_SIZE)
-# define ISHIFT(x, y)			((x + y % IDX_MOD) % MEM_SIZE)
+# define SHIFT(x)			((PC + x) % MEM_SIZE)
+# define ISHIFT(x)			((PC + x % IDX_MOD) % MEM_SIZE)
 
-# define MAP(x)					area->map[x % MEM_SIZE]
+# define PPC(x)				area->map[(PC + x) % MEM_SIZE]
+# define PIPC(x)			area->map[(PC + x % IDX_MOD) % MEM_SIZE]
+
+/*
+**					PROCESS_STRUCT DEFINES
+*/
+# define PC					process->pc
+# define PREG				process->reg
+# define SLEEP				process->sleep
+# define PLAYER				process->player
+# define CARRY				process->carry
+# define LIVE_S				process->live_in_session
+
+# define MAP				area->map
 
 /*
 **					OP.H DEFINES

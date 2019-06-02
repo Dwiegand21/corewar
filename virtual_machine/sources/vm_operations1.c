@@ -12,45 +12,71 @@
 
 #include "virtual_machine.h"
 
-void		next_op(t_area *area, t_process *p)
+void		next_op(t_area *area, t_process *process)
 {
-	p->pc = area->map[(p->pc + 1) % MEM_SIZE];
+	PC = SHIFT(1);
 }
 
-void		live_op(t_area *area, t_process *p)
+void		live_op(t_area *area, t_process *process)
 {
 	int32_t		value;
 
-	p->live_in_session = true;
-	value = be_get32(area + p->pc + 1);
+	LIVE_S = true;
+	value = be_get32(&PPC(1));
 
 	if (value > -5 && value < 0)
 		area->players[(~(value))].last_live = area->round;
 
 	area->lives_in_round++;
-	p->pc = SHIFT(p->pc, 5);
+	PC = SHIFT(6);
 }
 
-void		ld_op(t_area *area, t_process *p)
+void		ld_op(t_area *area, t_process *process)
 {
-	if (DI_T(OCT00(MAP(p->pc + 1))) && R_T(OCT01(MAP(p->pc + 1))))
+	if (DI_T(OCT00(PPC(1))) && R_T(OCT01(PPC(1))))
 	{
-		if (IS_REG(MAP(p->pc + 6)))
+		if (IS_REG(PPC(2 + ((D_T(OCT00(PPC(1))) == true) ? 4 : 2))))
 		{
-			if (I_T(OCT00(MAP(p->pc + 1))))
+			if (I_T(OCT00(PPC(1))))
 			{
-				;
+				PREG[PPC(6) - 1] = be_get32(&PIPC(be_get16(&PPC(2))));
+			}
+			else
+				PREG[PPC(6) - 1] = be_get32(&PPC(2));
+			CARRY = ((PREG[PPC(6) - 1] == 0) ? true : false);
+		}
+	}
+	PC = SHIFT(4 + ((D_T(OCT00(PPC(1))) == true) ? 4 : 2));
+}
+
+void		st_op(t_area *area, t_process *process)
+{
+	if (R_T(OCT00(PPC(1))) && RI_T(OCT01(PPC(1))))
+	{
+		if (IS_REG(PPC(2)))
+		{
+			if (R_T(OCT01(PPC(1))) && IS_REG(PPC(4)))
+			{
+				PREG[PPC(4) - 1] = PREG[PPC(2) - 1];
+			}
+			else
+			{
+				be_set32(&PIPC(be_get16(&PPC(4))), PPC(2));
 			}
 		}
 	}
+	PC = SHIFT(4 + ((R_T(OCT01(PPC(1))) == true) ? 1 : 2));
 }
 
-void		st_op(t_area *area, t_process *p)
+void		add_op(t_area *area, t_process *process)
 {
-
-}
-
-void		add_op(t_area *area, t_process *p)
-{
-
+	if (R_T(OCT00(PPC(1))) && R_T(OCT01(PPC(1))) && R_T(OCT02(PPC(1))))
+	{
+		if (IS_REG(PPC(2)) && IS_REG(PPC(6)) && IS_REG(PPC(10)))
+		{
+			PREG[PPC(10) - 1] = PREG[PPC(2) - 1] + PREG[PPC(6) - 1];
+			CARRY = (PREG[PPC(10) - 1] == 0);
+		}
+	}
+	PC = SHIFT(14);
 }
