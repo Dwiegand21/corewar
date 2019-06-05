@@ -23,10 +23,6 @@ int32_t		main(int argc, char **argv)
 	t_area		*area;
 
 	area = NULL;
-	int 	a = 0xFF00AA77;
-	printf("%x :: %x\n", a, be_get32(&a));
-	short int b = 0xF71A;
-	printf("%hx :: %hx\n", b , be_get16(&b));
 	if (argc == 1)
 	{
 		help();

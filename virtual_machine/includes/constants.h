@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/02 14:59:31 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 13:45:47 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@
 /*
 **					OCTET_OP DEFINES
 */
-# define OCT03(x)			(x & 0xF)
-# define OCT02(x)			((x >> 2) & 0xF)
-# define OCT01(x)			((x >> 4) & 0xF)
-# define OCT00(x)			((x >> 6) & 0xF)
+# define OCT00				((PPC(1) & 0b11000000) >> 6)
+# define OCT01				((PPC(1) & 0b00110000) >> 4)
+# define OCT02				((PPC(1) & 0b00001100) >> 2)
+# define OCT03				((PPC(1) & 0b00000011))
 
 /*
 **					CHECK_VALUE DEFINES
@@ -61,12 +61,11 @@
 
 # define PPC(x)				area->map[(PC + x) % MEM_SIZE]
 # define PIPC(x)			area->map[(PC + x % IDX_MOD) % MEM_SIZE]
-
+# define PREG(x)			process->reg[x - 1]
 /*
 **					PROCESS_STRUCT DEFINES
 */
 # define PC					process->pc
-# define PREG				process->reg
 # define SLEEP				process->sleep
 # define PLAYER				process->player
 # define CARRY				process->carry

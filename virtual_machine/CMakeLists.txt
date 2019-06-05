@@ -18,7 +18,9 @@ set(EXE_FILES   sources/main.c
                 sources/vm_operations1.c
                 sources/vm_operations2.c
                 sources/vm_operations3.c
-                sources/vm_operations4.c sources/bigendian_ops.c sources/vm_methods_and.c sources/vm_methods_or.c sources/vm_methods_xor.c sources/vm_methods_ldi.c)
+                sources/vm_operations4.c
+                sources/map_ops.c
+                sources/vm_ops_methods.c)
 
 include_directories(virtual_machine     includes
                                         libft )

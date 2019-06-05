@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/02 06:35:27 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 13:36:28 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <limits.h>
-//# include <types.h>
 
 # include <fcntl.h>
 # include <sys/types.h>
@@ -28,7 +27,11 @@
 # include "types.h"
 # include "libft.h"
 
-# include <ncurses.h>		// ???
+# ifndef __linux__
+
+#  include <ncurses.h>		// ???
+
+# endif
 
 # define DEBUG_			1			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
@@ -68,31 +71,10 @@ int32_t		is_integer(const char *str, int32_t *nbr);
 int32_t		check_flags(int32_t *av, char ***ac, int32_t *dump);
 
 /*
-**		node_ops.c
+**		processes_ops.c
 */
-t_process*	start_node(uint32_t pc, int player_i);
-void		push_node(t_process **root, t_process *new);
+void		new_process(t_list *processes, t_process *parent, uint32_t pc);
 
-/*
-**		vm_methods_and.c
-*/
-void		and_method1(t_area *area, t_process *process);
-void		and_method2(t_area *area, t_process *process);
-void		and_method3(t_area *area, t_process *process);
-
-/*
-**		vm_methods_or.c
-*/
-void		or_method1(t_area *area, t_process *process);
-void		or_method2(t_area *area, t_process *process);
-void		or_method3(t_area *area, t_process *process);
-
-/*
-**		vm_methods_xor.c
-*/
-void		xor_method1(t_area *area, t_process *process);
-void		xor_method2(t_area *area, t_process *process);
-void		xor_method3(t_area *area, t_process *process);
 
 /*
 **		vm_operations1.c
@@ -128,11 +110,21 @@ void		lfork_op(t_area *area, t_process *process);
 void		aff_op(t_area *area, t_process *process);
 
 /*
-**		bigendian_ops.c
+**		vm_ops_methods.c
 */
-int32_t		be_get32(void *p);
-int16_t		be_get16(void *p);
-void		be_set32(void *p, int32_t value);
-void		be_set16(void *p, int16_t value);
+uint32_t	shift_size(uint8_t arg_byte, int32_t arg_n, uint32_t dir_size);
+int32_t		get_argument(t_area *area, t_process *process,
+							uint32_t *shift, uint8_t type);
+int32_t		get_argument2(t_area *area, t_process *process,
+							uint32_t *shift, uint8_t type);
+/*
+**		map_ops.c
+*/
+int32_t		get32(t_area *area, t_process *process, uint32_t shift);
+int16_t		get16(t_area *area, t_process *process, uint32_t shift);
+void		set32(t_area *area,
+							t_process *process, uint32_t shift, int32_t value);
+void		set16(t_area *area,
+							t_process *process, uint32_t shift, int16_t value);
 
 #endif // COREWAR_VIRTUAL_MACHINE_H

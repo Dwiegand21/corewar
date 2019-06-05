@@ -6,23 +6,23 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:49:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/02 15:15:57 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 13:45:47 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
-void		next_op(t_area *area, t_process *process)
+void		next_op(t_area *area, t_process *process) // dir_size = 4
 {
 	PC = SHIFT(1);
 }
 
-void		live_op(t_area *area, t_process *process)
+void		live_op(t_area *area, t_process *process) // dir_size = 4
 {
 	int32_t		value;
 
 	LIVE_S = true;
-	value = be_get32(&PPC(1));
+	value = get32(area, process, 1);
 
 	if (value > -5 && value < 0)
 		area->players[(~(value))].last_live = area->round;
@@ -31,51 +31,54 @@ void		live_op(t_area *area, t_process *process)
 	PC = SHIFT(6);
 }
 
-void		ld_op(t_area *area, t_process *process)
+void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
 {
-	if (DI_T(OCT00(PPC(1))) && R_T(OCT01(PPC(1))))
+	uint32_t	shift;
+	int32_t 	result;
+
+	shift = 2;
+	if (DI_T(OCT00) && R_T(OCT01))
 	{
-		if (IS_REG(PPC(2 + ((D_T(OCT00(PPC(1))) == true) ? 4 : 2))))
+		result = get_argument(area, process, &shift, OCT00);
+		if (I_T(OCT00))
+			result %= IDX_MOD;
+		if (IS_REG(PPC(shift)))
 		{
-			if (I_T(OCT00(PPC(1))))
-			{
-				PREG[PPC(6) - 1] = be_get32(&PIPC(be_get16(&PPC(2))));
-			}
-			else
-				PREG[PPC(6) - 1] = be_get32(&PPC(2));
-			CARRY = ((PREG[PPC(6) - 1] == 0) ? true : false);
+			PREG(PPC(shift)) = result;
+			CARRY = ((result == 0) ? true : false);
 		}
 	}
-	PC = SHIFT(4 + ((D_T(OCT00(PPC(1))) == true) ? 4 : 2));
+	PC = SHIFT(2 + shift_size(PPC(1), 2, 4));
 }
 
-void		st_op(t_area *area, t_process *process)
+void		st_op(t_area *area, t_process *process) // dir_size = 4a
 {
-	if (R_T(OCT00(PPC(1))) && RI_T(OCT01(PPC(1))))
+	if (R_T(OCT00) && RI_T(OCT01))
 	{
 		if (IS_REG(PPC(2)))
 		{
-			if (R_T(OCT01(PPC(1))) && IS_REG(PPC(4)))
+			if (R_T(OCT01) && IS_REG(PPC(3)))
 			{
-				PREG[PPC(4) - 1] = PREG[PPC(2) - 1];
+				PREG(PPC(3)) = PREG(PPC(2));
 			}
 			else
 			{
-				be_set32(&PIPC(be_get16(&PPC(4))), PPC(2));
+				set32(area, process,
+						get16(area, process, 3) % IDX_MOD, PREG(PPC(2)));
 			}
 		}
 	}
-	PC = SHIFT(4 + ((R_T(OCT01(PPC(1))) == true) ? 1 : 2));
+	PC = SHIFT(2 + shift_size(PPC(1), 2, 4));
 }
 
-void		add_op(t_area *area, t_process *process)
+void		add_op(t_area *area, t_process *process) // dir_size = 4ca
 {
-	if (R_T(OCT00(PPC(1))) && R_T(OCT01(PPC(1))) && R_T(OCT02(PPC(1))))
+	if (R_T(OCT00) && R_T(OCT01) && R_T(OCT02))
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(6)) && IS_REG(PPC(10)))
 		{
-			PREG[PPC(10) - 1] = PREG[PPC(2) - 1] + PREG[PPC(6) - 1];
-			CARRY = (PREG[PPC(10) - 1] == 0);
+			PREG(PPC(10)) = PREG(PPC(2)) + PREG(PPC(6));
+			CARRY = (PREG(PPC(10)) == 0);
 		}
 	}
 	PC = SHIFT(14);
