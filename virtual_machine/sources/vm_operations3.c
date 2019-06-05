@@ -58,6 +58,7 @@ void		fork_op(t_area *area, t_process *process) // dir_size = 2
 
 	result = get16(area, process, 1);
 	new_process(area, process, result % IDX_MOD);
+	PC = SHIFT(3);
 }
 
 void		lld_op(t_area *area, t_process *process) // dir_size = 4ca

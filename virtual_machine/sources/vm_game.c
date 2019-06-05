@@ -24,6 +24,7 @@ static void			init_process_op(t_area *area, t_process *process)
 		process->f = g_ops[0].f;
 		process->sleep = g_ops[0].sleep - 1;
 	}
+	printf("[ %p ] pc: %u, f: %d\n", process, PC, ((IS_REG(PPC(0))) ? PPC(0) : 0));
 }
 
 static int32_t 		play_round(t_area *area)
@@ -44,12 +45,14 @@ static int32_t 		play_round(t_area *area)
 			((t_process *)cur->content)->sleep--;
 		cur = cur->next;
 	}
+	return (0);
 }
 
 int32_t				play_game(t_area *area)
 {
 	while (area->n_processes)
 	{
+		printf("round: %u\n", area->round);
 		play_round(area);
 		if (area->cycle_step >= area->cycle_to_die)
 		{
@@ -58,5 +61,7 @@ int32_t				play_game(t_area *area)
 		}
 		area->round++;
 		area->cycle_step++;
+
 	}
+	return (0);
 }

@@ -21,6 +21,12 @@ SFILES		= main.c \
 					vm_game.c \
 					helpers.c
 
+HFILES		= virtual_machine.h \
+					vm_types.h \
+					vm_constants.h
+
+HEADERS		= $(addprefix $(INCDIR),$(HFILES))
+
 OFILES		= $(addprefix $(OBJDIR),$(SFILES:.c=.o))
 
 INC			= -I $(INCDIR)
@@ -47,7 +53,7 @@ $(FT):
 objs:
 	@mkdir -p $(OBJDIR)
 
-$(OBJDIR)%.o: $(SRCDIR)%.c
+$(OBJDIR)%.o: $(SRCDIR)%.c $(HEADERS)
 	$(CC) $(CFLAGS) $(FT_INC) $(INC) -o $@ -c $<
 
 clean:
@@ -59,3 +65,8 @@ fclean: clean
 	make -C $(FT_DIR) fclean
 
 re: fclean all
+
+recode:
+	rm -f $(OFILES)
+	rm -f $(NAME)
+	make -C . all

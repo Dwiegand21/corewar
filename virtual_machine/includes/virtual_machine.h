@@ -23,8 +23,8 @@
 # include <fcntl.h>
 # include <sys/types.h>
 
-# include "constants.h"
-# include "types.h"
+# include "vm_constants.h"
+# include "vm_types.h"
 # include "libft.h"
 
 # ifndef __linux__
@@ -33,7 +33,7 @@
 
 # endif
 
-# define DEBUG_			0			// Debug mode
+# define DEBUG_			1			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
 # define DEBUG_OPS_		0			// Operations stats
 

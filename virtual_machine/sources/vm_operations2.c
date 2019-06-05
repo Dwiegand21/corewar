@@ -86,10 +86,14 @@ void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
 {
 	if (DEBUG_OPS_)
 	{
-		printf("reg: %p, jump: %d\n", &PPC(0), get16(area, process, 1));
+		printf("reg: %p, pc: %u, dir: %d, jump: %d,",
+										&PPC(0),
+										PC,
+										get16(area, process, 1),
+										ISHIFT(get16(area, process, 1)));
 	}
-	if (CARRY)
-		PC = ISHIFT(get16(area, process, 1));
+	if (CARRY == true)
+		PC = ISHIFT(((int32_t)get16(area, process, 1)));
 	else
-		PC = SHIFT(3);
+		PC = SHIFT(4);
 }

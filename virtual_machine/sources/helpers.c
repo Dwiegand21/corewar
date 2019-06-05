@@ -25,7 +25,7 @@ void	ft_print_endian()
 }
 
 
-void	ft_error(char*	error)
+void	ft_error(char *error)
 {
 	int 	length;
 

@@ -24,6 +24,7 @@
 # define INV_ARGS				"Invalide arguments\n"
 # define INV_CODE_SIZE			"Invalide code size\n"
 
+
 # define USAGE					"\
 Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 
