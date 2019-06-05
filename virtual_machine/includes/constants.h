@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/05 13:45:47 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 15:43:17 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define INV_FILE				"Invalid file\n"
 # define INV_ARGS				"Invalide arguments\n"
 # define INV_CODE_SIZE			"Invalide code size\n"
+
+# define USAGE					"\
+Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 
 /*
 **					FLAGS_DEFINES

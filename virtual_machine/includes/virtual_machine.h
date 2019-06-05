@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/05 13:36:28 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 17:46:29 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@
 
 # endif
 
-# define DEBUG_			1			// Debug mode
+# define DEBUG_			0			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
+# define DEBUG_OPS_		0			// Operations stats
+
+extern t_ops			g_ops[17];
 
 /*
 **		helpers.c
@@ -73,8 +76,9 @@ int32_t		check_flags(int32_t *av, char ***ac, int32_t *dump);
 /*
 **		processes_ops.c
 */
-void		new_process(t_list *processes, t_process *parent, uint32_t pc);
-
+void		new_process(t_area *area, t_process *parent, uint32_t pc);
+void		load_process(t_area *area, int32_t player, uint32_t pc);
+t_list		*delete_not_live_processes(t_area *area, t_list *root);
 
 /*
 **		vm_operations1.c
@@ -118,7 +122,7 @@ int32_t		get_argument(t_area *area, t_process *process,
 int32_t		get_argument2(t_area *area, t_process *process,
 							uint32_t *shift, uint8_t type);
 /*
-**		map_ops.c
+**		vm_map_ops.c
 */
 int32_t		get32(t_area *area, t_process *process, uint32_t shift);
 int16_t		get16(t_area *area, t_process *process, uint32_t shift);
@@ -126,5 +130,10 @@ void		set32(t_area *area,
 							t_process *process, uint32_t shift, int32_t value);
 void		set16(t_area *area,
 							t_process *process, uint32_t shift, int16_t value);
+
+/*
+**		vm_game.c
+*/
+int32_t		play_game(t_area *area);
 
 #endif // COREWAR_VIRTUAL_MACHINE_H

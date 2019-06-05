@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:45:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/02 06:19:51 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 17:14:33 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		help()
 {
-	write(1, "help <<\n", 8);
+	printf("%s", USAGE);
 }
 
 
@@ -32,6 +32,7 @@ int32_t		main(int argc, char **argv)
 		area = initialization_area();
 		read_arguments(area, argc - 1, argv + 1);
 	}
+	play_game(area);
 	free_args(&area);
 	return 0;
 }

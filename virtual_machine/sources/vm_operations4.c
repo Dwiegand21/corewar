@@ -17,7 +17,7 @@ void		lfork_op(t_area *area, t_process *process) // dir_size = 2
 	int32_t		result;
 
 	result = get16(area, process, 1);
-	new_process(area->processes, process, result);
+	new_process(area, process, result);
 }
 
 void		aff_op(t_area *area, t_process *process) // dir_size = 4a

@@ -16,7 +16,9 @@ SFILES		= main.c \
 					vm_operations2.c \
 					vm_operations3.c \
 					vm_operations4.c \
-					bigendian_ops.c \
+					vm_ops_methods.c \
+					vm_map_ops.c \
+					vm_game.c \
 					helpers.c
 
 OFILES		= $(addprefix $(OBJDIR),$(SFILES:.c=.o))

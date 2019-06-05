@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 12:12:31 by axtazy            #+#    #+#             */
-/*   Updated: 2019/05/29 17:34:00 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 15:52:55 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 t_ops    g_ops[17] =
 {
-	{ "next",	0,		NULL },
-	{ "live",	10,		NULL },
-	{ "ld",		5,		NULL },
-	{ "st",		5,		NULL },
-	{ "add",	10,		NULL },
-	{ "sub",	10,		NULL },
-	{ "and",	6,		NULL },
-	{ "or",		6,		NULL },
-	{ "xor",	6,		NULL },
-	{ "zjmp",	20,		NULL },
-	{ "ldi",	25,		NULL },
-	{ "sti",	25,		NULL },
-	{ "fork",	800,	NULL },
-	{ "lld",	10,		NULL },
-	{ "lldi",	50,		NULL },
-	{ "lfork",	1000,	NULL },
-	{ "aff",	2,		NULL },
+	{ "next",	1,		&next_op },
+	{ "live",	10,		&live_op },
+	{ "ld",		5,		&ld_op },
+	{ "st",		5,		&st_op },
+	{ "add",	10,		&add_op },
+	{ "sub",	10,		&sub_op },
+	{ "and",	6,		&and_op },
+	{ "or",		6,		&or_op },
+	{ "xor",	6,		&xor_op },
+	{ "zjmp",	20,		&zjmp_op },
+	{ "ldi",	25,		&ldi_op },
+	{ "sti",	25,		&sti_op },
+	{ "fork",	800,	&fork_op },
+	{ "lld",	10,		&lld_op },
+	{ "lldi",	50,		&lldi_op },
+	{ "lfork",	1000,	&lfork_op },
+	{ "aff",	2,		&aff_op },
 };

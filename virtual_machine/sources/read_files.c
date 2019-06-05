@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/05 15:18:32 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void			skip_2octets(int32_t fd)
 
 int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
 {
-	// new process node;
+	load_process(area, p_index, area->players[p_index].start_pos);
 
 	if ( (read(files[p_index].fd,
 			   area->map + area->players[p_index].start_pos,

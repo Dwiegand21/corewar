@@ -19,14 +19,14 @@ set(EXE_FILES   sources/main.c
                 sources/vm_operations2.c
                 sources/vm_operations3.c
                 sources/vm_operations4.c
-                sources/map_ops.c
-                sources/vm_ops_methods.c)
+        sources/vm_map_ops.c
+                sources/vm_ops_methods.c sources/vm_game.c)
 
-include_directories(virtual_machine     includes
-                                        libft )
+include_directories(corewar includes
+                            libft )
 
-add_executable(virtual_machine ${EXE_FILES})
+add_executable(corewar ${EXE_FILES})
 
 add_subdirectory(libft)
 
-target_link_libraries(virtual_machine libft)
+target_link_libraries(corewar libft)

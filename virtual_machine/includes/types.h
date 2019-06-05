@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/30 18:57:31 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 17:08:16 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ struct		s_process
 	bool			live_in_session;
 
 	uint32_t		player;
+	void			(*f)(t_area*, t_process*);
 
 };
 
@@ -64,9 +65,9 @@ struct		s_cor_file
 
 struct		s_area
 {
-	int32_t			round;
-	int32_t			cycle_step;
-	int32_t			cycle_to_die;
+	uint32_t		round;
+	uint32_t		cycle_step;
+	uint32_t		cycle_to_die;
 
 	int32_t			lives_in_round;
 

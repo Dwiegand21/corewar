@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:20 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/05 13:18:47 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/05 17:44:05 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
 
 void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
 {
+	if (DEBUG_OPS_)
+	{
+		printf("reg: %p, jump: %d\n", &PPC(0), get16(area, process, 1));
+	}
 	if (CARRY)
 		PC = ISHIFT(get16(area, process, 1));
 	else
