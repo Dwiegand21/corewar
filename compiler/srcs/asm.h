@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/01 23:00:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/01 23:00:55 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/06 04:17:29 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/06 04:17:29 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,14 @@
 # define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
 # define BUFF_SIZE 4096
 
-
 typedef struct	s_op
 {
-	char			name[5];
+	char			name[6];
 	uint8_t			arg[3];
 	uint8_t			need_types_byte;
 	uint8_t			short_dir;
 	int				namelen;
-	int 			arg_count;
+	int				arg_count;
 }				t_op;
 
 typedef enum	e_error
@@ -80,6 +79,7 @@ typedef enum	e_error
 	EXTRA_SEP = 12,
 	MISS_ARG_AFT_PRFX = 13,
 	MISS_ARG = 14,
+	NM_CMD_WRONG_PLACE = 15,
 }				t_error;
 
 typedef enum	e_token_type
@@ -108,6 +108,7 @@ typedef struct	s_cmd
 	int				address;
 	int				arg_count;
 	int				size;
+	int 			begin_pos;
 }				t_cmd;
 
 typedef struct	s_champ
@@ -125,36 +126,44 @@ typedef struct	s_champ
 	t_map			*labels;
 	t_vector		*current_labels;
 	int				address;
+	t_cmd			*curr_cmd;
 }				t_champ;
 
 extern char		g_wrn_ignored[];
-extern char		g_bad_reg_idx[];
-extern char		g_pos_before[];
 extern char		g_missing_param[];
-extern char		g_unexp_token[];
-extern char		g_backslash_literals[];
-extern char		g_wrong_char_lbl[];
-extern char		g_mult_label[];
-extern char		g_wrn_too_long[];
-extern char		g_miss_lbl_chr[];
-extern char		g_wrn_double[];
 extern t_op		g_functions[16];
 extern char		g_exp_same_line[];
-extern char		g_pos[];
+extern char		g_unexp_token[];
+extern char		g_mult_label[];
 extern char		g_bad_byte[];
+extern char		g_miss_arg[];
+extern char		g_pos_before[];
+extern char		g_nm_cmd_wrg_place[];
 extern char		*g_errors[];
 extern char		g_bad_cmd[];
+extern char		g_extra_sep[];
+extern char		g_backslash_literals[];
+extern char		g_wrong_char_lbl[];
+extern char		g_miss_lbl_chr[];
+extern char		g_pos[];
 extern char		g_chars[];
+extern char		g_bad_reg_idx[];
+extern char		g_miss_arg_aft_prfx[];
+extern char		g_wrn_double[];
+extern char		g_bad_arg_count[];
+extern char		g_missing_sep[];
 extern char		g_bad_arg[];
+extern char		g_wrn_too_long[];
+extern char		g_nbrs[][4];
 
 /*
-**ft_champ.c
+** ft_champ.c
 */
 int				ft_free_champ(t_champ **champ, int ret);
 t_champ			*ft_make_champ(char *file, int fd);
 void			ft_champ_upd_line(t_champ *champ, char *line);
 /*
-**ft_header_utils.c
+** ft_header_utils.c
 */
 void			ft_parse_byte(char **ln, t_string **res, t_champ *champ);
 void			ft_parse_backslash(char **ln, t_string **res,
@@ -164,7 +173,7 @@ int				ft_check_empty_string(char *ln, t_champ *champ,
 void			ft_skip_line(char *ln, int *qoute_count);
 void			ft_skip_string(t_champ *champ, char *ln);
 /*
-**ft_parse_header.c
+** ft_parse_header.c
 */
 void			ft_parse_header(t_champ *champ, int fd);
 void			ft_parse_name_comment(t_champ *champ, char *ln,
@@ -176,14 +185,14 @@ void			ft_parse_string(char *ln, t_string **res, t_token_type type,
 int				ft_get_data_from_line(char *ln, t_string **res,
 			t_token_type type, t_champ *chmp);
 /*
-**ft_utils.c
+** ft_utils.c
 */
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void *args[4]);
 void			*tokenize(t_token_type type, void *carry);
 void			ft_check_exist_name_cmt(t_champ *champ);
 /*
-**parser.c
+** parser.c
 */
 char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
 int				ft_is_command(char *line);

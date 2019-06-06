@@ -60,7 +60,7 @@ all: make_lib $(NAME)
 
 ################################--LINKING--#####################################
 
-$(NAME): $(OBJS_DIR) $(OBJS_SUBDIRS) $(DPDS_SUBDIRS) $(DPDS_DIR) $(OBJS) $(HEADERS) $(LIBFT)
+$(NAME): $(OBJS_DIR) $(OBJS_SUBDIRS) $(DPDS_SUBDIRS) $(DPDS_DIR) $(OBJS) $(LIBFT)
 	@printf "\e[?25h\033[A\033[K\e[?25h\x1B[38;5;30mLinking   $(NAME)...\x1B[0m\n"
 # Set flags
 	$(eval FLAGS := $(WFLAGS))

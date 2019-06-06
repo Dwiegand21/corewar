@@ -52,7 +52,7 @@ all: $(NAME)
 
 ################################--LINKING--#####################################
 
-$(NAME): $(OBJS_DIR) $(OBJS_SUBDIRS) $(DPDS_SUBDIRS) $(DPDS_DIR) $(OBJS) $(HEADERS)
+$(NAME): $(OBJS_DIR) $(OBJS_SUBDIRS) $(DPDS_SUBDIRS) $(DPDS_DIR) $(OBJS)
 	@printf "\e[?25h\033[A\033[K\e[?25h\x1B[38;5;30mLinking   $(NAME)...\x1B[0m\n"
 # Set flags
 	$(eval FLAGS := $(ADD_FLAGS_LINK))
@@ -70,7 +70,7 @@ endif
 
 #################################--COMPILING--##################################
 
-$(OBJS_DIR)/%.o: $(SRCDIR)/%.c
+$(OBJS_DIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	@if [ '$(WAS_PRINTED_CMP)' == '0' ]; then \
 		printf "\e[?25l\x1B[38;5;31mCompiling $(NAME)...\nCompiling \x1B[0m" \
 		$(eval WAS_PRINTED_CMP := 1); \

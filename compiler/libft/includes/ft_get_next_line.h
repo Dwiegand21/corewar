@@ -26,12 +26,13 @@ typedef struct	s_buf
 	ssize_t	capac;
 }				t_buf;
 
-typedef enum {
+typedef enum	e_result
+{
 	ERROR = -1,
 	NO_LINE = 0,
 	ENDL_GOT = 1,
 	ENDL_NOT_FOUND = 2,
-}	t_result;
+}				t_result;
 
 t_result		ft_get_line_from_buffer(t_buf *buf, t_string **str, int fd);
 t_result		ft_append_line(t_buf *buf, int fd, t_string *str);

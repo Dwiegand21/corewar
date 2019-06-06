@@ -62,20 +62,24 @@ static inline int	ft_check_arg(t_champ *champ, char **ln, char *begin,
 	if (type == T_DIR || type == T_REG)
 	{
 		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1,
-				(void*[4]){(void*)1lu, begin, 0, 0});
+				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
+			   (void*)1lu, begin, g_functions[champ->curr_cmd->cmd].name});
 	}
-	if (type == T_IND)
+	if (type == T_IND && **ln && **ln != COMMENT_CHAR &&
+	g_functions[champ->curr_cmd->cmd].arg_count > champ->curr_cmd->arg_count)
 	{
 		ft_make_error(MISS_ARG, champ, begin - champ->curr_line + 1, // fixme
-				(void*[4]){(void*)1lu, begin, 0, 0});
+				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
+				g_functions[champ->curr_cmd->cmd].name, 0, 0});
 	}
-	if (type == T_LAB)
+	if (type == T_LAB && (lbl_pref_end = begin))
 	{
-		lbl_pref_end = begin;
 		while (*lbl_pref_end != LABEL_CHAR)
 			++lbl_pref_end;
 		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1, // fixme
-				(void*[4]){(void*)(lbl_pref_end - begin + 1), begin, 0, 0});
+				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
+				(void*)(lbl_pref_end - begin + 1), begin,
+				g_functions[champ->curr_cmd->cmd].name});
 	}
 	return (-1 * type);
 }
@@ -141,10 +145,12 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 	if (!sep)
 		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line,
 					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
-	if (!**ln || **ln == COMMENT_CHAR)
+	if (!**ln || **ln == COMMENT_CHAR ||
+	(champ->curr_cmd->arg_count > g_functions[champ->curr_cmd->cmd].arg_count
+		&& **ln == SEPARATOR_CHAR))
 		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line,
 					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
-	return ((!**ln || **ln == COMMENT_CHAR) ? 0 : 1);
+	return ((!**ln || **ln == COMMENT_CHAR) ? 0 : 1); // todo no need return anymore
 }
 
 int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
@@ -154,21 +160,34 @@ int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 	void *const	val = ft_get_arg_val(ln, type, champ, begin);
 	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
 
-	if (cmd->arg_count < exp_arg_count && type)
+	if (cmd->arg_count < exp_arg_count)
 	{
 		cmd->arg_types[cmd->arg_count] = type;
 		cmd->args[cmd->arg_count] = val;
 	}
-	cmd->arg_count += (type != 0);
 	ft_skip_spaces(ln);
-	if (cmd->arg_count > exp_arg_count ||
-		((!**ln || **ln == COMMENT_CHAR) && cmd->arg_count < exp_arg_count))
-		ft_make_error(BAD_ARG_COUNT, champ, *ln - champ->curr_line,
-			(void*[4]){g_functions[cmd->cmd].name, (void*)(size_t)exp_arg_count,
-			(void*)(size_t)cmd->arg_count, 0});
+	cmd->arg_count +=
+			!(type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR)); //fixme
 	if (!**ln || **ln == COMMENT_CHAR)
 		return (0);
-	return (ft_move_to_next_arg(champ, ln));
+	ft_move_to_next_arg(champ, ln);
+	return (1);
+}
+#include <sys/ipc.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <sys/shm.h> // todo
+static inline void ft_check_arg_count(t_champ *champ, t_cmd *cmd)
+{
+	int f = SHMMAX;
+	int g = shmget(IPC_PRIVATE, 0, 0);
+	// todo AAA
+	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
+
+	if (cmd->arg_count != exp_arg_count)
+		ft_make_error(BAD_ARG_COUNT, champ, champ->curr_cmd->begin_pos,
+			(void*[4]){g_functions[cmd->cmd].name, (void*)(size_t)exp_arg_count,
+			(void*)(size_t)cmd->arg_count, 0});
 }
 
 void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
@@ -177,14 +196,17 @@ void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 
 	if (!(cmd = (t_cmd*)ft_memalloc(sizeof(t_cmd))))
 		exit(ft_free_champ(&champ, 666));
+	champ->curr_cmd = cmd;
 	cmd->cmd = (unsigned char)cmd_num;
+	cmd->begin_pos = ln - champ->curr_line + 1;
 	ln += g_functions[cmd_num].namelen;
 	ft_skip_spaces(&ln);
 
 	while (ft_parse_arg(champ, cmd, &ln))
 		;
-	if (!ft_vector_push_back(&champ->cmds, cmd))
-		exit(ft_free_champ(&champ, 666));
+	ft_check_arg_count(champ, cmd);
+	if (!ft_vector_push_back(&champ->cmds, cmd) || (champ->curr_cmd = 0))
+		exit(ft_free_champ(&champ, 666)); // todo add free(curr_cmd)
 
 
 	// todo need to save command arg types
@@ -250,7 +272,16 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 void 		ft_parse_line(t_champ *champ, char *ln)
 {
 	int cmd;
+	static int name_cmd_len = -1;
+	static int comm_cmd_len = -1;
+	int cm_err;
 
+	cm_err = 0;
+	if (name_cmd_len == -1 || comm_cmd_len == -1)
+	{ // todo try to use this pattern in header parsing
+		name_cmd_len = ft_strlen(NAME_CMD_STRING);
+		comm_cmd_len = ft_strlen(COMMENT_CMD_STRING);
+	}
 	if (!*ln)
 		return ;
 	ft_skip_spaces(&ln);
@@ -258,9 +289,12 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 		return ;
 	if ((cmd = ft_is_command(ln)) >= 0)
 		ft_parse_command(champ, ln, cmd);
+	else if (!ft_strncmp(ln, NAME_CMD_STRING, name_cmd_len) ||
+			(!ft_strncmp(ln, COMMENT_CMD_STRING, comm_cmd_len) && (cm_err = 1)))
+		ft_make_error(NM_CMD_WRONG_PLACE, champ, ln - champ->curr_line + 1,
+				(void*[4]){!cm_err ? "name" : "comment", 0, 0, 0});
 	else
 		ft_parse_label(champ, ln);
-
 }
 
 void 		ft_parse_exec(t_champ *champ, int fd)

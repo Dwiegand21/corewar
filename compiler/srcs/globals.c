@@ -46,10 +46,14 @@ char g_missing_sep[] =
 char g_extra_sep[] =
 "{Bold}{Red}ERROR{eof}  -  Extra separator ({\\226}%c{eof})\n";
 char g_miss_arg_aft_prfx[] = // todo print 'for command'
-"{Bold}{Red}ERROR{eof}  -  Missing argument after prefix "
-">>> {\\226}%.*s{eof} <<<\n";
+"{Bold}{Red}ERROR{eof}  -  Missing %s argument (after prefix "
+"{\\226}%.*s{eof})\n"
+"          For command {\\226}%s{eof}\n";
 char g_miss_arg[] = // todo print 'for command'
-"{Bold}{Red}ERROR{eof}  -  Missing argument\n";
+"{Bold}{Red}ERROR{eof}  -  Empty %s argument\n"
+"          For command {\\226}%s{eof}\n";
+char g_nm_cmd_wrg_place[] =
+"{Bold}{Red}ERROR{eof}  -  Bad placed {\\226}player-%s{eof}\n";
 
 char g_wrn_too_long[] =
 "{Bold}{\\202}WARNING{eof} - {\\226}player-%s{eof} too long. "
@@ -82,6 +86,7 @@ char *g_errors[] = {
 		g_extra_sep,
 		g_miss_arg_aft_prfx,
 		g_miss_arg,
+		g_nm_cmd_wrg_place,
 };
 
 char g_chars[] = {
@@ -96,6 +101,13 @@ char g_chars[] = {
 		'\'',
 		'\?',
 		'\\',
+};
+
+char g_nbrs[][4] = {
+		"0th",
+		"1st",
+		"2nd",
+		"3rd"
 };
 
 char g_backslash_literals[] = "rtafvbn\"\'\?\\";
