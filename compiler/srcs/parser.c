@@ -60,18 +60,14 @@ static inline int	ft_check_arg(t_champ *champ, char **ln, char *begin,
 	if (!(!**ln || **ln == SEPARATOR_CHAR || **ln == COMMENT_CHAR))
 		return (type);
 	if (type == T_DIR || type == T_REG)
-	{
 		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1,
 				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 			   (void*)1lu, begin, g_functions[champ->curr_cmd->cmd].name});
-	}
 	if (type == T_IND &&
 	 champ->curr_cmd->arg_count < g_functions[champ->curr_cmd->cmd].arg_count)
-	{
 		ft_make_error(MISS_ARG, champ, begin - champ->curr_line + 1, // fixme
 				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 				g_functions[champ->curr_cmd->cmd].name, 0, 0});
-	}
 	if (type == T_LAB && (lbl_pref_end = begin))
 	{
 		while (*lbl_pref_end != LABEL_CHAR)
@@ -94,6 +90,10 @@ static inline int	ft_get_arg_type(char **ln, t_champ *champ)
 		if (**ln == LABEL_CHAR && ++(*ln))
 		{
 			ft_skip_spaces(ln);
+			if (champ->curr_cmd->arg_count <
+			        g_functions[champ->curr_cmd->cmd].arg_count)
+				champ->curr_cmd->lab_poses[champ->curr_cmd->arg_count] =
+			(size_t)champ->curr_line << 31u | (size_t)(*ln - champ->curr_line); // todo 31 or 32
 			return (ft_check_arg(champ, ln, begin, T_LAB));
 		}
 		else
@@ -132,6 +132,9 @@ static inline void		*ft_get_arg_val(char **ln, int type,
 	if (type == T_REG && (int)(size_t)arg <= 0)
 		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_line + 1,
 				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
+	if (type == T_LAB &&
+	champ->curr_cmd->arg_count >= g_functions[champ->curr_cmd->cmd].arg_count)
+		free(arg);
 	return (arg);
 }
 

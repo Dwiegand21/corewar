@@ -12,7 +12,24 @@
 
 #include "asm.h"
 
+void 		ft_free_cmd(void* p)
+{
+	t_cmd *cmd;
+	int i;
 
+	if (!p)
+		return ;
+	i = -1;
+	cmd = p;
+	while (++i < 3)
+	{
+		if (cmd->arg_types[i] == T_LAB)
+		{
+			free(cmd->args[i]);
+		}
+	}
+	free(cmd);
+}
 
 void		ft_make_error(t_error type, t_champ *champ, int pos, void *args[4])
 {

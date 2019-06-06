@@ -35,7 +35,7 @@ t_champ		*ft_make_champ(char *file, int fd)
 
 	if (!(champ = (t_champ*)ft_memalloc(sizeof(t_champ))))
 		return (0);
-	if (!(champ->cmds = ft_make_vector_free(64, free)) ||
+	if (!(champ->cmds = ft_make_vector_free(64, ft_free_cmd)) ||
 		!(champ->exec = ft_make_string(128)) ||
 		!(champ->name = ft_make_string(PROG_NAME_LENGTH)) ||
 		!(champ->comment = ft_make_string(COMMENT_LENGTH)) ||

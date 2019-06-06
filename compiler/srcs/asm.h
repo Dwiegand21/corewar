@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 04:17:29 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/06 04:17:29 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/06 10:46:09 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/06 10:46:09 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ASM_H
 # include "fcntl.h"
 # include "libft.h"
-# include "asm.h"
 # include "stdint.h"
+# include "asm.h"
 # include "zconf.h"
 
 # define IND_SIZE 2
@@ -105,10 +105,11 @@ typedef struct	s_cmd
 	unsigned char	cmd;
 	unsigned char	arg_types[3];
 	void			*args[3];
+	size_t				lab_poses[3];
 	int				address;
 	int				arg_count;
 	int				size;
-	int 			begin_pos;
+	int				begin_pos;
 }				t_cmd;
 
 typedef struct	s_champ
@@ -145,15 +146,15 @@ extern char		g_extra_sep[];
 extern char		g_backslash_literals[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_pos[];
 extern char		g_chars[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
 extern char		g_bad_arg_count[];
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_wrn_too_long[];
+extern char		g_pos[];
 extern char		g_nbrs[][4];
 
 /*
@@ -187,6 +188,7 @@ int				ft_get_data_from_line(char *ln, t_string **res,
 /*
 ** ft_utils.c
 */
+void			ft_free_cmd(void* p);
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void *args[4]);
 void			*tokenize(t_token_type type, void *carry);
