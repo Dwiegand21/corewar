@@ -29,7 +29,6 @@ uint32_t	shift_size(uint8_t arg_byte, int32_t arg_n, uint32_t dir_size)
 		arg_byte >>= 2;
 		arg_n--;
 	}
-	printf("shift_size: %u\n", shift);
 	return (shift);
 }
 

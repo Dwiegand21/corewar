@@ -71,10 +71,10 @@ struct		s_cor_file
 
 struct		s_area
 {
-	uint32_t		round;
-	uint32_t		cycle_step;
-	uint32_t		cycle_to_die;
-
+	int32_t			round;
+	int32_t			cycle_step;
+	int32_t			cycle_to_die;
+	int32_t			not_changed_checks;
 	int32_t			lives_in_round;
 
 	int32_t			dump_round;

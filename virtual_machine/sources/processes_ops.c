@@ -26,14 +26,16 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	area->n_processes++;
 }
 
-void		new_process(t_area *area, t_process *parent, uint32_t pc)
+void		new_process(t_area *area, t_process *process, uint32_t pc)
 {
 	t_process	*new;
 
 	new = NULL;
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		ft_error(ERR_ALLOC);
-	*new = *parent;
+	*new = *process;
+	new->pc = SHIFT(pc);
+	new->f = NULL;
 	ft_lstadd(&area->processes, ft_lstnew(new, sizeof(*new)));
 	area->n_processes++;
 }
@@ -46,6 +48,7 @@ t_list		*delete_not_live_processes(t_area *area, t_list *root)
 		return (NULL);
 	if (((t_process *)root->content)->live_in_session == true)
 	{
+		((t_process *)root->content)->live_in_session = false;
 		root->next = delete_not_live_processes(area, root->next);
 		return(root);
 	}

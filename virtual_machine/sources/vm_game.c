@@ -14,7 +14,7 @@
 
 static void			init_process_op(t_area *area, t_process *process)
 {
-	if (IS_REG(PPC(0)))
+	if (PPC(0) > 0 && PPC(0) < 17)
 	{
 		process->f = g_ops[PPC(0)].f;
 		process->sleep = g_ops[PPC(0)].sleep - 1;
@@ -24,7 +24,7 @@ static void			init_process_op(t_area *area, t_process *process)
 		process->f = g_ops[0].f;
 		process->sleep = g_ops[0].sleep - 1;
 	}
-	printf("[ %p ] pc: %u, f: %d\n", process, PC, ((IS_REG(PPC(0))) ? PPC(0) : 0));
+
 }
 
 static int32_t 		play_round(t_area *area)
@@ -48,20 +48,34 @@ static int32_t 		play_round(t_area *area)
 	return (0);
 }
 
+static void			change_area_stats(t_area *area)
+{
+	if (area->lives_in_round >= NBR_LIVE)
+	{
+		area->cycle_to_die -= CYCLE_DELTA;
+		area->not_changed_checks = 0;
+	}
+	else
+		area->not_changed_checks++;
+	if (area->not_changed_checks == MAX_CHECKS)
+		area->cycle_to_die -= CYCLE_DELTA;
+	area->cycle_step = 0;
+	area->lives_in_round = 0;
+	printf("round: %d\n", area->round);
+}
+
 int32_t				play_game(t_area *area)
 {
 	while (area->n_processes)
 	{
-		printf("round: %u\n", area->round);
+		area->round++;
+		area->cycle_step++;
 		play_round(area);
 		if (area->cycle_step >= area->cycle_to_die)
 		{
 			area->processes = delete_not_live_processes(area, area->processes);
-			area->cycle_step = 0;
+			change_area_stats(area);
 		}
-		area->round++;
-		area->cycle_step++;
-
 	}
 	return (0);
 }
