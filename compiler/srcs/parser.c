@@ -65,8 +65,8 @@ static inline int	ft_check_arg(t_champ *champ, char **ln, char *begin,
 				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 			   (void*)1lu, begin, g_functions[champ->curr_cmd->cmd].name});
 	}
-	if (type == T_IND && **ln && **ln != COMMENT_CHAR &&
-	g_functions[champ->curr_cmd->cmd].arg_count > champ->curr_cmd->arg_count)
+	if (type == T_IND &&
+	 champ->curr_cmd->arg_count < g_functions[champ->curr_cmd->cmd].arg_count)
 	{
 		ft_make_error(MISS_ARG, champ, begin - champ->curr_line + 1, // fixme
 				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
@@ -145,11 +145,15 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 	if (!sep)
 		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line,
 					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
-	if (!**ln || **ln == COMMENT_CHAR ||
-	(champ->curr_cmd->arg_count > g_functions[champ->curr_cmd->cmd].arg_count
-		&& **ln == SEPARATOR_CHAR))
+	if ((!**ln || **ln == COMMENT_CHAR || **ln == SEPARATOR_CHAR) &&
+	champ->curr_cmd->arg_count >= g_functions[champ->curr_cmd->cmd].arg_count)
+	{
 		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line,
-					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
+					  (void *[4]) {(void *) (size_t) SEPARATOR_CHAR, 0, 0, 0});
+		champ->curr_cmd->arg_count -=
+			champ->curr_cmd->arg_count >
+			g_functions[champ->curr_cmd->cmd].arg_count;
+	}
 	return ((!**ln || **ln == COMMENT_CHAR) ? 0 : 1); // todo no need return anymore
 }
 
@@ -167,21 +171,16 @@ int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 	}
 	ft_skip_spaces(ln);
 	cmd->arg_count +=
-			!(type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR)); //fixme
+		!((!cmd->arg_count || cmd->arg_count >= exp_arg_count) &&
+		type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR)); //fixme
 	if (!**ln || **ln == COMMENT_CHAR)
 		return (0);
 	ft_move_to_next_arg(champ, ln);
 	return (1);
 }
-#include <sys/ipc.h>
-#include <sys/types.h>
-#include <sys/sysctl.h>
-#include <sys/shm.h> // todo
+
 static inline void ft_check_arg_count(t_champ *champ, t_cmd *cmd)
 {
-	int f = SHMMAX;
-	int g = shmget(IPC_PRIVATE, 0, 0);
-	// todo AAA
 	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
 
 	if (cmd->arg_count != exp_arg_count)
