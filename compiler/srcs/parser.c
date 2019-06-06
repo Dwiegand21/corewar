@@ -127,10 +127,10 @@ static inline void		*ft_get_arg_val(char **ln, int type,
 		&& **ln)
 		++(*ln);
 	if (bad_arg)
-		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_line,
+		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_line + 1,
 				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	if (type == T_REG && (int)(size_t)arg <= 0)
-		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_line,
+		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_line + 1,
 				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	return (arg);
 }
@@ -143,12 +143,12 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 	((*ln) += (sep != 0));
 	ft_skip_spaces(ln);
 	if (!sep)
-		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line,
+		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line + 1,
 					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
 	if ((!**ln || **ln == COMMENT_CHAR || **ln == SEPARATOR_CHAR) &&
 	champ->curr_cmd->arg_count >= g_functions[champ->curr_cmd->cmd].arg_count)
 	{
-		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line,
+		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line + 1,
 					  (void *[4]) {(void *) (size_t) SEPARATOR_CHAR, 0, 0, 0});
 		champ->curr_cmd->arg_count -=
 			champ->curr_cmd->arg_count >
