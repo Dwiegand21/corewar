@@ -31,7 +31,8 @@ int32_t		main(int argc, char **argv)
 	{
 		area = initialization_area();
 		read_arguments(area, argc - 1, argv + 1);
-		play_game(area);
+		print_dump(area);
+		//play_game(area);
 	}
 	free_args(&area);
 	return 0;

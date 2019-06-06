@@ -136,4 +136,6 @@ void		set16(t_area *area,
 */
 int32_t		play_game(t_area *area);
 
+void		print_dump(t_area *area);
+
 #endif // COREWAR_VIRTUAL_MACHINE_H

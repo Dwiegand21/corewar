@@ -19,6 +19,7 @@ SFILES		= main.c \
 					vm_ops_methods.c \
 					vm_map_ops.c \
 					vm_game.c \
+					dump.c \
 					helpers.c
 
 HFILES		= virtual_machine.h \

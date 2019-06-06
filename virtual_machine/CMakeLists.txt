@@ -20,7 +20,7 @@ set(EXE_FILES   sources/main.c
                 sources/vm_operations3.c
                 sources/vm_operations4.c
         sources/vm_map_ops.c
-                sources/vm_ops_methods.c sources/vm_game.c)
+                sources/vm_ops_methods.c sources/vm_game.c sources/dump.c)
 
 include_directories(corewar includes
                             libft )
