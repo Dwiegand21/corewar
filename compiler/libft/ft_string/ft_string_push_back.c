@@ -67,7 +67,6 @@ int		ft_string_push_back_mem(t_string **str_ptr, char *str, size_t len)
 			str++;
 		else
 			return (t);
-		l++;
 	}
 	return (l);
 }

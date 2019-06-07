@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h> // todo delete
 #include "asm.h"
 
 int main(int ac, char **av)
@@ -37,8 +38,24 @@ int main(int ac, char **av)
 	ft_translate_to_bytecode(champ);
 
 
+	int fd = open("master_of_puppets.refcor", O_RDONLY);
+	char *ref = malloc(10000);
+	ft_get_next_line(fd, &ref, 10000);
+	char *my = champ->res->data;
+	int i = 0;
+	while (i < 1000)
+	{
+		ft_printf("Different chars ref:%#5.1r my:%#5.1r in pos %5d |%c\n",
+				ref, my, i++, *ref == *my ? '+' : '-');
+		ref++;
+		my++;
+	}
+
+	//write(1, champ->res->data, champ->res->len);
 
 	ft_free_champ(&champ, 0);
+
+
 
 	//printf("<%c>%d\n%s", c, c,BACKSLASH_LITERALS);
 

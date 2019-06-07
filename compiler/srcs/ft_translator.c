@@ -16,13 +16,16 @@ static inline char	*ft_int_to_bytes(char buf[5], unsigned int n, int len)
 {
 	int i;
 
-	i = 0;
-	ft_bzero(buf, 4);
-	while (++i <= len)
+	i = len;
+	ft_bzero(buf, 5);
+	while (--i >= 0)
 	{
 		buf[i] = (char)n;
+		//ft_printf("%#B -> %#hhB = %#B\n", n, buf[i], *(int*)buf);
 		n >>= 8u;
+		//ft_printf("%#B\n\n", n);
 	}
+	//exit(0);
 	return (buf);
 }
 
@@ -104,7 +107,7 @@ void				ft_translate_to_bytecode(t_champ *champ)
 	char		buf[5];
 	const int 	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
 	const int 	padding_size =
-			((int)(header_size / 16. + 0.5) - header_size) / 2;
+			((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
 	const int 	code_size_pos = 4 + PROG_NAME_LENGTH + padding_size;
 
 	if (champ->error_count)
