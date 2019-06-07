@@ -13,6 +13,46 @@
 #include <stdio.h> // todo delete
 #include "asm.h"
 
+t_string *ft_readall(char *name)
+{
+	/* declare a file pointer */
+	FILE    *infile;
+	char    *buffer;
+	long    numbytes;
+	t_string *res = ft_make_string(10);
+
+/* open an existing file for reading */
+	infile = fopen(name, "r");
+
+/* quit if the file does not exist */
+	if(infile == NULL)
+		return 0;
+
+/* Get the number of bytes */
+	fseek(infile, 0L, SEEK_END);
+	numbytes = ftell(infile);
+
+/* reset the file position indicator to
+the beginning of the file */
+	fseek(infile, 0L, SEEK_SET);
+
+/* grab sufficient memory for the
+buffer to hold the text */
+	buffer = (char*)calloc(numbytes, sizeof(char));
+
+/* memory error */
+	if(buffer == NULL)
+		return 0;
+
+/* copy all the text into the buffer */
+	fread(buffer, sizeof(char), numbytes, infile);
+	fclose(infile);
+
+	res->data = buffer;
+	res->len = numbytes;
+	return (res);
+}
+
 int main(int ac, char **av)
 {
 
@@ -38,45 +78,49 @@ int main(int ac, char **av)
 	champ = ft_parser(av[1]); // todo too big champ error
 	ft_translate_to_bytecode(champ);
 
-	int fd = open("toto.cor", O_RDONLY);
-	char *ln;
-	int res;
-	t_string *ref;
+//	int fd = open("toto.cor", O_RDONLY);
+//	char *ln;
+//	int res;
+//	t_string *ref;
+//	t_string *my = champ->res;
+//	size_t i = 0;
+//
+//	while (i < my->len)
+//	{
+//		ref = ft_gnl_bin(fd, &ln, 10000, &res);
+//		if (!res)
+//		{
+//			ft_printf("{Blue}Ref ended{eof}\n");
+//			return (0);
+//		}
+//		ft_string_push_back(&ref, '\n');
+//		size_t j = 0;
+//		while (j < ref->len)
+//		{
+//			ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
+//					  ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
+//			++j;
+//			++i;
+//		}
+//		ft_printf("{Red}Ref ended{eof}\n");
+//	}
+//	ft_printf("{Red}My ended{eof}\n");
+
+
+
+	t_string *ref = ft_readall("toto.cor");
 	t_string *my = champ->res;
 	size_t i = 0;
-
-	while (i < my->len)
+	while (i < my->len && i < ref->len)
 	{
-		ref = ft_gnl_bin(fd, &ln, 10000, &res);
-		if (!ref)
-		{
-			ft_printf("{Red}Ref ended{eof}\n");;
-			return (0);
-		}
-		size_t j = 0;
-		while (j < ref->len)
-		{
-			ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
-					  ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
-			++j;
-			++i;
-		}
-		ft_printf("{Red}Ref ended{eof}\n");
+		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
+			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
+		i++;
 	}
-	ft_printf("{Red}My ended{eof}\n");
-
-
-
-//	while (i < my->len && i < ref->len)
-//	{
-//		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
-//			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
-//		i++;
-//	}
-//	if (i == ref->len)
-//		ft_printf("{Red}Ref ended{eof}\n");
-//	if (i == my->len)
-//		ft_printf("{Red}My ended{eof}\n");
+	if (i == ref->len)
+		ft_printf("{Red}Ref ended{eof}\n");
+	if (i == my->len)
+		ft_printf("{Red}My ended{eof}\n");
 
 	//write(1, champ->res->data, champ->res->len);
 
