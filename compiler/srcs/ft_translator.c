@@ -17,7 +17,7 @@ static inline char	*ft_int_to_bytes(char buf[5], unsigned int n, int len)
 	int i;
 
 	i = 0;
-	ft_bzero(buf, 33);
+	ft_bzero(buf, 4);
 	while (++i <= len)
 	{
 		buf[i] = (char)n;
@@ -56,12 +56,13 @@ static inline void	ft_translate_op(t_champ *champ, t_cmd *cmd)
 	int				i;
 	int				arg_len;
 	unsigned int	arg;
-	void			**map_val;
 	char 			buf[5];
+	unsigned char	type_backup;
 
 	i = -1;
 	while (++i < cmd->arg_count)
 	{
+		type_backup = cmd->arg_types[i];
 		if (cmd->arg_types[i] == T_LAB)
 			arg = ft_get_lbl_arg(champ, cmd, i);
 		else
@@ -73,8 +74,9 @@ static inline void	ft_translate_op(t_champ *champ, t_cmd *cmd)
 			arg_len = IND_SIZE;
 		else
 			arg_len = DIR_SIZE;
-//		if (cmd->arg_types == T_DIR)
-//			arg_len = ft_int_to_bytes(buf, )
+		ft_string_push_back_mem(&champ->res,
+				ft_int_to_bytes(buf, arg, arg_len), arg_len);
+		cmd->arg_types[i] = type_backup;
 	}
 }
 
@@ -83,6 +85,7 @@ static inline void	ft_translate_exec_part(t_champ *champ, int size_pos)
 	int		i;
 	int		to;
 	t_cmd	*cmd;
+	char 	buf[5];
 
 	i = -1;
 	to = champ->cmds->len;
@@ -95,6 +98,7 @@ static inline void	ft_translate_exec_part(t_champ *champ, int size_pos)
 			ft_string_push_back(&champ->res, ft_get_types_byte(cmd));
 		ft_translate_op(champ, cmd);
 	}
+	ft_memcpy(champ->res->data, ft_int_to_bytes(buf, champ->address, 4), 4); //fixme pos
 }
 
 void				ft_translate_to_bytecode(t_champ *champ)
@@ -108,14 +112,14 @@ void				ft_translate_to_bytecode(t_champ *champ)
 	if (champ->error_count)
 		return ;
 	champ->res = ft_make_string(4096);
-		ft_string_push_back_mem(&champ->res,
-				ft_int_to_bytes(buf, COREWAR_EXEC_MAGIC, 4), 4);
-		ft_string_push_back_s(&champ->res, champ->name->data);
-		ft_string_push_back_n_c(&champ->res,
-				PROG_NAME_LENGTH - champ->name->len + padding_size + 4, '\0');
-		ft_string_push_back_s(&champ->res, champ->comment->data);
-		ft_string_push_back_n_c(&champ->res,
-				COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
+	ft_string_push_back_mem(&champ->res,
+			ft_int_to_bytes(buf, COREWAR_EXEC_MAGIC, 4), 4);
+	ft_string_push_back_s(&champ->res, champ->name->data);
+	ft_string_push_back_n_c(&champ->res,
+			PROG_NAME_LENGTH - champ->name->len + padding_size + 4, '\0');
+	ft_string_push_back_s(&champ->res, champ->comment->data);
+	ft_string_push_back_n_c(&champ->res,
+			COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
 	ft_translate_exec_part(champ, code_size_pos);
 	if (!champ->res)
 		exit(ft_free_champ(&champ, 666));

@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-int main()
+int main(int ac, char **av)
 {
 
 //	void *ptr = ft_memalloc(100);
@@ -28,10 +28,14 @@ int main()
 //	ft_printf("%#llB\n", GET_DATA(p));
 //	ft_printf("%#hhB\n", GET_TYPE(p));
 
+	if (ac != 2)
+		return (0);
+
 	t_champ	*champ;
 
-	champ = ft_parser("gg.test.s"); // todo too big champ error
+	champ = ft_parser(av[1]); // todo too big champ error
 	ft_translate_to_bytecode(champ);
+
 
 	ft_free_champ(&champ, 0);
 
