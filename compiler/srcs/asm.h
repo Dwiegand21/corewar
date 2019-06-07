@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 10:46:09 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/06 10:46:09 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/07 03:05:21 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/07 03:05:21 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ASM_H
 # include "fcntl.h"
 # include "libft.h"
-# include "stdint.h"
 # include "asm.h"
+# include "stdint.h"
 # include "zconf.h"
 
 # define IND_SIZE 2
@@ -80,6 +80,7 @@ typedef enum	e_error
 	MISS_ARG_AFT_PRFX = 13,
 	MISS_ARG = 14,
 	NM_CMD_WRONG_PLACE = 15,
+	BAD_ARG_TYPE = 16,
 }				t_error;
 
 typedef enum	e_token_type
@@ -140,21 +141,23 @@ extern char		g_bad_byte[];
 extern char		g_miss_arg[];
 extern char		g_pos_before[];
 extern char		g_nm_cmd_wrg_place[];
+extern char		g_bad_arg_type[];
 extern char		*g_errors[];
 extern char		g_bad_cmd[];
 extern char		g_extra_sep[];
+extern char		g_types[6][30];
 extern char		g_backslash_literals[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
+extern char		g_pos[];
 extern char		g_chars[];
-extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
 extern char		g_bad_arg_count[];
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_pos[];
+extern char		g_wrn_too_long[];
 extern char		g_nbrs[][4];
 
 /*

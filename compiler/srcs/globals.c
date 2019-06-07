@@ -45,15 +45,20 @@ char g_missing_sep[] =
 "{Bold}{Red}ERROR{eof}  -  Missing separator ({\\226}%c{eof})\n";
 char g_extra_sep[] =
 "{Bold}{Red}ERROR{eof}  -  Extra separator ({\\226}%c{eof})\n";
-char g_miss_arg_aft_prfx[] = // todo print 'for command'
+char g_miss_arg_aft_prfx[] =
 "{Bold}{Red}ERROR{eof}  -  Missing %s argument (after prefix "
 "{\\226}%.*s{eof})\n"
 "          For command {\\226}%s{eof}\n";
-char g_miss_arg[] = // todo print 'for command'
+char g_miss_arg[] =
 "{Bold}{Red}ERROR{eof}  -  Empty %s argument\n"
 "          For command {\\226}%s{eof}\n";
 char g_nm_cmd_wrg_place[] =
 "{Bold}{Red}ERROR{eof}  -  Bad placed {\\226}player-%s{eof}\n";
+char g_bad_arg_type[] =
+"{Bold}{Red}ERROR{eof}  -  Wrong type of %s argument "
+"for command {\\226}%s{eof}\n"
+"          Expected %s\n"
+"          But got {\\226}%s{eof}\n";
 
 char g_wrn_too_long[] =
 "{Bold}{\\202}WARNING{eof} - {\\226}player-%s{eof} too long. "
@@ -87,6 +92,7 @@ char *g_errors[] = {
 		g_miss_arg_aft_prfx,
 		g_miss_arg,
 		g_nm_cmd_wrg_place,
+		g_bad_arg_type,
 };
 
 char g_chars[] = {
@@ -111,6 +117,15 @@ char g_nbrs[][4] = {
 };
 
 char g_backslash_literals[] = "rtafvbn\"\'\?\\";
+
+char g_types[6][30] = {
+	"Register(rx)",
+	"Direct(%x)",
+	"Register(rx) or Direct(%x)",
+	"Indirect(x)",
+	"Register(rx) or Indirect(x)",
+	"Direct(%x) or Indirect(x)",
+};
 
 t_op g_functions[16] = {
 	{"live",

@@ -41,8 +41,8 @@ int 		ft_is_command(char *line)
 {
 	int i;
 
-	i = -1;
-	while (++i < 16)
+	i = 16;
+	while (--i >= 0)
 	{
 		if (!ft_strncmp(line, g_functions[i].name, g_functions[i].namelen))
 		{
@@ -160,6 +160,21 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 	return ((!**ln || **ln == COMMENT_CHAR) ? 0 : 1); // todo no need return anymore
 }
 
+static inline void	ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
+		int type, char *begin)
+{
+	if (type == -1 * (int)T_IND)
+		return ;
+	type = (type < 0) ? type * -1 : type;
+	type = (type == T_LAB) ? T_DIR : type;
+	if ((unsigned)type & g_functions[cmd->cmd].arg[cmd->arg_count - 1])
+		return ;
+	ft_make_error(BAD_ARG_TYPE, champ, begin - champ->curr_line + 1,
+			(void*[4]){g_nbrs[cmd->arg_count], g_functions[cmd->cmd].name,
+			  g_types[g_functions[cmd->cmd].arg[cmd->arg_count - 1] - 1],
+			  g_types[cmd->arg_types[cmd->arg_count - 1] - 1]});
+}
+
 int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 {
 	char *const	begin = *ln;
@@ -167,15 +182,14 @@ int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 	void *const	val = ft_get_arg_val(ln, type, champ, begin);
 	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
 
-	if (cmd->arg_count < exp_arg_count)
-	{
-		cmd->arg_types[cmd->arg_count] = type;
+	if (cmd->arg_count < exp_arg_count &&
+			(cmd->arg_types[cmd->arg_count] = type))
 		cmd->args[cmd->arg_count] = val;
-	}
 	ft_skip_spaces(ln);
-	cmd->arg_count +=
-		!((!cmd->arg_count || cmd->arg_count >= exp_arg_count) &&
+	cmd->arg_count += !((cmd->arg_count >= exp_arg_count) &&
 		type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR)); //fixme
+	if (cmd->arg_count > 0 && cmd->arg_count <= exp_arg_count)
+		ft_check_arg_type_for_op(champ, cmd, type, begin);
 	if (!**ln || **ln == COMMENT_CHAR)
 		return (0);
 	ft_move_to_next_arg(champ, ln);
@@ -211,9 +225,7 @@ void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 		exit(ft_free_champ(&champ, 666)); // todo add free(curr_cmd)
 
 
-	// todo need to save command arg types
 	// todo need to save in champion current memory-address
-	// todo need to save command line number and positions of used labels FUCK
 	// todo and use vector with labels for 'join' them with current command
 
 }
