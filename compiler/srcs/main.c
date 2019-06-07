@@ -53,6 +53,13 @@ buffer to hold the text */
 	return (res);
 }
 
+char *ft_upd_name(char *name, char *postfix)
+{
+	int len = ft_strlen(name);
+	name[len - 1] = '\0';
+	return (ft_strjoin(name, postfix));
+}
+
 int main(int ac, char **av)
 {
 
@@ -76,7 +83,11 @@ int main(int ac, char **av)
 	t_champ	*champ;
 
 	champ = ft_parser(av[1]); // todo too big champ error
+
 	ft_translate_to_bytecode(champ);
+
+	if (champ->error_count)
+		return (0);
 
 //	int fd = open("toto.cor", O_RDONLY);
 //	char *ln;
@@ -107,22 +118,28 @@ int main(int ac, char **av)
 //	ft_printf("{Red}My ended{eof}\n");
 
 
+	char *new_name = ft_upd_name(av[1], "mycor");
+	char *last_slash = ft_rstrchr(new_name, '/');
+	new_name = last_slash + 1;
 
-	t_string *ref = ft_readall("toto.cor");
-	t_string *my = champ->res;
-	size_t i = 0;
-	while (i < my->len && i < ref->len)
-	{
-		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
-			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
-		i++;
-	}
-	if (i == ref->len)
-		ft_printf("{Red}Ref ended{eof}\n");
-	if (i == my->len)
-		ft_printf("{Red}My ended{eof}\n");
 
-	//write(1, champ->res->data, champ->res->len);
+	int fd = open(ft_strjoin("tests/", new_name), O_CREAT | O_TRUNC | O_WRONLY, 0666);
+
+//	t_string *ref = ft_readall("master_of_puppets.cor");
+//	t_string *my = champ->res;
+//	size_t i = 0;
+//	while (i < my->len && i < ref->len)
+//	{
+//		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
+//			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
+//		i++;
+//	}
+//	if (i == ref->len)
+//		ft_printf("{Red}Ref ended{eof}\n");
+//	if (i == my->len)
+//		ft_printf("{Red}My ended{eof}\n");
+
+	write(fd, champ->res->data, champ->res->len);
 
 	ft_free_champ(&champ, 0);
 
