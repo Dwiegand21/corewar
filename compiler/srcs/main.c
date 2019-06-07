@@ -38,23 +38,45 @@ int main(int ac, char **av)
 	champ = ft_parser(av[1]); // todo too big champ error
 	ft_translate_to_bytecode(champ);
 
-
-	int fd = open("gg.test.cor", O_RDONLY);
+	int fd = open("toto.cor", O_RDONLY);
 	char *ln;
 	int res;
-	t_string *ref = ft_gnl_bin(fd, &ln, 10000, &res);
+	t_string *ref;
 	t_string *my = champ->res;
 	size_t i = 0;
-	while (i < my->len && i < ref->len)
+
+	while (i < my->len)
 	{
-		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
-			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
-		i++;
-	}
-	if (i == ref->len)
+		ref = ft_gnl_bin(fd, &ln, 10000, &res);
+		if (!ref)
+		{
+			ft_printf("{Red}Ref ended{eof}\n");;
+			return (0);
+		}
+		size_t j = 0;
+		while (j < ref->len)
+		{
+			ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
+					  ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
+			++j;
+			++i;
+		}
 		ft_printf("{Red}Ref ended{eof}\n");
-	if (i == my->len)
-		ft_printf("{Red}My ended{eof}\n");
+	}
+	ft_printf("{Red}My ended{eof}\n");
+
+
+
+//	while (i < my->len && i < ref->len)
+//	{
+//		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
+//			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
+//		i++;
+//	}
+//	if (i == ref->len)
+//		ft_printf("{Red}Ref ended{eof}\n");
+//	if (i == my->len)
+//		ft_printf("{Red}My ended{eof}\n");
 
 	//write(1, champ->res->data, champ->res->len);
 

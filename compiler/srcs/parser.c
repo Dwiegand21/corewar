@@ -219,7 +219,7 @@ static inline int	ft_get_op_size(t_cmd *cmd)
 	{
 		if (cmd->arg_types[i] == T_REG)
 			res += 1;
-		else if (cmd->arg_types[i] == T_DIR)
+		else if (cmd->arg_types[i] == T_DIR || cmd->arg_types[i] == T_LAB)
 			res += g_functions[cmd->cmd].short_dir ? IND_SIZE : DIR_SIZE;
 		else if (cmd->arg_types[i] == T_IND)
 			res += IND_SIZE;
@@ -340,7 +340,7 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 	if (!*ln)
 		return ;
 	ft_skip_spaces(&ln);
-	if (*ln == COMMENT_CHAR)
+	if (!*ln || *ln == COMMENT_CHAR)
 		return ;
 	if ((cmd = ft_is_command(ln)) >= 0)
 		ft_parse_command(champ, ln, cmd);
