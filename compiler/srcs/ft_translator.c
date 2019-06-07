@@ -90,10 +90,9 @@ static inline void	ft_translate_exec_part(t_champ *champ, int size_pos)
 	{
 		cmd = champ->cmds->data[i];
 		champ->line = cmd->lbl_line;
-		if (!ft_string_push_back(&champ->res, cmd->cmd) ||
-			(g_functions[cmd->cmd].need_types_byte &&
-			 !ft_string_push_back(&champ->res, ft_get_types_byte(cmd))))
-			exit(ft_free_champ(&champ, 666));
+		ft_string_push_back(&champ->res, cmd->cmd);
+		if (g_functions[cmd->cmd].need_types_byte)
+			ft_string_push_back(&champ->res, ft_get_types_byte(cmd));
 		ft_translate_op(champ, cmd);
 	}
 }
@@ -117,7 +116,7 @@ void				ft_translate_to_bytecode(t_champ *champ)
 		ft_string_push_back_s(&champ->res, champ->comment->data);
 		ft_string_push_back_n_c(&champ->res,
 				COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
+	ft_translate_exec_part(champ, code_size_pos);
 	if (!champ->res)
 		exit(ft_free_champ(&champ, 666));
-	ft_translate_exec_part(champ, code_size_pos);
 }
