@@ -324,9 +324,8 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 				(void*[4]){(void*)ft_find_bad_cmd_len(ln), ln, 0, 0});
 }
 
-void 		ft_parse_line(t_champ *champ, char *ln)
+static inline int	ft_is_lbl(char *ln, t_champ *champ, int is_cmd, int pos)
 {
-	int			cmd;
 	static int	name_cmd_len = -1;
 	static int	comm_cmd_len = -1;
 	int			cm_err;
@@ -337,19 +336,41 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 		name_cmd_len = ft_strlen(NAME_CMD_STRING);
 		comm_cmd_len = ft_strlen(COMMENT_CMD_STRING);
 	}
+	if (!is_cmd)
+	{
+		if (!ft_strncmp(ln, NAME_CMD_STRING, name_cmd_len) ||
+			(!ft_strncmp(ln, COMMENT_CMD_STRING, comm_cmd_len) && (cm_err = 1)))
+		{
+			ft_make_error(NM_CMD_WRONG_PLACE, champ, pos,
+						  (void*[4]){!cm_err ? "name" : "comment", 0, 0, 0}); // todo retest this error
+			return (0);
+		}
+		return (1);
+	}
+	while (ft_strchr(LABEL_CHARS, *ln) && *ln)
+		++ln;
+	ft_skip_spaces(&ln);
+	return (*ln == LABEL_CHAR ? 1 : 0);
+}
+
+void 		ft_parse_line(t_champ *champ, char *ln)
+{
+	int	cmd;
+
+	int is_lbl;
+
+	is_lbl = 0;
 	if (!*ln)
 		return ;
 	ft_skip_spaces(&ln);
 	if (!*ln || *ln == COMMENT_CHAR)
 		return ;
-	if ((cmd = ft_is_command(ln)) >= 0)
-		ft_parse_command(champ, ln, cmd);
-	else if (!ft_strncmp(ln, NAME_CMD_STRING, name_cmd_len) ||
-			(!ft_strncmp(ln, COMMENT_CMD_STRING, comm_cmd_len) && (cm_err = 1)))
-		ft_make_error(NM_CMD_WRONG_PLACE, champ, ln - champ->curr_line + 1,
-				(void*[4]){!cm_err ? "name" : "comment", 0, 0, 0});
-	else
+	cmd = ft_is_command(ln);
+	is_lbl = ft_is_lbl(ln, champ, cmd >= 0, ln - champ->curr_line + 1);
+	if (is_lbl)
 		ft_parse_label(champ, ln);
+	else if (cmd >= 0)
+		ft_parse_command(champ, ln, cmd);
 }
 
 void 		ft_parse_exec(t_champ *champ, int fd)

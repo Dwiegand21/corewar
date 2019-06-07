@@ -47,6 +47,7 @@ function compare {
     done
 }
 
+rm -f tests/*
 echo "Ref time is:"
 time compile_ref
 echo "My time is:"
