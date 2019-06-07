@@ -80,12 +80,11 @@ static inline void	ft_translate_op(t_champ *champ, t_cmd *cmd)
 	}
 }
 
-static inline void	ft_translate_exec_part(t_champ *champ, int size_pos)
+static inline void	ft_translate_exec_part(t_champ *champ)
 {
 	int		i;
 	int		to;
 	t_cmd	*cmd;
-	char 	buf[5];
 
 	i = -1;
 	to = champ->cmds->len;
@@ -98,7 +97,6 @@ static inline void	ft_translate_exec_part(t_champ *champ, int size_pos)
 			ft_string_push_back(&champ->res, ft_get_types_byte(cmd));
 		ft_translate_op(champ, cmd);
 	}
-	ft_memcpy(champ->res->data, ft_int_to_bytes(buf, champ->address, 4), 4); //fixme pos
 }
 
 void				ft_translate_to_bytecode(t_champ *champ)
@@ -116,11 +114,13 @@ void				ft_translate_to_bytecode(t_champ *champ)
 			ft_int_to_bytes(buf, COREWAR_EXEC_MAGIC, 4), 4);
 	ft_string_push_back_s(&champ->res, champ->name->data);
 	ft_string_push_back_n_c(&champ->res,
-			PROG_NAME_LENGTH - champ->name->len + padding_size + 4, '\0');
+			PROG_NAME_LENGTH - champ->name->len + padding_size, '\0');
+	ft_string_push_back_mem(&champ->res,
+			ft_int_to_bytes(buf, code_size_pos, 4), 4);
 	ft_string_push_back_s(&champ->res, champ->comment->data);
 	ft_string_push_back_n_c(&champ->res,
 			COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
-	ft_translate_exec_part(champ, code_size_pos);
+	ft_translate_exec_part(champ);
 	if (!champ->res)
 		exit(ft_free_champ(&champ, 666));
 }

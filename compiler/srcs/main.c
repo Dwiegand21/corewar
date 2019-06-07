@@ -37,6 +37,7 @@ int main(int ac, char **av)
 	ft_translate_to_bytecode(champ);
 
 
+
 	ft_free_champ(&champ, 0);
 
 	//printf("<%c>%d\n%s", c, c,BACKSLASH_LITERALS);
