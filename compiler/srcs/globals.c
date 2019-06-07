@@ -59,6 +59,9 @@ char g_bad_arg_type[] =
 "for command {\\226}%s{eof}\n"
 "          Expected %s\n"
 "          But got {\\226}%s{eof}\n";
+char g_unknown_lbl[] =
+"{Bold}{Red}ERROR{eof}  -  Unknown label {\\226}%s{eof}\n"
+"          Used as arg for command %s";
 
 char g_wrn_too_long[] =
 "{Bold}{\\202}WARNING{eof} - {\\226}player-%s{eof} too long. "
@@ -93,6 +96,7 @@ char *g_errors[] = {
 		g_miss_arg,
 		g_nm_cmd_wrg_place,
 		g_bad_arg_type,
+		g_unknown_lbl,
 };
 
 char g_chars[] = {

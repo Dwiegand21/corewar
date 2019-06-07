@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-void 		ft_free_cmd(void* p)
+void ft_free_cmd(void *p)
 {
 	t_cmd *cmd;
 	int i;
@@ -43,16 +43,35 @@ void		*tokenize(t_token_type type, void *carry) // fixme make `extern inline`
 	return ((void*)((size_t)carry | ((unsigned long)type << 61u)));
 }
 
+unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i)
+{
+	void			**map_val;
+	unsigned int	arg;
+
+	arg = 0;
+	cmd->arg_types[i] = T_DIR;
+	if (!(map_val = ft_map_get(champ->labels, cmd->args[i])))
+		exit(ft_free_champ(&champ, 666));
+	if (*map_val == champ->labels->nil)
+		ft_make_error(UNKNOWN_LAB, champ, cmd->lbl_poses[i],
+					  (void*[4]){cmd->args[i], g_functions[cmd->cmd].name, 0, 0});
+	else
+		arg = (unsigned)((int)*map_val - cmd->address);
+	return (arg);
+}
+
 void		ft_check_exist_name_cmt(t_champ *champ)
 {
 	if (!champ->name->offset)
 	{ // todo use ft_make_error
 		ft_fdprintf(2, g_missing_param, "name");
 		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
+		++champ->error_count;
 	}
 	if (!champ->comment->offset)
 	{ // todo use ft_make_error
 		ft_fdprintf(2, g_missing_param, "comment");
 		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
+		++champ->error_count;
 	}
 }

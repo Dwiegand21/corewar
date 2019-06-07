@@ -65,16 +65,10 @@ t_string	*ft_vprintf(const char *frmt, va_list vl)
 
 int			ft_fdprintf(int fd, const char *frmt, ...)
 {
-	static int	b_strs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	va_list		vl;
 	t_string	*str;
 	long int	ret;
 
-	if (frmt >= 0 && (int)frmt < 10 &&
-			((b_strs[(int)frmt] = !b_strs[(int)frmt]) || 1))
-		return (0);
-	if (frmt >= 0 && (int)frmt < 10 && b_strs[(int)frmt])
-		return (0);
 	va_start(vl, frmt);
 	str = ft_vprintf(frmt, vl);
 	ft_fd_print_string(str, fd);

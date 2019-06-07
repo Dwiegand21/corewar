@@ -89,11 +89,12 @@ static inline int	ft_get_arg_type(char **ln, t_champ *champ)
 		ft_skip_spaces(ln);
 		if (**ln == LABEL_CHAR && ++(*ln))
 		{
+			champ->curr_cmd->lbl_line = champ->line;
 			ft_skip_spaces(ln);
 			if (champ->curr_cmd->arg_count <
 			        g_functions[champ->curr_cmd->cmd].arg_count)
-				champ->curr_cmd->lab_poses[champ->curr_cmd->arg_count] =
-			(size_t)champ->curr_line << 31u | (size_t)(*ln - champ->curr_line); // todo 31 or 32
+				champ->curr_cmd->lbl_poses[champ->curr_cmd->arg_count] =
+					*ln - champ->curr_line;
 			return (ft_check_arg(champ, ln, begin, T_LAB));
 		}
 		else
@@ -172,7 +173,7 @@ static inline void	ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
 	ft_make_error(BAD_ARG_TYPE, champ, begin - champ->curr_line + 1,
 			(void*[4]){g_nbrs[cmd->arg_count], g_functions[cmd->cmd].name,
 			  g_types[g_functions[cmd->cmd].arg[cmd->arg_count - 1] - 1],
-			  g_types[cmd->arg_types[cmd->arg_count - 1] - 1]});
+			  g_types[type - 1]});
 }
 
 int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
@@ -196,7 +197,7 @@ int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 	return (1);
 }
 
-static inline void ft_check_arg_count(t_champ *champ, t_cmd *cmd)
+static inline void	ft_check_arg_count(t_champ *champ, t_cmd *cmd)
 {
 	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
 
@@ -204,6 +205,47 @@ static inline void ft_check_arg_count(t_champ *champ, t_cmd *cmd)
 		ft_make_error(BAD_ARG_COUNT, champ, champ->curr_cmd->begin_pos,
 			(void*[4]){g_functions[cmd->cmd].name, (void*)(size_t)exp_arg_count,
 			(void*)(size_t)cmd->arg_count, 0});
+}
+
+static inline int	ft_get_op_size(t_cmd *cmd)
+{
+	int res;
+	int i;
+
+	i = -1;
+	res = 0;
+	res += 1 + g_functions[cmd->cmd].need_types_byte;
+	while (++i < cmd->arg_count)
+	{
+		if (cmd->arg_types[i] == T_REG)
+			res += 1;
+		else if (cmd->arg_types[i] == T_DIR)
+			res += g_functions[cmd->cmd].short_dir ? IND_SIZE : DIR_SIZE;
+		else if (cmd->arg_types[i] == T_IND)
+			res += IND_SIZE;
+	}
+	return (res);
+}
+
+static inline void	ft_upd_labels(t_champ *champ)
+{
+	int		i;
+	int		to;
+	void	**map_val;
+
+	i = -1;
+	to = champ->current_labels->len;
+	while (++i < to)
+	{
+		if (champ->current_labels->data[i])
+		{
+			if (!(map_val = ft_map_get(champ->labels,
+									   champ->current_labels->data[i])))
+				exit(ft_free_champ(&champ, 666));
+			*map_val = (void*)(size_t)champ->address;
+		}
+	}
+	champ->current_labels->len = 0;
 }
 
 void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
@@ -217,17 +259,14 @@ void 		ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 	cmd->begin_pos = ln - champ->curr_line + 1;
 	ln += g_functions[cmd_num].namelen;
 	ft_skip_spaces(&ln);
-
 	while (ft_parse_arg(champ, cmd, &ln))
 		;
 	ft_check_arg_count(champ, cmd);
+	cmd->address = champ->address;
 	if (!ft_vector_push_back(&champ->cmds, cmd) || (champ->curr_cmd = 0))
-		exit(ft_free_champ(&champ, 666)); // todo add free(curr_cmd)
-
-
-	// todo need to save in champion current memory-address
-	// todo and use vector with labels for 'join' them with current command
-
+		exit(ft_free_champ(&champ, 666));
+	ft_upd_labels(champ);
+	champ->address += ft_get_op_size(cmd);
 }
 
 size_t		ft_find_bad_cmd_len(char *ln)
@@ -246,6 +285,7 @@ size_t		ft_find_bad_cmd_len(char *ln)
 void 		ft_add_label(t_champ *champ, char *lbl, char *ln)
 {
 	void **map_val;
+
 	if (!(map_val = ft_map_get(champ->labels, lbl)))
 		exit(ft_free_champ(&champ, 666));
 	if (*map_val != champ->labels->nil)
@@ -254,6 +294,7 @@ void 		ft_add_label(t_champ *champ, char *lbl, char *ln)
 			(int)(ln - ft_strlen(lbl) - (size_t)champ->curr_line + 1),
 			(void *[4]){lbl, 0, 0, 0});
 		free(lbl);
+		lbl = 0;
 	}
 	else
 		*map_val = (void*)(size_t)-1;
@@ -285,10 +326,10 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 
 void 		ft_parse_line(t_champ *champ, char *ln)
 {
-	int cmd;
-	static int name_cmd_len = -1;
-	static int comm_cmd_len = -1;
-	int cm_err;
+	int			cmd;
+	static int	name_cmd_len = -1;
+	static int	comm_cmd_len = -1;
+	int			cm_err;
 
 	cm_err = 0;
 	if (name_cmd_len == -1 || comm_cmd_len == -1)
@@ -332,18 +373,14 @@ t_champ 	*ft_parser(char *file)
 	t_champ *champ;
 	int fd;
 
+	//todo throw warning about empty champ (no exec part)
+
 	if ((fd = open(file, O_RDONLY)) == -1) // todo check extension
 		return (0);
 	if (!(champ = ft_make_champ(file, fd)))
 		return (0);
 	ft_parse_header(champ, fd);
 	ft_parse_exec(champ, fd);
-
-	ft_printf("<%s>\n", champ->name->data);
-	ft_printf("<%s>\n", champ->comment->data);
-	ft_printf("<%s>\n", champ->curr_line);
-
-
 
 	return (champ);
 }

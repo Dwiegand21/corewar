@@ -30,7 +30,8 @@ int main()
 
 	t_champ	*champ;
 
-	champ = ft_parser("gg.test.s");
+	champ = ft_parser("gg.test.s"); // todo too big champ error
+	ft_translate_to_bytecode(champ);
 
 	ft_free_champ(&champ, 0);
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/07 03:05:21 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/07 03:05:21 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/07 09:48:52 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/07 09:48:52 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ASM_H
 # include "fcntl.h"
 # include "libft.h"
-# include "asm.h"
 # include "stdint.h"
+# include "asm.h"
 # include "zconf.h"
 
 # define IND_SIZE 2
@@ -81,6 +81,7 @@ typedef enum	e_error
 	MISS_ARG = 14,
 	NM_CMD_WRONG_PLACE = 15,
 	BAD_ARG_TYPE = 16,
+	UNKNOWN_LAB = 17,
 }				t_error;
 
 typedef enum	e_token_type
@@ -106,7 +107,8 @@ typedef struct	s_cmd
 	unsigned char	cmd;
 	unsigned char	arg_types[3];
 	void			*args[3];
-	size_t				lab_poses[3];
+	int				lbl_line;
+	int				lbl_poses[3];
 	int				address;
 	int				arg_count;
 	int				size;
@@ -118,7 +120,7 @@ typedef struct	s_champ
 	t_string		*name;
 	unsigned int	size;
 	t_string		*comment;
-	t_string		*exec;
+	t_string		*res;
 	t_vector		*cmds;
 	char			*curr_line;
 	int				line;
@@ -149,15 +151,16 @@ extern char		g_types[6][30];
 extern char		g_backslash_literals[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_pos[];
+extern char		g_unknown_lbl[];
 extern char		g_chars[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
 extern char		g_bad_arg_count[];
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_wrn_too_long[];
+extern char		g_pos[];
 extern char		g_nbrs[][4];
 
 /*
@@ -189,12 +192,17 @@ void			ft_parse_string(char *ln, t_string **res, t_token_type type,
 int				ft_get_data_from_line(char *ln, t_string **res,
 			t_token_type type, t_champ *chmp);
 /*
+** ft_translator.c
+*/
+void			ft_translate_to_bytecode(t_champ *champ);
+/*
 ** ft_utils.c
 */
-void			ft_free_cmd(void* p);
+void			ft_free_cmd(void *p);
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void *args[4]);
 void			*tokenize(t_token_type type, void *carry);
+unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i);
 void			ft_check_exist_name_cmt(t_champ *champ);
 /*
 ** parser.c

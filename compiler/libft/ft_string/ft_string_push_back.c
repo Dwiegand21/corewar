@@ -53,6 +53,25 @@ int		ft_string_push_back_s(t_string **str_ptr, char *str)
 	return (l);
 }
 
+int		ft_string_push_back_mem(t_string **str_ptr, char *str, size_t len)
+{
+	int		t;
+	size_t	l;
+
+	l = (size_t)-1;
+	if (!str)
+		return (-1);
+	while (++l < len)
+	{
+		if ((t = ft_string_push_back(str_ptr, *str)) == 1)
+			str++;
+		else
+			return (t);
+		l++;
+	}
+	return (l);
+}
+
 int		ft_string_push_back_n_s(t_string **str_ptr, char *str, size_t n)
 {
 	int t;
