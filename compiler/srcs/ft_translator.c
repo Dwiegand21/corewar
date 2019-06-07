@@ -64,7 +64,15 @@ static inline void	ft_translate_op(t_champ *champ, t_cmd *cmd)
 	{
 		if (cmd->arg_types[i] == T_LAB)
 			arg = ft_get_lbl_arg(champ, cmd, i);
-		else if (cmd->arg_types[i] == T_)
+		else
+			arg = (unsigned)cmd->args[i];
+		if (cmd->arg_types[i] == T_REG)
+			arg_len = 1;
+		else if (cmd->arg_types[i] == T_IND ||
+			(g_functions[cmd->cmd].short_dir && cmd->arg_types[i] == T_DIR))
+			arg_len = IND_SIZE;
+		else
+			arg_len = DIR_SIZE;
 //		if (cmd->arg_types == T_DIR)
 //			arg_len = ft_int_to_bytes(buf, )
 	}
