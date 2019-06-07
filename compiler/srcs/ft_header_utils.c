@@ -55,7 +55,7 @@ int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 {
 	while (*++ln)
 	{
-		if (*ln == COMMENT_CHAR)
+		if (*ln == COMMENT_CHAR || *ln == ALT_CMT_CHAR)
 			break ;
 		if (!ft_isspace(*ln))
 		{

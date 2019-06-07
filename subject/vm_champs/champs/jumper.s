@@ -35,7 +35,7 @@ go:	ld %48,r5
 	sti r1,%:live2,%1
 	sti r1,%:live3,%1
 	sti r1,%:live4,%1
-live0:	live %66
+live0:  live %66
 live1:	live %66
 live2:	live %66
 live3:	live %66

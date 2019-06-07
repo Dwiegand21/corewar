@@ -57,7 +57,8 @@ static inline int	ft_check_arg(t_champ *champ, char **ln, char *begin,
 {
 	char *lbl_pref_end;
 
-	if (!(!**ln || **ln == SEPARATOR_CHAR || **ln == COMMENT_CHAR))
+	if (!(!**ln || **ln == SEPARATOR_CHAR || **ln == COMMENT_CHAR ||
+			**ln == ALT_CMT_CHAR))
 		return (type);
 	if (type == T_DIR || type == T_REG)
 		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1,
@@ -120,12 +121,12 @@ static inline void		*ft_get_arg_val(char **ln, int type,
 	bad_arg = 0;
 	arg = (type != T_LAB) ? (void*)(size_t)ft_atoi_m(ln) :
 			ft_get_lbl_name(champ, ln,
-					(char[3]){COMMENT_CHAR, SEPARATOR_CHAR, '\0'});
+				(char[4]){COMMENT_CHAR, SEPARATOR_CHAR, ALT_CMT_CHAR, '\0'});
 	if (type != T_LAB && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR &&
-			**ln && !ft_isspace(**ln))
+			**ln != ALT_CMT_CHAR && **ln && !ft_isspace(**ln))
 		bad_arg = *ln; // fixme
 	while (!ft_isspace(**ln) && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR
-		&& **ln)
+		&& **ln != ALT_CMT_CHAR && **ln)
 		++(*ln);
 	if (bad_arg)
 		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_line + 1,
@@ -149,7 +150,8 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 	if (!sep)
 		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line + 1,
 					  (void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
-	if ((!**ln || **ln == COMMENT_CHAR || **ln == SEPARATOR_CHAR) &&
+	if ((!**ln || **ln == COMMENT_CHAR || **ln == ALT_CMT_CHAR ||
+	**ln == SEPARATOR_CHAR) &&
 	champ->curr_cmd->arg_count >= g_functions[champ->curr_cmd->cmd].arg_count)
 	{
 		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line + 1,
@@ -158,7 +160,7 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 			champ->curr_cmd->arg_count >
 			g_functions[champ->curr_cmd->cmd].arg_count;
 	}
-	return ((!**ln || **ln == COMMENT_CHAR) ? 0 : 1); // todo no need return anymore
+	return ((!**ln || **ln == COMMENT_CHAR || **ln == ALT_CMT_CHAR) ? 0 : 1); // todo no need return anymore
 }
 
 static inline void	ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
@@ -188,10 +190,11 @@ int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 		cmd->args[cmd->arg_count] = val;
 	ft_skip_spaces(ln);
 	cmd->arg_count += !((cmd->arg_count >= exp_arg_count) &&
-		type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR)); //fixme
+		type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR ||
+		**ln == ALT_CMT_CHAR)); //fixme
 	if (cmd->arg_count > 0 && cmd->arg_count <= exp_arg_count)
 		ft_check_arg_type_for_op(champ, cmd, type, begin);
-	if (!**ln || **ln == COMMENT_CHAR)
+	if (!**ln || **ln == COMMENT_CHAR || **ln == ALT_CMT_CHAR)
 		return (0);
 	ft_move_to_next_arg(champ, ln);
 	return (1);
@@ -308,7 +311,7 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 	int 	cmd;
 
 	label = ft_get_lbl_name(champ, &ln,
-			(char[3]){COMMENT_CHAR, LABEL_CHAR, '\0'});
+			(char[4]){COMMENT_CHAR, LABEL_CHAR, ALT_CMT_CHAR, '\0'});
 	ft_skip_spaces(&ln);
 	if (*ln != LABEL_CHAR)
 		ft_make_error(MISS_LBL_CHAR, champ, ln - champ->curr_line + 1,
@@ -363,7 +366,7 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 	if (!*ln)
 		return ;
 	ft_skip_spaces(&ln);
-	if (!*ln || *ln == COMMENT_CHAR)
+	if (!*ln || *ln == COMMENT_CHAR || *ln == ALT_CMT_CHAR)
 		return ;
 	cmd = ft_is_command(ln);
 	is_lbl = ft_is_lbl(ln, champ, cmd >= 0, ln - champ->curr_line + 1);
