@@ -38,6 +38,7 @@ static inline char ft_get_types_byte(t_cmd *cmd)
 	res = 0;
 	while (++i < 4)
 	{
+		res <<= 2u;
 		code = 0;
 		if (i < cmd->arg_count)
 		{
@@ -49,7 +50,6 @@ static inline char ft_get_types_byte(t_cmd *cmd)
 				code = IND_CODE % 4;
 		}
 		res |= code;
-		res <<= 2u;
 	}
 	return (res);
 }
@@ -95,7 +95,7 @@ static inline void	ft_translate_exec_part(t_champ *champ)
 	{
 		cmd = champ->cmds->data[i];
 		champ->line = cmd->lbl_line;
-		ft_string_push_back(&champ->res, cmd->cmd);
+		ft_string_push_back(&champ->res, cmd->cmd + 1);
 		if (g_functions[cmd->cmd].need_types_byte)
 			ft_string_push_back(&champ->res, ft_get_types_byte(cmd));
 		ft_translate_op(champ, cmd);
@@ -108,7 +108,6 @@ void				ft_translate_to_bytecode(t_champ *champ)
 	const int 	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
 	const int 	padding_size =
 			((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
-	const int 	code_size_pos = 4 + PROG_NAME_LENGTH + padding_size;
 
 	if (champ->error_count)
 		return ;
@@ -119,7 +118,7 @@ void				ft_translate_to_bytecode(t_champ *champ)
 	ft_string_push_back_n_c(&champ->res,
 			PROG_NAME_LENGTH - champ->name->len + padding_size, '\0');
 	ft_string_push_back_mem(&champ->res,
-			ft_int_to_bytes(buf, code_size_pos, 4), 4);
+			ft_int_to_bytes(buf, champ->address, 4), 4);
 	ft_string_push_back_s(&champ->res, champ->comment->data);
 	ft_string_push_back_n_c(&champ->res,
 			COMMENT_LENGTH - champ->comment->len + padding_size, '\0');

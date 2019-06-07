@@ -33,6 +33,8 @@ void				ft_swap(void *a, void *b, size_t s);
 int					ft_word_count(const char *str);
 
 int					ft_get_next_line(int fd, char **line, int buff_size);
+t_string			*ft_gnl_bin(const int fd, char **line, int buff_size,
+							int *res);
 
 char				*ft_strset(char *b, int c, size_t size);
 

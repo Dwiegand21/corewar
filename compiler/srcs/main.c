@@ -24,7 +24,8 @@ int main(int ac, char **av)
 //
 //	size_t p = (size_t)tokenize(type, ptr);
 //
-//	ft_printf("%#llB\n", p);
+//	ft_printf("%#B\n", 84);
+//	ft_printf("%#B\n\n\n", 80);
 //
 //	ft_printf("%#llB\n", GET_DATA(p));
 //	ft_printf("%#hhB\n", GET_TYPE(p));
@@ -38,18 +39,22 @@ int main(int ac, char **av)
 	ft_translate_to_bytecode(champ);
 
 
-	int fd = open("master_of_puppets.refcor", O_RDONLY);
-	char *ref = malloc(10000);
-	ft_get_next_line(fd, &ref, 10000);
-	char *my = champ->res->data;
-	int i = 0;
-	while (i < 1000)
+	int fd = open("gg.test.cor", O_RDONLY);
+	char *ln;
+	int res;
+	t_string *ref = ft_gnl_bin(fd, &ln, 10000, &res);
+	t_string *my = champ->res;
+	size_t i = 0;
+	while (i < my->len && i < ref->len)
 	{
-		ft_printf("Different chars ref:%#5.1r my:%#5.1r in pos %5d |%c\n",
-				ref, my, i++, *ref == *my ? '+' : '-');
-		ref++;
-		my++;
+		ft_printf("Different chars ref:{Yellow}%5d{eof} my:{Yellow}%5d{eof} in pos %5d |%c\n",
+			ref->data[i], my->data[i], i, ref->data[i] == my->data[i] ? '+' : '-');
+		i++;
 	}
+	if (i == ref->len)
+		ft_printf("{Red}Ref ended{eof}\n");
+	if (i == my->len)
+		ft_printf("{Red}My ended{eof}\n");
 
 	//write(1, champ->res->data, champ->res->len);
 
