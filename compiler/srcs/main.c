@@ -118,12 +118,12 @@ int main(int ac, char **av)
 //	ft_printf("{Red}My ended{eof}\n");
 
 
-	char *new_name = ft_upd_name(av[1], "mycor");
-	char *last_slash = ft_rstrchr(new_name, '/');
-	new_name = last_slash + 1;
+	char *new_name = ft_upd_name(av[1], "cor");
+//	char *last_slash = ft_rstrchr(new_name, '/');
+//	new_name = last_slash + 1;
 
 
-	int fd = open(ft_strjoin("tests/", new_name), O_CREAT | O_TRUNC | O_WRONLY, 0666);
+	int fd = open(new_name, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 
 //	t_string *ref = ft_readall("master_of_puppets.cor");
 //	t_string *my = champ->res;

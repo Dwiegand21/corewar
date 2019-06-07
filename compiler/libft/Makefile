@@ -23,6 +23,7 @@ ADD_FLAGS_COMPILE =
 WFLAGS = -Wall -Wextra -Werror
 DFLAGS = -g
 SANITIZE_FLAGS = -fsanitize=address -g
+OPTIMIZE_FLAGS = -O3
 
 #################################--UTILS--######################################
 
@@ -120,6 +121,9 @@ debug: print_debug re
 sanitize: WFLAGS = $(SANITIZE_FLAGS)
 sanitize: print_sanitize re
 
+optimize: WFLAGS = $(OPTIMIZE_FLAGS)
+optimize: print_optimize re
+
 valgrind: print_valgrind debug
 	 @~/.brew/bin/valgrind --leak-check=full --show-leak-kinds=definite \
 	 --dsymutil=yes --track-origins=yes ./$(NAME) $(VALGRIND_ARGS)
@@ -177,6 +181,9 @@ print_debug:
 
 print_sanitize:
 	@echo "\x1B[38;5;200mSanitize mode $(NAME)...\x1B[0m"
+
+print_optimize:
+	@echo "\x1B[38;5;47mOptimization mode $(NAME)...\x1B[0m"
 
 print_valgrind:
 	@echo "\x1B[38;5;202mValgrinding $(NAME)...\x1B[0m"
