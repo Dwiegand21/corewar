@@ -310,6 +310,7 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 	char	*label;
 	int 	cmd;
 
+	cmd = 0;
 	label = ft_get_lbl_name(champ, &ln,
 			(char[4]){COMMENT_CHAR, LABEL_CHAR, ALT_CMT_CHAR, '\0'});
 	ft_skip_spaces(&ln);
@@ -318,11 +319,11 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 					  (void*[4]){(void*)(size_t)LABEL_CHAR, label, 0, 0});
 	ft_add_label(champ, label, ln);
 	ln += (*ln && *ln == LABEL_CHAR);
-	while (ft_isspace(*ln))
-		++ln;
-	if (*ln && (cmd = ft_is_command(ln)) >= 0)
+	ft_skip_spaces(&ln);
+	if (*ln && *ln != COMMENT_CHAR && *ln != ALT_CMT_CHAR
+		&& (cmd = ft_is_command(ln)) >= 0)
 		ft_parse_command(champ, ln, cmd);
-	else if (*ln)
+	else if (cmd == -1)
 		ft_make_error(BAD_CMD, champ, ln - champ->curr_line + 1,
 				(void*[4]){(void*)ft_find_bad_cmd_len(ln), ln, 0, 0});
 }
@@ -362,7 +363,6 @@ void 		ft_parse_line(t_champ *champ, char *ln)
 
 	int is_lbl;
 
-	is_lbl = 0;
 	if (!*ln)
 		return ;
 	ft_skip_spaces(&ln);
