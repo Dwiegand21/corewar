@@ -55,15 +55,18 @@ function compare {
         fi
     done
     percent=$(( ${right_count} * 100 / ${total} ))
+    time_percent=$(echo "(${ref_time} - ${my_time}) * 100 / ${ref_time}" | bc)
     echo ""
     echo "Right is ${right_count}/${total} (${percent}%)"
+    echo "Ref time is ${ref_time}"
+    echo "My time is ${my_time}"
+    echo "My is ${time_percent}% faster"
 }
 
 rm -f tests/*
-echo "Ref time is:"
-time compile_ref
-echo "My time is:"
-time compile_my
+ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
+my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )
+
 echo ""
 echo ""
 compare
