@@ -5,18 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/07 09:48:52 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/07 09:48:52 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/08 19:32:33 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/08 19:32:33 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
 # include "fcntl.h"
-# include "libft.h"
+# include <stdio.h> 
 # include "stdint.h"
-# include "asm.h"
 # include "zconf.h"
+# include "libft.h"
+# include "asm.h"
 
 # define IND_SIZE 2
 # define REG_SIZE 4
@@ -152,17 +153,17 @@ extern char		g_types[6][30];
 extern char		g_backslash_literals[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_unknown_lbl[];
+extern char		g_pos[];
+extern char		g_nbrs[][4];
 extern char		g_chars[];
-extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
 extern char		g_bad_arg_count[];
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_pos[];
-extern char		g_nbrs[][4];
+extern char		g_wrn_too_long[];
+extern char		g_unknown_lbl[];
 
 /*
 ** ft_champ.c
@@ -206,6 +207,11 @@ void			*tokenize(t_token_type type, void *carry);
 unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i);
 void			ft_check_exist_name_cmt(t_champ *champ);
 /*
+** main.c
+*/
+t_string		*ft_readall(char *name);
+char			*ft_upd_name(char *name, char *postfix);
+/*
 ** parser.c
 */
 char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
@@ -213,7 +219,7 @@ int				ft_is_command(char *line);
 int				ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
 void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
 size_t			ft_find_bad_cmd_len(char *ln);
-void			ft_add_label(t_champ *champ, char *lbl, char *ln);
+void			ft_add_label(t_champ *champ, char *lbl);
 void			ft_parse_label(t_champ *champ, char *ln);
 void			ft_parse_line(t_champ *champ, char *ln);
 void			ft_parse_exec(t_champ *champ, int fd);

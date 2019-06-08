@@ -80,25 +80,25 @@ int main(int ac, char **av)
 //	new_name = last_slash + 1;
 
 
-	///int fd = open(new_name, O_CREAT | O_TRUNC | O_WRONLY, 0666);
+	int fd = open(new_name, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 
-	t_string *ref = ft_readall(new_name);
-	t_string *my = champ->res;
-	size_t i = 0;
-	while (i < my->len && i < ref->len)
-	{
-		ft_printf("Different chars ref:{Yellow}%.2x{eof} my:{Yellow}%.2x{eof} in pos %5d |%s\n",
-				  (u_char)ref->data[i], (u_char)my->data[i], i,
-			ref->data[i] == my->data[i] ?
-			"\x1B[32m+\x1B[0m" : "\x1B[1m\x1B[31m-\x1B[0m err");
-		i++;
-	}
-	if (i == ref->len)
-		ft_printf("{Red}Ref ended{eof}\n");
-	if (i == my->len)
-		ft_printf("{Red}My ended{eof}\n");
+//	t_string *ref = ft_readall(new_name);
+//	t_string *my = champ->res;
+//	size_t i = 0;
+//	while (i < my->len && i < ref->len)
+//	{
+//		ft_printf("Different chars ref:{Yellow}%.2x{eof} my:{Yellow}%.2x{eof} in pos %5d |%s\n",
+//				  (u_char)ref->data[i], (u_char)my->data[i], i,
+//			ref->data[i] == my->data[i] ?
+//			"\x1B[32m+\x1B[0m" : "\x1B[1m\x1B[31m-\x1B[0m err");
+//		i++;
+//	}
+//	if (i == ref->len)
+//		ft_printf("{Red}Ref ended{eof}\n");
+//	if (i == my->len)
+//		ft_printf("{Red}My ended{eof}\n");
 
-	///write(fd, champ->res->data, champ->res->len);
+	write(fd, champ->res->data, champ->res->len);
 
 	ft_free_champ(&champ, 0);
 

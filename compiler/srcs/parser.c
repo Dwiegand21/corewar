@@ -268,22 +268,13 @@ size_t		ft_find_bad_cmd_len(char *ln)
 	return (len);
 }
 
-void 		ft_add_label(t_champ *champ, char *lbl, char *ln)
+void 		ft_add_label(t_champ *champ, char *lbl)
 {
 	void **map_val;
 
 	if (!(map_val = ft_map_get(champ->labels, lbl)))
 		exit(ft_free_champ(&champ, 666));
-	if (*map_val != champ->labels->nil)
-	{
-		ft_make_error(MULT_LABEL, champ,
-			(int)(ln - ft_strlen(lbl) - (size_t)champ->curr_line + 1),
-			(void *[4]){lbl, 0, 0, 0});
-		free(lbl);
-		lbl = 0;
-	}
-	else
-		*map_val = (void*)(size_t)-1;
+	*map_val = (void*)(size_t)-1;
 	if (!ft_vector_push_back(&champ->current_labels, lbl))
 		exit(ft_free_champ(&champ, 666));
 }
@@ -300,7 +291,7 @@ void 		ft_parse_label(t_champ *champ, char *ln)
 	if (*ln != LABEL_CHAR)
 		ft_make_error(MISS_LBL_CHAR, champ, ln - champ->curr_line + 1,
 					  (void*[4]){(void*)(size_t)LABEL_CHAR, label, 0, 0});
-	ft_add_label(champ, label, ln);
+	ft_add_label(champ, label);
 	ln += (*ln && *ln == LABEL_CHAR);
 	ft_skip_spaces(&ln);
 	if (*ln && *ln != COMMENT_CHAR && *ln != ALT_CMT_CHAR
@@ -388,6 +379,7 @@ t_champ 	*ft_parser(char *file)
 		return (0);
 	ft_parse_header(champ, fd);
 	ft_parse_exec(champ, fd);
+	ft_upd_labels(champ);
 
 	return (champ);
 }
