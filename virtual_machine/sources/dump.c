@@ -44,6 +44,20 @@ static void		char_to_hex(uint8_t c)
 		ft_putchar(((c & 0x0f)) % 10 + 'a');
 }
 
+static void		print_processes(t_list *processes)
+{
+	if (DUMP_CMP == 0)
+		return ;
+	write(1, PROC_PRINT, 8);
+	while (processes != NULL)
+	{
+		write(1, &(((t_process *)processes->content)->player), 4);
+		write(1, &(((t_process *)processes->content)->pc), 4);
+		processes = processes->next;
+	}
+	write(1, PROC_PRINT, 8);
+}
+
 void			print_dump(t_area *area)
 {
 	int32_t		i;
@@ -60,7 +74,8 @@ void			print_dump(t_area *area)
 			char_to_hex(MAP[i * 64 + j]);
 			j++;
 		}
-		write(1, "\n", 1);
+		write(1, " \n", 2);
 		i++;
 	}
+	print_processes(area->processes);
 }

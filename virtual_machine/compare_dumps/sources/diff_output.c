@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "dump_diff.h"
+#include "compare_dumps.h"
 
 static int		line_length(const char *str)
 {

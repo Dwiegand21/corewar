@@ -33,9 +33,10 @@
 
 # endif
 
-# define DEBUG_			1			// Debug mode
+# define DEBUG_			0			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
 # define DEBUG_OPS_		0			// Operations stats
+# define DUMP_CMP		0			// Processes print on
 
 extern t_ops			g_ops[17];
 

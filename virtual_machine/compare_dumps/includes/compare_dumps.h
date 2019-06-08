@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dump_diff.h                                        :+:      :+:    :+:   */
+/*   compare_dumps.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -26,6 +26,8 @@
 # define W_BRED				"\033[1;101m"
 # define W_BGREEN			"\033[1;102m"
 # define W_BYELLOW			"\033[1;103m"
+
+# define PROC_PRINT			"\x3f\x9a\x1c\xae"
 
 typedef struct s_output		t_output;
 typedef struct s_dump_diff	t_dump;

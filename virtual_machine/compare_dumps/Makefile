@@ -1,15 +1,15 @@
 
-NAME			= dump_diff
+NAME			= dumpcmp
 
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
 
-SFILES			= dump_diff.c \
+SFILES			= main.c \
 					read_processes_output.c \
 					diff_output.c \
 					helpers.c
 
-HFILES			= dump_diff.h
+HFILES			= compare_dumps.h
 
 HEADERS			= $(addprefix $(IDIR),$(HFILES))
 
@@ -27,7 +27,7 @@ $(NAME): $(OFILES)
 	$(CC) $(OFILES) -o $(NAME)
 
 objects:
-	@mkdir -p $(OBJDIR)
+	@mkdir -p objects
 
 $(ODIR)%.o: $(SDIR)%.c $(HEADERS)
 	$(CC) $(CFLAGS) $(INC) -o $@ -c $<

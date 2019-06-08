@@ -68,6 +68,8 @@ int32_t				play_game(t_area *area)
 {
 	while (area->n_processes)
 	{
+		if (area->dump_round == area->round)
+			print_dump(area);
 		area->round++;
 		area->cycle_step++;
 		play_round(area);

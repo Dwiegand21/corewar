@@ -23,14 +23,8 @@ typedef struct s_player		t_player;
 typedef struct s_cor_file	t_cor_file;
 typedef struct s_area		t_area;
 typedef struct s_ops		t_ops;
-typedef struct s_rer		t_rer;
 
 enum		e_player_pos {FIRST, SECOND, THIRD, FOURTH};
-
-struct		s_rer
-{
-	int a;
-};
 
 struct		s_process
 {

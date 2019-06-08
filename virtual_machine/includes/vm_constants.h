@@ -77,6 +77,8 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 
 # define MAP				area->map
 
+# define PROC_PRINT			"\x3f\x9a\x1c\xae\x4c\x81\x3b\x7f"
+
 /*
 **					OP.H DEFINES
 */

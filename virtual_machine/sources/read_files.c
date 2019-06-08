@@ -88,6 +88,7 @@ int32_t			initialization_players(t_area *area, t_cor_file *files)
 	{
 		area->players[i].ordinal_number = files[i].champ_index;
 		area->players[i].start_pos = i * MEM_SIZE / area->n_players;
+		area->players[i].last_live = 0;
 		read_cor_file(area->players + i, files + i);
 		set_code_to_map(area, files, i);
 		i++;

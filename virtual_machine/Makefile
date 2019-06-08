@@ -57,13 +57,14 @@ objs:
 $(OBJDIR)%.o: $(SRCDIR)%.c $(HEADERS)
 	$(CC) $(CFLAGS) $(FT_INC) $(INC) -o $@ -c $<
 
-dd_l:
-	make -C ./dump_diff
-	ln -s ./dump_diff/dump_diff ./dd_l
+dump:
+	make -C compare_dumps re
+	rm -f dumpcmp
+	ln -s ./compare_dumps/dumpcmp ./dumpcmp
 
-dd_l-fclean:
-	rm -f dd_l
-	make -C dump_diff fclean
+dumpcmp-fclean:
+	rm -f dumpcmp
+	make -C compare_dumps fclean
 
 clean:
 	rm -f $(OFILES)
