@@ -21,30 +21,42 @@ function compile_my {
 }
 
 function compare {
+    wrong_count=0
+    right_count=0
+    total=0
     for arg in ${ARGS[@]}
     do
         ref=./tests/$(basename ${arg} | sed 's/.s$/.refcor/g')
         my=./tests/$(basename ${arg} | sed 's/.s$/.mycor/g')
 
+        total=$(( ${total} + 1 ))
         if [[ -f "${ref}" ]] && [[ ! -f "${my}" ]]; then
             echo "My not compiled. Ref compiled. ${arg}"
+            wrong_count=$(( ${wrong_count} + 1 ))
             continue
         fi
         if [[ ! -f "${ref}" ]] && [[ -f "${my}" ]]; then
             echo "Ref not compiled. My compiled. ${arg}"
+            wrong_count=$(( ${wrong_count} + 1 ))
             continue
         fi
         if [[ ! -f "${ref}" ]] && [[ ! -f "${my}" ]]; then
             echo "Both not compiled. ${arg}"
+            right_count=$(( ${right_count} + 1 ))
             continue
         fi
         diff_size=$(diff ${ref} ${my} | wc -l)
         if (( ${diff_size} )); then
+            wrong_count=$(( ${wrong_count} + 1 ))
             echo "Not same in file ${arg}"
         else
+            right_count=$(( ${right_count} + 1 ))
             echo "OK ${arg}"
         fi
     done
+    percent=$(( ${right_count} * 100 / ${total} ))
+    echo ""
+    echo "Right is ${right_count}/${total} (${percent}%)"
 }
 
 rm -f tests/*

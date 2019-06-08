@@ -353,7 +353,7 @@ static inline int	ft_is_lbl(char *ln, t_champ *champ, int is_cmd, int pos)
 	}
 	while (ft_strchr(LABEL_CHARS, *ln) && *ln)
 		++ln;
-	ft_skip_spaces(&ln);
+//	ft_skip_spaces(&ln); //note no need anymore
 	return (*ln == LABEL_CHAR ? 1 : 0);
 }
 
