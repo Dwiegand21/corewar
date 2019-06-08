@@ -31,27 +31,27 @@ function compare {
 
         total=$(( ${total} + 1 ))
         if [[ -f "${ref}" ]] && [[ ! -f "${my}" ]]; then
-            echo "My not compiled. Ref compiled. ${arg}"
+            printf "\x1B[31mMy not compiled. Ref compiled. ${arg}\x1B[0m\n"
             wrong_count=$(( ${wrong_count} + 1 ))
             continue
         fi
         if [[ ! -f "${ref}" ]] && [[ -f "${my}" ]]; then
-            echo "Ref not compiled. My compiled. ${arg}"
+            printf "\x1B[31mRef not compiled. My compiled. ${arg}\x1B[0m\n"
             wrong_count=$(( ${wrong_count} + 1 ))
             continue
         fi
         if [[ ! -f "${ref}" ]] && [[ ! -f "${my}" ]]; then
-            echo "Both not compiled. ${arg}"
+            printf "\x1B[32mBoth not compiled. ${arg}\x1B[0m\n"
             right_count=$(( ${right_count} + 1 ))
             continue
         fi
         diff_size=$(diff ${ref} ${my} | wc -l)
         if (( ${diff_size} )); then
             wrong_count=$(( ${wrong_count} + 1 ))
-            echo "Not same in file ${arg}"
+            printf "\x1B[31mNot same in file ${arg}\x1B[0m\n"
         else
             right_count=$(( ${right_count} + 1 ))
-            echo "OK ${arg}"
+            printf "\x1B[32mOK ${arg}\x1B[0m\n"
         fi
     done
     percent=$(( ${right_count} * 100 / ${total} ))
