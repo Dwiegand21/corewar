@@ -12,10 +12,11 @@
 
 #include "libft.h"
 
-void		ft_skip_spaces(char **ln)
+int		ft_skip_spaces(char **ln)
 {
 	if (!ln || !*ln)
-		return ;
+		return (1);
 	while (ft_isspace(**ln))
 		++(*ln);
+	return (1);
 }

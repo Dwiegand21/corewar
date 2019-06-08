@@ -53,76 +53,60 @@ int 		ft_is_command(char *line)
 }
 
 static inline int	ft_check_arg(t_champ *champ, char **ln, char *begin,
-		int type)
+		unsigned int type)
 {
-	char *lbl_pref_end;
-
 	if (!(!**ln || **ln == SEPARATOR_CHAR || **ln == COMMENT_CHAR ||
 			**ln == ALT_CMT_CHAR))
 		return (type);
-	if (type == T_DIR || type == T_REG)
+	if (type & T_DIR || type & T_REG)
 		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1,
 				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 			   (void*)1lu, begin, g_functions[champ->curr_cmd->cmd].name});
-	if (type == T_IND &&
+	if (type & T_IND &&
 	 champ->curr_cmd->arg_count < g_functions[champ->curr_cmd->cmd].arg_count)
 		ft_make_error(MISS_ARG, champ, begin - champ->curr_line + 1, // fixme
 				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 				g_functions[champ->curr_cmd->cmd].name, 0, 0});
-	if (type == T_LAB && (lbl_pref_end = begin))
-	{
-		while (*lbl_pref_end != LABEL_CHAR)
-			++lbl_pref_end;
-		ft_make_error(MISS_ARG_AFT_PRFX, champ, begin - champ->curr_line + 1, // fixme
-				(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
-				(void*)(lbl_pref_end - begin + 1), begin,
-				g_functions[champ->curr_cmd->cmd].name});
-	}
-	return (-1 * type);
+	return (-1 * (int)type);
 }
 
 static inline int	ft_get_arg_type(char **ln, t_champ *champ)
 {
-	char *const begin = *ln;
+	char *const		begin = *ln;
+	unsigned int	type;
 
-	if (**ln == DIRECT_CHAR && ++(*ln))
-	{
-		ft_skip_spaces(ln);
-		if (**ln == LABEL_CHAR && ++(*ln))
-		{
-			champ->curr_cmd->lbl_line = champ->line;
-			ft_skip_spaces(ln);
-			if (champ->curr_cmd->arg_count <
-			        g_functions[champ->curr_cmd->cmd].arg_count)
-				champ->curr_cmd->lbl_poses[champ->curr_cmd->arg_count] =
-					*ln - champ->curr_line;
-			return (ft_check_arg(champ, ln, begin, T_LAB));
-		}
-		else
-			return (ft_check_arg(champ, ln, begin, T_DIR));
-	}
-	else if (**ln == 'r' && ++(*ln))
-	{
-		ft_skip_spaces(ln);
-		return (ft_check_arg(champ, ln, begin, T_REG));
-	}
+	if (**ln == DIRECT_CHAR && ++(*ln) && ft_skip_spaces(ln))
+		type = T_DIR;
+	else if (**ln == 'r' && ++(*ln) && ft_skip_spaces(ln))
+		type = T_REG;
 	else
-		return (ft_check_arg(champ, ln, begin, T_IND));
+		type = T_IND;
+	if (**ln == LABEL_CHAR && ++(*ln) && ft_skip_spaces(ln))
+	{
+		champ->curr_cmd->lbl_line = champ->line;
+		if (champ->curr_cmd->arg_count <
+			g_functions[champ->curr_cmd->cmd].arg_count)
+			champ->curr_cmd->lbl_poses[champ->curr_cmd->arg_count] =
+					*ln - champ->curr_line;
+		type |= T_LAB;
+	}
+	type = (type & T_REG) ? T_REG : type;
+	return (ft_check_arg(champ, ln, begin, type));
 }
 
-static inline void		*ft_get_arg_val(char **ln, int type,
+static inline void		*ft_get_arg_val(char **ln, unsigned int type,
 		t_champ *champ, const char *begin)
 {
 	void		*arg;
 	char		*bad_arg;
 
-	if (type < 0)
+	if ((int)type < 0)
 		return (0);
 	bad_arg = 0;
-	arg = (type != T_LAB) ? (void*)(size_t)ft_atoi_m(ln) :
+	arg = ((type & T_LAB) == 0) ? (void*)(size_t)ft_atoi_m(ln) :
 			ft_get_lbl_name(champ, ln,
 				(char[4]){COMMENT_CHAR, SEPARATOR_CHAR, ALT_CMT_CHAR, '\0'});
-	if (type != T_LAB && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR &&
+	if ((type & T_LAB) == 0 && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR &&
 			**ln != ALT_CMT_CHAR && **ln && !ft_isspace(**ln))
 		bad_arg = *ln; // fixme
 	while (!ft_isspace(**ln) && **ln != SEPARATOR_CHAR && **ln != COMMENT_CHAR
@@ -131,10 +115,10 @@ static inline void		*ft_get_arg_val(char **ln, int type,
 	if (bad_arg)
 		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_line + 1,
 				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
-	if (type == T_REG && (int)(size_t)arg <= 0)
+	if (type & T_REG && (int)(size_t)arg <= 0)
 		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_line + 1,
 				(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
-	if (type == T_LAB &&
+	if (type & T_LAB &&
 	champ->curr_cmd->arg_count >= g_functions[champ->curr_cmd->cmd].arg_count)
 		free(arg);
 	return (arg);
@@ -164,33 +148,32 @@ static inline int 		ft_move_to_next_arg(t_champ *champ, char **ln)
 }
 
 static inline void	ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
-		int type, char *begin)
+		unsigned int type, char *begin)
 {
-	if (type == -1 * (int)T_IND)
+	if ((int)type == -1 * (int)T_IND)
 		return ;
-	type = (type < 0) ? type * -1 : type;
-	type = (type == T_LAB) ? T_DIR : type;
-	if ((unsigned)type & g_functions[cmd->cmd].arg[cmd->arg_count - 1])
+	type = ((int)type < 0) ? (int)type * -1 : type;
+	if (type & g_functions[cmd->cmd].arg[cmd->arg_count - 1])
 		return ;
 	ft_make_error(BAD_ARG_TYPE, champ, begin - champ->curr_line + 1,
 			(void*[4]){g_nbrs[cmd->arg_count], g_functions[cmd->cmd].name,
 			  g_types[g_functions[cmd->cmd].arg[cmd->arg_count - 1] - 1],
-			  g_types[type - 1]});
+			  g_types[(type & ~T_LAB) - 1]});
 }
 
 int			ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln)
 {
-	char *const	begin = *ln;
-	const int	type = ft_get_arg_type(ln, champ);
-	void *const	val = ft_get_arg_val(ln, type, champ, begin);
-	const int 	exp_arg_count = g_functions[cmd->cmd].arg_count;
+	char *const			begin = *ln;
+	const unsigned int	type = ft_get_arg_type(ln, champ);
+	void *const			val = ft_get_arg_val(ln, type, champ, begin);
+	const int			exp_arg_count = g_functions[cmd->cmd].arg_count;
 
 	if (cmd->arg_count < exp_arg_count &&
 			(cmd->arg_types[cmd->arg_count] = type))
 		cmd->args[cmd->arg_count] = val;
 	ft_skip_spaces(ln);
 	cmd->arg_count += !((cmd->arg_count >= exp_arg_count) &&
-		type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR ||
+			(int)type == -1 * (int)T_IND && (!**ln || **ln == COMMENT_CHAR ||
 		**ln == ALT_CMT_CHAR)); //fixme
 	if (cmd->arg_count > 0 && cmd->arg_count <= exp_arg_count)
 		ft_check_arg_type_for_op(champ, cmd, type, begin);
@@ -220,11 +203,11 @@ static inline int	ft_get_op_size(t_cmd *cmd)
 	res += 1 + g_functions[cmd->cmd].need_types_byte;
 	while (++i < cmd->arg_count)
 	{
-		if (cmd->arg_types[i] == T_REG)
+		if (cmd->arg_types[i] & T_REG)
 			res += 1;
-		else if (cmd->arg_types[i] == T_DIR || cmd->arg_types[i] == T_LAB)
+		else if (cmd->arg_types[i] & T_DIR)
 			res += g_functions[cmd->cmd].short_dir ? IND_SIZE : DIR_SIZE;
-		else if (cmd->arg_types[i] == T_IND)
+		else if (cmd->arg_types[i] & T_IND)
 			res += IND_SIZE;
 	}
 	return (res);

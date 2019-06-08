@@ -49,7 +49,6 @@ unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i)
 	unsigned int	arg;
 
 	arg = 0;
-	cmd->arg_types[i] = T_DIR;
 	if (!(map_val = ft_map_get(champ->labels, cmd->args[i])))
 		exit(ft_free_champ(&champ, 666));
 	if (*map_val == champ->labels->nil)

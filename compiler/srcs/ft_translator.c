@@ -42,11 +42,11 @@ static inline char ft_get_types_byte(t_cmd *cmd)
 		code = 0;
 		if (i < cmd->arg_count)
 		{
-			if (cmd->arg_types[i] == T_REG)
+			if (cmd->arg_types[i] & T_REG)
 				code = REG_CODE % 4;
-			else if (cmd->arg_types[i] == T_DIR || cmd->arg_types[i] == T_LAB)
+			else if (cmd->arg_types[i] & T_DIR)
 				code = DIR_CODE % 4;
-			else if (cmd->arg_types[i] == T_IND)
+			else if (cmd->arg_types[i] & T_IND)
 				code = IND_CODE % 4;
 		}
 		res |= code;
@@ -54,7 +54,7 @@ static inline char ft_get_types_byte(t_cmd *cmd)
 	return (res);
 }
 
-static inline void	ft_translate_op(t_champ *champ, t_cmd *cmd)
+static inline void	ft_translate_args(t_champ *champ, t_cmd *cmd)
 {
 	int				i;
 	int				arg_len;
@@ -66,14 +66,14 @@ static inline void	ft_translate_op(t_champ *champ, t_cmd *cmd)
 	while (++i < cmd->arg_count)
 	{
 		type_backup = cmd->arg_types[i];
-		if (cmd->arg_types[i] == T_LAB)
+		if (cmd->arg_types[i] & T_LAB)
 			arg = ft_get_lbl_arg(champ, cmd, i);
 		else
 			arg = (unsigned)cmd->args[i];
-		if (cmd->arg_types[i] == T_REG)
+		if (cmd->arg_types[i] & T_REG)
 			arg_len = 1;
-		else if (cmd->arg_types[i] == T_IND ||
-			(g_functions[cmd->cmd].short_dir && cmd->arg_types[i] == T_DIR))
+		else if (cmd->arg_types[i] & T_IND ||
+			(g_functions[cmd->cmd].short_dir && cmd->arg_types[i] & T_DIR))
 			arg_len = IND_SIZE;
 		else
 			arg_len = DIR_SIZE;
@@ -98,7 +98,7 @@ static inline void	ft_translate_exec_part(t_champ *champ)
 		ft_string_push_back(&champ->res, cmd->cmd + 1);
 		if (g_functions[cmd->cmd].need_types_byte)
 			ft_string_push_back(&champ->res, ft_get_types_byte(cmd));
-		ft_translate_op(champ, cmd);
+		ft_translate_args(champ, cmd);
 	}
 }
 
