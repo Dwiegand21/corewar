@@ -1,82 +1,28 @@
 
-NAME		= corewar
+COREWAR_DIR			= ./corewar/
+COREWAR_EXE_NAME	= corewar
+COREWAR_EXE			= $(addprefix $(COREWAR_DIR),$(COREWAR_EXE_NAME))
 
-CC			= gcc
-CFLAGS		= #-Wall -Wextra -Werror
+CMPDUMP_DIR			= ./compare_dumps/
+CMPDUMP_EXE_NAME	= dumpcmp
+CMPDUMP_EXE			= $(addprefix $(CMPDUMP_DIR),$(CMPDUMP_EXE_NAME))
 
-SFILES		= main.c \
-					globals.c \
-					initialization.c \
-					read_arguments.c \
-					check_flags.c \
-					read_files.c \
-					processes_ops.c \
-					free_args.c \
-					vm_operations1.c \
-					vm_operations2.c \
-					vm_operations3.c \
-					vm_operations4.c \
-					vm_ops_methods.c \
-					vm_map_ops.c \
-					vm_game.c \
-					dump.c \
-					helpers.c
+VISUAL_DIR			= ./visualisation/
+VISUAL_EXE_NAME		= visualization
+VISUAL_EXE			= $(addprefix $(VISUAL_DIR),$(VISUAL_EXE_NAME))
 
-HFILES		= virtual_machine.h \
-					vm_types.h \
-					vm_constants.h
+all: corewar
 
-HEADERS		= $(addprefix $(INCDIR),$(HFILES))
+corewar:
+	@make -C $(COREWAR_DIR) 1>/dev/null
 
-OFILES		= $(addprefix $(OBJDIR),$(SFILES:.c=.o))
+visualization:
+	@make -C $(VISUAL_DIR) 1>/dev/null
 
-INC			= -I $(INCDIR)
+compare_dumps:
+	@make -C $(CMPDUMP_DIR) 1>/dev/null
 
-INCDIR		= ./includes/
-SRCDIR		= ./sources/
-OBJDIR		= ./objs/
-
-FT			= $(addprefix $(FT_DIR),$(FT_NAME))
-FT_NAME		= libft.a
-FT_DIR		= ./libft
-FT_INC		= -I $(FT_DIR)
-FT_LIB		= -L $(FT_DIR) -l ft
+fclean:
 
 
-all: objs $(FT) $(NAME)
-
-$(NAME): $(OFILES)
-	$(CC) $(OFILES) $(FT_LIB) -o $(NAME)
-
-$(FT):
-	@make -C $(FT_DIR) all
-
-objs:
-	@mkdir -p $(OBJDIR)
-
-$(OBJDIR)%.o: $(SRCDIR)%.c $(HEADERS)
-	$(CC) $(CFLAGS) $(FT_INC) $(INC) -o $@ -c $<
-
-dump:
-	make -C compare_dumps re
-	rm -f dumpcmp
-	ln -s ./compare_dumps/dumpcmp ./dumpcmp
-
-dumpcmp-fclean:
-	rm -f dumpcmp
-	make -C compare_dumps fclean
-
-clean:
-	rm -f $(OFILES)
-	make -C $(FT_DIR) clean
-
-fclean: clean
-	rm -f $(NAME)
-	make -C $(FT_DIR) fclean
-
-re: fclean all
-
-recode:
-	rm -f $(OFILES)
-	rm -f $(NAME)
-	make -C . all
+.PHONY: corewar visualization compare_dumps

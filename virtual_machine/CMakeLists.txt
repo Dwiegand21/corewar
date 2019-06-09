@@ -1,32 +1,34 @@
 cmake_minimum_required(VERSION 2.9)
 
-project(virtual_machine C)
+project(corewar C)
 
 set(CMAKE_C_STANDARD 99)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 
-set(EXE_FILES   sources/main.c
-                sources/initialization.c
-                sources/free_args.c
-                sources/processes_ops.c
-                sources/read_files.c
-                sources/read_arguments.c
-                sources/check_flags.c
-                sources/globals.c
-                sources/helpers.c
-                sources/vm_operations1.c
-                sources/vm_operations2.c
-                sources/vm_operations3.c
-                sources/vm_operations4.c
-        sources/vm_map_ops.c
-                sources/vm_ops_methods.c sources/vm_game.c sources/dump.c)
+set(EXE_FILES corewar/sources/main.c
+        corewar/sources/initialization.c
+        corewar/sources/free_args.c
+        corewar/sources/processes_ops.c
+        corewar/sources/read_files.c
+        corewar/sources/read_arguments.c
+        corewar/sources/check_flags.c
+        corewar/sources/globals.c
+        corewar/sources/helpers.c
+        corewar/sources/vm_operations1.c
+        corewar/sources/vm_operations2.c
+        corewar/sources/vm_operations3.c
+        corewar/sources/vm_operations4.c
+        corewar/sources/vm_map_ops.c
+        corewar/sources/vm_ops_methods.c
+        corewar/sources/vm_game.c
+        corewar/sources/dump.c)
 
-include_directories(corewar includes
-                            libft )
+include_directories(corewar/includes
+        libft/includes)
 
-add_executable(corewar ${EXE_FILES})
+add_executable(corewar_exe ${EXE_FILES})
 
 add_subdirectory(libft)
 
-target_link_libraries(corewar libft)
+target_link_libraries(corewar_exe libft)
