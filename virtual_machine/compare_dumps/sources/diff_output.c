@@ -43,30 +43,31 @@ static int		end_of_line(char c)
 
 static void		putchar_c(char c, int color)
 {
-	if (color == 1)
+	if (color == 0)
+	{
+		write(1, &c, 1);
+	}
+	else if (color == 1)
 	{
 		write(1, RED, 7);
 		write(1, &c, 1);
-		write(1, RESET, 4);
 	}
 	else if (color == 2)
 	{
 		write(1, GREEN, 7);
 		write(1, &c, 1);
-		write(1, RESET, 4);
 	}
 	else if (color == 3)
 	{
 		write(1, W_BRED, 8);
 		write(1, &c, 1);
-		write(1, RESET, 4);
 	}
 	else
 	{
 		write(1, W_BGREEN, 8);
 		write(1, &c, 1);
-		write(1, RESET, 4);
 	}
+	write(1, RESET, 4);
 }
 
 static int		compare_lines(char* this, char* cmp, int length, int color)
@@ -85,7 +86,7 @@ static int		compare_lines(char* this, char* cmp, int length, int color)
 	{
 		if (*cmp == *this)
 		{
-			write(1, this, 1);
+			putchar_c(*this, 0);
 			cmp++;
 		}
 		else

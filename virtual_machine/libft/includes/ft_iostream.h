@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 06:43:41 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/09 09:16:35 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/11 01:57:19 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 
-# define BUFF_SIZE 512
+# define GNL_BUFF_SIZE 512
 # define MAX_SIZE_FD 20
 
 typedef struct s_list t_list;

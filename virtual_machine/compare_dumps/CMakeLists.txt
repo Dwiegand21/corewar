@@ -5,7 +5,7 @@ project(dump_diff)
 set(EXE_FILES sources/main.c
         sources/read_processes_output.c
         sources/diff_output.c
-        sources/helpers.c)
+        )
 
 include_directories(includes)
 

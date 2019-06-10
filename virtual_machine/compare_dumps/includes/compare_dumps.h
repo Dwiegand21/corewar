@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdint.h>
+# include "libft.h"
 
 # define BUFF_SIZE			256
 
@@ -45,9 +46,6 @@ struct		s_dump_diff
 	FILE*		origin_vm;
 	FILE*		our_vm;
 };
-
-char			*ft_strjoin(char const *s1, char const *s2);
-void			ft_error(const char *error);
 
 int 			read_processes_output(t_dump *dd, char *av[]);
 

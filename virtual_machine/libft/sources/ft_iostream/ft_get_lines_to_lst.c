@@ -77,12 +77,12 @@ int					ft_get_lines_to_lst(int fd, t_list **list)
 	int			ret;
 
 	line = NULL;
-	if (fd < 0 || !(buf = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)))
+	if (fd < 0 || !(buf = (char *)malloc(sizeof(char) * GNL_BUFF_SIZE + 1)))
 		return (0);
 	ret = 1;
 	while (ret > 0)
 	{
-		if ((ret = read(fd, buf, BUFF_SIZE)) > 0)
+		if ((ret = read(fd, buf, GNL_BUFF_SIZE)) > 0)
 		{
 			buf[ret] = 0;
 			if (ret == -1 || !ft_fill_line(&line, buf) || !ft_join(&line, list))

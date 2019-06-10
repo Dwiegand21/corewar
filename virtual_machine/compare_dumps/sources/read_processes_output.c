@@ -18,23 +18,23 @@ static FILE* 	open_process(char* process, char* flag)
 	char 	*s;
 
 	if ((strstr(process, "corewar")) == NULL)
-		ft_error("Invalide name of file\n");
+		ft_error("Invalide name of file\n", __func__);
 	command = ft_strjoin("./", process);
 	if (command == NULL)
-		ft_error("ft_strjoin: memory allocated error");
+		ft_error("ft_strjoin: memory allocated error", __func__);
 	s = command;
 	command = ft_strjoin(command, " ");
 	free(s);
 	if (command == NULL)
-		ft_error("ft_strjoin: memory allocated error");
+		ft_error("ft_strjoin: memory allocated error", __func__);
 	s = command;
 	command = ft_strjoin(command, flag);
 	free(s);
 	if (command == NULL)
-		ft_error("ft_strjoin: memory allocated error");
+		ft_error("ft_strjoin: memory allocated error", __func__);
 	FILE	*p = popen(command, "r");
 	if (p == NULL)
-		ft_error("popen: open error");
+		ft_error("popen: open error", __func__);
 	printf("open process: OK!\n");
 	return (p);
 }
@@ -73,7 +73,7 @@ static char* 	read_process(FILE* process)
 	pclose(process);
 	if (output[0] == 0)
 	{
-		ft_error("Invalide output");
+		ft_error("Invalide output", __func__);
 	}
 	return (output);
 }

@@ -1,8 +1,8 @@
 /corewar
 /asm
 compiler/asm
-virtual_machine/corewar
-*.cor
+#virtual_machine/corewar
+#*.cor
 .norm_script.sh
 *.o
 *.d

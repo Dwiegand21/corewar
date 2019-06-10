@@ -68,18 +68,18 @@ static char		*join(char *cur, char *new)
 
 int				ft_get_next_line(const int fd, char **line)
 {
-	char		buff[BUFF_SIZE + 1];
+	char		buff[GNL_BUFF_SIZE + 1];
 	int			ret;
 	static char	*new;
 
-	if (BUFF_SIZE < 0 || !line || fd > MAX_SIZE_FD || fd < 0)
+	if (GNL_BUFF_SIZE < 0 || !line || fd > MAX_SIZE_FD || fd < 0)
 		return (-1);
 	if (!new)
 		new = ft_strnew(1);
 	ret = 2;
 	while (!(ft_strchr(new, '\n')))
 	{
-		ret = read(fd, buff, BUFF_SIZE);
+		ret = read(fd, buff, GNL_BUFF_SIZE);
 		if (ret == -1)
 			return (-1);
 		buff[ret] = '\0';
