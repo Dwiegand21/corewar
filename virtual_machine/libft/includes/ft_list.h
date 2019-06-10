@@ -6,7 +6,7 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 07:12:07 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/09 07:48:32 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/10 14:38:43 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,9 @@ int				ft_lstadd_back(t_list **alst, t_list *new);
 t_list			*ft_lstcpy(t_list *lst);
 
 t_list			*ft_lstrcpy(t_list *lst);
+
+t_list			*ft_lstsort(t_list *list, int (*f)(t_list *, t_list *));
+
+void 			ft_lstswap(t_list *a, t_list *b);
 
 #endif //LIBFT_FT_LIST_H

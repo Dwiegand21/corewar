@@ -6,7 +6,7 @@
 #    By: axtazy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 16:00:14 by dwiegand          #+#    #+#              #
-#    Updated: 2019/06/09 08:56:19 by axtazy           ###   ########.fr        #
+#    Updated: 2019/06/10 14:51:17 by axtazy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME			= libft.a
 
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
+
+.SUFFIX: .c .o .h .a
 
 # Files from 'ft_string'
 SFILES1			= ft_atoi.c \
@@ -77,7 +79,9 @@ SFILES3			= ft_lstadd.c \
 					ft_lstlen.c \
 					ft_lstrev.c \
 					ft_lstcpy.c \
-					ft_lstrcpy.c
+					ft_lstrcpy.c \
+					ft_lstsort.c \
+					ft_lstswap.c
 
 # Files from 'ft_oistream'
 SFILES4			= ft_putchar_fd.c \
@@ -140,28 +144,28 @@ all: $(NAME)
 $(NAME): $(OFILES)
 	ar rcs $(NAME) $(OFILES)
 
-$(OBJDIR)%.o: $(SRCDIR1)%.c
+$(OBJDIR)%.o: $(SRCDIR1)%.c $(INCDIR)ft_string.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR2)%.c
+$(OBJDIR)%.o: $(SRCDIR2)%.c $(INCDIR)ft_memory.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR3)%.c
+$(OBJDIR)%.o: $(SRCDIR3)%.c $(INCDIR)ft_list.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR4)%.c
+$(OBJDIR)%.o: $(SRCDIR4)%.c $(INCDIR)ft_iostream.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR5)%.c
+$(OBJDIR)%.o: $(SRCDIR5)%.c $(INCDIR)ft_queue.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR6)%.c
+$(OBJDIR)%.o: $(SRCDIR6)%.c $(INCDIR)ft_stack.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR7)%.c
+$(OBJDIR)%.o: $(SRCDIR7)%.c $(INCDIR)ft_matrix.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR8)%.c
+$(OBJDIR)%.o: $(SRCDIR8)%.c $(INCDIR)ft_project_assets.h
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
@@ -171,3 +175,5 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
