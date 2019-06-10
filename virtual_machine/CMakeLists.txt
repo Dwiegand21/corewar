@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 set(EXE_FILES corewar/sources/main.c
         corewar/sources/initialization.c
         corewar/sources/free_args.c
-        corewar/sources/processes_ops.c
+        corewar/sources/vm_processes_ops.c
         corewar/sources/read_files.c
         corewar/sources/read_arguments.c
         corewar/sources/check_flags.c
@@ -22,7 +22,7 @@ set(EXE_FILES corewar/sources/main.c
         corewar/sources/vm_map_ops.c
         corewar/sources/vm_ops_methods.c
         corewar/sources/vm_game.c
-        corewar/sources/dump.c)
+        corewar/sources/vm_print_dump.c)
 
 include_directories(corewar/includes
         libft/includes)

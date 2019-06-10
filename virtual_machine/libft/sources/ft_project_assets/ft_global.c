@@ -6,11 +6,9 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 05:48:50 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/09 06:02:07 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/09 13:59:43 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <glob.h>
-
-char 	g_project_name[31] = "";
-int 	g_project_name_def = 0;
+char 			g_project_name[31] = "";
+unsigned int 	g_project_status_flags = 0;
