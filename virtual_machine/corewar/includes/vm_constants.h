@@ -87,7 +87,8 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define SN_PLAYERS			area->g_stats.n_players
 # define SN_PROCESS			area->g_stats.n_processes
 
-# define PROC_PRINT			"\x3f\x9a\x1c\xae\x4c\x81\x3b\x7f"
+# define PROC_PRINT			"//#/##/:"
+
 
 /*
 **					OP.H DEFINES

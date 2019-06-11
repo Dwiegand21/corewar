@@ -29,10 +29,11 @@
 # define W_BGREEN			"\033[1;102m"
 # define W_BYELLOW			"\033[1;103m"
 
-# define PROC_PRINT			"\x3f\x9a\x1c\xae"
+# define PROC_PRINT			"//#/##/:"
 
 typedef struct s_output		t_output;
 typedef struct s_dump_diff	t_dump;
+typedef struct s_process	t_process;
 
 struct		s_output
 {
@@ -45,6 +46,13 @@ struct		s_dump_diff
 	t_output*	strings;
 	FILE*		origin_vm;
 	FILE*		our_vm;
+	t_list*		processes;
+};
+
+struct		s_process
+{
+	int32_t		player;
+	int32_t		pc;
 };
 
 int 			read_processes_output(t_dump *dd, char *av[]);

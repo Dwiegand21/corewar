@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dump.c                                             :+:      :+:    :+:   */
+/*   vm_print_dump.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 10:09:39 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/06 10:09:39 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/11 02:41:19 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+#include <stdlib.h>
+
+void			print_bits(void *p, size_t size)
+{
+	while (size--)
+	{
+		for(int j = 7; j >= 0; j--)
+		{
+			printf("%d", ((*((char*)p) >> (size * 8 + j)) & 0x01));
+		}
+		printf(" ");
+	}
+	printf("\n");
+}
 
 static void		print_hex_addr(int32_t index)
 {
@@ -48,14 +62,15 @@ static void		print_processes(t_list *processes)
 {
 	if (DUMP_CMP == 0)
 		return ;
-	write(1, PROC_PRINT, 8);
+	ft_putendl(PROC_PRINT);
 	while (processes != NULL)
 	{
-		write(1, &(((t_process *)processes->content)->player), 4);
-		write(1, &(((t_process *)processes->content)->pc), 4);
+		ft_putnbr(((t_process *)processes->content)->player);
+		ft_putnbr(((t_process *)processes->content)->pc);
+		ft_putendl("");
 		processes = processes->next;
 	}
-	write(1, PROC_PRINT, 8);
+	ft_putendl(PROC_PRINT);
 }
 
 void			print_dump(t_area *area)

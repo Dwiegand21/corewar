@@ -31,7 +31,7 @@
 # define DEBUG_			0			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
 # define DEBUG_OPS_		0			// Operations stats
-# define DUMP_CMP		0			// Print processes position on
+# define DUMP_CMP		1			// Print processes position on
 
 extern t_ops			g_ops[17];
 

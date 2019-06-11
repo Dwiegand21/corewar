@@ -7,6 +7,7 @@ set(EXE_FILES sources/main.c
         sources/diff_output.c
         )
 
-include_directories(includes)
+include_directories(includes
+                   ../libft/includes)
 
 add_executable(dumpcmp ${EXE_FILES})

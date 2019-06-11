@@ -6,11 +6,13 @@
 /*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:00:31 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/07 13:58:23 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/11 06:41:43 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "compare_dumps.h"
+
+int 		position = 0;
 
 static int		line_length(const char *str)
 {
@@ -70,20 +72,46 @@ static void		putchar_c(char c, int color)
 	write(1, RESET, 4);
 }
 
-static int		compare_lines(char* this, char* cmp, int length, int color)
+static void		process_pos(t_list **list)
+{
+	t_list*	cur;
+	if (*list == NULL)
+		return ;
+	if (((t_process *)((*list)->content))->pc == position)
+	{
+		write(1, W_BYELLOW, 8);
+		cur = *list;
+		*list = (*list)->next;
+		free(cur);
+	}
+}
+
+static int		compare_lines(	t_list* list,
+								char* this,
+								char* cmp,
+								int length,
+								int color )
 {
 	int 	n_diff = 0;
 	int 	i = 0;
 
 	if (color == 2)
 	{
-		cmp += 9;
-		this += 9;
-		i += 9;
 		write(1, "         ", 9);
 	}
+	else
+	{
+		write(1, this, 9);
+	}
+	cmp += 9;
+	this += 9;
+	i += 9;
 	while (!end_of_line(*this))
 	{
+		if (color == 2)
+		{
+			process_pos(&list);
+		}
 		if (*cmp == *this)
 		{
 			putchar_c(*this, 0);
@@ -96,6 +124,8 @@ static int		compare_lines(char* this, char* cmp, int length, int color)
 				cmp++;
 			n_diff++;
 		}
+		if (color == 2 && *this == ' ')
+			position++;
 		this++;
 		i++;
 	}
@@ -119,8 +149,8 @@ int				compare_output(t_dump *dd)
 	while (*origin != 0 || *our != 0)
 	{
 		length = biggest_length(origin, our);
-		diff_status += compare_lines(origin, our, length, 1);
-		compare_lines(our, origin, length, 2);
+		diff_status += compare_lines(NULL, origin, our, length, 1);
+		compare_lines(dd->processes, our, origin, length, 2);
 		our += line_length(our);
 		origin += line_length(origin);
 		if (*our == '\n')

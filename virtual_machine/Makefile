@@ -20,8 +20,12 @@ EXEFILES			= $(addprefix $(EXE_PATH),	$(COREWAR_EXE_NAME) \
 												$(CMPDUMP_EXE_NAME) \
 												$(VISUAL_EXE_NAME))
 
+ASSETS_NAME			= champs
+ASSETS_DIR			= ./original_sources/
+ASSETS_PATH			= $(addprefix $(ASSETS_DIR),$(ASSETS_NAME))
+ASSETS_LNK			= $(addprefix $(EXE_PATH),$(ASSETS_NAME))
 
-all: $(EXE_PATH) $(EXEFILES)
+all: $(EXE_PATH) $(ASSETS_LNK) $(EXEFILES)
 
 install: make_all all
 
@@ -32,8 +36,13 @@ make_all:
 	@make -C $(CMPDUMP_DIR) all
 	@make -C $(VISUAL_DIR) all
 
-$(EXEDIR):
-	@mkdir -p $(EXE_PATH)
+$(EXE_PATH):
+	mkdir -p $(EXE_PATH)
+
+$(ASSETS_LNK):
+	echo ">> `$(srcdir)'"
+	rm -f $(ASSETS_LNK)
+	ln -s $(ASSETS_PATH) $(ASSETS_LNK)
 
 # - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
 
@@ -72,6 +81,7 @@ $(VISUAL_EXE):
 
 clean:
 	rm -f $(EXEFILES)
+	rm -f $(ASSETS_LNK)
 
 fclean: clean
 	@make -C $(COREWAR_DIR) fclean
