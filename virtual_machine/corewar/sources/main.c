@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:45:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/11 01:19:48 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/12 12:55:22 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int32_t		main(int argc, char **argv)
 	{
 		area = initialization_area();
 		read_arguments(area, argc - 1, argv + 1);
-		//play_game(area);
+//		print_dump(area);
+		play_game(area);
 	}
 	free_args(&area);
 	return 0;

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.9)
 
-project(corewar C)
+project(virtual_machine C)
 
 set(CMAKE_C_STANDARD 99)
 

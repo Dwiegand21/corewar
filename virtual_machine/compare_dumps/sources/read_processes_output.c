@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_processes_output.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 05:27:38 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/11 06:31:05 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/12 13:19:01 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static FILE* 	open_process(char* process, char* flag)
 	FILE	*p = popen(command, "r");
 	if (p == NULL)
 		ft_error("popen: open error", __func__);
-	printf("open process: OK!\n");
 	return (p);
 }
 
@@ -74,8 +73,9 @@ static t_list*	read_processes(char *buff, FILE *process)
 	lst = NULL;
 	while ((fgets(buff, BUFF_SIZE - 1, process)) != NULL)
 	{
-		if ((ft_strcmp(buff, PROC_PRINT)) == 0)
+		if ((ft_strncmp(buff, PROC_PRINT, 8)) == 0)
 			break ;
+		//printf("buff_data: |%s|\n", buff);
 		ft_lstadd(&lst, get_process(buff));
 	}
 	ft_lstsort(lst, &data_compare);
@@ -121,7 +121,7 @@ static char* 	read_process(FILE* process, t_list **processes_list)
 //	return (1);
 //}
 
-static void 	data_print(t_list *a)
+void 			data_print(t_list *a)
 {
 	printf("%d: %d\n", ((t_process *)a->content)->player,
 							((t_process *)a->content)->pc);
@@ -139,5 +139,7 @@ int 			read_processes_output(t_dump *dd, char *av[])
 	dd->strings->our = read_process(dd->our_vm, &list);
 	dd->processes = list;
 	ft_lstiter(list, &data_print);
+	//printf("end\n");
+	//exit(1);
 	return (0);
 }

@@ -20,6 +20,8 @@
 # include <stdint.h>
 # include "libft.h"
 
+# define ORIGIN				0
+
 # define BUFF_SIZE			256
 
 # define RESET				"\033[0m"
@@ -27,7 +29,7 @@
 # define GREEN				"\033[1;92m"
 # define W_BRED				"\033[1;101m"
 # define W_BGREEN			"\033[1;102m"
-# define W_BYELLOW			"\033[1;103m"
+# define W_BYELLOW			"\033[1;104m"
 
 # define PROC_PRINT			"//#/##/:"
 
@@ -58,5 +60,7 @@ struct		s_process
 int 			read_processes_output(t_dump *dd, char *av[]);
 
 int				compare_output(t_dump *dd);
+
+void 			data_print(t_list *a);
 
 #endif //VIRTUAL_MACHINE_DUMP_DIFF_H

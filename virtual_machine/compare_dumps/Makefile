@@ -2,7 +2,7 @@
 NAME			= dumpcmp
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= #-Wall -Wextra -Werror
 
 SFILES			= main.c \
 					read_processes_output.c \

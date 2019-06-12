@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   diff_output.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 08:00:31 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/11 06:41:43 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/12 14:45:45 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,37 @@ static void		putchar_c(char c, int color)
 	write(1, RESET, 4);
 }
 
-static void		process_pos(t_list **list)
+static t_list*	lstdel(t_list *list, int pc)
 {
 	t_list*	cur;
-	if (*list == NULL)
-		return ;
-	if (((t_process *)((*list)->content))->pc == position)
+
+	while (list && ((t_process *)((list)->content))->pc == pc)
 	{
-		write(1, W_BYELLOW, 8);
-		cur = *list;
-		*list = (*list)->next;
-		free(cur);
+		cur = list->next;
+		free(list);
+		list = cur;
 	}
+	return (list);
 }
 
-static int		compare_lines(	t_list* list,
+static t_list*	process_pos(t_list *list, char *str)
+{
+
+
+	if (list == NULL)
+		return NULL;
+	if (((t_process *)((list)->content))->pc == position)
+	{
+		write(1, W_BYELLOW, 8);
+		if (*(str + 1) == ' ')
+		{
+			return (lstdel(list, ((t_process *)((list)->content))->pc));
+		}
+	}
+	return (list);
+}
+
+static int		compare_lines(	t_list** list,
 								char* this,
 								char* cmp,
 								int length,
@@ -95,7 +111,7 @@ static int		compare_lines(	t_list* list,
 	int 	n_diff = 0;
 	int 	i = 0;
 
-	if (color == 2)
+	if (color == 1)
 	{
 		write(1, "         ", 9);
 	}
@@ -110,7 +126,7 @@ static int		compare_lines(	t_list* list,
 	{
 		if (color == 2)
 		{
-			process_pos(&list);
+			*list = process_pos(*list, this);
 		}
 		if (*cmp == *this)
 		{
@@ -146,11 +162,13 @@ int				compare_output(t_dump *dd)
 	int 	diff_status = 0;
 	int 	length;
 
+	//ft_lstiter(dd->processes, &data_print);
 	while (*origin != 0 || *our != 0)
 	{
 		length = biggest_length(origin, our);
-		diff_status += compare_lines(NULL, origin, our, length, 1);
-		compare_lines(dd->processes, our, origin, length, 2);
+		diff_status += compare_lines(&dd->processes, our, origin, length, 2);
+		if (ORIGIN)
+			compare_lines(&dd->processes, origin, our, length, 1);
 		our += line_length(our);
 		origin += line_length(origin);
 		if (*our == '\n')
@@ -158,5 +176,6 @@ int				compare_output(t_dump *dd)
 		if (*origin == '\n')
 			origin++;
 	}
+	//printf("last pos: %d\n", position);
 	return (0);
 }

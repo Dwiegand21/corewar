@@ -17,15 +17,15 @@ VISUAL_EXE			= $(addprefix $(VISUAL_DIR),$(VISUAL_EXE_NAME))
 VISUAL_COPY			= $(addprefix $(EXE_PATH),$(VISUAL_EXE_NAME))
 
 EXEFILES			= $(addprefix $(EXE_PATH),	$(COREWAR_EXE_NAME) \
-												$(CMPDUMP_EXE_NAME) \
-												$(VISUAL_EXE_NAME))
+												$(CMPDUMP_EXE_NAME))
+#												$(VISUAL_EXE_NAME)
 
 ASSETS_NAME			= champs
 ASSETS_DIR			= ./original_sources/
 ASSETS_PATH			= $(addprefix $(ASSETS_DIR),$(ASSETS_NAME))
 ASSETS_LNK			= $(addprefix $(EXE_PATH),$(ASSETS_NAME))
 
-all: $(EXE_PATH) $(ASSETS_LNK) $(EXEFILES)
+all: corewar compare_dumps $(ASSETS_LNK)
 
 install: make_all all
 
@@ -34,41 +34,34 @@ reinstall: fclean all
 make_all:
 	@make -C $(COREWAR_DIR) all
 	@make -C $(CMPDUMP_DIR) all
-	@make -C $(VISUAL_DIR) all
+#	@make -C $(VISUAL_DIR) all
 
 $(EXE_PATH):
 	mkdir -p $(EXE_PATH)
 
 $(ASSETS_LNK):
-	echo ">> `$(srcdir)'"
 	rm -f $(ASSETS_LNK)
 	ln -s $(ASSETS_PATH) $(ASSETS_LNK)
 
 # - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
 
-corewar: $(COREWAR_COPY)
-
-$(COREWAR_COPY): $(COREWAR_EXE)
+corewar:
+	@make -C $(COREWAR_DIR)
 	rm -f $(COREWAR_COPY)
 	cp $(COREWAR_EXE) $(COREWAR_COPY)
 
-$(COREWAR_EXE):
-	@make -C $(COREWAR_DIR)
 
 # - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
 
-visualization: $(CMPDUMP_COPY)
-
-$(CMPDUMP_COPY): $(CMPDUMP_EXE)
+compare_dumps:
+	@make -C $(CMPDUMP_DIR)
 	rm -f $(CMPDUMP_COPY)
 	cp $(CMPDUMP_EXE) $(CMPDUMP_COPY)
 
-$(CMPDUMP_EXE):
-	@make -C $(CMPDUMP_DIR)
 
 # - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
 
-compare_dumps: $(VISUAL_COPY)
+visualization: $(VISUAL_COPY)
 
 $(VISUAL_COPY): $(VISUAL_EXE)
 	rm -f $(VISUAL_COPY)

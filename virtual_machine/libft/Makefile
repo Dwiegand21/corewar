@@ -139,7 +139,10 @@ OBJDIR			= ./objects/
 
 INC				= -I $(INCDIR)
 
-all: $(NAME)
+all: $(OBJDIR) $(NAME)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 $(NAME): $(OFILES)
 	ar rcs $(NAME) $(OFILES)

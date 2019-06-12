@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_operations2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:20 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/05 17:44:05 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/12 14:27:27 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void		sub_op(t_area *area, t_process *process) // dir_size = 4ca
 {
 	if (R_T(OCT00) && R_T(OCT01) && R_T(OCT02))
 	{
-		if (IS_REG(PPC(2)) && IS_REG(PPC(6)) && IS_REG(PPC(10)))
+		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))
 		{
-			PREG(PPC(10)) = PREG(PPC(2)) - PREG(PPC(6));
-			CARRY = ((PREG(PPC(10)) == 0) ? true : false);
+			PREG(PPC(4)) = PREG(PPC(2)) - PREG(PPC(3));
+			CARRY = ((PREG(PPC(4)) == 0) ? true : false);
 		}
 	}
-	PC = SHIFT(14);
+	PC = SHIFT(5);
 }
 
 void		and_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -95,5 +95,5 @@ void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
 	if (CARRY == true)
 		PC = ISHIFT(((int32_t)get16(area, process, 1)));
 	else
-		PC = SHIFT(4);
+		PC = SHIFT(3);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_game.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:29:09 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/05 17:40:58 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/12 14:05:39 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int32_t 		play_round(t_area *area)
 
 static void			change_area_stats(t_area *area)
 {
+//	printf("round: %d : %d : %d : %d\n", SN_CYCLES, SDIE_CYCLE, SNOT_CHANGED, SLIVES_IN_ROUND);
 	if (SLIVES_IN_ROUND >= NBR_LIVE)
 	{
 		SDIE_CYCLE -= CYCLE_DELTA;
@@ -57,17 +58,17 @@ static void			change_area_stats(t_area *area)
 	}
 	else
 		SNOT_CHANGED++;
-	if (SNOT_CHANGED == MAX_CHECKS)
+	if (SNOT_CHANGED >= MAX_CHECKS)
 		SDIE_CYCLE -= CYCLE_DELTA;
 //	if (SDIE_CYCLE < 0)			// ???
 //		SDIE_CYCLE = 0;
 	SCYCLE_INROUND = 0;
 	SLIVES_IN_ROUND = 0;
-	printf("round: %d\n", SN_CYCLES);
 }
 
 int32_t				play_game(t_area *area)
 {
+	printf("### %d\n", SNOT_CHANGED);
 	while (SN_PROCESS)
 	{
 		if (SDUMP_CYCLE == SN_CYCLES)

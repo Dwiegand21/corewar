@@ -36,8 +36,10 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 {
 	int32_t		result;
 	uint32_t	shift;
+	uint32_t	fshift;
 
 	shift = 3;
+	fshift =
 	if (R_T(OCT00) && RDI_T(OCT01) && RD_T(OCT02))
 	{
 		if (IS_REG(PPC(2)))

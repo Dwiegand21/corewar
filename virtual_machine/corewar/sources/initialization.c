@@ -23,6 +23,7 @@ t_area		*initialization_area(void)
 	if (!(area->map = ft_memalloc(sizeof(char) * MEM_SIZE)))
 		ft_error(ERRALLOC, __func__);
 	SDIE_CYCLE = CYCLE_TO_DIE;
+	SNOT_CHANGED = 0;
 	SDUMP_CYCLE = -1;
 	return (area);
 }

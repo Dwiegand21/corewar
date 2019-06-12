@@ -6,15 +6,16 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/12 13:12:05 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
 
+
 int32_t			check_dupm_flag(int32_t *argc, char ***argv, int32_t *dump)
 {
-	if (ft_strcmp(**argv, "-dump") != 0)
+	if (ft_strcmp(**argv, "-d") != 0)
 		return (0);
 	if (*argc - 1 <= 0)
 		ft_error(ARGINV, __func__);

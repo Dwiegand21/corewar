@@ -24,7 +24,7 @@ uint32_t	shift_size(uint8_t arg_byte, int32_t arg_n, uint32_t dir_size)
 			shift += dir_size;
 		else if (I_T((arg_byte & 0x03)))
 			shift += 2;
-		else
+		else if (R_T((arg_byte & 0x03)))
 			shift += 1;
 		arg_byte >>= 2;
 		arg_n--;
