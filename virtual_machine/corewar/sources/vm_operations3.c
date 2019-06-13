@@ -18,7 +18,8 @@ void		ldi_op(t_area *area, t_process *process) // dir_size = 2a
 	uint32_t		shift;
 
 	shift = 2;
-	if (RDI_T(OCT00) && RD_T(OCT01) && R_T(OCT02))
+	if (RDI_T(OCT00) && RD_T(OCT01) && R_T(OCT02)
+		&& check_registers(area, process, 3, 2))
 	{
 		result = get_argument2(area, process, &shift, OCT00);
 		if (I_T(OCT00))		// ???
@@ -40,7 +41,8 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 
 	shift = 3;
 	fshift = shift_size(PPC(1), 3, 2);
-	if (R_T(OCT00) && RDI_T(OCT01) && RD_T(OCT02))
+	if (R_T(OCT00) && RDI_T(OCT01) && RD_T(OCT02)
+		&& check_registers(area, process, 3, 2))
 	{
 		if (IS_REG(PPC(2)))
 		{
@@ -87,7 +89,8 @@ void		lldi_op(t_area *area, t_process *process) // dir_size = 2ca
 	uint32_t		shift;
 
 	shift = 2;
-	if (RDI_T(OCT00) && RD_T(OCT01) && R_T(OCT02))
+	if (RDI_T(OCT00) && RD_T(OCT01) && R_T(OCT02)
+		&& check_registers(area, process, 3, 2))
 	{
 		result = get_argument2(area, process, &shift, OCT00);
 		if (I_T(OCT00))		// ???

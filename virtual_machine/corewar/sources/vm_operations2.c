@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:20 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/12 14:27:27 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:32:10 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void		and_op(t_area *area, t_process *process) // dir_size = 4ca
 	int32_t		result;
 
 	shift = 2;
-	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02))
+	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
+		&& check_registers(area, process, 3, 4))
 	{
 		result = get_argument(area, process, &shift, OCT00);
 		result &= get_argument(area, process, &shift, OCT01);
@@ -50,7 +51,8 @@ void		or_op(t_area *area, t_process *process) // dir_size = 4ca
 	int32_t		result;
 
 	shift = 2;
-	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02))
+	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
+		&& check_registers(area, process, 3, 4))
 	{
 		result = get_argument(area, process, &shift, OCT00);
 		result |= get_argument(area, process, &shift, OCT01);
@@ -69,7 +71,8 @@ void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
 	int32_t		result;
 
 	shift = 2;
-	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02))
+	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
+		&& check_registers(area, process, 3, 4))
 	{
 		result = get_argument(area, process, &shift, OCT00);
 		result ^= get_argument(area, process, &shift, OCT01);
@@ -84,14 +87,6 @@ void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
 
 void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
 {
-	if (DEBUG_OPS_)
-	{
-		printf("reg: %p, pc: %u, dir: %d, jump: %d,",
-										&PPC(0),
-										PC,
-										get16(area, process, 1),
-										ISHIFT(get16(area, process, 1)));
-	}
 	if (CARRY == true)
 		PC = ISHIFT(((int32_t)get16(area, process, 1)));
 	else

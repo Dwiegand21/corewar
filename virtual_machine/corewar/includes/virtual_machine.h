@@ -115,6 +115,10 @@ int32_t		get_argument(t_area *area, t_process *process,
 							uint32_t *shift, uint8_t type);
 int32_t		get_argument2(t_area *area, t_process *process,
 							uint32_t *shift, uint8_t type);
+int 		check_registers(t_area *area,
+						   t_process *process,
+						   int32_t	n_args,
+						   int32_t	dir_size);
 /*
 **		vm_map_ops.c
 */

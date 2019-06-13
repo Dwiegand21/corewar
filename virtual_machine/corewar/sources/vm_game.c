@@ -81,12 +81,12 @@ int32_t				play_game(t_area *area)
 			change_area_stats(area);
 		}
 	}
-//	printf("last round: %d\n", SN_CYCLES);
-//	for(int i = 0;i < SN_PLAYERS;i++)
-//	{
-//		printf(">> Player%d(%u): %8d <<\n", i,
-//											APLAYER(i).ordinal_number,
-//											APLAYER(i).last_live);
-//	}
+	printf("last round: %d\n", SN_CYCLES);
+	for(int i = 0;i < SN_PLAYERS;i++)
+	{
+		printf(">> Player%d(%u): %8d <<\n", i,
+											APLAYER(i).ordinal_number,
+											APLAYER(i).last_live);
+	}
 	return (0);
 }
