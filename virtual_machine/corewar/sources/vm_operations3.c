@@ -39,7 +39,7 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 	uint32_t	fshift;
 
 	shift = 3;
-	fshift =
+	fshift = shift_size(PPC(1), 3, 2);
 	if (R_T(OCT00) && RDI_T(OCT01) && RD_T(OCT02))
 	{
 		if (IS_REG(PPC(2)))
@@ -51,7 +51,7 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
 		}
 	}
-	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
+	PC = SHIFT(2 + fshift);
 }
 
 void		fork_op(t_area *area, t_process *process) // dir_size = 2

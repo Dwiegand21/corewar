@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_constants.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/10 04:10:36 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/13 14:33:11 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define LIVE_S				process->live_in_session
 
 # define MAP				area->map
+# define APLAYER(x)			area->players[x]
 
 # define SCYCLE_INROUND		area->g_stats.cycle_in_round
 # define SN_CYCLES			area->g_stats.n_cycles

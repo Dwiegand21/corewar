@@ -53,6 +53,9 @@ void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
 
 void		st_op(t_area *area, t_process *process) // dir_size = 4a
 {
+	uint32_t	shift;
+
+	shift = shift_size(PPC(1), 2, 4);
 	if (R_T(OCT00) && RI_T(OCT01))
 	{
 		if (IS_REG(PPC(2)))
@@ -68,7 +71,7 @@ void		st_op(t_area *area, t_process *process) // dir_size = 4a
 			}
 		}
 	}
-	PC = SHIFT(2 + shift_size(PPC(1), 2, 4));
+	PC = SHIFT(2 + shift);
 }
 
 void		add_op(t_area *area, t_process *process) // dir_size = 4ca

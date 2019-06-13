@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:29:09 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/12 14:05:39 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/13 14:33:32 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static void			change_area_stats(t_area *area)
 
 int32_t				play_game(t_area *area)
 {
-	printf("### %d\n", SNOT_CHANGED);
 	while (SN_PROCESS)
 	{
 		if (SDUMP_CYCLE == SN_CYCLES)
@@ -82,5 +81,12 @@ int32_t				play_game(t_area *area)
 			change_area_stats(area);
 		}
 	}
+//	printf("last round: %d\n", SN_CYCLES);
+//	for(int i = 0;i < SN_PLAYERS;i++)
+//	{
+//		printf(">> Player%d(%u): %8d <<\n", i,
+//											APLAYER(i).ordinal_number,
+//											APLAYER(i).last_live);
+//	}
 	return (0);
 }
