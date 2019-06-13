@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:29:09 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/13 14:33:32 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/13 22:08:50 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void			init_process_op(t_area *area, t_process *process)
 		process->f = g_ops[0].f;
 		process->sleep = g_ops[0].sleep - 1;
 	}
-
 }
 
 static int32_t 		play_round(t_area *area)
@@ -66,6 +65,23 @@ static void			change_area_stats(t_area *area)
 	SLIVES_IN_ROUND = 0;
 }
 
+void				winner(t_area *area)
+{
+	int player = -1;
+	int last = -1;
+	for (int i = 0; i < area->g_stats.n_players; i++)
+	{
+		if (area->players[i].last_live > last)
+		{
+			player = i;
+			last = area->players[i].last_live;
+		}
+	}
+	printf("Contestant %d, \"%s\", has won !\n",
+		   area->players[player].ordinal_number,
+		   area->players[player].name);
+}
+
 int32_t				play_game(t_area *area)
 {
 	while (SN_PROCESS)
@@ -81,12 +97,13 @@ int32_t				play_game(t_area *area)
 			change_area_stats(area);
 		}
 	}
-	printf("last round: %d\n", SN_CYCLES);
-	for(int i = 0;i < SN_PLAYERS;i++)
-	{
-		printf(">> Player%d(%u): %8d <<\n", i,
-											APLAYER(i).ordinal_number,
-											APLAYER(i).last_live);
-	}
+//	printf("last round: %d\n", SN_CYCLES);
+//	for(int i = 0;i < SN_PLAYERS;i++)
+//	{
+//		printf(">> Player%d(%u): %8d <<\n", i,
+//											APLAYER(i).ordinal_number,
+//											APLAYER(i).last_live);
+//	}
+	winner(area);
 	return (0);
 }

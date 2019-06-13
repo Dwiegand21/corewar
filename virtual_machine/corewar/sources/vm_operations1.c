@@ -84,5 +84,5 @@ void		add_op(t_area *area, t_process *process) // dir_size = 4ca
 			CARRY = (PREG(PPC(4)) == 0);
 		}
 	}
-	PC = SHIFT(5);
+	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 }

@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:20 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/13 18:32:10 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:42:40 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		sub_op(t_area *area, t_process *process) // dir_size = 4ca
 			CARRY = ((PREG(PPC(4)) == 0) ? true : false);
 		}
 	}
-	PC = SHIFT(5);
+	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 }
 
 void		and_op(t_area *area, t_process *process) // dir_size = 4ca

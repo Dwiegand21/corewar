@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_operations4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:51:10 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/05 14:17:29 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/13 19:39:17 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void		lfork_op(t_area *area, t_process *process) // dir_size = 2
 
 void		aff_op(t_area *area, t_process *process) // dir_size = 4a
 {
-	if (IS_REG(PPC(1)))
-	{
-		ft_putchar(PREG(PPC(1))); // ???
-	}
-	PC = SHIFT(2);
+//	if (IS_REG(PPC(1)))
+//	{
+//		ft_putchar(PREG(PPC(1))); // ???
+//	}
+	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/09 10:08:13 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/13 21:59:17 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,15 @@ int32_t			initialization_players(t_area *area, t_cor_file *files)
 		read_cor_file(area->players + i, files + i);
 		set_code_to_map(area, files, i);
 		i++;
+	}
+	printf("Introducing contestants...\n");
+	for (int i = 0; i < area->g_stats.n_players; i++)
+	{
+		printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+				area->players[i].ordinal_number,
+				files[i].code_size,
+				area->players[i].name,
+				area->players[i].comment);
 	}
 	return (0);
 }

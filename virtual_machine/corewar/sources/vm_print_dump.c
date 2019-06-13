@@ -92,5 +92,5 @@ void			print_dump(t_area *area)
 		write(1, " \n", 2);
 		i++;
 	}
-	print_processes(area->processes);
+	//print_processes(area->processes);
 }
