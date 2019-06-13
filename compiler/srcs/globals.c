@@ -78,6 +78,12 @@ char g_pos[] =
 char g_pos_before[] =
 "          Before {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 
+char g_usage[] =
+	"I'm usage\n";
+
+char g_missing_out[] =
+	"{Bold}{Red}ERROR{eof}  -  Missing output file after flag {\\202}"
+
 char *g_errors[] = {
 		g_unexp_token,
 		g_exp_same_line,

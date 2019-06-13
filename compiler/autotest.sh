@@ -63,6 +63,7 @@ function compare {
     echo "My is ${time_percent}% faster"
 }
 
+mkdir -p tests
 rm -f tests/*
 ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
 my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )

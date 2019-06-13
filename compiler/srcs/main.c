@@ -167,26 +167,15 @@ char g_names[][300] = {
 
 int ft_compile(char *name)
 {
-
-
-
 	t_champ	*champ;
-
 	champ = ft_parser(name); // todo too big champ error
-
 	ft_translate_to_bytecode(champ);
-
 	if (champ->error_count)
 		return (0);
-
 	char *new_name = ft_upd_name(name, "cor");
-
 	int fd = open(new_name, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-
 	write(fd, champ->res->data, champ->res->len);
-
 	ft_free_champ(&champ, 0);
-
 	ft_printf("compiled %s \n", name);
 	return (1);
 }
@@ -196,16 +185,17 @@ int main(int ac, char **av)
 	//if (ac != 2)
 	//	return (0);
 
-	int i = 0;
-	av = 0;
+//	int i = 0;
+//	av = 0;
 	ac = 0;
-	while (g_names[i][0])
-	{
-		ft_compile(g_names[i]);
-		++i;
-	}
 
+	ft_compile(av[1]);
 
+//	while (g_names[i][0])
+//	{
+//		ft_compile(g_names[i]);
+//		++i;
+//	}
 
 //	t_string *ref = ft_readall(new_name);
 //	t_string *my = champ->res;

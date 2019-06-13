@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/08 19:32:33 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/08 19:32:33 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/06/13 17:36:19 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/06/13 17:36:19 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,9 @@ typedef enum	e_error
 
 typedef enum	e_token_type
 {
-	LBL = 0,
-	LC = 1,
-	OP = 2,
-	T = 3,
-	D = 4,
-	A = 5,
-	NAME = 6,
-	COMMENT = 7
+	NAME,
+	COMMENT
 }				t_token_type;
-
-typedef struct	s_token
-{
-	t_token_type	type;
-	void			*carry;
-}				t_token;
 
 typedef struct	s_cmd
 {
@@ -135,9 +123,18 @@ typedef struct	s_champ
 	t_cmd			*curr_cmd;
 }				t_champ;
 
+typedef struct	s_flags
+{
+	t_vector		*srcs;
+	t_vector		*outputs;
+	unsigned int	flags;
+	unsigned char	is_out;
+}				t_flags;
+
 extern char		g_wrn_ignored[];
 extern char		g_missing_param[];
 extern t_op		g_functions[16];
+extern char		g_names[][300];
 extern char		g_exp_same_line[];
 extern char		g_unexp_token[];
 extern char		g_mult_label[];
@@ -151,6 +148,7 @@ extern char		g_bad_cmd[];
 extern char		g_extra_sep[];
 extern char		g_types[6][30];
 extern char		g_backslash_literals[];
+extern char		g_usage[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
 extern char		g_pos[];
@@ -171,6 +169,10 @@ extern char		g_unknown_lbl[];
 int				ft_free_champ(t_champ **champ, int ret);
 t_champ			*ft_make_champ(char *file, int fd);
 void			ft_champ_upd_line(t_champ *champ, char *line);
+/*
+** ft_flags.c
+*/
+t_flags			*ft_parse_flags(int ac, char **av);
 /*
 ** ft_header_utils.c
 */
@@ -201,6 +203,8 @@ void			ft_translate_to_bytecode(t_champ *champ);
 ** ft_utils.c
 */
 void			ft_free_cmd(void *p);
+int				ft_free_flags(t_flags *fl, int ret);
+t_flags			*ft_make_flags();
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void *args[4]);
 void			*tokenize(t_token_type type, void *carry);
@@ -211,6 +215,7 @@ void			ft_check_exist_name_cmt(t_champ *champ);
 */
 t_string		*ft_readall(char *name);
 char			*ft_upd_name(char *name, char *postfix);
+int				ft_compile(char *name);
 /*
 ** parser.c
 */

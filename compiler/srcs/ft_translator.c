@@ -6,7 +6,7 @@
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 05:55:38 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/07 05:55:38 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/06/12 22:01:18 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static inline char ft_get_types_byte(t_cmd *cmd)
 		}
 		res |= code;
 	}
-	return (res);
+	return (0b00100000);
 }
 
 static inline void	ft_translate_args(t_champ *champ, t_cmd *cmd)

@@ -31,6 +31,28 @@ void ft_free_cmd(void *p)
 	free(cmd);
 }
 
+int			ft_free_flags(t_flags *fl, int ret)
+{
+	if (!fl)
+		return (ret);
+	ft_free_vector(&fl->srcs);
+	ft_free_vector(&fl->outputs);
+	free(fl);
+	return (ret);
+}
+
+t_flags		*ft_make_flags()
+{
+	t_flags *fl;
+
+	if (!(fl = ft_memalloc(sizeof(t_flags))))
+		return (0);
+	if (!(fl->srcs = ft_make_vector(8)) ||
+		!(fl->outputs = ft_make_vector(8)))
+		return ((void*)(size_t)fl);
+	return (fl);
+}
+
 void		ft_make_error(t_error type, t_champ *champ, int pos, void *args[4])
 {
 	ft_fdprintf(2, g_errors[type], args[0], args[1], args[2], args[3]);
