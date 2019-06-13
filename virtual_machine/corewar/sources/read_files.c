@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/13 21:59:17 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:59:54 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ int32_t			initialization_players(t_area *area, t_cor_file *files)
 				area->players[i].name,
 				area->players[i].comment);
 	}
+	fflush(stdout);
 	return (0);
 }

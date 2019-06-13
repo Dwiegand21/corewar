@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_print_dump.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 10:09:39 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/11 02:41:19 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/13 21:54:50 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ void			print_dump(t_area *area)
 		write(1, " \n", 2);
 		i++;
 	}
+	exit(1);
 	//print_processes(area->processes);
 }

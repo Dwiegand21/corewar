@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 15:29:09 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/13 22:08:50 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/13 22:47:15 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void				winner(t_area *area)
 	printf("Contestant %d, \"%s\", has won !\n",
 		   area->players[player].ordinal_number,
 		   area->players[player].name);
+	fflush(stdout);
 }
 
 int32_t				play_game(t_area *area)
