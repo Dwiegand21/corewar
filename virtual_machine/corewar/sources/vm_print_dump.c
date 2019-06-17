@@ -17,7 +17,7 @@ void			print_bits(void *p, size_t size)
 {
 	while (size--)
 	{
-		for(int j = 7; j >= 0; j--)
+		for (int j = 7; j >= 0; j--)
 		{
 			printf("%d", ((*((char*)p) >> (size * 8 + j)) & 0x01));
 		}
@@ -33,7 +33,7 @@ static void		print_hex_addr(int32_t index)
 
 	write(1, "0x", 2);
 	i = 0;
-	while(i < 4)
+	while (i < 4)
 	{
 		c = ((index & 0xf000) >> 12);
 		if (c < 10)
