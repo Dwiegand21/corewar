@@ -14,4 +14,7 @@ void		myApplication(t_visual *main)
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
+
+	return ;
+	//SOIL_load_image(NULL, NULL, NULL, NULL, 0);
 }
