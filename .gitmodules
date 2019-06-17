@@ -1,18 +1,6 @@
-[submodule "virtual_machine/visualization/external/glfw3"]
-	path = virtual_machine/visualization/external/glfw3
+[submodule "virtual_machine/visualization/external/glfw-3.4"]
+	path = virtual_machine/visualization/external/glfw-3.4
 	url = https://github.com/glfw/glfw.git
-[submodule "virtual_machine/visualization/external/glew-2.1.0"]
-	path = virtual_machine/visualization/external/glew-2.1.0
-	url = https://github.com/nigels-com/glew.git
-[submodule "virtual_machine/visualization/external/glew"]
-	path = virtual_machine/visualization/external/glew
-	url = https://github.com/nigels-com/glew.git
-[submodule "virtual_machine/visualization/external/glm-0.9.9"]
-	path = virtual_machine/visualization/external/glm-0.9.9
-	url = https://github.com/g-truc/glm.git
-[submodule "virtual_machine/visualization/cmake-build-debug/external/glew-2.2.0"]
-	path = virtual_machine/visualization/cmake-build-debug/external/glew-2.2.0
-	url = https://github.com/Perlmint/glew-cmake.git
 [submodule "virtual_machine/visualization/external/glew-2.2.0"]
 	path = virtual_machine/visualization/external/glew-2.2.0
 	url = https://github.com/Perlmint/glew-cmake.git
