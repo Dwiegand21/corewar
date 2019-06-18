@@ -92,6 +92,7 @@ void			print_dump(t_area *area)
 		write(1, " \n", 2);
 		i++;
 	}
-	exit(1);
-	//print_processes(area->processes);
+	if (area->flags & PROCESS_PRINT)
+		print_processes(area->processes);
+	exit (1);
 }

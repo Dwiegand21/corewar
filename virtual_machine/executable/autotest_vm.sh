@@ -31,6 +31,8 @@ function compile_ref {
 
 function compare_dumps {
     mkdir -p ${DUMPS_DIR}
+    rm -f ./invalide_diffs
+    touch ./invalide_diffs
     ARGS=($(find ${BINS_DIR} -name '*.cor'))
     for lhs in ${ARGS[@]}
     do
@@ -44,17 +46,20 @@ function compare_dumps {
                     diff_res=$(diff \
                         "${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_ref" \
                         "${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_my" | wc -l)
+                    rm -f "${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_ref"
+                    rm -f "${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_my"
                     if (( ${diff_res} )); then
                         printf "\x1b[31m ERROR in ${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_ref \x1b[0m\n"
+                        printf " -d ${n} ${lhs} ${rhs}\n" >> ./invalide_diffs
                     else
                         printf "\x1b[32m OK in ${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_ref \x1b[0m\n"
-                        rm -f "${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_ref"
-                        rm -f "${DUMPS_DIR}/$(basename ${lhs})_vs_$(basename ${rhs})-${n}_my"
+
                     fi
                 done
             fi
         done
     done
+    rm -rf ${DUMPS_DIR}
 }
 
 compile_ref
