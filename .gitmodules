@@ -7,3 +7,6 @@
 [submodule "virtual_machine/visualization/external/soil-1.16"]
 	path = virtual_machine/visualization/external/soil-1.16
 	url = https://github.com/paralin/soil.git
+[submodule "virtual_machine/visualization/external/freeglut-3.0.0"]
+	path = virtual_machine/visualization/external/freeglut-3.0.0
+	url = https://github.com/dcnieho/FreeGLUT.git
