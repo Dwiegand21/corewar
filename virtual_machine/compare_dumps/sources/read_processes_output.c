@@ -12,7 +12,7 @@
 
 #include "compare_dumps.h"
 
-static FILE* 	open_process(char* process, char* flag)
+static FILE* 	open_process(char* process, char* flag, int our)
 {
 	char	*command = NULL;
 	char 	*s;
@@ -27,6 +27,10 @@ static FILE* 	open_process(char* process, char* flag)
 	free(s);
 	if (command == NULL)
 		ft_error("ft_strjoin: memory allocated error", __func__);
+
+	if (our)
+		flag = ft_strjoin(" -p ", flag);
+
 	s = command;
 	command = ft_strjoin(command, flag);
 	free(s);
@@ -133,9 +137,9 @@ int 			read_processes_output(t_dump *dd, char *av[])
 
 	list = NULL;
 
-	dd->origin_vm = open_process(av[1], av[3]);
+	dd->origin_vm = open_process(av[2], av[3], 0);
 	dd->strings->origin = read_process(dd->origin_vm, &list);
-	dd->our_vm = open_process(av[2], av[3]);
+	dd->our_vm = open_process(av[1], av[3], 1);
 	dd->strings->our = read_process(dd->our_vm, &list);
 	dd->processes = list;
 	ft_lstiter(list, &data_print);

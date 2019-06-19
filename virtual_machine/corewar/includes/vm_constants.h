@@ -33,6 +33,7 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 */
 # define DUMP				1
 # define VISUALIZATION		2
+# define PROCESS_PRINT		4
 
 # define DISPLAY (area->flags & 0x02)
 
