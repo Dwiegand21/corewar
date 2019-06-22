@@ -94,6 +94,7 @@ int32_t				play_game(t_area *area)
 		play_round(area);
 		if (SCYCLE_INROUND >= SDIE_CYCLE)
 		{
+			//delete_not_live_processes2(area);
 			area->processes = delete_not_live_processes(area, area->processes);
 			change_area_stats(area);
 		}

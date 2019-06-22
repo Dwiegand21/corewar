@@ -20,7 +20,7 @@
 # include <stdint.h>
 # include "libft.h"
 
-# define ORIGIN				0
+# define ORIGIN				1
 
 # define BUFF_SIZE			256
 

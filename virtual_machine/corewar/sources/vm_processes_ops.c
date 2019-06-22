@@ -61,3 +61,49 @@ t_list		*delete_not_live_processes(t_area *area, t_list *root)
 	}
 }
 
+static t_list	*delete_elem(t_list *elem)
+{
+	t_list* next;
+
+	next = elem->next;
+	free(elem);
+	return (next);
+}
+
+static t_list	*get_head_node(t_list *root, uint32_t *n_processes)
+{
+	t_list		*del;
+
+	while (root != NULL
+		&& ((t_process *)(root->content))->live_in_session == false)
+	{
+		del = root;
+		root = root->next;
+		free(del->content);
+		free(del);
+		(*n_processes)--;
+	}
+	return (root);
+}
+
+int32_t			delete_not_live_processes2(t_area *area)
+{
+	t_list	*cur;
+
+	area->processes = get_head_node(area->processes, &SN_PROCESS);
+	cur = area->processes;
+	while (cur != NULL && cur->next != NULL)
+	{
+		if (((t_process *)cur->content)->live_in_session == true)
+		{
+			((t_process *)cur->content)->live_in_session = false;
+		}
+		else
+		{
+			cur->next = delete_elem(cur->next);
+			SN_PROCESS--;
+		}
+		cur = cur->next;
+	}
+	return (1);
+}
