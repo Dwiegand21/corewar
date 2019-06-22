@@ -10,3 +10,9 @@
 [submodule "virtual_machine/visualization/external/freeglut-3.0.0"]
 	path = virtual_machine/visualization/external/freeglut-3.0.0
 	url = https://github.com/dcnieho/FreeGLUT.git
+[submodule "virtual_machine/visualization/external/cmake_modules/sdl2"]
+	path = virtual_machine/visualization/external/cmake_modules/sdl2
+	url = https://gitlab.com/aminosbh/sdl2-cmake-modules.git
+[submodule "virtual_machine/visualization/external/SDL-2.0.mirror"]
+	path = virtual_machine/visualization/external/SDL-2.0.mirror
+	url = https://github.com/davidsiaw/SDL2.git
