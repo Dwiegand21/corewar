@@ -18,7 +18,7 @@ typedef struct s_visual t_visual;
 
 void
 GLFW_example(void);
-void
+int
 SDL_example(int argc, char **argv);
 void
 GLUT_example(int argc, char** argv);
