@@ -85,7 +85,8 @@ void				winner(t_area *area)
 
 int32_t				play_game(t_area *area)
 {
-	while (SN_PROCESS)
+//	while (SN_PROCESS)
+	while (area->processes != NULL)
 	{
 		if (SDUMP_CYCLE == SN_CYCLES)
 			print_dump(area);
@@ -94,8 +95,8 @@ int32_t				play_game(t_area *area)
 		play_round(area);
 		if (SCYCLE_INROUND >= SDIE_CYCLE)
 		{
-			//delete_not_live_processes2(area);
-			area->processes = delete_not_live_processes(area, area->processes);
+			delete_not_live_processes2(area);
+//			area->processes = delete_not_live_processes(area, area->processes);
 			change_area_stats(area);
 		}
 	}

@@ -35,7 +35,7 @@ void		ldi_op(t_area *area, t_process *process) // dir_size = 2a
 
 void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 {
-	int32_t		result;
+	int16_t		result;
 	uint32_t	shift;
 	uint32_t	fshift;
 
@@ -47,9 +47,8 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 		if (IS_REG(PPC(2)))
 		{
 			result = get_argument2(area, process, &shift, OCT01);
-			if (I_T(OCT01))			// ???
-				result %= IDX_MOD;
 			result += get_argument2(area, process, &shift, OCT02);
+			dprintf(2, "result: %d :: %d\n", result, result %  IDX_MOD);
 			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
 		}
 	}

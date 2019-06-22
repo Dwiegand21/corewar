@@ -82,6 +82,8 @@ static t_list*	read_processes(char *buff, FILE *process)
 		//printf("buff_data: |%s|\n", buff);
 		ft_lstadd(&lst, get_process(buff));
 	}
+	ft_lstiter(lst, &data_print);
+	printf("> > > > > > || ::\n");
 	ft_lstsort(lst, &data_compare);
 	return (lst);
 }

@@ -61,49 +61,54 @@ t_list		*delete_not_live_processes(t_area *area, t_list *root)
 	}
 }
 
-static t_list	*delete_elem(t_list *elem)
-{
-	t_list* next;
-
-	next = elem->next;
-	free(elem);
-	return (next);
-}
-
-static t_list	*get_head_node(t_list *root, uint32_t *n_processes)
+static t_list	*get_head_node(t_list *root)
 {
 	t_list		*del;
 
 	while (root != NULL
-		&& ((t_process *)(root->content))->live_in_session == false)
+		&& ((t_process *)root->content)->live_in_session == false)
 	{
 		del = root;
 		root = root->next;
 		free(del->content);
 		free(del);
-		(*n_processes)--;
 	}
 	return (root);
 }
 
+t_list *d(t_list *elem)
+{
+	t_list *next = elem->next;
+	free(elem);
+	return (next);
+}
+
 int32_t			delete_not_live_processes2(t_area *area)
 {
+	t_list	*prew;
 	t_list	*cur;
 
-	area->processes = get_head_node(area->processes, &SN_PROCESS);
+	area->processes = get_head_node(area->processes);
+//	if (area->processes == NULL)
+//		return (0);
 	cur = area->processes;
-	while (cur != NULL && cur->next != NULL)
+	prew = NULL;
+	while (cur != NULL)
 	{
 		if (((t_process *)cur->content)->live_in_session == true)
 		{
 			((t_process *)cur->content)->live_in_session = false;
+			prew = cur;
+			cur = cur->next;
 		}
 		else
 		{
-			cur->next = delete_elem(cur->next);
+			cur = cur->next;
+			free(prew->next->content);
+			free(prew->next);
+			prew->next = cur;
 			SN_PROCESS--;
 		}
-		cur = cur->next;
 	}
 	return (1);
 }
