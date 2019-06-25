@@ -51,7 +51,7 @@ int32_t		get_argument(t_area *area,
 	{
 		*shift += 2;
 		return (get32(area,
-				process, get16(area, process, *shift - 2)));
+				process, get16(area, process, *shift - 2) % IDX_MOD));
 	}
 }
 

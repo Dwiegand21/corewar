@@ -40,8 +40,8 @@ void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
 	if (DI_T(OCT00) && R_T(OCT01))
 	{
 		result = get_argument(area, process, &shift, OCT00);
-		if (I_T(OCT00))
-			result %= IDX_MOD;
+//		if (I_T(OCT00))
+//			result %= IDX_MOD;
 		if (IS_REG(PPC(shift)))
 		{
 			PREG(PPC(shift)) = result;
