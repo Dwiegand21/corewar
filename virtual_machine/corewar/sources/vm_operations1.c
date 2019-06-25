@@ -56,7 +56,8 @@ void		st_op(t_area *area, t_process *process) // dir_size = 4a
 	uint32_t	shift;
 
 	shift = shift_size(PPC(1), 2, 4);
-	if (R_T(OCT00) && RI_T(OCT01))
+	if (R_T(OCT00) && RI_T(OCT01)
+	&& check_registers(area, process, 2, 4))
 	{
 		if (IS_REG(PPC(2)))
 		{

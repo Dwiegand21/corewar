@@ -35,7 +35,7 @@ void		ldi_op(t_area *area, t_process *process) // dir_size = 2a
 
 void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 {
-	int16_t		result;
+	int32_t		result;
 	uint32_t	shift;
 	uint32_t	fshift;
 
@@ -44,13 +44,14 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 	if (R_T(OCT00) && RDI_T(OCT01) && RD_T(OCT02)
 		&& check_registers(area, process, 3, 2))
 	{
-		if (IS_REG(PPC(2)))
-		{
 			result = get_argument2(area, process, &shift, OCT01);
+			dprintf(2, "result(1): %i\n",
+					result);
 			result += get_argument2(area, process, &shift, OCT02);
-			dprintf(2, "result: %d :: %d\n", result, result %  IDX_MOD);
+			dprintf(2, "result(2): %i\n",
+					result);
+			dprintf(2, "result: %i :: %i\n", result, (result % IDX_MOD));
 			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
-		}
 	}
 	PC = SHIFT(2 + fshift);
 }

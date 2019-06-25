@@ -69,13 +69,13 @@ int32_t		get_argument2(t_area *area,
 	else if (D_T(type))
 	{
 		*shift += 2;
-		return ((int32_t)get16(area, process, *shift - 2));
+		return (get16(area, process, *shift - 2));
 	}
 	else
 	{
 		*shift += 2;
 		return (get32(area,
-				process, get16(area, process, *shift - 2)));
+				process, get16(area, process, *shift - 2) % IDX_MOD));
 	}
 }
 
