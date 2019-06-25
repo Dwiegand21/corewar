@@ -90,8 +90,8 @@ SDL_example(int argc, char** args)
 
 	SDL_UpdateWindowSurface(win);
 
-	//SDL_Delay(2000);
-	while ()
+	SDL_Delay(2000);
+//	while ()
 	quit();
 
 	return 0;
