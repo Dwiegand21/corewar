@@ -27,4 +27,6 @@ void			*ft_memmove(void *dst, const void *src, size_t length);
 
 void			*ft_memset(void *dst, int value, size_t length);
 
+void 			*ft_realloc(void *mem, size_t old_size, size_t new_size);
+
 #endif //LIBFT_FT_MEMORY_H

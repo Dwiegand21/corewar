@@ -45,12 +45,7 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 		&& check_registers(area, process, 3, 2))
 	{
 			result = get_argument2(area, process, &shift, OCT01);
-			dprintf(2, "result(1): %i\n",
-					result);
 			result += get_argument2(area, process, &shift, OCT02);
-			dprintf(2, "result(2): %i\n",
-					result);
-			dprintf(2, "result: %i :: %i\n", result, (result % IDX_MOD));
 			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
 	}
 	PC = SHIFT(2 + fshift);
@@ -93,13 +88,11 @@ void		lldi_op(t_area *area, t_process *process) // dir_size = 2ca
 		&& check_registers(area, process, 3, 2))
 	{
 		result = get_argument2(area, process, &shift, OCT00);
-		if (I_T(OCT00))		// ???
+		if (I_T(OCT00))
 			result %= IDX_MOD;
 		result += get_argument2(area, process, &shift, OCT01);
-		if (IS_REG(PPC(shift)))
-		{
-			PREG(PPC(shift)) = get32(area, process, result);
-		}
+		PREG(PPC(shift)) = get32(area, process, result);
+		CARRY = (PREG(PPC(shift)) == 0) ? true : false;
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
 }

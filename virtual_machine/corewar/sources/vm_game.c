@@ -67,25 +67,26 @@ static void			change_area_stats(t_area *area)
 
 void				winner(t_area *area)
 {
-	int player = -1;
-	int last = -1;
-	for (int i = 0; i < area->g_stats.n_players; i++)
-	{
-		if (area->players[i].last_live > last)
-		{
-			player = i;
-			last = area->players[i].last_live;
-		}
-	}
+//	int player = -1;
+//	int last = -1;
+//	for (int i = 0; i < area->g_stats.n_players; i++)
+//	{
+//		if (area->players[i].last_live > last)
+//		{
+//			player = i;
+//			last = area->players[i].last_live;
+//		}
+//	}
 	printf("Contestant %d, \"%s\", has won !\n",
-		   area->players[player].ordinal_number,
-		   area->players[player].name);
+		   area->players[area->win].ordinal_number,
+		   area->players[area->win].name);
 	fflush(stdout);
 }
 
 int32_t				play_game(t_area *area)
 {
 //	while (SN_PROCESS)
+area->win = area->g_stats.n_players - 1;
 	while (area->processes != NULL)
 	{
 		if (SDUMP_CYCLE == SN_CYCLES)

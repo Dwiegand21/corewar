@@ -86,6 +86,7 @@ struct		s_area
 	t_list			*processes;
 
 	uint32_t		flags;
+	int32_t			win;
 };
 
 struct		s_ops

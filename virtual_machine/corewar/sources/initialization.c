@@ -25,5 +25,6 @@ t_area		*initialization_area(void)
 	SDIE_CYCLE = CYCLE_TO_DIE;
 	SNOT_CHANGED = 0;
 	SDUMP_CYCLE = -1;
+	area->win = -1;
 	return (area);
 }

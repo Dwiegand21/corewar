@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: axtazy <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 16:00:14 by dwiegand          #+#    #+#              #
-#    Updated: 2019/06/10 14:51:17 by axtazy           ###   ########.fr        #
+#    Updated: 2019/06/27 21:46:02 by dwiegand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ SFILES2			= ft_bzero.c \
 					ft_memcpy.c \
 					ft_memdel.c \
 					ft_memmove.c \
-					ft_memset.c
+					ft_memset.c \
+					ft_realloc.c
 
 # Files from 'ft_list'
 SFILES3			= ft_lstadd.c \
@@ -93,7 +94,13 @@ SFILES4			= ft_putchar_fd.c \
 					ft_putstr_fd.c \
 					ft_putstr.c \
 					ft_get_next_line.c \
-					ft_get_lines_to_lst.c
+					ft_get_lines_to_lst.c \
+					ft_vector_init.c \
+					ft_vector_delete.c \
+					ft_vector_begin.c \
+					ft_vector_end.c \
+					ft_vector_push_back.c \
+					ft_vector_join.c
 
 # Files from 'ft_queue'
 SFILES5			= queue.c \
@@ -147,29 +154,29 @@ $(OBJDIR):
 $(NAME): $(OFILES)
 	ar rcs $(NAME) $(OFILES)
 
-$(OBJDIR)%.o: $(SRCDIR1)%.c $(INCDIR)ft_string.h
+$(OBJDIR)%.o: ./sources/ft_*/%.c $(INCDIR)/*
 	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
-$(OBJDIR)%.o: $(SRCDIR2)%.c $(INCDIR)ft_memory.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJDIR)%.o: $(SRCDIR3)%.c $(INCDIR)ft_list.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJDIR)%.o: $(SRCDIR4)%.c $(INCDIR)ft_iostream.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJDIR)%.o: $(SRCDIR5)%.c $(INCDIR)ft_queue.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJDIR)%.o: $(SRCDIR6)%.c $(INCDIR)ft_stack.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJDIR)%.o: $(SRCDIR7)%.c $(INCDIR)ft_matrix.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
-
-$(OBJDIR)%.o: $(SRCDIR8)%.c $(INCDIR)ft_project_assets.h
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#$(OBJDIR)%.o: $(SRCDIR2)%.c $(INCDIR)ft_memory.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#
+#$(OBJDIR)%.o: $(SRCDIR3)%.c $(INCDIR)ft_list.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#
+#$(OBJDIR)%.o: $(SRCDIR4)%.c $(INCDIR)ft_iostream.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#
+#$(OBJDIR)%.o: $(SRCDIR5)%.c $(INCDIR)ft_queue.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#
+#$(OBJDIR)%.o: $(SRCDIR6)%.c $(INCDIR)ft_stack.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#
+#$(OBJDIR)%.o: $(SRCDIR7)%.c $(INCDIR)ft_matrix.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
+#
+#$(OBJDIR)%.o: $(SRCDIR8)%.c $(INCDIR)ft_project_assets.h
+#	gcc $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
 	rm -f $(OFILES)

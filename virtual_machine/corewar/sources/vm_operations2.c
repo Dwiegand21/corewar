@@ -36,11 +36,8 @@ void		and_op(t_area *area, t_process *process) // dir_size = 4ca
 	{
 		result = get_argument(area, process, &shift, OCT00);
 		result &= get_argument(area, process, &shift, OCT01);
-		if (IS_REG(PPC(shift)))
-		{
-			PREG(PPC(shift)) = result;
-			CARRY = ((result == 0) ? true : false);
-		}
+		PREG(PPC(shift)) = result;
+		CARRY = ((result == 0) ? true : false);
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 }
@@ -56,11 +53,8 @@ void		or_op(t_area *area, t_process *process) // dir_size = 4ca
 	{
 		result = get_argument(area, process, &shift, OCT00);
 		result |= get_argument(area, process, &shift, OCT01);
-		if (IS_REG(PPC(shift)))
-		{
-			PREG(PPC(shift)) = result;
-			CARRY = ((result == 0) ? true : false);
-		}
+		PREG(PPC(shift)) = result;
+		CARRY = ((result == 0) ? true : false);
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 }
@@ -76,11 +70,8 @@ void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
 	{
 		result = get_argument(area, process, &shift, OCT00);
 		result ^= get_argument(area, process, &shift, OCT01);
-		if (IS_REG(PPC(shift)))
-		{
-			PREG(PPC(shift)) = result;
-			CARRY = ((result == 0) ? true : false);
-		}
+		PREG(PPC(shift)) = result;
+		CARRY = ((result == 0) ? true : false);
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 }

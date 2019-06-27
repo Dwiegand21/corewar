@@ -18,11 +18,6 @@
 void		ft_error(char const * restrict error_line,
 						char const * restrict function_name)
 {
-	if ((g_project_status_flags & PA_DPROJ) != 0)
-	{
-		ft_putstr_fd(g_project_name, 2);
-		write(2, ": ", 2);
-	}
 	if ((g_project_status_flags & PA_DFUNC) != 0)
 	{
 		if (function_name == NULL)
