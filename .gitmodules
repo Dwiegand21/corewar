@@ -16,6 +16,3 @@
 [submodule "virtual_machine/visualization/external/SDL-2.0.mirror"]
 	path = virtual_machine/visualization/external/SDL-2.0.mirror
 	url = https://github.com/davidsiaw/SDL2.git
-[submodule "virtual_machine/libft"]
-	path = virtual_machine/libft
-	url = https://github.com/Axtazy/libft_C.git
