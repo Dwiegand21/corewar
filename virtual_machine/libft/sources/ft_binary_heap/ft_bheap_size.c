@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_delete.c                                 :+:      :+:    :+:   */
+/*   ft_bheap_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/27 21:26:06 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/27 21:29:11 by dwiegand         ###   ########.fr       */
+/*   Created: 2019/06/30 13:30:06 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/06/30 13:30:06 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_assets.h"
+#include "ft_binary_heap_assets.h"
 
-void		ft_vector_delete(t_vector **p)
+size_t			ft_bheap_size(t_binary_heap *this)
 {
-	if (p == NULL)
-		return ;
-	if (*p == NULL)
-		return ;
-	if (V_DATA(*p)->free != NULL)
-		ft_vector_iter(*p, V_DATA(*p)->free);
-	free(V_DATA(*p)->begin);
-	free((*p)->data);
-	free(*p);
-	*p = NULL;
+	return (BH_DATA(this)->heap_size);
 }

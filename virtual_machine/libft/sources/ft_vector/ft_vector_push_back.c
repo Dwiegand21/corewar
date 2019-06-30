@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector.h"
 #include "ft_vector_assets.h"
-#include "ft_project_assets.h"
-#include "ft_memory.h"
 
 void		ft_vector_push_back(t_vector *this, void *elem)
 {

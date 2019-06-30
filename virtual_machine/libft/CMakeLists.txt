@@ -14,6 +14,7 @@ FILE(GLOB LIB_FILES
         sources/ft_stack/*.c
         sources/ft_string/*.c
         sources/ft_project_assets/*.c
-        sources/ft_vector/*.c)
+        sources/ft_vector/*.c
+        sources/ft_binary_heap/*.c)
 
 add_library(ft STATIC ${LIB_FILES})

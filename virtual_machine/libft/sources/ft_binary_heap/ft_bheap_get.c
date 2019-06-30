@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_delete.c                                 :+:      :+:    :+:   */
+/*   ft_bheap_get.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/27 21:26:06 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/27 21:29:11 by dwiegand         ###   ########.fr       */
+/*   Created: 2019/06/30 12:14:23 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/06/30 12:14:23 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_assets.h"
+#include "ft_binary_heap_assets.h"
 
-void		ft_vector_delete(t_vector **p)
+void			*ft_bheap_get(t_binary_heap *this)
 {
-	if (p == NULL)
-		return ;
-	if (*p == NULL)
-		return ;
-	if (V_DATA(*p)->free != NULL)
-		ft_vector_iter(*p, V_DATA(*p)->free);
-	free(V_DATA(*p)->begin);
-	free((*p)->data);
-	free(*p);
-	*p = NULL;
+	if (BH_DATA(this)->heap_size == 0)
+		ft_error("Binary heap is empty\n", __func__);
+	return (BH_DATA(this)->vector->v[0]);
 }

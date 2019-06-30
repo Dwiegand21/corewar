@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector.h"
 #include "ft_vector_assets.h"
 
 void		**ft_vector_end(const t_vector *const restrict this)

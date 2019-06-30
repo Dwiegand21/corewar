@@ -13,14 +13,13 @@ struct s_binary_heap
 	void 		(*insert)(t_binary_heap *this, void *);
 	void 		*(*get)(t_binary_heap *this);
 	void 		*(*extract)(t_binary_heap *this);
-	void 		(*decrease)(t_binary_heap *this, int index, int new_key,
-					void (*decrease_key)(void *));
-	void 		(*delete)(t_binary_heap *this, int index);
+	void 		(*delete)(t_binary_heap *this, size_t index);
+	size_t		(*size)(t_binary_heap *this);
+	t_vector	*(*get_vector)(t_binary_heap *this);
 };
 
 t_binary_heap	*ft_bheap_create(size_t n, int (*cmp)(void *, void *),
 					void (*del)(void **));
-t_binary_heap	*ft_bheap_init(t_vector *v, int (*cmp)(void *, void *));
-void			ft_bheap_delete(t_binary_heap **p);
+void			ft_bheap_delete(t_binary_heap **this);
 
 #endif //LIBFT_FT_BINARY_HEAP_H

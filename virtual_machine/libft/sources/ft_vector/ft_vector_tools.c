@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_delete.c                                 :+:      :+:    :+:   */
+/*   ft_vector_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/27 21:26:06 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/27 21:29:11 by dwiegand         ###   ########.fr       */
+/*   Created: 2019/06/30 14:56:45 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/06/30 14:56:45 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_assets.h"
+# include "ft_vector_assets.h"
 
-void		ft_vector_delete(t_vector **p)
+void		ft_vector_cat(t_vector *const this, const t_vector *const p)
 {
-	if (p == NULL)
-		return ;
-	if (*p == NULL)
-		return ;
-	if (V_DATA(*p)->free != NULL)
-		ft_vector_iter(*p, V_DATA(*p)->free);
-	free(V_DATA(*p)->begin);
-	free((*p)->data);
-	free(*p);
-	*p = NULL;
+	size_t		i;
+	size_t		p_length;
+
+	p_length = V_DATA(p)->end - V_DATA(p)->begin;
+	i = 0;
+	while (i < p_length)
+	{
+		*(V_DATA(this)->end) = p->v[i];
+		V_DATA(this)->end++;
+		i++;
+	}
+}
+
+void		ft_vector_destroy_tool(t_vector *p)
+{
+	free(p->data);
+	free(p);
 }
