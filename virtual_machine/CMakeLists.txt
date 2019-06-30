@@ -22,7 +22,7 @@ set(EXE_FILES corewar/sources/main.c
         corewar/sources/vm_map_ops.c
         corewar/sources/vm_ops_methods.c
         corewar/sources/vm_game.c
-        corewar/sources/vm_print_dump.c)
+        corewar/sources/vm_print_dump.c corewar/sources/vm_processes_ops_NEW.c corewar/sources/vm_game_NEW.c corewar/sources/vm_bheap_custom_NEW.c)
 
 include_directories(corewar/includes
         libft/includes)

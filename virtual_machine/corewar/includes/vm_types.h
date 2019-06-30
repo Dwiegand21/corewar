@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_types.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/10 04:10:36 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/06/30 16:32:56 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_cor_file			t_cor_file;
 typedef struct s_area				t_area;
 typedef struct s_ops				t_ops;
 typedef struct s_game_condition		t_gcond;
+
+typedef struct s_pair				t_pair;
 
 enum		e_player_pos {FIRST, SECOND, THIRD, FOURTH};
 
@@ -84,6 +86,7 @@ struct		s_area
 
 	t_player		*players;
 	t_list			*processes;
+	t_binary_heap	*processes_NEW;
 
 	uint32_t		flags;
 	int32_t			win;
@@ -94,6 +97,12 @@ struct		s_ops
 	char		name[6];
 	int32_t 	sleep;
 	void		(*f)(t_area*, t_process*);
+};
+
+struct		s_pair
+{
+	size_t		key;
+	t_process	*value;
 };
 
 #endif // COREWAR_VIRTUAL_MACHINE_TYPES_H

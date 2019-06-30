@@ -23,6 +23,7 @@ void			*ft_bheap_extract(t_binary_heap *this)
 	BH_DATA(this)->vector->v[0] =
 			BH_DATA(this)->vector->v[BH_DATA(this)->heap_size];
 	BH_DATA(this)->vector->v[BH_DATA(this)->heap_size] = NULL;
+	V_DATA(BH_DATA(this)->vector)->end--;
 	ft_bheap_shift_down(this, 0);
 	return (root);
 }

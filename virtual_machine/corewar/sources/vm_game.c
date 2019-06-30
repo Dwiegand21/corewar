@@ -96,7 +96,7 @@ area->win = area->g_stats.n_players - 1;
 		play_round(area);
 		if (SCYCLE_INROUND >= SDIE_CYCLE)
 		{
-			delete_not_live_processes2(area);
+			delete_not_live_processes(area);
 //			area->processes = delete_not_live_processes(area, area->processes);
 			change_area_stats(area);
 		}

@@ -13,7 +13,7 @@ struct s_binary_heap
 	void 		(*insert)(t_binary_heap *this, void *);
 	void 		*(*get)(t_binary_heap *this);
 	void 		*(*extract)(t_binary_heap *this);
-	void 		(*delete)(t_binary_heap *this, size_t index);
+	void 		(*delete_elem)(t_binary_heap *this, size_t index);
 	size_t		(*size)(t_binary_heap *this);
 	t_vector	*(*get_vector)(t_binary_heap *this);
 };

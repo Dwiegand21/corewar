@@ -21,5 +21,7 @@
 # include "ft_queue.h"
 # include "ft_stack.h"
 # include "ft_string.h"
+# include "ft_binary_heap.h"
+# include "ft_vector.h"
 
 #endif

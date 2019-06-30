@@ -40,27 +40,6 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	SN_PROCESS++;
 }
 
-t_list		*delete_not_live_processes(t_area *area, t_list *root)
-{
-	t_list		*node;
-
-	if (root == NULL)
-		return (NULL);
-	if (((t_process *)root->content)->live_in_session == true)
-	{
-		((t_process *)root->content)->live_in_session = false;
-		root->next = delete_not_live_processes(area, root->next);
-		return(root);
-	}
-	else
-	{
-		node = delete_not_live_processes(area, root->next);
-		free(root);
-		SN_PROCESS--;
-		return (node);
-	}
-}
-
 static t_list	*get_head_node(t_list *root)
 {
 	t_list		*del;
@@ -76,21 +55,12 @@ static t_list	*get_head_node(t_list *root)
 	return (root);
 }
 
-t_list *d(t_list *elem)
-{
-	t_list *next = elem->next;
-	free(elem);
-	return (next);
-}
-
-int32_t			delete_not_live_processes2(t_area *area)
+int32_t			delete_not_live_processes(t_area *area)
 {
 	t_list	*prew;
 	t_list	*cur;
 
 	area->processes = get_head_node(area->processes);
-//	if (area->processes == NULL)
-//		return (0);
 	cur = area->processes;
 	prew = NULL;
 	while (cur != NULL)

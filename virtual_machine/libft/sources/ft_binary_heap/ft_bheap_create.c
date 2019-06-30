@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 11:48:55 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 14:15:18 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/30 14:56:42 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_binary_heap		*ft_bheap_create(
 	BH_DATA(p)->cmp = cmp;
 	BH_DATA(p)->heap_size = 0;
 	p->insert = &ft_bheap_insert;
-	p->delete = &ft_bheap_delete_elem;
+	p->delete_elem = &ft_bheap_delete_elem;
 	p->get = &ft_bheap_get;
 	p->extract = &ft_bheap_extract;
 	p->size = &ft_bheap_size;

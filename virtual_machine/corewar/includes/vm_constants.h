@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/13 14:33:11 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/06/30 16:32:56 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define SN_PROCESS			area->g_stats.n_processes
 
 # define PROC_PRINT			"//#/##/:"
+
+# define PRS_KEY(x)			(((t_pair *)(x))->key)
+# define PRS_VALUE(x)		((t_process *)(((t_pair *)(x))->value))
 
 
 /*

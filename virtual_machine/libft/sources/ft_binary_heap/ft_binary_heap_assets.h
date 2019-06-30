@@ -3,6 +3,7 @@
 # define LIBFT_FT_BINARY_HEAP_ASSETS_H
 
 # include "ft_binary_heap.h"
+# include "../ft_vector/ft_vector_assets.h"
 # include "ft_project_assets.h"
 # include "ft_memory.h"
 
