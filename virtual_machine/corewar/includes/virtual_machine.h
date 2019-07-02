@@ -39,7 +39,7 @@ extern void				move_first_process(t_binary_heap *p);
 
 int32_t		get_process_sleep(t_process *process, u_char byte);
 
-int32_t		custom_heap_cmp(void *p1, void *p2);
+int32_t		heap_cmp(void *p1, void *p2);
 void		delete_process(void **p);
 /*
 **		helpers.c

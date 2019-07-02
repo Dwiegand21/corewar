@@ -23,7 +23,7 @@ t_area		*initialization_area(void)
 	if (!(area->map = ft_memalloc(sizeof(char) * MEM_SIZE)))
 		ft_error(ERRALLOC, __func__);
 	area->processes_NEW =
-			ft_bheap_create(50, &custom_heap_cmp, &delete_process);
+			ft_bheap_create(50, &heap_cmp, &delete_process);
 	SDIE_CYCLE = 0;
 	SDIE_CYCLE_DELTA = CYCLE_TO_DIE;
 	SDIE_CYCLE += SDIE_CYCLE_DELTA;

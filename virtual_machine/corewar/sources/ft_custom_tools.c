@@ -38,7 +38,7 @@ void			delete_process(void **p)
 	}
 }
 
-int32_t			custom_heap_cmp(void *p1, void *p2)
+int32_t			heap_cmp(void *p1, void *p2)
 {
 	if (((t_process *)p1)->sleep != ((t_process *)p2)->sleep)
 		return (((t_process *)p1)->sleep - ((t_process *)p2)->sleep);
