@@ -6,7 +6,7 @@
 #    By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 16:00:14 by dwiegand          #+#    #+#              #
-#    Updated: 2019/06/30 14:58:45 by dwiegand         ###   ########.fr        #
+#    Updated: 2019/07/02 20:12:36 by dwiegand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,15 +99,11 @@ SFILES			=	ft_atoi.c \
 					ft_vector_iter.c \
 					ft_vector_iteri.c \
 					ft_vector_tools.c \
-					ft_bheap_create.c \
-					ft_bheap_delete.c \
-					ft_bheap_delete_elem.c \
 					ft_bheap_extract.c \
 					ft_bheap_get.c \
 					ft_bheap_insert.c \
-					ft_bheap_size.c \
-					ft_bheap_get_vector.c \
 					ft_bheap_tools.c \
+					ft_bheap_init.c \
 					queue.c \
 					queue2.c \
 					stack.c \

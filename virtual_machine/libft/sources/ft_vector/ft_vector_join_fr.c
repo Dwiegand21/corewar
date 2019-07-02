@@ -6,8 +6,7 @@ t_vector		*ft_vector_join_fr(t_vector *p1, t_vector *p2)
 	size_t		new_size;
 	t_vector	*new;
 
-	new_size = (V_DATA(p1)->end - V_DATA(p1)->begin)
-			   + (V_DATA(p2)->end - V_DATA(p2)->begin);
+	new_size = V_DATA(p1)->end + V_DATA(p2)->end;
 	if (new_size > V_DATA(p1)->size)
 	{
 		new_size = (size_t)((double)new_size * 1.4);

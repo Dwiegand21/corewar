@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/09 10:03:10 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/07/02 22:37:35 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_area		*initialization_area(void)
 	area->map = NULL;
 	if (!(area->map = ft_memalloc(sizeof(char) * MEM_SIZE)))
 		ft_error(ERRALLOC, __func__);
-	area->processes_NEW =
-			ft_bheap_create(50, &heap_cmp, &delete_process);
-	SDIE_CYCLE = 0;
+	area->processes_NEW = ft_vector_create(200, &delete_process);
 	SDIE_CYCLE_DELTA = CYCLE_TO_DIE;
-	SDIE_CYCLE += SDIE_CYCLE_DELTA;
+	SDIE_CYCLE = SDIE_CYCLE_DELTA;
 	SNOT_CHANGED = 0;
+	SN_CYCLES = 0;
 	SDUMP_CYCLE = -1;
 	area->win = -1;
+	area->g_stats.next_process_index = 0;
 	return (area);
 }

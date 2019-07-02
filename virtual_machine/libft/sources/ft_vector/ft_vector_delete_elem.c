@@ -14,7 +14,7 @@
 
 void		ft_vector_delete_elem(t_vector *this, size_t index)
 {
-	if (index >= (unsigned long)(V_DATA(this)->end - V_DATA(this)->begin))
+	if (!(index < V_DATA(this)->end))
 		ft_error("Invalide delete elem index\n", __func__);
 	if (V_DATA(this)->free != NULL)
 		V_DATA(this)->free(&V_DATA(this)->begin[index]);

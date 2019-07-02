@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bheap_delete.c                                  :+:      :+:    :+:   */
+/*   ft_bheap_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/30 13:20:40 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 13:20:40 by dwiegand         ###   ########.fr       */
+/*   Created: 2019/07/02 19:27:54 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/07/02 19:27:54 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_binary_heap_assets.h"
 
-void			ft_bheap_delete(t_binary_heap **this)
+void		ft_bheap_init(t_vector *v, int (*cmp)(void *, void *))
 {
-	if (this == NULL)
-		return ;
-	if (*this == NULL)
-		return ;
-	ft_vector_delete(&BH_DATA(*this)->vector);
-	free((*this)->data);
-	free(*this);
-	*this = NULL;
+	register size_t 	i;
+
+	i = V_DATA(v)->size / 2;
+	while (i > 0)
+	{
+		ft_bheap_sift_down(v, i, cmp);
+		i--;
+	}
 }

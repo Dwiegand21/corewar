@@ -20,7 +20,7 @@ void		ft_vector_iteri(const t_vector *const p,
 
 	if (p == NULL || f == NULL)
 		return ;
-	length = V_DATA(p)->end - V_DATA(p)->begin;
+	length = V_DATA(p)->end;
 	i = 0;
 	while (i < length)
 	{

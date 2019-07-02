@@ -19,7 +19,7 @@
 struct		s_vector_data
 {
 	void		**begin;
-	void 		**end;
+	size_t		end;
 	size_t 		size;
 	void		(*free)(void **p);
 };

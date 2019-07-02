@@ -6,24 +6,23 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 12:11:52 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 13:04:51 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/02 21:01:50 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_binary_heap_assets.h"
 
-void			ft_bheap_insert(t_binary_heap *this, void *elem)
+void			ft_bheap_insert(t_vector *v,
+									void *elem,
+									int (*cmp)(void*, void *))
 {
 	size_t		i;
 
-	i = BH_DATA(this)->heap_size;
-	BH_DATA(this)->heap_size++;
-	BH_DATA(this)->vector->push_back(BH_DATA(this)->vector, elem);
-	while (i != 0 && (BH_DATA(this)->cmp(BH_DATA(this)->vector->v[i],
-			BH_DATA(this)->vector->v[PARENT(i)])) < 0)
+	i = V_DATA(v)->end;
+	v->push_back(v, elem);
+	while (i != 0 && (*cmp)(v->v[i], v->v[PARENT(i)]) < 0)
 	{
-		ft_bheap_swap(&BH_DATA(this)->vector->v[i],
-				&BH_DATA(this)->vector->v[PARENT(i)]);
+		ft_bheap_swap(v->v + i, v->v + PARENT(i));
 		i = PARENT(i);
 	}
 }

@@ -15,14 +15,16 @@
 void		ft_vector_cat(t_vector *const this, const t_vector *const p)
 {
 	size_t		i;
+	size_t		j;
 	size_t		p_length;
 
-	p_length = V_DATA(p)->end - V_DATA(p)->begin;
+	p_length = V_DATA(p)->end;
+	j = V_DATA(this)->end;
 	i = 0;
 	while (i < p_length)
 	{
-		*(V_DATA(this)->end) = p->v[i];
-		V_DATA(this)->end++;
+		this->v[j] = p->v[i];
+		j++;
 		i++;
 	}
 }

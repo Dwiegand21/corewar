@@ -6,24 +6,23 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 13:04:56 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 13:04:56 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/02 21:01:50 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_binary_heap_assets.h"
 
-void			*ft_bheap_extract(t_binary_heap *this)
+void			*ft_bheap_extract(t_vector *v, int (*cmp)(void*, void *))
 {
 	void		*root;
 
-	if (BH_DATA(this)->heap_size == 0)
+	if (V_DATA(v)->end == 0)
 		ft_error("Binary heap is empty\n", __func__);
-	root = BH_DATA(this)->vector->v[0];
-	BH_DATA(this)->heap_size--;
-	BH_DATA(this)->vector->v[0] =
-			BH_DATA(this)->vector->v[BH_DATA(this)->heap_size];
-	BH_DATA(this)->vector->v[BH_DATA(this)->heap_size] = NULL;
-	V_DATA(BH_DATA(this)->vector)->end--;
-	ft_bheap_shift_down(this, 0);
+	root = v->v[0];
+	V_DATA(v)->end--;
+	v->v[0] =
+			v->v[V_DATA(v)->end];
+	v->v[V_DATA(v)->end] = NULL;
+	ft_bheap_sift_down(v, 0, cmp);
 	return (root);
 }

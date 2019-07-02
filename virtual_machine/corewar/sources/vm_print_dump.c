@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 10:09:39 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/13 21:54:50 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/03 00:22:18 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,21 @@ static void		char_to_hex(uint8_t c)
 		ft_putchar(((c & 0x0f)) % 10 + 'a');
 }
 
-static void		print_processes(t_list *processes)
+void	print_vector_elems(void **p)
+{
+	if (p == NULL || *p == NULL)
+		return ;
+	ft_putnbr(((t_process *)(*p))->player);
+	ft_putnbr(((t_process *)(*p))->pc);
+	ft_putendl("");
+}
+
+static void		print_processes(t_vector *v)
 {
 	if (DUMP_CMP == 0)
 		return ;
 	ft_putendl(PROC_PRINT);
-	while (processes != NULL)
-	{
-		ft_putnbr(((t_process *)processes->content)->player);
-		ft_putnbr(((t_process *)processes->content)->pc);
-		ft_putendl("");
-		processes = processes->next;
-	}
+	ft_vector_iter(v, &print_vector_elems);
 	ft_putendl(PROC_PRINT);
 }
 
@@ -93,6 +96,7 @@ void			print_dump(t_area *area)
 		i++;
 	}
 	if (area->flags & PROCESS_PRINT)
-		print_processes(area->processes);
+		print_processes(area->processes_NEW);
+	fprintf(stderr, "processes: %u\n", area->g_stats.next_process_index);
 	exit (1);
 }

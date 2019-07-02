@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 12:39:22 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 13:27:56 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/02 21:01:50 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,28 @@ void			ft_bheap_swap(void **p1, void **p2)
 	*p2 = tmp;
 }
 
-void			ft_bheap_shift_down(t_binary_heap *this, size_t index)
+void			ft_bheap_sift_down(t_vector *v,
+									size_t index,
+									int (*cmp)(void*, void *))
 {
 	size_t		left;
 	size_t		right;
 	size_t		min;
+	size_t		length;
 
-	while (2 * index + 1 < BH_DATA(this)->heap_size)
+	length= V_DATA(v)->end;
+	while (2 * index + 1 < length)
 	{
 		left = LEFT(index);
 		right = RIGHT(index);
 		min = left;
-		if (right < BH_DATA(this)->heap_size
-			&& BH_DATA(this)->cmp(BH_DATA(this)->vector->v[right],
-			BH_DATA(this)->vector->v[left]) < 0)
+		if (right < length
+			&& (*cmp)(v->v[right], v->v[left]) < 0)
 			min = right;
-		if (BH_DATA(this)->cmp(BH_DATA(this)->vector->v[index],
-			BH_DATA(this)->vector->v[min]) < 0)
+		if ((*cmp)(v->v[index],
+			v->v[min]) < 0)
 			break ;
-		ft_bheap_swap(&BH_DATA(this)->vector->v[index],
-			&BH_DATA(this)->vector->v[min]);
+		ft_bheap_swap(v->v + index, v->v + min);
 		index = min;
 	}
 }

@@ -12,9 +12,9 @@
 
 #include "ft_binary_heap_assets.h"
 
-void			*ft_bheap_get(t_binary_heap *this)
+void			*ft_bheap_get(t_vector *v)
 {
-	if (BH_DATA(this)->heap_size == 0)
+	if (v->size(v) == 0)
 		ft_error("Binary heap is empty\n", __func__);
-	return (BH_DATA(this)->vector->v[0]);
+	return (v->v[0]);
 }

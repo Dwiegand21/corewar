@@ -14,5 +14,5 @@
 
 void		**ft_vector_end(const t_vector *const restrict this)
 {
-	return ((((struct s_vector_data *)this->data)->end));
+	return (this->v + V_DATA(this)->end - 1);
 }

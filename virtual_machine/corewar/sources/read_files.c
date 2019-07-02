@@ -36,12 +36,12 @@ void			skip_2octets(int32_t fd)
 
 int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
 {
-	load_process(area, p_index, area->players[p_index].start_pos);
 
 	if ( (read(files[p_index].fd,
 			   area->map + area->players[p_index].start_pos,
 			   files[p_index].code_size)) != files[p_index].code_size )
 		ft_error(INV_CODE_SIZE, __func__);
+	load_process(area, p_index, area->players[p_index].start_pos);
 
 	close(files->fd);
 	return (0);

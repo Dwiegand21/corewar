@@ -27,8 +27,7 @@ t_vector		*ft_vector_create(size_t n, void (*del)(void **))
 	if (((struct s_vector_data*)p->data)->begin == NULL)
 		ft_error(ERRALLOC, __func__);
 	((struct s_vector_data*)p->data)->size = n;
-	((struct s_vector_data*)p->data)->end =
-		((struct s_vector_data*)p->data)->begin;
+	((struct s_vector_data*)p->data)->end = 0;
 	((struct s_vector_data*)p->data)->free = del;
 	p->v = ((struct s_vector_data*)p->data)->begin;
 	p->begin = &ft_vector_begin;

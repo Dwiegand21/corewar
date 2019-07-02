@@ -23,10 +23,6 @@ typedef struct s_area				t_area;
 typedef struct s_ops				t_ops;
 typedef struct s_game_condition		t_gcond;
 
-typedef struct s_pair				t_pair;
-
-enum		e_player_pos {FIRST, SECOND, THIRD, FOURTH};
-
 struct		s_process
 {
 	uint32_t		pc;
@@ -37,7 +33,7 @@ struct		s_process
 	bool			carry;
 	bool			live_in_session;
 
-	int32_t			ordinal_number;
+	uint32_t			ordinal_number;
 	uint32_t		player;
 	void			(*f)(t_area*, t_process*);
 
@@ -79,6 +75,8 @@ struct		s_game_condition
 
 	uint32_t		n_players;
 	uint32_t		n_processes;
+
+	uint32_t		next_process_index;
 };
 
 struct		s_area
@@ -87,8 +85,7 @@ struct		s_area
 	t_gcond			g_stats;
 
 	t_player		*players;
-	t_list			*processes;
-	t_binary_heap	*processes_NEW;
+	t_vector		*processes_NEW;
 
 	uint32_t		flags;
 	int32_t			win;
