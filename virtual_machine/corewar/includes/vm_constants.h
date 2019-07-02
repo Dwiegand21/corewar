@@ -83,6 +83,7 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define SCYCLE_INROUND		area->g_stats.cycle_in_round
 # define SN_CYCLES			area->g_stats.n_cycles
 # define SDIE_CYCLE			area->g_stats.cycle_to_die
+# define SDIE_CYCLE_DELTA	area->g_stats.cycle_to_die_delta
 # define SNOT_CHANGED		area->g_stats.not_changed_checks
 # define SLIVES_IN_ROUND	area->g_stats.lives_in_round
 # define SDUMP_CYCLE		area->g_stats.cycle_to_dump

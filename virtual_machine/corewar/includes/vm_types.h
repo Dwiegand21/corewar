@@ -37,6 +37,7 @@ struct		s_process
 	bool			carry;
 	bool			live_in_session;
 
+	int32_t			ordinal_number;
 	uint32_t		player;
 	void			(*f)(t_area*, t_process*);
 
@@ -68,6 +69,7 @@ struct		s_game_condition
 {
 	int32_t			cycle_in_round;
 	int32_t			n_cycles;
+	int32_t			cycle_to_die_delta;
 	int32_t			cycle_to_die;
 	int32_t			not_changed_checks;
 
@@ -97,12 +99,6 @@ struct		s_ops
 	char		name[6];
 	int32_t 	sleep;
 	void		(*f)(t_area*, t_process*);
-};
-
-struct		s_pair
-{
-	size_t		key;
-	t_process	*value;
 };
 
 #endif // COREWAR_VIRTUAL_MACHINE_TYPES_H

@@ -14,23 +14,35 @@
 #include "./../../libft/sources/ft_vector/ft_vector_assets.h"
 #include "./../../libft/sources/ft_binary_heap/ft_binary_heap_assets.h"
 
-int32_t			init_process_sleep(t_process *process, u_char byte)
+
+
+inline int32_t	get_next_op_round(t_binary_heap *p)
 {
-	if (byte > 0 && byte < 17)
+	return (((t_process *)(V_DATA(BH_DATA(p)->vector)->begin[0]))->sleep);
+}
+
+inline void		move_first_process(t_binary_heap *p)
+{
+	ft_bheap_shift_down(p, 0);
+}
+
+void			delete_process(void **p)
+{
+	if (p != NULL)
 	{
-		process->f = g_ops[byte].f;
-		return (g_ops[byte].sleep);
-	}
-	else
-	{
-		process->f = NULL;
-		return (1);
+		if (*p != NULL)
+		{
+			free(*p);
+			*p = NULL;
+		}
 	}
 }
 
-int32_t			run_process(t_area *area, t_pair *process)
+int32_t			custom_heap_cmp(void *p1, void *p2)
 {
-	SN_CYCLES = process->key;
-	process->value->f(area, process->value);
-	//process->key = init_process_sleep(process->value, process->value->)
+	if (((t_process *)p1)->sleep != ((t_process *)p2)->sleep)
+		return (((t_process *)p1)->sleep - ((t_process *)p2)->sleep);
+	else
+		return (((t_process *)p2)->ordinal_number
+			- ((t_process *)p1)->ordinal_number);
 }

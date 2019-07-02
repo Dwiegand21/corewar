@@ -20,7 +20,8 @@ SFILES		= main.c \
 					vm_map_ops.c \
 					vm_game.c \
 					vm_print_dump.c \
-					vm_processes_ops.c
+					vm_processes_ops.c \
+					ft_custom_tools.c
 
 
 HFILES		= virtual_machine.h \
