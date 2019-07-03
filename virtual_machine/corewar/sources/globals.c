@@ -32,3 +32,5 @@ t_ops    g_ops[17] =
 	{ "lfork"	,	1000	,		&lfork_op },	// 15
 	{ "aff"		,	2		,		&aff_op },		// 16
 };
+
+int32_t		g_db_from = 0;

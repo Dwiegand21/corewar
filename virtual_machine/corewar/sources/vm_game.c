@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 17:23:31 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/07/03 00:27:53 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/03 20:33:32 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,50 @@ int32_t				get_process_sleep(t_process *process, u_char byte)
 	}
 }
 
+static int			func_index(void (*f)(t_area *, t_process *))
+{
+	for (int i = 0; i < 17; i++)
+	{
+		if (f == g_ops[i].f)
+			return (i);
+	}
+	return (0);
+}
+
+#include <stdio.h>
+
 static void			run_next_process(t_area *area)
 {
 	t_process *process;
 
 	process = ft_bheap_get(area->processes_NEW);
 	SN_CYCLES = process->sleep;
-	if (process->f != NULL)
+	if (area->flags & STEP_DEBUG
+		&& SN_CYCLES >= g_db_from
+		&& process->f != g_ops[0].f)
+	{
+		char buff[10];
+		fgets(buff, 9, stdin);
+		printf("op: %s (%.2hhx)\nprocess_index: %u\nprocess_pc: %d\nop_byte: %hhu\nround: %d\n",
+				g_ops[func_index(process->f)].name,
+				MAP[PC],
+				process->ordinal_number,
+				PC,
+				MAP[PC],
+				process->sleep);
+	}
+	if (process->f != g_ops[0].f)
+	{
 		process->f(area, process);
+		process->f = g_ops[0].f;
+		process->sleep = SN_CYCLES + 1;
+	}
 	else
-		PC = SHIFT(1);
-	process->sleep = SN_CYCLES + get_process_sleep(process, MAP[PC]);
+		process->f(area, process);
+
+	//process->sleep = SN_CYCLES + get_process_sleep(process, MAP[PC]);
 	move_first_process(area->processes_NEW);
+
 }
 
 static void			change_area_stats(t_area *area)

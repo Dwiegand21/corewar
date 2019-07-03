@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:49:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/12 14:23:41 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/03 20:21:48 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,20 @@
 
 void		next_op(t_area *area, t_process *process) // dir_size = 4
 {
-	PC = SHIFT(1);
+	u_char	op_byte;
+
+	op_byte = MAP[PC];
+	if (op_byte > 0 && op_byte < 17)
+	{
+		process->f = g_ops[op_byte].f;
+		process->sleep = SN_CYCLES + g_ops[op_byte].sleep - 1;
+	}
+	else
+	{
+		PC = SHIFT(1);
+		process->f = g_ops[0].f;
+		process->sleep = SN_CYCLES + 1;
+	}
 }
 
 void		live_op(t_area *area, t_process *process) // dir_size = 4

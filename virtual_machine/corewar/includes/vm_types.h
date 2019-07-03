@@ -77,6 +77,7 @@ struct		s_game_condition
 	uint32_t		n_processes;
 
 	uint32_t		next_process_index;
+
 };
 
 struct		s_area

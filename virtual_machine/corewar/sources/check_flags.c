@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/12 13:12:05 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/03 18:04:39 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,17 @@ int32_t			check_flags(int32_t *argc, char ***argv, int32_t *dump)
 			flags |= VISUALIZATION;
 		else if (ft_strcmp(*(*argv), "-p") == 0)
 			flags |= PROCESS_PRINT;
+		else if (ft_strcmp(*(*argv), "-db") == 0)
+		{
+			flags |= STEP_DEBUG;
+			if (*argc - 1 > 0 && ft_strncmp(*((*argv) + 1), "::", 2) == 0)
+			{
+				(*argc)--;
+				(*argv)++;
+				g_db_from = ft_atoi((**argv) + 2);
+
+			}
+		}
 		else
 			break ;
 		(*argc)--;

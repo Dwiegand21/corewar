@@ -34,6 +34,7 @@
 # define DUMP_CMP		1			// Print processes position on
 
 extern t_ops			g_ops[17];
+extern int32_t			g_db_from;
 extern int32_t			get_next_op_round(t_vector *p);
 extern void				move_first_process(t_vector *p);
 

@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 16:11:21 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/07/03 00:22:18 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/03 17:59:45 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	new->pc = pc;
-	new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
+	new->sleep = SN_CYCLES + 1;
+	new->f = g_ops[0].f;
+	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
 	ft_bheap_insert(area->processes_NEW, new, &heap_cmp);
 	SN_PROCESS++;
@@ -44,7 +46,17 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 		new->reg[i] = process->reg[i];
 	}
 	new->pc = SHIFT(pc);
-	new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
+	new->sleep = SN_CYCLES + 1;
+	new->f = g_ops[0].f;
+	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
+	if (area->flags & STEP_DEBUG && SN_CYCLES >= g_db_from)
+	{
+		printf(">> new_process:\n>> op_name: %s (%.2hhx)\n>> process pc: %d\n>> run_round: %d\n",
+				g_ops[((MAP[new->pc] > 0 && MAP[new->pc] < 17) ? MAP[new->pc] : 0)].name,
+				MAP[new->pc],
+				new->pc,
+				new->sleep);
+	}
 	new->ordinal_number = area->g_stats.next_process_index++;
 	ft_bheap_insert(area->processes_NEW, new, &heap_cmp);
 	SN_PROCESS++;
