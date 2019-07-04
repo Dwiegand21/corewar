@@ -36,7 +36,6 @@ void		live_op(t_area *area, t_process *process) // dir_size = 4
 
 	LIVE_S = true;
 	value = get32(area, process, 1);
-
 	if (value > -5 && value < 0)
 	{
 		area->players[(~(value))].last_live = SN_CYCLES;

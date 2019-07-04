@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:45:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/12 12:55:22 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:50:40 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int32_t		main(int argc, char **argv)
 	t_area		*area;
 
 	area = NULL;
-	ft_project_assets_init("corewar", PA_DPROJ | PA_DFUNC);
 	if (argc == 1)
 	{
 		help();
@@ -32,7 +31,6 @@ int32_t		main(int argc, char **argv)
 	{
 		area = initialization_area();
 		read_arguments(area, argc - 1, argv + 1);
-//		print_dump(area);
 		play_game(area);
 	}
 	free_args(&area);

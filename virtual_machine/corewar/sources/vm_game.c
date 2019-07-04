@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 17:23:31 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/07/03 20:33:32 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/04 19:53:56 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ static void			run_next_process(t_area *area)
 	{
 		char buff[10];
 		fgets(buff, 9, stdin);
-		printf("op: %s (%.2hhx)\nprocess_index: %u\nprocess_pc: %d\nop_byte: %hhu\nround: %d\n",
+		printf("op: %s (%.2hhx)\nprocess_index: %u\nprocess_pc: %d\nop_byte: %hhu\nround: %d\n\n-> n_processes: %d:%lu\n",
 				g_ops[func_index(process->f)].name,
 				MAP[PC],
 				process->ordinal_number,
 				PC,
 				MAP[PC],
-				process->sleep);
+				process->sleep,
+				SN_PROCESS,
+				area->processes->size(area->processes));
 	}
 	if (process->f != g_ops[0].f)
 	{
@@ -104,10 +106,11 @@ static void			change_area_stats(t_area *area)
 int32_t				play_game(t_area *area)
 {
 	area->win = area->g_stats.n_players - 1;
-	while (area->processes->size(area->processes))
+	while (SN_PROCESS > 0)
 	{
 		if ((area->flags & DUMP) != 0
-			&& ((get_next_op_round(area->processes)) > SDUMP_CYCLE))
+			&& ((get_next_op_round(area->processes)) > SDUMP_CYCLE
+			&& SDIE_CYCLE > SDUMP_CYCLE))
 			print_dump(area);
 		if ((get_next_op_round(area->processes)) > SDIE_CYCLE)
 		{

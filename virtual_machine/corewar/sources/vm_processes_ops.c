@@ -62,7 +62,6 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	SN_PROCESS++;
 }
 
-
 int32_t			delete_not_live_processes(t_area *area)
 {
 	size_t		index;

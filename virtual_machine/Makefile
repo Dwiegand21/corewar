@@ -79,7 +79,7 @@ clean:
 fclean: clean
 	@make -C $(COREWAR_DIR) fclean
 	@make -C $(CMPDUMP_DIR) fclean
-	@make -C $(VISUAL_DIR) fclean
+#	@make -C $(VISUAL_DIR) fclean
 
 .PHONY: all install reinstall make_all corewar visualization compare_dumps \
 	clean fclean

@@ -40,7 +40,6 @@ int 		main(int ac, char *av[])
 {
 	t_dump	*dd;
 
-	ft_project_assets_init(NULL, PA_DFUNC);
 	if (ac == 4)
 	{
 		dd = init_structs();
