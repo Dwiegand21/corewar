@@ -28,4 +28,3 @@ void		ft_vector_iteri(const t_vector *const p,
 		i++;
 	}
 }
-

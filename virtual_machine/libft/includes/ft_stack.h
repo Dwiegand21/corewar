@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef LIBFT_FT_STACK_H
-#define LIBFT_FT_STACK_H
+# define LIBFT_FT_STACK_H
 
 # define ERRSTACK_EMPTY			"Stack is empty"
 # define ERRSTACK_FULL			"Stack is full"
@@ -36,4 +36,4 @@ typedef struct	s_stack
 t_stack			*stack_create(int size);
 int				stack_delete(t_stack **a);
 
-#endif //LIBFT_FT_STACK_H
+#endif

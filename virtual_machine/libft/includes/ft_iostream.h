@@ -18,7 +18,7 @@
 # define GNL_BUFF_SIZE 512
 # define MAX_SIZE_FD 20
 
-typedef struct s_list t_list;
+typedef struct s_list		t_list;
 
 int				ft_get_lines_to_lst(int fd, t_list **list);
 

@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_project_assets.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 05:54:59 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/09 14:26:20 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/07/04 17:09:22 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_FT_PROJECT_ASSETS_H
-#define LIBFT_FT_PROJECT_ASSETS_H
-
-extern char					g_project_name[25];
-extern unsigned int			g_project_status_flags;
+# define LIBFT_FT_PROJECT_ASSETS_H
 
 /*
 **		Project status flags
@@ -32,13 +29,8 @@ extern unsigned int			g_project_status_flags;
 # define ERROPEN			"File does not open"
 # define ERRDIR(x)			"'"x"' is a directory"
 # define ERRNULLP			"Dereferencing NULL pointer error"
-//# define
-//# define
-//# define
 
+void	ft_error(char const *error_line,
+						char const *function_name);
 
-int		ft_project_assets_init(char const *project_name, unsigned int flags);
-void 	ft_error(char const * restrict error_line,
-						char const * restrict function_name);
-
-#endif //LIBFT_FT_PROJECT_ASSETS_H
+#endif

@@ -6,14 +6,14 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 20:12:47 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/27 21:49:43 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/04 16:56:05 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_memory.h"
 
-void 		*ft_realloc(void *mem, size_t old_size, size_t new_size)
+void		*ft_realloc(void *mem, size_t old_size, size_t new_size)
 {
 	size_t	i;
 	void	*new;

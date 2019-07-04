@@ -13,8 +13,8 @@
 #include "ft_binary_heap_assets.h"
 
 void			ft_bheap_insert(t_vector *v,
-									void *elem,
-									int (*cmp)(void*, void *))
+									void *const elem,
+									int (*const cmp)(void*, void *))
 {
 	size_t		i;
 

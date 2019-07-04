@@ -13,7 +13,7 @@
 #ifndef LIBFT_2_0_FT_MATRIX_H
 # define LIBFT_2_0_FT_MATRIX_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 typedef struct	s_matrix
 {
@@ -26,6 +26,5 @@ t_matrix		*matrix_create(int y, int x);
 int				matrix_delete(t_matrix **a);
 int				matrix_print(t_matrix *a);
 t_matrix		*matrix_multiply(t_matrix *a, t_matrix *b);
-
 
 #endif

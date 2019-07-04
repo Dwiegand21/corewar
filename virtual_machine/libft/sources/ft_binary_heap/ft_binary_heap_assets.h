@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_binary_heap_assets.h                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/04 16:52:53 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/07/04 17:41:22 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef LIBFT_FT_BINARY_HEAP_ASSETS_H
 # define LIBFT_FT_BINARY_HEAP_ASSETS_H
@@ -11,18 +22,6 @@
 # define LEFT(x)		(x * 2 + 1)
 # define RIGHT(x)		(x * 2 + 2)
 
-struct		s_binary_heap_data
-{
-	size_t		heap_size;
-	t_vector	*vector;
-	int			(*cmp)(void *, void *);
-};
-
-# define BH_DATA(x)		((struct s_binary_heap_data *)((x)->data))
-
 void			ft_bheap_swap(void **p1, void **p2);
-void			ft_bheap_sift_down(t_vector *v,
-									size_t index,
-									int (*cmp)(void*, void *));
 
-#endif //LIBFT_FT_BINARY_HEAP_ASSETS_H
+#endif

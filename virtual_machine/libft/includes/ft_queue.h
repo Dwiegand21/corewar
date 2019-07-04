@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef LIBFT_FT_QUEUE_H
-#define LIBFT_FT_QUEUE_H
+# define LIBFT_FT_QUEUE_H
 
 # define EQ_EMPTY		"Queue is empty"
 # define EQ_FULL		"Queue is full"

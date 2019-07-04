@@ -6,11 +6,11 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:56:45 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 14:56:45 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:04:40 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ft_vector_assets.h"
+#include "ft_vector_assets.h"
 
 void		ft_vector_cat(t_vector *const this, const t_vector *const p)
 {

@@ -31,8 +31,7 @@ function compile_ref {
 
 function compare_dumps {
     mkdir -p ${DUMPS_DIR}
-    rm -f ./invalide_diffs
-    touch ./invalide_diffs
+    echo "" > ./invalide_diffs
     ARGS=($(find ${BINS_DIR} -name '*.cor'))
     for lhs in ${ARGS[@]}
     do

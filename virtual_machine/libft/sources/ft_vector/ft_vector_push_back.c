@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 19:27:20 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/07/02 20:11:47 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/07/04 17:05:09 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void		ft_vector_push_back(t_vector *this, void *elem)
 {
 	size_t		new_size;
 	int			ptr_pos;
-	int 		end_pos;
+	int			end_pos;
 
 	if (V_DATA(this)->end == V_DATA(this)->size)
 	{
-		new_size = V_DATA(this)->size  * 2lu;
+		new_size = V_DATA(this)->size * 2lu;
 		ptr_pos = this->v - V_DATA(this)->begin;
 		end_pos = V_DATA(this)->end;
 		V_DATA(this)->begin = ft_realloc(V_DATA(this)->begin,

@@ -12,7 +12,7 @@
 
 #include "ft_list.h"
 
-void 			ft_lstswap(t_list *a, t_list *b)
+void			ft_lstswap(t_list *a, t_list *b)
 {
 	t_list		c;
 
@@ -22,5 +22,4 @@ void 			ft_lstswap(t_list *a, t_list *b)
 	a->content_size = b->content_size;
 	b->content = c.content;
 	b->content_size = c.content_size;
-
 }

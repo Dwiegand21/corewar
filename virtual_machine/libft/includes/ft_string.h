@@ -1,11 +1,19 @@
-//
-// Created by axtazy on 6/9/19.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_string.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/04 17:13:25 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/07/04 17:13:34 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef LIBFT_FT_STRING_H
-#define LIBFT_FT_STRING_H
+# define LIBFT_FT_STRING_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 int				ft_atoi(const char *str);
 
@@ -59,7 +67,7 @@ char			*ft_strncpy(char *dst, const char *src, size_t length);
 
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 
-int 			ft_strnequ_rev(const char *s1, const char *s2, size_t n);
+int				ft_strnequ_rev(const char *s1, const char *s2, size_t n);
 
 char			*ft_strnew(size_t size);
 
@@ -79,4 +87,4 @@ int				ft_tolower(int c);
 
 int				ft_toupper(int c);
 
-#endif //LIBFT_FT_STRING_H
+#endif

@@ -11,9 +11,9 @@
 /* ************************************************************************** */
 
 #ifndef LIBFT_FT_LIST_H
-#define LIBFT_FT_LIST_H
+# define LIBFT_FT_LIST_H
 
-#include <stddef.h>
+# include <stddef.h>
 
 typedef struct	s_list
 {
@@ -50,6 +50,6 @@ t_list			*ft_lstrcpy(t_list *lst);
 
 t_list			*ft_lstsort(t_list *list, int (*f)(t_list *, t_list *));
 
-void 			ft_lstswap(t_list *a, t_list *b);
+void			ft_lstswap(t_list *a, t_list *b);
 
-#endif //LIBFT_FT_LIST_H
+#endif

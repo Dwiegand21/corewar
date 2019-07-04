@@ -86,7 +86,7 @@ struct		s_area
 	t_gcond			g_stats;
 
 	t_player		*players;
-	t_vector		*processes_NEW;
+	t_vector		*processes;
 
 	uint32_t		flags;
 	int32_t			win;

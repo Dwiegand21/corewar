@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memclear_n_del.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/09 07:15:57 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/09 07:15:57 by axtazy           ###   ########.fr       */
+/*   Created: 2019/07/04 16:55:28 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/07/04 16:55:28 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void 		ft_memclear_n_del(void *ptr, size_t size)
+void		ft_memclear_n_del(void *ptr, size_t size)
 {
 	while (size--)
 	{

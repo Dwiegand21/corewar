@@ -6,7 +6,7 @@
 #    By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 16:00:14 by dwiegand          #+#    #+#              #
-#    Updated: 2019/07/02 20:12:36 by dwiegand         ###   ########.fr        #
+#    Updated: 2019/07/04 16:59:12 by dwiegand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,14 +102,13 @@ SFILES			=	ft_atoi.c \
 					ft_bheap_extract.c \
 					ft_bheap_get.c \
 					ft_bheap_insert.c \
+					ft_bheap_sift_down.c \
 					ft_bheap_tools.c \
 					ft_bheap_init.c \
 					queue.c \
 					queue2.c \
 					stack.c \
 					stack2.c \
-					ft_global.c \
-					ft_project_name_init.c \
 					ft_error.c
 
 IFILES			=	libft.h

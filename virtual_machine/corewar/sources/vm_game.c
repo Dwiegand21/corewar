@@ -50,7 +50,7 @@ static void			run_next_process(t_area *area)
 {
 	t_process *process;
 
-	process = ft_bheap_get(area->processes_NEW);
+	process = ft_bheap_get(area->processes);
 	SN_CYCLES = process->sleep;
 	if (area->flags & STEP_DEBUG
 		&& SN_CYCLES >= g_db_from
@@ -76,7 +76,7 @@ static void			run_next_process(t_area *area)
 		process->f(area, process);
 
 	//process->sleep = SN_CYCLES + get_process_sleep(process, MAP[PC]);
-	move_first_process(area->processes_NEW);
+	move_first_process(area->processes);
 
 }
 
@@ -104,12 +104,12 @@ static void			change_area_stats(t_area *area)
 int32_t				play_game(t_area *area)
 {
 	area->win = area->g_stats.n_players - 1;
-	while (area->processes_NEW->size(area->processes_NEW))
+	while (area->processes->size(area->processes))
 	{
 		if ((area->flags & DUMP) != 0
-			&& ((get_next_op_round(area->processes_NEW)) > SDUMP_CYCLE))
+			&& ((get_next_op_round(area->processes)) > SDUMP_CYCLE))
 			print_dump(area);
-		if ((get_next_op_round(area->processes_NEW)) > SDIE_CYCLE)
+		if ((get_next_op_round(area->processes)) > SDIE_CYCLE)
 		{
 			delete_not_live_processes(area);
 			change_area_stats(area);

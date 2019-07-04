@@ -29,7 +29,7 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
-	ft_bheap_insert(area->processes_NEW, new, &heap_cmp);
+	ft_bheap_insert(area->processes, new, &heap_cmp);
 	SN_PROCESS++;
 }
 
@@ -58,7 +58,7 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 				new->sleep);
 	}
 	new->ordinal_number = area->g_stats.next_process_index++;
-	ft_bheap_insert(area->processes_NEW, new, &heap_cmp);
+	ft_bheap_insert(area->processes, new, &heap_cmp);
 	SN_PROCESS++;
 }
 
@@ -69,8 +69,8 @@ int32_t			delete_not_live_processes(t_area *area)
 	size_t		length;
 	t_vector	*v;
 
-	v = area->processes_NEW;
-	length = area->processes_NEW->size(area->processes_NEW);
+	v = area->processes;
+	length = area->processes->size(area->processes);
 	index = 0;
 	while (index < length)
 	{
