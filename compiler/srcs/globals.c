@@ -34,9 +34,11 @@ char g_mult_label[] =
 char g_bad_cmd[] =
 "{Bold}{Red}ERROR{eof}  -  Invalid operation >>> {\\226}%.*s{eof} <<<\n";
 char g_bad_arg[] =
-"{Bold}{Red}ERROR{eof}  -  Invalid argument value >>> {\\226}%.*s{eof} <<<\n";
+"{Bold}{Red}ERROR{eof}  -  Invalid argument value "
+">>> {\\226}%.*s{eof} <<<\n";
 char g_bad_reg_idx[] =
-"{Bold}{Red}ERROR{eof}  -  Invalid register index >>> {\\226}%.*s{eof} <<<\n";
+"{Bold}{Red}ERROR{eof}  -  Invalid register index "
+">>> {\\226}%.*s{eof} <<<\n";
 char g_bad_arg_count[] =
 "{Bold}{Red}ERROR{eof}  -  Wrong number of arguments for command "
 ">>> {\\226}%s{eof} <<<\n"
@@ -79,51 +81,67 @@ char g_pos_before[] =
 "          Before {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 
 char g_usage[] =
-	"I'm usage\n";
-
-char g_missing_out[] =
-	"{Bold}{Red}ERROR{eof}  -  Missing output file after flag {\\202}"
+"I'm usage\n"; // TODO
+char g_err_unknown_flag[] =
+"{Bold}{Red}ERROR{eof}  -  Unknown flag >>> {\\226}%s.*%s{eof} <<<\n";
+char g_err_missing_in[] =
+"{Bold}{Red}ERROR{eof}  -  Missing input file before flag {\\226}%s{eof}\n";
+char g_err_missing_out[] =
+"{Bold}{Red}ERROR{eof}  -  Missing output file after flag {\\226}%s{eof}\n";
+char g_wrn_wrong_in_ext[] =
+"{Bold}{\\202}WARNING{eof} - Extension of input file {\\226}%s{eof} is not"
+" {\\226}.s{eof}\n"
+"          Continue? [Y/n]";
+char g_wrn_wrong_out_ext[] =
+"{Bold}{\\202}WARNING{eof} - Extension of output file {\\226}%s{eof} is not"
+" {\\226}.cor{eof}\n"
+"          Use {\\226}.cor{eof} instead? [Y/n]";
 
 char *g_errors[] = {
-		g_unexp_token,
-		g_exp_same_line,
-		g_bad_byte,
-		g_missing_param,
-		g_wrong_char_lbl,
-		g_miss_lbl_chr,
-		g_mult_label,
-		g_bad_cmd,
-		g_bad_arg,
-		g_bad_reg_idx,
-		g_bad_arg_count,
-		g_missing_sep,
-		g_extra_sep,
-		g_miss_arg_aft_prfx,
-		g_miss_arg,
-		g_nm_cmd_wrg_place,
-		g_bad_arg_type,
-		g_unknown_lbl,
+	g_unexp_token,
+	g_exp_same_line,
+	g_bad_byte,
+	g_missing_param,
+	g_wrong_char_lbl,
+	g_miss_lbl_chr,
+	g_mult_label,
+	g_bad_cmd,
+	g_bad_arg,
+	g_bad_reg_idx,
+	g_bad_arg_count,
+	g_missing_sep,
+	g_extra_sep,
+	g_miss_arg_aft_prfx,
+	g_miss_arg,
+	g_nm_cmd_wrg_place,
+	g_bad_arg_type,
+	g_unknown_lbl,
+	g_err_unknown_flag,
+	g_err_missing_in,
+	g_err_missing_out,
+	g_wrn_wrong_in_ext,
+	g_wrn_wrong_out_ext,
 };
 
 char g_chars[] = {
-		'\r',
-		'\t',
-		'\a',
-		'\f',
-		'\v',
-		'\b',
-		'\n',
-		'\"',
-		'\'',
-		'\?',
-		'\\',
+	'\r',
+	'\t',
+	'\a',
+	'\f',
+	'\v',
+	'\b',
+	'\n',
+	'\"',
+	'\'',
+	'\?',
+	'\\',
 };
 
 char g_nbrs[][4] = {
-		"0th",
-		"1st",
-		"2nd",
-		"3rd"
+	"0th",
+	"1st",
+	"2nd",
+	"3rd"
 };
 
 char g_backslash_literals[] = "rtafvbn\"\'\?\\";

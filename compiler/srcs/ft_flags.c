@@ -12,19 +12,67 @@
 
 #include "asm.h"
 
+/**
+ *
+ *  ./asm  /path/to/gg.s  ...                                    =>  /path/to/gg.cor ...
+ *  ./asm  /path/to/gg.s -o gg.cor  /path/to/ff.s -o ff.cor ...  =>  gg.cor ff.cor ...
+ *
+ **/
+
+/**
+ *
+ * Flags:
+ * -o (--output) : specify output file
+ * -s (--silent) : silent mode
+ * -h (--help)   : print usage
+ *
+ */
+
 void 			ft_parse_l_flag(char *ln, t_flags *fl)
 {
-
+	if (!ft_strncmp(ln, "output", 7))
+	{
+		if (fl->file_type == INPUT)
+		{
+			fl->is_error = 1;
+			ft_fdprintf(2, g_errors[MISSING_INPUT], "--output");
+			return ;
+		}
+		fl->file_type = !fl->file_type;
+	}
+	else if (!ft_strncmp(ln, "silent", 7))
+		SET_SILENT(fl->flags);
+	else if (!ft_strncmp(ln, "help", 5))
+		SET_HELP(fl->flags);
+	else
+	{
+		fl->is_error = 1;
+		ft_fdprintf(2, g_errors[UNKNOWN_FLAG], "--", 100, ln);
+	}
 }
 
 void			ft_parse_s_flag(char *ln, t_flags *fl)
 {
 	while (*ln)
 	{
-		if (*ln == 's')
+		if (*ln == 'o')
 		{
-			if (fl->is_out)
-				ft_fdprintf(2, "Missing output file after flag")
+			if (fl->file_type == INPUT)
+			{
+				fl->is_error = 1;
+				ft_fdprintf(2, g_errors[MISSING_INPUT], "-o");
+				return ;
+			}
+			fl->file_type = !fl->file_type;
+		}
+		else if (*ln == 's')
+			SET_SILENT(fl->flags);
+		else if (*ln == 'h')
+			SET_HELP(fl->flags);
+		else
+		{
+			fl->is_error = 1;
+			ft_fdprintf(2, g_errors[UNKNOWN_FLAG], "-", 1, ln);
 		}
 	}
 }
@@ -41,6 +89,29 @@ void 			ft_parse_path(char *ln, t_flags *fl, int is_out)
 		if (!ft_vector_push_back(&fl->outputs, ln))
 			exit(ft_free_flags(fl, 666));
 	}
+}
+
+static inline int	ft_ask(char *que, char *param)
+{
+	char b;
+
+	b = 0;
+	ft_fdprintf(2, que, param);
+	read(0, &b, 1);
+	if (b == 'n' || b == 'N')
+		return (0);
+	return (1);
+}
+
+void 			ft_parse_filename(char *ln, t_flags *fl)
+{
+	char	*ext;
+	int		filename_len;
+
+	ext = ft_rstrchr(ln, '.');
+	ext = !ext ? ln + ft_strlen(ln) : ext;
+	filename_len = ext - ln;
+	//if (GET_SILENT(fl->flags) || ft_ask(fl->file_type == INPUT))
 }
 
 t_flags			*ft_parse_flags(int ac, char **av)
@@ -62,5 +133,10 @@ t_flags			*ft_parse_flags(int ac, char **av)
 			else
 				ft_parse_s_flag(av[i] + 1, fl);
 		}
+		else
+		{
+			ft_parse_filename(av[i], fl);
+		}
 	}
+	return (fl);
 }
