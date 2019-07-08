@@ -137,7 +137,8 @@ void				ft_init_game(t_area *area) // create initial carriages
 	int i;
 
 	i = -1;
-	if (!(area->time_to_carriages[0] = gft_make_vector_free(SIMULT_CARR_COUNT, free)))
+	if (!(area->time_to_carriages[0] =
+			gft_make_vector_free(SIMULT_CARR_COUNT, free)))
 		ft_error(ERRALLOC, __func__);
 	while (++i < area->g_stats.n_players)
 	{
@@ -149,12 +150,46 @@ void				ft_init_game(t_area *area) // create initial carriages
 		ft_error(ERRALLOC, __func__);
 }
 
+#include <stdio.h> // todo delete
+
+void				ft_set_cmds(uint8_t *map, t_process **carrs, int len)
+{
+	int				i;
+	unsigned char	op;
+
+	i = -1;
+	while (++i < len)
+	{
+		op = map[carrs[i]->pc % MEM_SIZE];
+		carrs[i]->op = (op > 0 && op < 17) ? op : 0;
+	}
+}
+
 int32_t				play_game(t_area *area)
 {
-	area->win = area->g_stats.n_players - 1; //note no need?
+	area->win = area->g_stats.n_players - 1; // note no need?
 
-	t_gvector *time_to_carriages[ARRAY_AREA_SIZE + 1];            // Init array
-	area->time_to_carriages = time_to_carriages; //
+	t_gvector *time_to_carriages[ARRAY_AREA_SIZE + 1];
+	int current_turn;
+
+	area->time_to_carriages = time_to_carriages;
+	current_turn = 0;
+	ft_init_game(area);
+	++current_turn; // fixme try to insert it to while
+	ft_set_cmds(area->map, (t_process**)time_to_carriages[0]->data,
+			time_to_carriages[0]->len);
+
+	printf("GG\n");
+
+	for (int e = 0; e < time_to_carriages[0]->len; ++e)
+	{
+		printf("%hhx ", ((t_process*)time_to_carriages[0]->data[e])->op);
+	}
+
+	//while (SN_PROCESS)
+	//{
+//
+	//}
 
 
 	/*while (SN_PROCESS > 0)

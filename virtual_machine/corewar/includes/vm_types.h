@@ -34,6 +34,8 @@ struct		s_process
 	bool			carry;
 	bool			live_in_session;
 
+
+	unsigned char	op;
 	uint32_t		ordinal_number;
 	uint32_t		player;
 	void			(*f)(t_area*, t_process*);

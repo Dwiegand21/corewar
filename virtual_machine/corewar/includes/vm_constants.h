@@ -110,7 +110,7 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 
 # define MAX_PLAYERS			4
 
-# define MEM_SIZE				(4 * 1024)
+# define MEM_SIZE				(4096)
 # define IDX_MOD				(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
