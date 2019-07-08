@@ -15,6 +15,7 @@
 
 #include "libft.h"
 #include "vm_constants.h"
+#include "gvector.h"
 
 typedef struct s_process			t_process;
 typedef struct s_player				t_player;
@@ -33,7 +34,7 @@ struct		s_process
 	bool			carry;
 	bool			live_in_session;
 
-	uint32_t			ordinal_number;
+	uint32_t		ordinal_number;
 	uint32_t		player;
 	void			(*f)(t_area*, t_process*);
 
@@ -90,6 +91,8 @@ struct		s_area
 
 	uint32_t		flags;
 	int32_t			win;
+
+	t_gvector		**time_to_carriages;
 };
 
 struct		s_ops

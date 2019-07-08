@@ -15,22 +15,23 @@
 #include "./../../libft/sources/ft_vector/ft_vector_assets.h"
 #include "./../../libft/sources/ft_binary_heap/ft_binary_heap_assets.h"
 
-void		load_process(t_area *area, int32_t player, uint32_t pc)
+t_process		*load_process(t_area *area, int32_t player, uint32_t pc)
+//note initial add process
 {
 	t_process	*new;
 
-	new = NULL;
 	if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		ft_error(ERRALLOC, __func__);
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	new->pc = pc;
-	new->sleep = SN_CYCLES + 1;
+	///new->sleep = SN_CYCLES + 1;
 	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
-	ft_bheap_insert(area->processes, new, &heap_cmp);
-	SN_PROCESS++;
+	///ft_bheap_insert(area->processes, new, &heap_cmp);
+	///SN_PROCESS++;
+	return (new);
 }
 
 void		new_process(t_area *area, t_process *process, uint32_t pc)

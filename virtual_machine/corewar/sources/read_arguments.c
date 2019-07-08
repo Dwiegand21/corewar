@@ -79,7 +79,7 @@ int32_t		check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 {
 	int32_t		i;
-	t_cor_file	files[4];
+	t_cor_file	files[4]; // todo use define for 4
 
 	area->flags = check_flags(&argc, &argv, &SDUMP_CYCLE);
 	i = 0;

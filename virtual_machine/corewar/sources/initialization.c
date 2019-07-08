@@ -22,7 +22,7 @@ t_area		*initialization_area(void)
 	area->map = NULL;
 	if (!(area->map = ft_memalloc(sizeof(char) * MEM_SIZE)))
 		ft_error(ERRALLOC, __func__);
-	area->processes = ft_vector_create(200, &delete_process);
+	///area->processes = ft_vector_create(200, &delete_process);
 	SDIE_CYCLE_DELTA = CYCLE_TO_DIE;
 	SDIE_CYCLE = SDIE_CYCLE_DELTA;
 	SNOT_CHANGED = 0;

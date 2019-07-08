@@ -21,12 +21,14 @@ SFILES		= main.c \
 					vm_game.c \
 					vm_print_dump.c \
 					vm_processes_ops.c \
-					ft_custom_tools.c
+					ft_custom_tools.c \
+					gleb_stuff/gvector.c
 
 
 HFILES		= virtual_machine.h \
 					vm_types.h \
-					vm_constants.h
+					vm_constants.h \
+					gvector.h
 
 HEADERS		= $(addprefix $(INCDIR),$(HFILES))
 

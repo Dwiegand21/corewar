@@ -103,10 +103,61 @@ static void			change_area_stats(t_area *area)
 	SLIVES_IN_ROUND = 0;
 }
 
+//struct		s_area
+//{
+//	uint8_t			*map;
+//	t_gcond			g_stats;
+//
+//	t_player		*players;
+//	t_vector		*processes;
+//
+//	uint32_t		flags;
+//	int32_t			win;
+//};
+
+//struct		s_process
+//{
+//	uint32_t		pc;
+//	uint32_t		sleep;
+//
+//	int32_t			reg[REG_NUMBER];
+//
+//	bool			carry;
+//	bool			live_in_session;
+//
+//	uint32_t			ordinal_number;
+//	uint32_t		player;
+//	void			(*f)(t_area*, t_process*);
+//
+//};
+
+
+void				ft_init_game(t_area *area) // create initial carriages
+{
+	int i;
+
+	i = -1;
+	if (!(area->time_to_carriages[0] = gft_make_vector_free(SIMULT_CARR_COUNT, free)))
+		ft_error(ERRALLOC, __func__);
+	while (++i < area->g_stats.n_players)
+	{
+		gft_vector_push_back(&area->time_to_carriages[0],
+				load_process(area, i, area->players[i].start_pos));
+		SN_PROCESS++;
+	}
+	if (!area->time_to_carriages[0])
+		ft_error(ERRALLOC, __func__);
+}
+
 int32_t				play_game(t_area *area)
 {
-	area->win = area->g_stats.n_players - 1;
-	while (SN_PROCESS > 0)
+	area->win = area->g_stats.n_players - 1; //note no need?
+
+	t_gvector *time_to_carriages[ARRAY_AREA_SIZE + 1];            // Init array
+	area->time_to_carriages = time_to_carriages; //
+
+
+	/*while (SN_PROCESS > 0)
 	{
 		if ((area->flags & DUMP) != 0
 			&& ((get_next_op_round(area->processes)) > SDUMP_CYCLE
@@ -120,6 +171,6 @@ int32_t				play_game(t_area *area)
 		else
 			run_next_process(area);
 	}
-	winner(area);
+	winner(area);*/
 	return (0);
 }

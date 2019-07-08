@@ -41,7 +41,7 @@ int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
 			   area->map + area->players[p_index].start_pos,
 			   files[p_index].code_size)) != files[p_index].code_size )
 		ft_error(INV_CODE_SIZE, __func__);
-	load_process(area, p_index, area->players[p_index].start_pos);
+	//load_process(area, p_index, area->players[p_index].start_pos); // note my change
 
 	close(files->fd);
 	return (0);
@@ -94,7 +94,7 @@ int32_t			initialization_players(t_area *area, t_cor_file *files)
 		i++;
 	}
 	printf("Introducing contestants...\n");
-	for (int i = 0; i < area->g_stats.n_players; i++)
+	for (int i = 0; i < area->g_stats.n_players; i++) //BUG FOR
 	{
 		printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 				area->players[i].ordinal_number,

@@ -20,13 +20,13 @@
 # include <stdbool.h>
 # include <limits.h>
 
-
 # include <fcntl.h>
 # include <sys/types.h>
 
 # include "vm_constants.h"
 # include "vm_types.h"
 # include "libft.h"
+# include "gvector.h"
 
 # define DEBUG_			0			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map
@@ -78,7 +78,7 @@ int32_t		check_flags(int32_t *av, char ***ac, int32_t *dump);
 **		processes_ops.c
 */
 void		new_process(t_area *area, t_process *parent, uint32_t pc);
-void		load_process(t_area *area, int32_t player, uint32_t pc);
+t_process	*load_process(t_area *area, int32_t player, uint32_t pc);
 int32_t		delete_not_live_processes(t_area *area);
 
 /*

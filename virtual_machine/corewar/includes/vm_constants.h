@@ -133,4 +133,11 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
+/*
+**					GLEB'S STUFF
+*/
+
+# define SIMULT_CARR_COUNT 32
+# define ARRAY_AREA_SIZE 2000
+
 #endif // COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
