@@ -13,7 +13,7 @@
 #ifndef ASM_H
 # define ASM_H
 # include "fcntl.h"
-# include <stdio.h> 
+# include <stdio.h>
 # include "stdint.h"
 # include "zconf.h"
 # include "libft.h"
@@ -54,6 +54,10 @@
 # define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
 # define BUFF_SIZE 4096
 
+# define SET_SILENT(flags)	((flags) |= 1u << 0u)
+# define SET_HELP(flags)	((flags) |= 1u << 1u)
+# define GET_SILENT(flags)	(((flags) & (1u << 0u)) != 0)
+
 typedef struct	s_op
 {
 	char			name[6];
@@ -84,6 +88,11 @@ typedef enum	e_error
 	NM_CMD_WRONG_PLACE = 15,
 	BAD_ARG_TYPE = 16,
 	UNKNOWN_LAB = 17,
+	UNKNOWN_FLAG = 18,
+	MISSING_INPUT = 19,
+	MISSING_OUTPUT = 20,
+	WRG_IN_EXT = 21,
+	WRG_OUT_EXT = 22,
 }				t_error;
 
 typedef enum	e_token_type
@@ -91,6 +100,12 @@ typedef enum	e_token_type
 	NAME,
 	COMMENT
 }				t_token_type;
+
+typedef enum	e_file_type
+{
+	INPUT = 0,
+	OUTPUT = 1
+}				t_file_type;
 
 typedef struct	s_cmd
 {
@@ -127,8 +142,9 @@ typedef struct	s_flags
 {
 	t_vector		*srcs;
 	t_vector		*outputs;
-	unsigned int	flags;
-	unsigned char	is_out;
+	unsigned char	flags;
+	t_file_type 	file_type;
+	unsigned char	is_error;
 }				t_flags;
 
 extern char		g_wrn_ignored[];

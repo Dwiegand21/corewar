@@ -5,6 +5,8 @@ BINS_DIR="champs_bins"
 ARGS=($(find ../subject -name '*.s'))
 BAD_CHAMPS=(Car.cor mandragore.cor wave.cor bee_gees.cor Octobre_Rouge_V4.2.cor 42.cor barriere.cor)
 DUMPS=(0 5000 10000 15000 20000 25000)
+lhs=
+rhs=
 
 function find_in_array {
     for i in "${BAD_CHAMPS[@]}"
