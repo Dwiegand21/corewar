@@ -4,12 +4,17 @@
 
 #include "visualization.h"
 
-int main(int argc, char** argv)
+int
+main(int argc, char** argv)
 {
-//	GLUT_example(argc, argv);
-//	GLFW_example();
-	SDL_example(argc, argv);
+	t_visualization		v;
+	int32_t				status;
 
+	if (initialization(&v) == 0)
+		return (0);
+
+	title_page(&v);
+	destroy_all(&v);
 
 	return 0;
 }
