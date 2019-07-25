@@ -7,13 +7,21 @@
 # include <stdbool.h>
 # include <math.h>
 
-# include <SDL2/SDL.h>
-# include <SDL2/SDL_image.h>
-# include <SDL2/SDL_ttf.h>
-# include <SDL2/SDL_video.h>
+# if __has_include(<SDL2/SDL.h>)
+#  include <SDL2/SDL.h>
+#  include <SDL2/SDL_image.h>
+#  include <SDL2/SDL_ttf.h>
+#  include <SDL2/SDL_video.h>
+# elif __has_include("SDL.h")
+#  include "SDL.h"
+#  include "SDL_image.h"
+#  include "SDL_ttf.h"
+#  include "SDL_video.h"
+# elif __has_include("SDL2/SDL.h")
+#  include "SDL2/SDL.h"
+# endif
 
 # include "m_types.h"
-
 //# include <GL/gl.h>
 //# include <GL/glu.h>
 

@@ -23,17 +23,19 @@ add_executable(visualization ${SOURCE_FILES})
 
 target_include_directories( visualization PRIVATE
         ./includes/
-        SDL2::Main
-        SDL2::Image
-        SDL2::Mixer
-        SDL2::TTF
-        OpenGL::GL
+#        SDL2::Main
+#        SDL2::Image
+#        SDL2::Mixer
+#        SDL2::TTF
+#        OpenGL::GL
+        "${SDL2_INC}"
         )
 
 target_link_libraries( visualization PRIVATE
-        SDL2::Main
-        SDL2::Image
-        SDL2::Mixer
-        SDL2::TTF
-        OpenGL::GL
+#        SDL2::Main
+#        SDL2::Image
+#        SDL2::Mixer
+#        SDL2::TTF
+#        OpenGL::GL
+        "${SDL2_LIB}"
         )
