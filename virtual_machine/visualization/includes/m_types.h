@@ -57,16 +57,14 @@ struct		s_widget
 	SDL_Rect		widget_rect;
 	t_texture		widget_texture;
 
-	bool			motion_event;
 	int32_t			click_event_ret;
 };
 
 struct		s_widget_list
 {
 	t_widget		*widgets;
-	int32_t			widget_count;
+	int32_t			num_widgets;
 
-	void			(*motion_event_func)(t_widget *);
 	int				(*click_event_func)(t_widget *, void *);
 };
 

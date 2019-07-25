@@ -20,6 +20,10 @@ title_page(t_visualization *v)
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 					running = false;
 			}
+			if (event.type == SDL_MOUSEMOTION)
+			{
+				printf("%d %d\n", event.motion.x, event.motion.y);
+			}
 //		}
 	}
 	return (1);

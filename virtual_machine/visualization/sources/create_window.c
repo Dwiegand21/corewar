@@ -16,8 +16,10 @@ create_window(t_visualization *const restrict v)
 	int32_t window_flags;
 
 	window_flags =
-			SDL_WINDOW_SHOWN |
-			SDL_WINDOW_FULLSCREEN_DESKTOP;
+			SDL_WINDOW_SHOWN
+			| SDL_WINDOW_RESIZABLE
+//			| SDL_WINDOW_FULLSCREEN_DESKTOP
+			;
 	init_window_rect(&v->window_rect);
 	v->window = SDL_CreateWindow(
 			"Test",
@@ -31,5 +33,6 @@ create_window(t_visualization *const restrict v)
 		fprintf(stderr, "Can not create window: %s\n", SDL_GetError());
 		return (0);
 	}
+	SDL_GetWindowSize(v->window, &v->window_rect.w, &v->window_rect.h);
 	return (1);
 }

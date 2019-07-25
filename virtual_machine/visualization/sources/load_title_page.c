@@ -24,7 +24,8 @@ load_title_page_bg_texture(t_visualization *v)
 			RGB_colors[SILVER].b,
 			RGB_colors[SILVER].a
 			);
-	SDL_RenderFillRect(v->renderer, &v->window_rect);
+
+	SDL_RenderFillRect(v->renderer, NULL);
 	SDL_SetRenderDrawColor(
 			v->renderer,
 			RGB_colors[RED_INDIAN].r,
@@ -48,13 +49,9 @@ load_title_page_bg_texture(t_visualization *v)
 			RGB_colors[RED_INDIAN].a);
 
 	SDL_RenderFillRect(v->renderer, &interface_bg_rect);
+	SDL_RenderSetViewport(v->renderer, &interface_bg_rect);
+
 	return (1);
-}
-
-void
-motion_event_func(t_widget *widget)
-{
-
 }
 
 int32_t
@@ -70,7 +67,7 @@ load_title_page(t_visualization *v)
 			RGB_colors[BLUE_DEEP_SKY].g,
 			RGB_colors[BLUE_DEEP_SKY].b,
 			RGB_colors[BLUE_DEEP_SKY].a);
-	SDL_RenderSetViewport(v->renderer, NULL);
+//	SDL_RenderSetViewport(v->renderer, NULL);
 
 	SDL_RenderPresent(v->renderer);
 	return (1);
