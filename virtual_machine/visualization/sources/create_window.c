@@ -6,8 +6,8 @@ init_window_rect(SDL_Rect *window_rect)
 {
 	window_rect->x = SDL_WINDOWPOS_CENTERED;
 	window_rect->y = SDL_WINDOWPOS_CENTERED;
-	window_rect->w = 1920;
-	window_rect->h = 1080;
+	window_rect->w = 1080;
+	window_rect->h = 720;
 }
 
 int32_t
