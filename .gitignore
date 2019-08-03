@@ -15,4 +15,6 @@ cmake-build-debug
 *.a
 .DS_Store
 venv
+
 /virtual_machine/visualization/**/build/
+!/virtual_machine/**/cmake/

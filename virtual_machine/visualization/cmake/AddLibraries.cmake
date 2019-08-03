@@ -21,7 +21,7 @@ list( APPEND RequiredLibsList
 list( LENGTH RequiredLibsList NumberOfLibs )
 
 foreach( LibName IN ITEMS ${RequiredLibsList} )
-    find_package( "${LibName}" REQUIRED)
+    find_package( "${LibName}" )
     if( NOT ${LibName}_FOUND )
         message( STATUS "# - ${LibName} not found" )
     else()
@@ -47,8 +47,7 @@ else()
     foreach( TargetLibURL IN ITEMS ${NotFoundLibsURL_List} )
         string( REGEX REPLACE ".+(\\/)" "" LibDirName ${TargetLibURL} )
         if ( EXISTS ${CMAKE_SOURCE_DIR}/external/${LibDirName} )
-            # Try install library from {current}/external/{libdir}.
-            # If it сannot installed, remove directory and install library pack
+            find
             message( STATUS "# ${LibDirName} not found <<<<" )
         else()
             execute_process(

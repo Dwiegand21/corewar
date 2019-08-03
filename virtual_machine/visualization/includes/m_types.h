@@ -26,7 +26,7 @@ typedef enum
 	BLUE_MEDIUM,
 	BLUE_DARK,
 	WHITE
-}		t_colors;
+}	t_colors;
 
 struct		s_visualization
 {

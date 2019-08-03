@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(visualization C)
 
-#include( ${CMAKE_SOURCE_DIR}/external/AddLibraries.cmake )
-include( ${CMAKE_SOURCE_DIR}/external/AddLibraries_helper.cmake )
+include( ${CMAKE_SOURCE_DIR}/cmake/AddLibraries.cmake )
+#include( ${CMAKE_CURRENT_SOURCE_DIR}/cmake/AddLibraries_helper.cmake )
 
 set( CMAKE_C_STANDARD 99 )
 
