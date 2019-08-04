@@ -7,10 +7,28 @@
 # include <stdbool.h>
 # include <math.h>
 
+# if defined(__APPLE__)
+#  if __has_include(<SDL2/SDL.h>)
+#   include <SDL2/SDL.h>
+#  elif __has_include("SDL.h")
+#   include "SDL.h"
+#  endif
+#  if __has_include(<SDL2/SDL_image.h>)
+#   include <SDL2/SDL_image.h>
+#  elif __has_include("SDL_image.h")
+#   include "SDL_image.h"
+#  endif
+#  if __has_include(<SDL2/SDL_ttf.h>)
+#   include <SDL2/SDL_ttf.h>
+#  elif __has_include("SDL_ttf.h")
+#   include "SDL_ttf.h"
+#  endif
+# elif defined(__linux__)
 #  include <SDL2/SDL.h>
 #  include <SDL2/SDL_image.h>
 #  include <SDL2/SDL_ttf.h>
 #  include <SDL2/SDL_video.h>
+# endif
 
 # include "m_types.h"
 
@@ -49,6 +67,8 @@ close_n_fonts(int32_t n);
 int32_t
 destroy_all(t_visualization *v);
 
+int32_t
+title_page_event_states(void);
 
 //  Old
 int

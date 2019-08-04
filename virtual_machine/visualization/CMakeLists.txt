@@ -14,13 +14,13 @@ set( SOURCE_FILES
         sources/game_page.c
         sources/title_page.c
         sources/globals.c
-        sources/load_game_page.c
+        sources/game_page_load.c
         sources/title_page_load.c
         sources/menu_bar.c
         sources/create_renderer.c
         sources/create_texture.c
         sources/create_cursor.c
-        )
+        sources/title_page_events_states.c)
 
 add_executable(visualization ${SOURCE_FILES})
 
@@ -29,19 +29,15 @@ target_include_directories( visualization PRIVATE
         )
 
 target_include_directories( visualization PRIVATE
-#        SDL2::Main
-#        SDL2::Image
-#        SDL2::Mixer
-#        SDL2::TTF
-#        OpenGL::GL
-        ${SDL2_INC}
+        SDL2::Main
+        SDL2::Image
+        SDL2::Mixer
+        SDL2::TTF
         )
 
 target_link_libraries( visualization PRIVATE
-#        SDL2::Main
-#        SDL2::Image
-#        SDL2::Mixer
-#        SDL2::TTF
-#        OpenGL::GL
-        ${SDL2_LIB}
+        SDL2::Main
+        SDL2::Image
+        SDL2::Mixer
+        SDL2::TTF
         )

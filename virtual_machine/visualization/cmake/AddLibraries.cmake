@@ -18,56 +18,7 @@ list( APPEND RequiredLibsList
         SDL2_mixer
         )
 
-list( LENGTH RequiredLibsList NumberOfLibs )
 
 foreach( LibName IN ITEMS ${RequiredLibsList} )
-    find_package( "${LibName}" )
-    if( NOT ${LibName}_FOUND )
-        message( STATUS "# - ${LibName} not found" )
-    else()
-        message( STATUS "# + ${LibName} found" )
-        list( APPEND FoundLibs "${LibName}" )
-        list( REMOVE_ITEM RequiredLibsList "${LibName}" )
-    endif()
+    find_package( "${LibName}" REQUIRED )
 endforeach()
-
-list( LENGTH RequiredLibsList ListLength)
-
-if( ListLength EQUAL 0 )
-    message( STATUS "# All libraries found" )
-else()
-    message( STATUS "# Libraries not found:" )
-    foreach(LibName IN ITEMS ${RequiredLibsList} )
-        string( REPLACE "2" "" HgPackLibName ${LibName} )
-        string( CONCAT HgPackLibURL "https://hg.libsdl.org/" "${HgPackLibName}" )
-        list( APPEND NotFoundLibsURL_List ${HgPackLibURL} )
-        message( STATUS "    * ${LibName} : ${HgPackLibURL}" )
-    endforeach()
-    message( STATUS "# Install required libraries..." )
-    foreach( TargetLibURL IN ITEMS ${NotFoundLibsURL_List} )
-        string( REGEX REPLACE ".+(\\/)" "" LibDirName ${TargetLibURL} )
-        if ( EXISTS ${CMAKE_SOURCE_DIR}/external/${LibDirName} )
-            find
-            message( STATUS "# ${LibDirName} not found <<<<" )
-        else()
-            execute_process(
-                    COMMAND rm -rf ${LibDirName}
-                    COMMAND hg clone "${TargetLibURL}" ${LibDirName}
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/external
-            )
-        endif()
-    endforeach()
-endif()
-
-set( SDL2_INC
-        SDL2::Main
-        SDL2::Image
-        SDL2::Mixer
-        SDL2::TTF
-        )
-set( SDL2_LIB
-        SDL2::Main
-        SDL2::Image
-        SDL2::Mixer
-        SDL2::TTF
-        )

@@ -24,8 +24,8 @@ load_title_page_bg_texture(t_visualization *v)
 			RGB_colors[SILVER].b,
 			RGB_colors[SILVER].a
 			);
-
-	SDL_RenderFillRect(v->renderer, NULL);
+	SDL_RenderClear(v->renderer);
+	//SDL_RenderFillRect(v->renderer, NULL);
 	SDL_SetRenderDrawColor(
 			v->renderer,
 			RGB_colors[RED_INDIAN].r,
@@ -34,22 +34,15 @@ load_title_page_bg_texture(t_visualization *v)
 			RGB_colors[RED_INDIAN].a
 	);
 
-	int32_t	width = 800,
-			height = 600;
+	int32_t	width = 700,
+			height = 500;
 	SDL_Rect interface_bg_rect = {
-			(v->window_rect.w - width) / 2, (v->window_rect.h - height) / 2,
-			width, height
-	};
-
-	SDL_SetRenderDrawColor(
-			v->renderer,
-			RGB_colors[RED_INDIAN].r,
-			RGB_colors[RED_INDIAN].g,
-			RGB_colors[RED_INDIAN].b,
-			RGB_colors[RED_INDIAN].a);
-
-	SDL_RenderFillRect(v->renderer, &interface_bg_rect);
+			(v->window_rect.w - width) / 2,		//
+			(v->window_rect.h - height) / 2,		//
+			width,									//
+			height };								//
 	SDL_RenderSetViewport(v->renderer, &interface_bg_rect);
+	SDL_RenderFillRect(v->renderer, NULL);
 
 	return (1);
 }

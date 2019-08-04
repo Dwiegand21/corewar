@@ -18,3 +18,5 @@ venv
 
 /virtual_machine/visualization/**/build/
 !/virtual_machine/**/cmake/
+/virtual_machine/**/.hg/
+/virtual_machine/**/external/SDL*/
