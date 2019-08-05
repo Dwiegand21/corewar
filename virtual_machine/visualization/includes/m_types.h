@@ -1,12 +1,13 @@
 #ifndef VISUALIZATION_M_TYPES_H
 # define VISUALIZATION_M_TYPES_H
 
+#include <SDL_render.h>
+
 typedef struct s_visualization		t_visualization;
 typedef	struct s_texture			t_texture;
 typedef struct s_font				t_font;
 
-typedef struct s_widget_list		t_widget_list;
-typedef struct s_widget				t_widget;
+typedef struct s_button				t_button;
 
 typedef enum
 {
@@ -43,7 +44,7 @@ struct		s_visualization
 struct		s_texture
 {
 	SDL_Texture		*texture;
-	SDL_Rect		rect;
+	SDL_Rect		text_rect;
 };
 
 struct 		s_font
@@ -52,20 +53,12 @@ struct 		s_font
 	int32_t			point_size;
 };
 
-struct		s_widget
+struct		s_button
 {
-	SDL_Rect		widget_rect;
-	t_texture		widget_texture;
+	t_texture		font;
+	t_texture		button;
 
-	int32_t			click_event_ret;
-};
-
-struct		s_widget_list
-{
-	t_widget		*widgets;
-	int32_t			num_widgets;
-
-	int				(*click_event_func)(t_widget *, void *);
+	int32_t			out_value;
 };
 
 #endif //VISUALIZATION_M_TYPES_H
