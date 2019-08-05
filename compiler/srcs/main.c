@@ -75,14 +75,14 @@ int ft_compile(char *name)
 	return (1);
 }
 
-static inline int	ft_ask(char *que, char *param)
-{
-	char b;
-	ft_fdprintf(2, que, param);
-	read(0, &b, 1);
-	ft_printf("<%c>\n", b);
-	return (1);
-}
+//static inline int	ft_ask(char *que, char *param)
+//{
+//	char b;
+//	ft_fdprintf(2, que, param);
+//	read(0, &b, 1);
+//	ft_printf("<%c>\n", b);
+//	return (1);
+//}
 
 int main(int ac, char **av)
 {
@@ -91,9 +91,11 @@ int main(int ac, char **av)
 
 //	int i = 0;
 //	av = 0;
-	ac = 0;
+//	ac = 0;
 
-	ft_ask("FF%s", "gg");
+	///ft_ask("FF%s", "gg");
+
+	ft_parse_flags(ac, av);
 
 
 	//ft_compile(av[1]);

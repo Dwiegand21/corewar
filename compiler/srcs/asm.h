@@ -5,17 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/13 17:36:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/13 17:36:19 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/08/05 19:27:20 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/08/05 19:27:20 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
 # include "fcntl.h"
-# include <stdio.h>
+# include <stdio.h> 
 # include "stdint.h"
 # include "zconf.h"
+# include <stdio.h>
 # include "libft.h"
 # include "asm.h"
 
@@ -53,7 +54,6 @@
 # define GET_DATA(p) (((size_t)(p) << 3u) >> 3u)
 # define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
 # define BUFF_SIZE 4096
-
 # define SET_SILENT(flags)	((flags) |= 1u << 0u)
 # define SET_HELP(flags)	((flags) |= 1u << 1u)
 # define GET_SILENT(flags)	(((flags) & (1u << 0u)) != 0)
@@ -91,8 +91,7 @@ typedef enum	e_error
 	UNKNOWN_FLAG = 18,
 	MISSING_INPUT = 19,
 	MISSING_OUTPUT = 20,
-	WRG_IN_EXT = 21,
-	WRG_OUT_EXT = 22,
+	WRG_EXT = 21,
 }				t_error;
 
 typedef enum	e_token_type
@@ -143,11 +142,12 @@ typedef struct	s_flags
 	t_vector		*srcs;
 	t_vector		*outputs;
 	unsigned char	flags;
-	t_file_type 	file_type;
+	t_file_type		file_type;
 	unsigned char	is_error;
 }				t_flags;
 
 extern char		g_wrn_ignored[];
+extern char		g_err_missing_out[];
 extern char		g_missing_param[];
 extern t_op		g_functions[16];
 extern char		g_names[][300];
@@ -156,28 +156,31 @@ extern char		g_unexp_token[];
 extern char		g_mult_label[];
 extern char		g_bad_byte[];
 extern char		g_miss_arg[];
-extern char		g_pos_before[];
+extern char		g_chars[];
 extern char		g_nm_cmd_wrg_place[];
 extern char		g_bad_arg_type[];
 extern char		*g_errors[];
 extern char		g_bad_cmd[];
+extern char		g_wrn_wrong_ext[];
 extern char		g_extra_sep[];
 extern char		g_types[6][30];
 extern char		g_backslash_literals[];
 extern char		g_usage[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_pos[];
-extern char		g_nbrs[][4];
-extern char		g_chars[];
+extern char		g_unknown_lbl[];
+extern char		g_pos_before[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
 extern char		g_bad_arg_count[];
+extern char		g_err_unknown_flag[];
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_wrn_too_long[];
-extern char		g_unknown_lbl[];
+extern char		g_pos[];
+extern char		g_err_missing_in[];
+extern char		g_nbrs[][4];
 
 /*
 ** ft_champ.c
@@ -188,6 +191,10 @@ void			ft_champ_upd_line(t_champ *champ, char *line);
 /*
 ** ft_flags.c
 */
+void			ft_parse_l_flag(char *ln, t_flags *fl);
+void			ft_parse_s_flag(char *ln, t_flags *fl);
+void			ft_parse_path(char *ln, t_flags *fl, int is_out);
+void			ft_parse_filename(char *ln, t_flags *fl);
 t_flags			*ft_parse_flags(int ac, char **av);
 /*
 ** ft_header_utils.c

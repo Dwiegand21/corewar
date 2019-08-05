@@ -83,19 +83,15 @@ char g_pos_before[] =
 char g_usage[] =
 "I'm usage\n"; // TODO
 char g_err_unknown_flag[] =
-"{Bold}{Red}ERROR{eof}  -  Unknown flag >>> {\\226}%s.*%s{eof} <<<\n";
+"{Bold}{Red}ERROR{eof}  -  Unknown flag >>> {\\226}%s%.*s{eof} <<<\n";
 char g_err_missing_in[] =
 "{Bold}{Red}ERROR{eof}  -  Missing input file before flag {\\226}%s{eof}\n";
 char g_err_missing_out[] =
 "{Bold}{Red}ERROR{eof}  -  Missing output file after flag {\\226}%s{eof}\n";
-char g_wrn_wrong_in_ext[] =
-"{Bold}{\\202}WARNING{eof} - Extension of input file {\\226}%s{eof} is not"
-" {\\226}.s{eof}\n"
-"          Continue? [Y/n]";
-char g_wrn_wrong_out_ext[] =
-"{Bold}{\\202}WARNING{eof} - Extension of output file {\\226}%s{eof} is not"
-" {\\226}.cor{eof}\n"
-"          Use {\\226}.cor{eof} instead? [Y/n]";
+char g_wrn_wrong_ext[] =
+"{Bold}{\\202}WARNING{eof} - Extension of %s file {\\226}%s{eof} is not"
+" {\\226}%s{eof}\n"
+"          Continue? [Y/n] ";
 
 char *g_errors[] = {
 	g_unexp_token,
@@ -119,8 +115,7 @@ char *g_errors[] = {
 	g_err_unknown_flag,
 	g_err_missing_in,
 	g_err_missing_out,
-	g_wrn_wrong_in_ext,
-	g_wrn_wrong_out_ext,
+	g_wrn_wrong_ext,
 };
 
 char g_chars[] = {
