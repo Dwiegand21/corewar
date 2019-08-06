@@ -31,11 +31,14 @@ struct		s_process
 	int32_t			reg[REG_NUMBER];
 
 	bool			carry;
-	bool			live_in_session;
+	int32_t			n_lives;
+//	bool			live_in_session;
 
 	uint32_t			ordinal_number;
 	uint32_t		player;
 	void			(*f)(t_area*, t_process*);
+
+	t_process		*next;
 
 };
 
@@ -48,7 +51,6 @@ struct		s_player
 	uint32_t		start_pos;
 
 	int32_t			last_live;
-
 	// ...
 };
 
@@ -86,10 +88,15 @@ struct		s_area
 	t_gcond			g_stats;
 
 	t_player		*players;
-	t_vector		*processes;
+//	t_vector		*processes;
+	t_process		**time;
 
 	uint32_t		flags;
 	int32_t			win;
+
+	int32_t			n_die_cycle;
+
+	int32_t			current_index;
 };
 
 struct		s_ops

@@ -95,8 +95,8 @@ void			print_dump(t_area *area)
 		write(1, " \n", 2);
 		i++;
 	}
-	if (area->flags & PROCESS_PRINT)
-		print_processes(area->processes);
+//	if (area->flags & PROCESS_PRINT)
+//		print_processes(area->processes);
 	//fprintf(stderr, "processes: %u\n", area->g_stats.next_process_index);
 	exit (1);
 }

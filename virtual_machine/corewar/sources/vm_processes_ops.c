@@ -25,11 +25,12 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	new->pc = pc;
-	new->sleep = SN_CYCLES + 1;
-	new->f = g_ops[0].f;
+	get_process_sleep(new, MAP[new->pc]);
+//	new->sleep = SN_CYCLES + 1;
+//	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
-	ft_bheap_insert(area->processes, new, &heap_cmp);
+	//ft_bheap_insert(area->processes, new, &heap_cmp);
 	SN_PROCESS++;
 }
 
@@ -46,8 +47,9 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 		new->reg[i] = process->reg[i];
 	}
 	new->pc = SHIFT(pc);
-	new->sleep = SN_CYCLES + 1;
-	new->f = g_ops[0].f;
+	get_process_sleep(new, MAP[new->pc]);
+//	new->sleep = SN_CYCLES + 1;
+//	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
 	if (area->flags & STEP_DEBUG && SN_CYCLES >= g_db_from)
 	{
@@ -58,36 +60,36 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 				new->sleep);
 	}
 	new->ordinal_number = area->g_stats.next_process_index++;
-	ft_bheap_insert(area->processes, new, &heap_cmp);
+	//ft_bheap_insert(area->processes, new, &heap_cmp);
 	SN_PROCESS++;
 }
 
-int32_t			delete_not_live_processes(t_area *area)
-{
-	size_t		index;
-	size_t		length;
-	t_vector	*v;
-
-	v = area->processes;
-	length = area->processes->size(area->processes);
-	index = 0;
-	while (index < length)
-	{
-		if (((t_process *)(v->v[index]))->live_in_session == false)
-		{
-			free(v->v[index]);
-			v->v[index] = NULL;
-			V_DATA(v)->end--;
-			length--;
-			ft_bheap_swap(v->v + index, v->v + length);
-			SN_PROCESS--;
-		}
-		else
-		{
-			((t_process *)(v->v[index]))->live_in_session = false;
-			index++;
-		}
-	}
-	ft_bheap_init(v, &heap_cmp);
-	return (1);
-}
+//int32_t			delete_not_live_processes(t_area *area)
+//{
+//	size_t		index;
+//	size_t		length;
+//	t_vector	*v;
+//
+//	v = area->processes;
+//	length = area->processes->size(area->processes);
+//	index = 0;
+//	while (index < length)
+//	{
+//		if (((t_process *)(v->v[index]))->live_in_session == false)
+//		{
+//			free(v->v[index]);
+//			v->v[index] = NULL;
+//			V_DATA(v)->end--;
+//			length--;
+//			ft_bheap_swap(v->v + index, v->v + length);
+//			SN_PROCESS--;
+//		}
+//		else
+//		{
+//			((t_process *)(v->v[index]))->live_in_session = false;
+//			index++;
+//		}
+//	}
+//	ft_bheap_init(v, &heap_cmp);
+//	return (1);
+//}

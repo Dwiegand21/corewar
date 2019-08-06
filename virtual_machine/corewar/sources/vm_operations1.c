@@ -14,27 +14,15 @@
 
 void		next_op(t_area *area, t_process *process) // dir_size = 4
 {
-	u_char	op_byte;
-
-	op_byte = MAP[PC];
-	if (op_byte > 0 && op_byte < 17)
-	{
-		process->f = g_ops[op_byte].f;
-		process->sleep = SN_CYCLES + g_ops[op_byte].sleep - 1;
-	}
-	else
-	{
-		PC = SHIFT(1);
-		process->f = g_ops[0].f;
-		process->sleep = SN_CYCLES + 1;
-	}
+	PC += 1;
 }
 
 void		live_op(t_area *area, t_process *process) // dir_size = 4
 {
 	int32_t		value;
 
-	LIVE_S = true;
+//	LIVE_S = true;
+	process->n_lives++;
 	value = get32(area, process, 1);
 	if (value > -5 && value < 0)
 	{
