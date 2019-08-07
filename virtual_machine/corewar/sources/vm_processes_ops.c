@@ -19,19 +19,35 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 {
 	t_process	*new;
 
-	new = NULL;
 	if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		ft_error(ERRALLOC, __func__);
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	new->pc = pc;
-	get_process_sleep(new, MAP[new->pc]);
+	set_process_sleep(new, MAP[new->pc]);
 //	new->sleep = SN_CYCLES + 1;
 //	new->f = g_ops[0].f;
-	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
+	//new->sleep = SN_CYCLES + set_process_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
 	//ft_bheap_insert(area->processes, new, &heap_cmp);
-	SN_PROCESS++;
+	area->init_processes[SN_PROCESS++] = new;
+}
+
+static inline void ft_lst_push(t_process **lst, t_process *new)
+{
+	t_process *iter;
+
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	iter = *lst;
+	while (iter->next)
+	{
+		iter = iter->next;
+	}
+	iter->next = new;
 }
 
 void		new_process(t_area *area, t_process *process, uint32_t pc)
@@ -47,10 +63,10 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 		new->reg[i] = process->reg[i];
 	}
 	new->pc = SHIFT(pc);
-	get_process_sleep(new, MAP[new->pc]);
+	set_process_sleep(new, MAP[new->pc]);
 //	new->sleep = SN_CYCLES + 1;
 //	new->f = g_ops[0].f;
-	//new->sleep = SN_CYCLES + get_process_sleep(new, MAP[new->pc]);
+	//new->sleep = SN_CYCLES + set_process_sleep(new, MAP[new->pc]);
 	if (area->flags & STEP_DEBUG && SN_CYCLES >= g_db_from)
 	{
 		printf(">> new_process:\n>> op_name: %s (%.2hhx)\n>> process pc: %d\n>> run_round: %d\n",
@@ -60,6 +76,7 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 				new->sleep);
 	}
 	new->ordinal_number = area->g_stats.next_process_index++;
+	insert(&area->time[(area->current_index + new->sleep) % TIMELINE_SIZE], new);
 	//ft_bheap_insert(area->processes, new, &heap_cmp);
 	SN_PROCESS++;
 }

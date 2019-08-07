@@ -79,6 +79,7 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define LIVE_S				process->live_in_session
 
 # define MAP				area->map
+# define TIMELINE_SIZE		1001
 # define APLAYER(x)			area->players[x]
 
 # define SCYCLE_INROUND		area->g_stats.cycle_in_round

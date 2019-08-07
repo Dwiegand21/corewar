@@ -20,67 +20,7 @@ static void			winner(t_area *area)
 	fflush(stdout);
 }
 
-//int32_t				get_process_sleep(t_process *process, u_char byte)
-//{
-//	if (byte > 0 && byte < 17)
-//	{
-//		process->f = g_ops[byte].f;
-//		return (g_ops[byte].sleep);
-//	}
-//	else
-//	{
-//		process->f = NULL;
-//		return (1);
-//	}
-//}
-
-//static int			func_index(void (*f)(t_area *, t_process *))
-//{
-//	for (int i = 0; i < 17; i++)
-//	{
-//		if (f == g_ops[i].f)
-//			return (i);
-//	}
-//	return (0);
-//}
-
-/*
-int32_t			delete_not_live_processes2(t_area *area)
-{
-	t_list	*prew;
-	t_list	*cur;
-
-	area->processes = get_head_node(area->processes, &SN_PROCESS);
-	area->processes = get_head_node(area->processes);
-//	if (area->processes == NULL)
-//		return (0);
-	cur = area->processes;
-	while (cur != NULL && cur->next != NULL)
-	prew = NULL;
-	while (cur != NULL)
-	{
-		if (((t_process *)cur->content)->live_in_session == true)
-		{
-			((t_process *)cur->content)->live_in_session = false;
-			prew = cur;
-			cur = cur->next;
-		}
-		else
-		{
-			cur->next = delete_elem(cur->next);
-			cur = cur->next;
-			free(prew->next->content);
-			free(prew->next);
-			prew->next = cur;
-			SN_PROCESS--;
-		}
-		cur = cur->next;
-	}
-	return (1);
-}
- */
-
-int32_t				get_process_sleep(t_process *process, u_char byte)
+int32_t				set_process_sleep(t_process *process, u_char byte)
 {
 	if (byte > 0 && byte < 17)
 	{
@@ -95,7 +35,7 @@ int32_t				get_process_sleep(t_process *process, u_char byte)
 	return (1);
 }
 
-static int32_t			insert(t_process **head, t_process *process)
+int32_t			insert(t_process **head, t_process *process)
 {
 	t_process *cur;
 
@@ -121,10 +61,13 @@ static int32_t			insert(t_process **head, t_process *process)
 	return (1);
 }
 
+// todo find all usages of INSERT and fix bug with next
+
 //static int32_t			run_next_process(t_area *area)
 static int32_t			run_next_round(t_area *area, t_process *lst)
 {
 	t_process *cur = lst;
+	t_process *real_next;
 
 	while (cur != NULL)
 	{
@@ -132,58 +75,25 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 			cur->f(area, cur);
 		cur = cur->next;
 	}
-	while (lst != NULL)
+	while (lst != NULL && ((real_next = lst->next) || true))
 	{
 		if (lst->n_lives < area->n_die_cycle)
 		{
 			lst->ordinal_number = 0;
-			insert(&area->time[1000], lst);
+			insert(&area->time[TIMELINE_SIZE], lst);
 			SN_PROCESS--;
 		}
 		else
 		{
-			get_process_sleep(lst, area->map[lst->pc]);
-			insert(&area->time[(area->current_index + lst->sleep) % 1000], lst);
+			set_process_sleep(lst, area->map[lst->pc]);
+			insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
 		}
-		lst = lst->next;
+		lst = real_next;
 	}
 	area->time[area->current_index] = NULL;
 	if (SN_PROCESS <= 0)
 		return (0);
 	return (1);
-
-//	t_process *process;
-//
-//
-//	process = ft_bheap_get(area->processes);
-//	SN_CYCLES = process->sleep;
-//	if (area->flags & STEP_DEBUG
-//		&& SN_CYCLES >= g_db_from
-//		&& process->f != g_ops[0].f)
-//	{
-//		char buff[10];
-//		fgets(buff, 9, stdin);
-//		printf("op: %s (%.2hhx)\nprocess_index: %u\nprocess_pc: %d\nop_byte: %hhu\nround: %d\n\n-> n_processes: %d:%lu\n",
-//				g_ops[func_index(process->f)].name,
-//				MAP[PC],
-//				process->ordinal_number,
-//				PC,
-//				MAP[PC],
-//				process->sleep,
-//				SN_PROCESS,
-//				area->processes->size(area->processes));
-//	}
-//	if (process->f != g_ops[0].f)
-//	{
-//		process->f(area, process);
-//		process->f = g_ops[0].f;
-//		process->sleep = SN_CYCLES + 1;
-//	}
-//	else
-//		process->f(area, process);
-//
-//	//process->sleep = SN_CYCLES + get_process_sleep(process, MAP[PC]);
-//	move_first_process(area->processes);
 }
 
 static void			change_area_stats(t_area *area)
@@ -207,36 +117,93 @@ static void			change_area_stats(t_area *area)
 	SLIVES_IN_ROUND = 0;
 }
 
+int 				ft_get_lst_size(t_process *lst)
+{
+	int size;
+
+	size = 0;
+	while (lst)
+	{
+		++size;
+		lst = lst->next;
+	}
+	return (size);
+}
+
+#include <stdio.h>
+
+void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, int prcs_count)
+{
+	int i;
+	int lst_size;
+
+	printf("%d(%d)>  ", curr_cycle, prcs_count);
+	i = -1;
+	while (++i < TIMELINE_SIZE + 1)
+	{
+		if ((lst_size = ft_get_lst_size(time[i])))
+		{
+			printf("%d:%d ", i, lst_size);
+		}
+//		if (ft_get_lst_size(time[i]))
+//		{
+//			printf("NOT empty!\n");
+//		}
+	}
+	printf("\n");
+}
+
+static inline void	setup_init_processes(t_area *area, t_process *time[TIMELINE_SIZE + 1])
+{
+	int i;
+	t_process **processes;
+
+	i = -1;
+	processes = area->init_processes;
+	while (processes[++i])
+	{
+		time[processes[i]->sleep] = processes[i];
+	}
+}
+
+// todo need %1001 instead of %1000 ??? - FIXED TO 1001
+
+// note I insert to 749 position. II insert to
+
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
 //	register int	area->current_index;
-	t_process		*time[1001] = { 0 };
+	t_process		*time[TIMELINE_SIZE + 1] = { 0 };
 
 	area->win = area->g_stats.n_players - 1;
 	area->n_die_cycle = 0;
 	area->time = time;
 
 	current_round = 0;
+	setup_init_processes(area, time);
 	while (true)
 	{
+
 		area->current_index = 0;
-		while (area->current_index < 1000)
+		while (area->current_index < TIMELINE_SIZE)
 		{
-			if (current_round == SDUMP_CYCLE)
-			{
-				print_dump(area);
-			}
+//			ft_print_timeline(time, current_round, area->g_stats.n_processes);
 			if ((run_next_round(area, time[area->current_index])) == false)
 			{
 				winner(area);
 				free_args(&area);
 				exit(1);
 			}
-			if (area->current_index == SDIE_CYCLE)
+			if (current_round == SDIE_CYCLE)
 			{
 				change_area_stats(area);
 				area->n_die_cycle++;
+			}
+			if (current_round == SDUMP_CYCLE)
+			{
+				print_dump(area);
+				exit (1);
 			}
 			area->current_index++;
 			current_round++;

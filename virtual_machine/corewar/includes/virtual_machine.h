@@ -38,7 +38,7 @@ extern int32_t			g_db_from;
 extern int32_t			get_next_op_round(t_vector *p);
 extern void				move_first_process(t_vector *p);
 
-int32_t		get_process_sleep(t_process *process, u_char byte);
+int32_t		set_process_sleep(t_process *process, u_char byte);
 
 int32_t		heap_cmp(void *p1, void *p2);
 void		delete_process(void **p);
@@ -139,6 +139,7 @@ void		set16(t_area *area,
 /*
 **		vm_game.c
 */
+int32_t		insert(t_process **head, t_process *process);
 int32_t		play_game(t_area *area);
 
 void		print_dump(t_area *area);

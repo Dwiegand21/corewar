@@ -97,6 +97,8 @@ struct		s_area
 	int32_t			n_die_cycle;
 
 	int32_t			current_index;
+
+	t_process		*init_processes[8]; // todo how many of them do we really need?
 };
 
 struct		s_ops
