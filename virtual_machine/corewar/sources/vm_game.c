@@ -64,6 +64,19 @@ int32_t			insert(t_process **head, t_process *process)
 // todo find all usages of INSERT and fix bug with next
 
 //static int32_t			run_next_process(t_area *area)
+
+static inline char		*find_cmd_name(void	(*f)())
+{
+	int i = -1;
+	while (++i < 17)
+	{
+		if (f == g_ops[i].f)
+		{
+			return g_ops[i].name;
+		}
+	}
+}
+
 static int32_t			run_next_round(t_area *area, t_process *lst)
 {
 	t_process *cur = lst;
@@ -72,7 +85,10 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 	while (cur != NULL)
 	{
 		if (cur->n_lives >= area->n_die_cycle)
+		{
+			printf("ACTION: %s\n", find_cmd_name(cur->f));
 			cur->f(area, cur);
+		}
 		cur = cur->next;
 	}
 	while (lst != NULL && ((real_next = lst->next) || true))
@@ -136,21 +152,25 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 {
 	int i;
 	int lst_size;
+	int real_prcs_count;
 
-	printf("%d(%d)>  ", curr_cycle, prcs_count);
+	printf("%d>  ", curr_cycle);
 	i = -1;
-	while (++i < TIMELINE_SIZE + 1)
+	real_prcs_count = 0;
+	while (++i < TIMELINE_SIZE)
 	{
 		if ((lst_size = ft_get_lst_size(time[i])))
 		{
 			printf("%d:%d ", i, lst_size);
+			real_prcs_count += lst_size;
 		}
 //		if (ft_get_lst_size(time[i]))
 //		{
 //			printf("NOT empty!\n");
 //		}
 	}
-	printf("\n");
+	printf(" (%d/%d) {%d processes are dead}\n", real_prcs_count, prcs_count,
+			ft_get_lst_size(time[TIMELINE_SIZE]));
 }
 
 static inline void	setup_init_processes(t_area *area, t_process *time[TIMELINE_SIZE + 1])
@@ -166,14 +186,14 @@ static inline void	setup_init_processes(t_area *area, t_process *time[TIMELINE_S
 	}
 }
 
-// todo need %1001 instead of %1000 ??? - FIXED TO 1001
-
-// note I insert to 749 position. II insert to
+// need %1001 instead of %1000 ??? - FIXED TO 1001
+// two extra processes appears in 4626 - OK
+// need to kill at 4608 (2 carriages killed, 9 left) - OK
+// note extra sti at 6115 (109 at timeline). Appears after 6090
 
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
-//	register int	area->current_index;
 	t_process		*time[TIMELINE_SIZE + 1] = { 0 };
 
 	area->win = area->g_stats.n_players - 1;
@@ -188,7 +208,7 @@ int32_t				play_game(t_area *area)
 		area->current_index = 0;
 		while (area->current_index < TIMELINE_SIZE)
 		{
-//			ft_print_timeline(time, current_round, area->g_stats.n_processes);
+			ft_print_timeline(time, current_round, area->g_stats.n_processes);
 			if ((run_next_round(area, time[area->current_index])) == false)
 			{
 				winner(area);
@@ -202,7 +222,7 @@ int32_t				play_game(t_area *area)
 			}
 			if (current_round == SDUMP_CYCLE)
 			{
-				print_dump(area);
+//				print_dump(area);
 				exit (1);
 			}
 			area->current_index++;

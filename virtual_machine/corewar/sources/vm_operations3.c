@@ -54,9 +54,6 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 void		fork_op(t_area *area, t_process *process) // dir_size = 2
 {
 	int32_t		result;
-
-//	printf("FORK!!!\n"); // todo delete it
-
 	result = get16(area, process, 1);
 	new_process(area, process, result % IDX_MOD);
 	PC = SHIFT(3);
