@@ -67,12 +67,25 @@ void	print_vector_elems(void **p)
 	ft_putendl("");
 }
 
-static void		print_processes(t_vector *v)
+static void		print_processes(t_process **time)
 {
 	if (DUMP_CMP == 0)
 		return ;
 	ft_putendl(PROC_PRINT);
-	ft_vector_iter(v, &print_vector_elems);
+	t_process *p;
+	for(int i = 0; i < TIMELINE_SIZE; i++)
+	{
+		if (time[i] != NULL)
+		{
+			p = time[i];
+			while(p != NULL)
+			{
+				print_vector_elems((void **)&p);
+				p = p->next;
+			}
+		}
+	}
+	//ft_vector_iter(v, &print_vector_elems);
 	ft_putendl(PROC_PRINT);
 }
 
@@ -95,8 +108,8 @@ void			print_dump(t_area *area)
 		write(1, " \n", 2);
 		i++;
 	}
-//	if (area->flags & PROCESS_PRINT)
-//		print_processes(area->processes);
+	if (area->flags & PROCESS_PRINT)
+		print_processes(area->time);
 	//fprintf(stderr, "processes: %u\n", area->g_stats.next_process_index);
 ///	exit (1);
 }
