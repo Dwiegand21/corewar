@@ -21,6 +21,7 @@ void		help()
 int32_t		main(int argc, char **argv)
 {
 	t_area		*area;
+	t_process	*time[TIMELINE_SIZE + 1] = { 0 };
 
 	area = NULL;
 	if (argc == 1)
@@ -30,6 +31,7 @@ int32_t		main(int argc, char **argv)
 	else
 	{
 		area = initialization_area();
+		area->time = time;
 		read_arguments(area, argc - 1, argv + 1);
 		play_game(area);
 	}

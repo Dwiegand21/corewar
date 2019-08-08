@@ -59,7 +59,7 @@ int32_t			read_cor_file(t_player *player, t_cor_file *files)
 	read(files->fd, &code_size, 4);
 	bytes_reverse(&code_size, sizeof(code_size));
 	if (code_size > CHAMP_MAX_SIZE)
-		printf("error champ code size!\n");
+		ft_error("error champ code size!\n", __func__);
 	if (read(files->fd, player->comment, COMMENT_LENGTH) != COMMENT_LENGTH)
 		ft_error(INV_FILE, __func__);
 	skip_2octets(files->fd);

@@ -12,8 +12,6 @@
 
 #include "virtual_machine.h"
 
-#define DBG 1
-
 static void			winner(t_area *area)
 {
 	printf("Contestant %d, \"%s\", has won !\n",
@@ -39,6 +37,9 @@ int32_t				set_process_sleep(t_process *process, u_char byte)
 
 int32_t			insert(t_process **head, t_process *process)
 {
+
+	for (size_t i = 0; i < 1000000000; i++) ;
+
 	t_process *cur;
 
 	cur = *head;
@@ -77,30 +78,31 @@ static inline char		*find_cmd_name(void	(*f)())
 			return g_ops[i].name;
 		}
 	}
-	return ("!UNDEFINED");
+	return (NULL);
 }
 
 static int32_t			run_next_round(t_area *area, t_process *lst)
 {
 	t_process *cur = lst;
-	t_process *real_next;
 
 	while (cur != NULL)
 	{
 		if (cur->n_lives >= area->n_die_cycle)
 		{
-			if (DBG)
-				printf("ACTION: %s\n", find_cmd_name(cur->f));
+//			printf("ACTION: %s\n", find_cmd_name(cur->f));
 			cur->f(area, cur);
 		}
 		cur = cur->next;
 	}
-	while (lst != NULL && ((real_next = lst->next) || true))
+	while (lst != NULL)
 	{
+		cur = lst->next;
 		if (lst->n_lives < area->n_die_cycle)
 		{
 			lst->ordinal_number = 0;
-			insert(&area->time[TIMELINE_SIZE], lst);
+			lst->next = area->time[TIMELINE_SIZE];
+			area->time[TIMELINE_SIZE] = lst;
+			//insert(&area->time[TIMELINE_SIZE], lst);
 			SN_PROCESS--;
 		}
 		else
@@ -108,7 +110,7 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 			set_process_sleep(lst, area->map[lst->pc]);
 			insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
 		}
-		lst = real_next;
+		lst = cur;
 	}
 	area->time[area->current_index] = NULL;
 	if (SN_PROCESS <= 0)
@@ -135,6 +137,7 @@ static void			change_area_stats(t_area *area)
 	SDIE_CYCLE += SDIE_CYCLE_DELTA;
 	SCYCLE_INROUND = 0;
 	SLIVES_IN_ROUND = 0;
+
 }
 
 int 				ft_get_lst_size(t_process *lst)
@@ -158,7 +161,7 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 	int lst_size;
 	int real_prcs_count;
 
-	printf("%d>  ", curr_cycle);
+//	printf("%d>  ", curr_cycle);
 	i = -1;
 	real_prcs_count = 0;
 	while (++i < TIMELINE_SIZE)
@@ -168,10 +171,10 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 			printf("%d:%d ", i, lst_size);
 			real_prcs_count += lst_size;
 		}
-//		if (ft_get_lst_size(time[i]))
-//		{
-//			printf("NOT empty!\n");
-//		}
+		if (ft_get_lst_size(time[i]))
+		{
+			printf("NOT empty!\n");
+		}
 	}
 	printf(" (%d/%d) {%d processes are dead}\n", real_prcs_count, prcs_count,
 			ft_get_lst_size(time[TIMELINE_SIZE]));
@@ -195,45 +198,72 @@ static inline void	setup_init_processes(t_area *area, t_process *time[TIMELINE_S
 // need to kill at 4608 (2 carriages killed, 9 left) - OK
 // note extra sti at 6115 (109 at timeline). Appears after 6090
 
-// note Asmobre.cor:4558 - 3 processes die in original vw
-// 		note> in our vm no processes die in that turn. 1 process dies at 4567
+static void
+print_timemap(t_area *area)
+{
+	t_process *p;
+
+//	for (int i = 0; i < TIMELINE_SIZE; i++)
+//	{
+//
+//		if (area->time[i] != NULL)
+//		{
+			//printf("[%d]:", i);
+			//p = area->time[i];
+			p = area->time[area->current_index];
+			while (p != NULL)
+			{
+				printf(" %d :: %d\n", p->ordinal_number, p->n_lives);
+				p = p->next;
+			}
+			printf("\n");
+//		}
+//
+//	}
+	printf("processes: %d\nn_die: %d\n", SN_PROCESS, area->n_die_cycle);
+	char c;
+	scanf("%c", &c);
+}
 
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
-	t_process		*time[TIMELINE_SIZE + 1] = { 0 };
 
 	area->win = area->g_stats.n_players - 1;
 	area->n_die_cycle = 0;
-	area->time = time;
 
 	current_round = 0;
-	setup_init_processes(area, time);
+	//setup_init_processes(area, time);
+	printf("round: %d; n_processes: %d\n", current_round, SN_PROCESS);
 	while (true)
 	{
-
 		area->current_index = 0;
+		printf("%d %d\n", current_round, SN_PROCESS);
 		while (area->current_index < TIMELINE_SIZE)
 		{
-			if (DBG)
-				ft_print_timeline(time, current_round, area->g_stats.n_processes);
-			if ((run_next_round(area, time[area->current_index])) == false)
+			if (current_round == SDUMP_CYCLE)
+			{
+				print_dump(area);
+				exit (1);
+			}
+//			if (current_round > 4593 && current_round < 4596)
+//			{
+//				print_timemap(area);
+//				//print_timemap(area);
+//			}
+				//ft_print_timeline(area, current_round, area->g_stats.n_processes);
+			if ((run_next_round(area, area->time[area->current_index])) == false)
 			{
 				winner(area);
 				free_args(&area);
 				exit(1);
 			}
-			if (current_round == SDIE_CYCLE)
+			if (current_round >= SDIE_CYCLE)
 			{
 				change_area_stats(area);
 				area->n_die_cycle++;
 			}
-			if (current_round == SDUMP_CYCLE)
-			{
-				if (!DBG)
-					print_dump(area);
-				exit (1);
-			}
+			//printf("++ %d\n", area->current_index);
 			area->current_index++;
 			current_round++;
 		}

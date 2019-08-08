@@ -29,8 +29,12 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 //	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + set_process_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
+	new->next = NULL;
+	new->n_lives = 0;
 	//ft_bheap_insert(area->processes, new, &heap_cmp);
-	area->init_processes[SN_PROCESS++] = new;
+	//area->init_processes[SN_PROCESS++] = new;
+	SN_PROCESS++;
+	insert(&area->time[(area->current_index + new->sleep) % TIMELINE_SIZE], new);
 }
 
 static inline void ft_lst_push(t_process **lst, t_process *new)
@@ -50,12 +54,23 @@ static inline void ft_lst_push(t_process **lst, t_process *new)
 	iter->next = new;
 }
 
+t_process *extract_dead_node(t_process **dead)
+{
+	t_process *current;
+
+	current = *dead;
+	*dead = (*dead)->next;
+	return (current);
+}
+
 void		new_process(t_area *area, t_process *process, uint32_t pc)
 {
 	t_process	*new;
 
 	new = NULL;
-	if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
+	if (area->time[1001] != NULL)
+		new = extract_dead_node(&area->time[TIMELINE_SIZE]);
+	else if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		ft_error(ERRALLOC, __func__);
 	*new = *process;
 	for (int i = 0; i < 16; i++)
@@ -64,6 +79,8 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	}
 	new->pc = SHIFT(pc);
 	set_process_sleep(new, MAP[new->pc]);
+	new->next = NULL;
+	new->n_lives = process->n_lives;
 //	new->sleep = SN_CYCLES + 1;
 //	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + set_process_sleep(new, MAP[new->pc]);
