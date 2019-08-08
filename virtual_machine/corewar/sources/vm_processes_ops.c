@@ -24,10 +24,10 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	new->pc = pc;
-	set_process_sleep(new, MAP[new->pc]);
+	set_process_op_and_sleep(new, MAP[new->pc]);
 //	new->sleep = SN_CYCLES + 1;
 //	new->f = g_ops[0].f;
-	//new->sleep = SN_CYCLES + set_process_sleep(new, MAP[new->pc]);
+	//new->sleep = SN_CYCLES + set_process_op_and_sleep(new, MAP[new->pc]);
 	new->ordinal_number = area->g_stats.next_process_index++;
 	new->next = NULL;
 	new->n_lives = 0;
@@ -68,7 +68,7 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	t_process	*new;
 
 	new = NULL;
-	if (area->time[1001] != NULL)
+	if (area->time[TIMELINE_SIZE] != NULL)
 		new = extract_dead_node(&area->time[TIMELINE_SIZE]);
 	else if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))
 		ft_error(ERRALLOC, __func__);
@@ -78,12 +78,12 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 		new->reg[i] = process->reg[i];
 	}
 	new->pc = SHIFT(pc);
-	set_process_sleep(new, MAP[new->pc]);
+	set_process_op_and_sleep(new, MAP[new->pc]);
 	new->next = NULL;
 	new->n_lives = process->n_lives;
 //	new->sleep = SN_CYCLES + 1;
 //	new->f = g_ops[0].f;
-	//new->sleep = SN_CYCLES + set_process_sleep(new, MAP[new->pc]);
+	//new->sleep = SN_CYCLES + set_process_op_and_sleep(new, MAP[new->pc]);
 	if (area->flags & STEP_DEBUG && SN_CYCLES >= g_db_from)
 	{
 		printf(">> new_process:\n>> op_name: %s (%.2hhx)\n>> process pc: %d\n>> run_round: %d\n",

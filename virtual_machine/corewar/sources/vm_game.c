@@ -12,6 +12,8 @@
 
 #include "virtual_machine.h"
 
+#define DBG 0
+
 static void			winner(t_area *area)
 {
 	printf("Contestant %d, \"%s\", has won !\n",
@@ -20,7 +22,7 @@ static void			winner(t_area *area)
 	fflush(stdout);
 }
 
-int32_t				set_process_sleep(t_process *process, u_char byte)
+int32_t				set_process_op_and_sleep(t_process *process, u_char byte)
 {
 	if (byte > 0 && byte < 17)
 	{
@@ -35,11 +37,15 @@ int32_t				set_process_sleep(t_process *process, u_char byte)
 	return (1);
 }
 
+int32_t				set_process_op_and_sleep2(t_process *process, u_char byte)
+{
+	process->f = get_op;
+	process->sleep = 1;
+	return (1);
+}
+
 int32_t			insert(t_process **head, t_process *process)
 {
-
-	for (size_t i = 0; i < 1000000000; i++) ;
-
 	t_process *cur;
 
 	cur = *head;
@@ -89,7 +95,8 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 	{
 		if (cur->n_lives >= area->n_die_cycle)
 		{
-//			printf("ACTION: %s\n", find_cmd_name(cur->f));
+			if (DBG)
+			 printf("ACTION: %s {%d}\n", find_cmd_name(cur->f), cur->ordinal_number + 1);
 			cur->f(area, cur);
 		}
 		cur = cur->next;
@@ -107,7 +114,7 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 		}
 		else
 		{
-			set_process_sleep(lst, area->map[lst->pc]);
+			set_process_op_and_sleep2(lst, area->map[lst->pc]);
 			insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
 		}
 		lst = cur;
@@ -145,11 +152,22 @@ int 				ft_get_lst_size(t_process *lst)
 	int size;
 
 	size = 0;
+
+	int c = 0;
+	if (lst)
+		c = 1;
+
+	//if (c)
+		//printf("\n>>>>   ");
+
 	while (lst)
 	{
 		++size;
+		//printf("%d ", lst->pc);
 		lst = lst->next;
 	}
+	//if (c)
+		//printf("\n");
 	return (size);
 }
 
@@ -171,32 +189,20 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 			printf("%d:%d ", i, lst_size);
 			real_prcs_count += lst_size;
 		}
-		if (ft_get_lst_size(time[i]))
-		{
-			printf("NOT empty!\n");
-		}
 	}
 	printf(" (%d/%d) {%d processes are dead}\n", real_prcs_count, prcs_count,
 			ft_get_lst_size(time[TIMELINE_SIZE]));
 }
 
-static inline void	setup_init_processes(t_area *area, t_process *time[TIMELINE_SIZE + 1])
-{
-	int i;
-	t_process **processes;
 
-	i = -1;
-	processes = area->init_processes;
-	while (processes[++i])
-	{
-		time[processes[i]->sleep] = processes[i];
-	}
-}
 
 // need %1001 instead of %1000 ??? - FIXED TO 1001
 // two extra processes appears in 4626 - OK
 // need to kill at 4608 (2 carriages killed, 9 left) - OK
 // note extra sti at 6115 (109 at timeline). Appears after 6090
+
+// note Asmobre.cor:4558 - 3 processes die in original vw
+// 		note> in our vm no processes die in that turn. 1 process dies at 4567
 
 static void
 print_timemap(t_area *area)
@@ -225,6 +231,9 @@ print_timemap(t_area *area)
 	scanf("%c", &c);
 }
 
+// note bug [9194;9252]
+// note delta is
+
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
@@ -233,58 +242,37 @@ int32_t				play_game(t_area *area)
 	area->n_die_cycle = 0;
 
 	current_round = 0;
-	//setup_init_processes(area, time);
-	printf("round: %d; n_processes: %d\n", current_round, SN_PROCESS);
 	while (true)
 	{
 		area->current_index = 0;
-		printf("%d %d\n", current_round, SN_PROCESS);
 		while (area->current_index < TIMELINE_SIZE)
 		{
-			if (current_round == SDUMP_CYCLE)
-			{
-				print_dump(area);
-				exit (1);
-			}
-//			if (current_round > 4593 && current_round < 4596)
-//			{
-//				print_timemap(area);
-//				//print_timemap(area);
-//			}
-				//ft_print_timeline(area, current_round, area->g_stats.n_processes);
+			if (DBG)
+				printf("%d> ", current_round);
+
+			if (DBG)
+				ft_print_timeline(area->time, current_round, area->g_stats.n_processes);
 			if ((run_next_round(area, area->time[area->current_index])) == false)
 			{
 				winner(area);
 				free_args(&area);
 				exit(1);
 			}
+
+			if (current_round == SDUMP_CYCLE)
+			{
+				if (!DBG)
+					print_dump(area);
+				exit (1);
+			}
+
 			if (current_round >= SDIE_CYCLE)
 			{
 				change_area_stats(area);
 				area->n_die_cycle++;
 			}
-			//printf("++ %d\n", area->current_index);
 			area->current_index++;
 			current_round++;
 		}
 	}
-
-//	area->win = area->g_stats.n_players - 1;
-//	current_time = 0;
-//	while (SN_PROCESS > 0)
-//	{
-//		if ((area->flags & DUMP) != 0
-//			&& ((get_next_op_round(area->processes)) > SDUMP_CYCLE
-//			&& SDIE_CYCLE > SDUMP_CYCLE))
-//			print_dump(area);
-//		if ((get_next_op_round(area->processes)) > SDIE_CYCLE)
-//		{
-//			delete_not_live_processes(area);
-//			change_area_stats(area);
-//		}
-//		else
-//			run_next_process(area);
-//	}
-//	winner(area);
-	return (0);
 }

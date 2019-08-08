@@ -12,9 +12,25 @@
 
 #include "virtual_machine.h"
 
+void		get_op(t_area *area, t_process *process)
+{
+	const unsigned char byte = area->map[process->pc];
+
+	if (byte > 0 && byte < 17)
+	{
+		process->f = g_ops[byte].f;
+		process->sleep = g_ops[byte].sleep;
+	}
+	else
+	{
+		process->f = g_ops[0].f;
+		process->sleep = g_ops[0].sleep;
+	}
+}
+
 void		next_op(t_area *area, t_process *process) // dir_size = 4
 {
-	PC += 1;
+	PC = SHIFT(1);
 }
 
 void		live_op(t_area *area, t_process *process) // dir_size = 4
@@ -22,7 +38,7 @@ void		live_op(t_area *area, t_process *process) // dir_size = 4
 	int32_t		value;
 
 //	LIVE_S = true;
-	process->n_lives++;
+	process->n_lives = area->n_die_cycle + 1;
 	value = get32(area, process, 1);
 	if (value > -5 && value < 0)
 	{

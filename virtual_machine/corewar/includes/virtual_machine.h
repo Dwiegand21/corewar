@@ -33,12 +33,12 @@
 # define DEBUG_OPS_		0			// Operations stats
 # define DUMP_CMP		1			// Print processes position on
 
-extern t_ops			g_ops[17];
+extern t_ops			g_ops[18];
 extern int32_t			g_db_from;
 extern int32_t			get_next_op_round(t_vector *p);
 extern void				move_first_process(t_vector *p);
 
-int32_t		set_process_sleep(t_process *process, u_char byte);
+int32_t		set_process_op_and_sleep(t_process *process, u_char byte);
 
 int32_t		heap_cmp(void *p1, void *p2);
 void		delete_process(void **p);
@@ -84,6 +84,7 @@ int32_t		delete_not_live_processes(t_area *area);
 /*
 **		vm_operations1.c
 */
+void		get_op(t_area *area, t_process *process);
 void		next_op(t_area *area, t_process *process);
 void		live_op(t_area *area, t_process *process);
 void		ld_op(t_area *area, t_process *process);

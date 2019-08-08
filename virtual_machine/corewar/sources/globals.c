@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-t_ops    g_ops[17] =
+t_ops    g_ops[18] =
 {
 	{ "next"	,	1		,		&next_op },		// 0
 	{ "live"	,	10		,		&live_op },		// 1
@@ -31,6 +31,7 @@ t_ops    g_ops[17] =
 	{ "lldi"	,	50		,		&lldi_op },		// 14
 	{ "lfork"	,	1000	,		&lfork_op },	// 15
 	{ "aff"		,	2		,		&aff_op },		// 16
+	{ "get"		,   1		,		&get_op }		// 17
 };
 
 int32_t		g_db_from = 0;
