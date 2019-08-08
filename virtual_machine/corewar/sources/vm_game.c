@@ -12,6 +12,8 @@
 
 #include "virtual_machine.h"
 
+#define DBG 1
+
 static void			winner(t_area *area)
 {
 	printf("Contestant %d, \"%s\", has won !\n",
@@ -75,6 +77,7 @@ static inline char		*find_cmd_name(void	(*f)())
 			return g_ops[i].name;
 		}
 	}
+	return ("!UNDEFINED");
 }
 
 static int32_t			run_next_round(t_area *area, t_process *lst)
@@ -86,7 +89,8 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 	{
 		if (cur->n_lives >= area->n_die_cycle)
 		{
-			printf("ACTION: %s\n", find_cmd_name(cur->f));
+			if (DBG)
+				printf("ACTION: %s\n", find_cmd_name(cur->f));
 			cur->f(area, cur);
 		}
 		cur = cur->next;
@@ -191,6 +195,9 @@ static inline void	setup_init_processes(t_area *area, t_process *time[TIMELINE_S
 // need to kill at 4608 (2 carriages killed, 9 left) - OK
 // note extra sti at 6115 (109 at timeline). Appears after 6090
 
+// note Asmobre.cor:4558 - 3 processes die in original vw
+// 		note> in our vm no processes die in that turn. 1 process dies at 4567
+
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
@@ -208,7 +215,8 @@ int32_t				play_game(t_area *area)
 		area->current_index = 0;
 		while (area->current_index < TIMELINE_SIZE)
 		{
-			ft_print_timeline(time, current_round, area->g_stats.n_processes);
+			if (DBG)
+				ft_print_timeline(time, current_round, area->g_stats.n_processes);
 			if ((run_next_round(area, time[area->current_index])) == false)
 			{
 				winner(area);
@@ -222,7 +230,8 @@ int32_t				play_game(t_area *area)
 			}
 			if (current_round == SDUMP_CYCLE)
 			{
-//				print_dump(area);
+				if (!DBG)
+					print_dump(area);
 				exit (1);
 			}
 			area->current_index++;
