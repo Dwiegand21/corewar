@@ -31,6 +31,8 @@ void		get_op(t_area *area, t_process *process)
 void		next_op(t_area *area, t_process *process) // dir_size = 4
 {
 	PC = SHIFT(1);
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		live_op(t_area *area, t_process *process) // dir_size = 4
@@ -47,6 +49,8 @@ void		live_op(t_area *area, t_process *process) // dir_size = 4
 	}
 	SLIVES_IN_ROUND++;
 	PC = SHIFT(5);
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -67,6 +71,8 @@ void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 2, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		st_op(t_area *area, t_process *process) // dir_size = 4a
@@ -91,6 +97,8 @@ void		st_op(t_area *area, t_process *process) // dir_size = 4a
 		}
 	}
 	PC = SHIFT(2 + shift);
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		add_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -104,4 +112,6 @@ void		add_op(t_area *area, t_process *process) // dir_size = 4ca
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }

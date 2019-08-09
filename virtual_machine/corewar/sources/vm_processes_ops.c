@@ -24,7 +24,11 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	new->pc = pc;
-	set_process_op_and_sleep(new, MAP[new->pc]);
+
+	new->f = get_op;
+	new->sleep = 1;
+
+	///set_process_op_and_sleep(new, MAP[new->pc]);
 //	new->sleep = SN_CYCLES + 1;
 //	new->f = g_ops[0].f;
 	//new->sleep = SN_CYCLES + set_process_op_and_sleep(new, MAP[new->pc]);
@@ -78,7 +82,11 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 		new->reg[i] = process->reg[i];
 	}
 	new->pc = SHIFT(pc);
-	set_process_op_and_sleep(new, MAP[new->pc]);
+
+	new->f = get_op;
+	new->sleep = 1;
+
+	///set_process_op_and_sleep(new, MAP[new->pc]);
 	new->next = NULL;
 	new->n_lives = process->n_lives;
 //	new->sleep = SN_CYCLES + 1;

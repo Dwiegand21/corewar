@@ -37,13 +37,6 @@ int32_t				set_process_op_and_sleep(t_process *process, u_char byte)
 	return (1);
 }
 
-int32_t				set_process_op_and_sleep2(t_process *process, u_char byte)
-{
-	process->f = get_op;
-	process->sleep = 1;
-	return (1);
-}
-
 int32_t			insert(t_process **head, t_process *process)
 {
 	t_process *cur;
@@ -77,7 +70,7 @@ int32_t			insert(t_process **head, t_process *process)
 static inline char		*find_cmd_name(void	(*f)())
 {
 	int i = -1;
-	while (++i < 17)
+	while (++i < 19)
 	{
 		if (f == g_ops[i].f)
 		{
@@ -89,19 +82,37 @@ static inline char		*find_cmd_name(void	(*f)())
 
 static int32_t			run_next_round(t_area *area, t_process *lst)
 {
-	t_process *cur = lst;
+	t_process *real_next = lst;
+	int was_next;
 
-	while (cur != NULL)
+	while (lst != NULL)
 	{
-		if (cur->n_lives >= area->n_die_cycle)
+		real_next = lst->next;
+
+		if (lst->n_lives < area->n_die_cycle)
+		{
+			lst->f = 0;
+			lst->ordinal_number = 0;
+			lst->next = area->time[TIMELINE_SIZE];
+			area->time[TIMELINE_SIZE] = lst;
+			SN_PROCESS--;
+		}
+		else
 		{
 			if (DBG)
-			 printf("ACTION: %s {%d}\n", find_cmd_name(cur->f), cur->ordinal_number + 1);
-			cur->f(area, cur);
+				printf("ACTION: %s {%d}\n", find_cmd_name(lst->f), lst->ordinal_number + 1);
+			was_next = lst->f == next_op;
+			lst->f(area, lst);
+			if (was_next)
+				real_next = lst;
+			else
+				insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
+			//lst->f = get_op;
+			//lst->sleep = 1;
 		}
-		cur = cur->next;
+		lst = real_next;
 	}
-	while (lst != NULL)
+	/*while (lst != NULL)
 	{
 		cur = lst->next;
 		if (lst->n_lives < area->n_die_cycle)
@@ -118,7 +129,7 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 			insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
 		}
 		lst = cur;
-	}
+	}*/
 	area->time[area->current_index] = NULL;
 	if (SN_PROCESS <= 0)
 		return (0);
@@ -231,9 +242,6 @@ print_timemap(t_area *area)
 	scanf("%c", &c);
 }
 
-// note bug [9194;9252]
-// note delta is
-
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
@@ -249,7 +257,6 @@ int32_t				play_game(t_area *area)
 		{
 			if (DBG)
 				printf("%d> ", current_round);
-
 			if (DBG)
 				ft_print_timeline(area->time, current_round, area->g_stats.n_processes);
 			if ((run_next_round(area, area->time[area->current_index])) == false)

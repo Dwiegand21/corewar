@@ -19,6 +19,8 @@ void		lfork_op(t_area *area, t_process *process) // dir_size = 2
 	result = get16(area, process, 1);
 	new_process(area, process, result);
 	PC = SHIFT(3);
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		aff_op(t_area *area, t_process *process) // dir_size = 4a
@@ -28,4 +30,6 @@ void		aff_op(t_area *area, t_process *process) // dir_size = 4a
 //		ft_putchar(PREG(PPC(1))); // ???
 //	}
 	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }

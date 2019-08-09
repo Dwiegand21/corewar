@@ -31,6 +31,8 @@ void		ldi_op(t_area *area, t_process *process) // dir_size = 2a
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		sti_op(t_area *area, t_process *process) // dir_size = 2a
@@ -49,6 +51,8 @@ void		sti_op(t_area *area, t_process *process) // dir_size = 2a
 			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
 	}
 	PC = SHIFT(2 + fshift);
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		fork_op(t_area *area, t_process *process) // dir_size = 2
@@ -57,6 +61,8 @@ void		fork_op(t_area *area, t_process *process) // dir_size = 2
 	result = get16(area, process, 1);
 	new_process(area, process, result % IDX_MOD);
 	PC = SHIFT(3);
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		lld_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -75,6 +81,8 @@ void		lld_op(t_area *area, t_process *process) // dir_size = 4ca
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 2, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		lldi_op(t_area *area, t_process *process) // dir_size = 2ca
@@ -94,4 +102,6 @@ void		lldi_op(t_area *area, t_process *process) // dir_size = 2ca
 		CARRY = (PREG(PPC(shift)) == 0) ? true : false;
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
+	process->f = get_op;
+	process->sleep = 1;
 }

@@ -23,6 +23,8 @@ void		sub_op(t_area *area, t_process *process) // dir_size = 4ca
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		and_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -40,6 +42,8 @@ void		and_op(t_area *area, t_process *process) // dir_size = 4ca
 		CARRY = ((result == 0) ? true : false);
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		or_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -57,6 +61,8 @@ void		or_op(t_area *area, t_process *process) // dir_size = 4ca
 		CARRY = ((result == 0) ? true : false);
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
@@ -74,6 +80,8 @@ void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
 		CARRY = ((result == 0) ? true : false);
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
+	process->f = get_op;
+	process->sleep = 1;
 }
 
 void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
@@ -82,4 +90,6 @@ void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
 		PC = ISHIFT(((int32_t)get16(area, process, 1)));
 	else
 		PC = SHIFT(3);
+	process->f = get_op;
+	process->sleep = 1;
 }

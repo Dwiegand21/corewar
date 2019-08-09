@@ -1,6 +1,6 @@
 cp ../executable/corewar ./my
 av=("$@")
-champ="_.cor champ.cor"
+champ="champ.cor Horace.cor"
 echo ${av[0]}
 ./corewar -d ${av[0]} ${champ}> res.ref
 ./my -d ${av[0]} ${champ} > res.my
