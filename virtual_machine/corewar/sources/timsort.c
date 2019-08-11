@@ -44,11 +44,11 @@ static inline void	ft_reverse_subarray(int *data, unsigned int len)
 	}
 }
 
-static inline void	ft_insertion_sort(int *data, unsigned int len)
+static inline void	ft_insertion_sort(register int *data, register unsigned int len)
 {
-	int i;
-	int j;
-	int curr;
+	register int i;
+	register int j;
+	register int curr;
 
 	i = 0;
 	while (++i < len)
@@ -137,19 +137,105 @@ void ft_test_sort(int maxsize, int try_count)
 	}
 }
 
+#define TOP_ARR_SIZE stack[stack_size - 1][1]
+#define MID_ARR_SIZE stack[stack_size - 2][1]
+#define BOT_ARR_SIZE stack[stack_size - 3][1]
+
+static inline void push_to_stack(int curr_subarr, unsigned int subarrays[][2],
+								 unsigned int stack[][2], int idx_stack)
+{
+	stack[idx_stack][0] = subarrays[curr_subarr][0];
+	stack[idx_stack][1] = subarrays[curr_subarr][1];
+}
+
+static inline unsigned int ft_min(unsigned int a, unsigned int b)
+{
+	return (a <= b ? a : b);
+}
+
+// todo lhs->size need to be less than rhs->size
+static inline void	ft_merge(int *data, unsigned int lhs[2], unsigned int rhs[2])
+{
+	const unsigned int	zl = lhs[1];
+	const unsigned int	zr = rhs[1];
+	int					buffer[zl];
+	unsigned int 		i;
+	unsigned int 		j;
+	int 				*left;
+	int 				*right;
+	int					k;
+
+	left = data + lhs[0];
+	right = data + rhs[0];
+	ft_memcpy(buffer, left, zl * sizeof(int));
+	i = 0;
+	j = 0;
+	k = 0;
+	while (i < zl && j < zr)
+	{
+		if (*left <= *right)
+		{
+			//buffer[]
+		}
+		else
+		{
+
+		}
+	}
+}
+
+void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int *const array_end)
+{
+	unsigned int	subarrays[len / minrun + 1][2];
+	unsigned int	end;
+	int 			subarrays_count;
+	unsigned int	stack[len / minrun + 1][2];
+	int 			curr_subarr;
+	int 			stack_size;
+
+	end = 0;
+	subarrays_count = 0;
+	ft_bzero(subarrays, (len / minrun + 1) * 2 * sizeof(int));
+	ft_bzero(stack, (len / minrun + 1) * 2 * sizeof(int));
+	while (end < len)
+	{
+		subarrays[subarrays_count][0] = end;
+		subarrays[subarrays_count][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
+		end += subarrays[subarrays_count++][1];
+	}
+	curr_subarr = 0;
+	stack_size = 0;
+	while (subarrays_count)
+	{
+		push_to_stack(curr_subarr, subarrays, stack, stack_size++);
+		while (!((stack_size < 3 || BOT_ARR_SIZE > MID_ARR_SIZE + TOP_ARR_SIZE) && (stack_size < 2 || MID_ARR_SIZE > TOP_ARR_SIZE))) // todo try without !
+		{
+			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
+			{
+
+			}
+			if (stack_size >= 3 && BOT_ARR_SIZE <= MID_ARR_SIZE + TOP_ARR_SIZE)
+			{
+
+			}
+		}
+	}
+	// todo if subarrays_count >= 3
+
+}
+
+
+
+
 void	ft_timsort_int(int *data, size_t len)
 {
 	const unsigned int	minrun = ft_get_minrun(len);
 	int *const			array_end = data + len;
 	unsigned int		subarrays[64][2];
 	unsigned int		end;
+	int 				subarays_count;
 
-	end = 0;
-	ft_bzero(subarrays, 64 * 2 * sizeof(int)); // todo count it before?
-	while (end < len)
-	{
-		end += (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
-	}
+	ft_timsort_split_and_merge(data, len, minrun, array_end);
 	while (data < array_end)
 	{
 		unsigned int act_minrun = (array_end - data >= minrun) ? minrun : array_end - data;
@@ -165,5 +251,6 @@ void	ft_timsort_int(int *data, size_t len)
 
 void ft_timsort_test(void)
 {
-	ft_test_sort(1000000, 10000);
+	//ft_test_sort(100000, 1000);
+
 }
