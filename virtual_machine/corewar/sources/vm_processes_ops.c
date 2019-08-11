@@ -58,7 +58,7 @@ static inline void ft_lst_push(t_process **lst, t_process *new)
 	iter->next = new;
 }
 
-t_process *extract_dead_node(t_process **dead)
+static inline t_process *extract_dead_node(t_process **dead)
 {
 	t_process *current;
 
@@ -71,7 +71,6 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 {
 	t_process	*new;
 
-	new = NULL;
 	if (area->time[TIMELINE_SIZE] != NULL)
 		new = extract_dead_node(&area->time[TIMELINE_SIZE]);
 	else if (!(new = (t_process *)ft_memalloc(sizeof(t_process))))

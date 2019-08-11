@@ -23,6 +23,9 @@ int32_t		main(int argc, char **argv)
 	t_area		*area;
 	t_process	*time[TIMELINE_SIZE + 1] = { 0 };
 
+	ft_timsort_test();
+	exit(0);
+
 	area = NULL;
 	if (argc == 1)
 	{

@@ -38,6 +38,12 @@ extern int32_t			g_db_from;
 extern int32_t			get_next_op_round(t_vector *p);
 extern void				move_first_process(t_vector *p);
 
+/*
+**		timsort.c
+*/
+void		ft_timsort_test(void);
+void		ft_timsort_int(int *data, int len);
+
 int32_t		set_process_op_and_sleep(t_process *process, u_char byte);
 
 int32_t		heap_cmp(void *p1, void *p2);

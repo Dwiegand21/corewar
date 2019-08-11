@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <time.h>
 #include "virtual_machine.h"
 
-#define DBG 0
+#define DBG 1
 
 static void			winner(t_area *area)
 {
@@ -37,11 +38,54 @@ int32_t				set_process_op_and_sleep(t_process *process, u_char byte)
 	return (1);
 }
 
+int 				ft_get_lst_size(t_process *lst)
+{
+	int size;
+
+	size = 0;
+
+	int c = 0;
+	if (lst)
+		c = 1;
+
+	//if (c)
+	//printf("\n>>>>   ");
+
+	while (lst)
+	{
+		++size;
+		//printf("%d ", lst->pc);
+		lst = lst->next;
+	}
+	//if (c)
+	//printf("\n");
+	return (size);
+}
+
 int32_t			insert(t_process **head, t_process *process)
 {
 	t_process *cur;
 
+	static int count = 0;
+	static int big_lst_count = 0;
+
+	if (head == 0)
+	{
+		printf("Insert called %d times\n", count);
+		printf("Big_lst_count = %d\n", big_lst_count);
+		return (0);
+	}
+	++count;
+
+	//struct timespec tw = {0,1000};
+
+	//nanosleep(&tw, 0);
+
 	cur = *head;
+
+	if (ft_get_lst_size(cur) > 1000)
+		++big_lst_count;
+
 	if (cur == NULL)
 	{
 		*head = process;
@@ -62,10 +106,6 @@ int32_t			insert(t_process **head, t_process *process)
 	}
 	return (1);
 }
-
-// todo find all usages of INSERT and fix bug with next
-
-//static int32_t			run_next_process(t_area *area)
 
 static inline char		*find_cmd_name(void	(*f)())
 {
@@ -99,40 +139,22 @@ static int32_t			run_next_round(t_area *area, t_process *lst)
 		}
 		else
 		{
-			if (DBG)
-				printf("ACTION: %s {%d}\n", find_cmd_name(lst->f), lst->ordinal_number + 1);
+			//if (DBG)
+			//	printf("ACTION: %s {%d}\n", find_cmd_name(lst->f), lst->ordinal_number + 1);
 			was_next = lst->f == next_op;
 			lst->f(area, lst);
 			if (was_next)
 				real_next = lst;
 			else
 				insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
-			//lst->f = get_op;
-			//lst->sleep = 1;
 		}
 		lst = real_next;
 	}
-	/*while (lst != NULL)
-	{
-		cur = lst->next;
-		if (lst->n_lives < area->n_die_cycle)
-		{
-			lst->ordinal_number = 0;
-			lst->next = area->time[TIMELINE_SIZE];
-			area->time[TIMELINE_SIZE] = lst;
-			//insert(&area->time[TIMELINE_SIZE], lst);
-			SN_PROCESS--;
-		}
-		else
-		{
-			set_process_op_and_sleep2(lst, area->map[lst->pc]);
-			insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
-		}
-		lst = cur;
-	}*/
 	area->time[area->current_index] = NULL;
 	if (SN_PROCESS <= 0)
+	{
 		return (0);
+	}
 	return (1);
 }
 
@@ -158,30 +180,6 @@ static void			change_area_stats(t_area *area)
 
 }
 
-int 				ft_get_lst_size(t_process *lst)
-{
-	int size;
-
-	size = 0;
-
-	int c = 0;
-	if (lst)
-		c = 1;
-
-	//if (c)
-		//printf("\n>>>>   ");
-
-	while (lst)
-	{
-		++size;
-		//printf("%d ", lst->pc);
-		lst = lst->next;
-	}
-	//if (c)
-		//printf("\n");
-	return (size);
-}
-
 #include <stdio.h>
 
 void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, int prcs_count)
@@ -190,6 +188,15 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 	int lst_size;
 	int real_prcs_count;
 
+	static int max_lst = 0;
+
+
+	if (time == 0)
+	{
+		printf("Max lst_size = %d\n", max_lst);
+		return ;
+	}
+
 //	printf("%d>  ", curr_cycle);
 	i = -1;
 	real_prcs_count = 0;
@@ -197,23 +204,15 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 	{
 		if ((lst_size = ft_get_lst_size(time[i])))
 		{
-			printf("%d:%d ", i, lst_size);
+			if (lst_size > max_lst)
+				max_lst = lst_size;
+			//printf("%d:%d ", i, lst_size);
 			real_prcs_count += lst_size;
 		}
 	}
-	printf(" (%d/%d) {%d processes are dead}\n", real_prcs_count, prcs_count,
-			ft_get_lst_size(time[TIMELINE_SIZE]));
+	//printf(" (%d/%d) {%d processes are dead}\n", real_prcs_count, prcs_count,
+	//		ft_get_lst_size(time[TIMELINE_SIZE]));
 }
-
-
-
-// need %1001 instead of %1000 ??? - FIXED TO 1001
-// two extra processes appears in 4626 - OK
-// need to kill at 4608 (2 carriages killed, 9 left) - OK
-// note extra sti at 6115 (109 at timeline). Appears after 6090
-
-// note Asmobre.cor:4558 - 3 processes die in original vw
-// 		note> in our vm no processes die in that turn. 1 process dies at 4567
 
 static void
 print_timemap(t_area *area)
@@ -246,31 +245,39 @@ int32_t				play_game(t_area *area)
 {
 	register int	current_round;
 
+	static int peak_processes = 0;
+
 	area->win = area->g_stats.n_players - 1;
 	area->n_die_cycle = 0;
 
 	current_round = 0;
-	while (true)
-	{
+	//while (true)
+	//{
 		area->current_index = 0;
 		while (area->current_index < TIMELINE_SIZE)
 		{
-			if (DBG)
-				printf("%d> ", current_round);
+//			if (DBG)
+//				printf("%d> ", current_round);
 			if (DBG)
 				ft_print_timeline(area->time, current_round, area->g_stats.n_processes);
 			if ((run_next_round(area, area->time[area->current_index])) == false)
 			{
+				insert(0, 0);
+				printf("Peak processes count: %d\n", peak_processes);
+				ft_print_timeline(0,0,0);
 				winner(area);
 				free_args(&area);
-				exit(1);
+				return (0);
 			}
+
+			if (area->g_stats.n_processes > peak_processes)
+				peak_processes = area->g_stats.n_processes;
 
 			if (current_round == SDUMP_CYCLE)
 			{
 				if (!DBG)
 					print_dump(area);
-				exit (1);
+				return (0);
 			}
 
 			if (current_round >= SDIE_CYCLE)
@@ -279,7 +286,10 @@ int32_t				play_game(t_area *area)
 				area->n_die_cycle++;
 			}
 			area->current_index++;
+			if (area->current_index == TIMELINE_SIZE)
+				area->current_index = 0;
 			current_round++;
 		}
-	}
+	//}
+	return (0);
 }
