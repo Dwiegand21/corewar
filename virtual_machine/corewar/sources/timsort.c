@@ -170,27 +170,6 @@ static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rh
 	buf = ft_memcpy(buffer, left + 1, zl * sizeof(int));
 	i = 0;
 	j = 0;
-
-//	printf("before merge:\n");
-//	printf("left : ");
-//	for (size_t e = 0; e < lhs[1]; ++e)
-//	{
-//		printf("%3d ", data[lhs[0] + e]);
-//	}
-//	printf("\n");
-//	printf("buff : ");
-//	for (size_t e = 0; e < lhs[1]; ++e)
-//	{
-//		printf("%3d ", buf[e]);
-//	}
-//	printf("\n");
-//	printf("right: ");
-//	for (size_t e = 0; e < rhs[1]; ++e)
-//	{
-//		printf("%3d ", data[rhs[0] + e]);
-//	}
-//	printf("\n");
-
 	while (i < zl && j < zr && ++left)
 		if (*buf <= *right && ++i)
 			*left = *buf++;
@@ -200,21 +179,6 @@ static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rh
 		*left = *buf++;
 	while (j++ < zr && ++left)
 		*left = *right++;
-
-
-//	printf("after merge:\n");
-//	printf("left : ");
-//	for (size_t e = 0; e < lhs[1]; ++e)
-//	{
-//		printf("%3d ", data[lhs[0] + e]);
-//	}
-//	printf("\n");
-//	printf("right: ");
-//	for (size_t e = 0; e < rhs[1]; ++e)
-//	{
-//		printf("%3d ", data[rhs[0] + e]);
-//	}
-//	printf("\n");
 }
 
 // todo rhs->size need to be less than lhs->size
@@ -229,37 +193,11 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 	int 				*right;
 	int 				*buf;
 
-
-
 	left = data + lhs[0] + zl - 1;
 	right = data + rhs[0] + zr;
 	buf = (int*)ft_memcpy(buffer, right - zr, zr * sizeof(int)) + zr - 1;
 	i = zl;
 	j = zr;
-
-//	printf("before merge:\n");
-//	printf("left : ");
-//	for (size_t e = 0; e < lhs[1]; ++e)
-//	{
-//		printf("%3d ", data[lhs[0] + e]);
-//	}
-//	printf("\n");
-//	printf("buff : ");
-//	for (int e = 0; e < zr; ++e)
-//	{
-//		printf("%3d ", buf[-e]);
-//	}
-//	printf("\n");
-//	printf("right: ");
-//	for (size_t e = 0; e < rhs[1]; ++e)
-//	{
-//		printf("%3d ", data[rhs[0] + e]);
-//	}
-//	printf("\n");
-
-	//printf("Right curr %d, last %d\n", *right, right[-1]);
-	//printf("Left curr %d, last %d\n", *left, left[-1]);
-
 	while (i > 0 && j > 0 && --right)
 		if (*buf > *left && j--)
 			*right = *buf--;
@@ -271,22 +209,16 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 		*right = *left--;
 
 
-//	printf("after merge:\n");
-//	printf("left : ");
-//	for (size_t e = 0; e < lhs[1]; ++e)
+//	printf("\n");
+//	for (size_t e = 0; e < 100; ++e)
 //	{
-//		printf("%3d ", data[lhs[0] + e]);
+//		printf("%3d ", data[e]);
 //	}
 //	printf("\n");
-//	printf("right: ");
-//	for (size_t e = 0; e < rhs[1]; ++e)
-//	{
-//		printf("%3d ", data[rhs[0] + e]);
-//	}
-//	printf("\n");
-
 }
 
+
+// todo change fucking defines to variables
 void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int *const array_end)
 {
 	unsigned int	subarrays[len / minrun + 1][2];
@@ -298,15 +230,99 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 
 	end = 0;
 	subarrays_count = 0;
+	stack_size = 0;
 	ft_bzero(subarrays, (len / minrun + 1) * 2 * sizeof(int));
 	ft_bzero(stack, (len / minrun + 1) * 2 * sizeof(int));
 	while (end < len)
 	{
-		subarrays[subarrays_count][0] = end;
-		subarrays[subarrays_count][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
-		end += subarrays[subarrays_count++][1];
+		stack[stack_size][0] = end;
+		stack[stack_size][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
+		end += stack[stack_size++][1];
+
+		while (!((stack_size < 3 || BOT_ARR_SIZE > MID_ARR_SIZE + TOP_ARR_SIZE) && (stack_size < 2 || MID_ARR_SIZE > TOP_ARR_SIZE))) // todo try without !
+		{
+			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
+			{
+				ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
+				stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
+				--stack_size;
+			}
+			if (stack_size >= 3 && BOT_ARR_SIZE <= MID_ARR_SIZE + TOP_ARR_SIZE)
+			{
+				if (TOP_ARR_SIZE <= BOT_ARR_SIZE)
+				{
+					TOP_ARR_SIZE <= MID_ARR_SIZE ?
+					ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]) :
+					ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
+					stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
+					--stack_size;
+				}
+				else
+				{
+					BOT_ARR_SIZE <= MID_ARR_SIZE ?
+					ft_merge_left(data, stack[stack_size - 3], stack[stack_size - 2]) :
+					ft_merge_right(data, stack[stack_size - 3], stack[stack_size - 2]);
+					stack[stack_size - 3][1] = BOT_ARR_SIZE + MID_ARR_SIZE;
+					stack[stack_size - 2][0] = stack[stack_size - 1][0];
+					stack[stack_size - 2][1] = stack[stack_size - 1][1];
+					//((void**)stack)[stack_size - 2] = ((void**)stack)[stack_size - 1];
+					--stack_size;
+				}
+			}
+		}
+
+//		subarrays[subarrays_count][0] = end;
+//		subarrays[subarrays_count][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
+//		end += subarrays[subarrays_count++][1];
 	}
-	ft_merge_left(data, (unsigned int[2]){0, 50}, (unsigned int[2]){50, 50});
+
+	curr_subarr = 0;
+
+//	while (curr_subarr < subarrays_count)
+//	{
+//		push_to_stack(curr_subarr, subarrays, stack, stack_size++);
+//		while (!((stack_size < 3 || BOT_ARR_SIZE > MID_ARR_SIZE + TOP_ARR_SIZE) && (stack_size < 2 || MID_ARR_SIZE > TOP_ARR_SIZE))) // todo try without !
+//		{
+//			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
+//			{
+//				 ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
+//				 stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
+//				 --stack_size;
+//			}
+//			if (stack_size >= 3 && BOT_ARR_SIZE <= MID_ARR_SIZE + TOP_ARR_SIZE)
+//			{
+//				if (TOP_ARR_SIZE <= BOT_ARR_SIZE)
+//				{
+//					TOP_ARR_SIZE <= MID_ARR_SIZE ?
+//					ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]) :
+//					ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
+//					stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
+//					--stack_size;
+//				}
+//				else
+//				{
+//					BOT_ARR_SIZE <= MID_ARR_SIZE ?
+//					ft_merge_left(data, stack[stack_size - 3], stack[stack_size - 2]) :
+//					ft_merge_right(data, stack[stack_size - 3], stack[stack_size - 2]);
+//					stack[stack_size - 3][1] = BOT_ARR_SIZE + MID_ARR_SIZE;
+//					stack[stack_size - 2][0] = stack[stack_size - 1][0];
+//					stack[stack_size - 2][1] = stack[stack_size - 1][1];
+//					//((void**)stack)[stack_size - 2] = ((void**)stack)[stack_size - 1];
+//					--stack_size;
+//				}
+//			}
+//		}
+//		++curr_subarr;
+//	}
+	while (stack_size > 1)
+	{
+		TOP_ARR_SIZE <= MID_ARR_SIZE ?
+		ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]) :
+		ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
+		stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
+		--stack_size;
+	}
+
 
 	if (ft_check_sorted(data, len))
 	{
@@ -318,32 +334,13 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 		for (size_t e = 0; e < len; ++e)
 		{
 			printf("%3d ", data[e]);
-			if ((e + 1) % 50 == 0)
-				printf(" | ");
+			if ((e + 1) % minrun == 0)
+				printf("| ");
 		}
 		printf("\n");
 	}
 
 
-	return ;
-
-	curr_subarr = 0;
-	stack_size = 0;
-	while (subarrays_count)
-	{
-		push_to_stack(curr_subarr, subarrays, stack, stack_size++);
-		while (!((stack_size < 3 || BOT_ARR_SIZE > MID_ARR_SIZE + TOP_ARR_SIZE) && (stack_size < 2 || MID_ARR_SIZE > TOP_ARR_SIZE))) // todo try without !
-		{
-			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
-			{
-
-			}
-			if (stack_size >= 3 && BOT_ARR_SIZE <= MID_ARR_SIZE + TOP_ARR_SIZE)
-			{
-
-			}
-		}
-	}
 	// todo if subarrays_count >= 3
 
 }
@@ -358,6 +355,9 @@ void	ft_timsort_int(int *data, size_t len)
 	unsigned int		subarrays[64][2];
 	unsigned int		end;
 	int 				subarays_count;
+
+	//printf("MINRUN IS: %d\n", minrun);
+
 
 	ft_timsort_split_and_merge(data, len, minrun, array_end);
 //	while (data < array_end)
@@ -375,6 +375,6 @@ void	ft_timsort_int(int *data, size_t len)
 
 void ft_timsort_test(void)
 {
-	ft_test_sort(100, 1000000);
+	ft_test_sort(10000, 1000);
 
 }
