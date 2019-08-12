@@ -154,7 +154,7 @@ static inline unsigned int ft_min(unsigned int a, unsigned int b)
 }
 
 // todo lhs->size need to be less than rhs->size
-static inline void	ft_merge(int *data, unsigned int lhs[2], unsigned int rhs[2])
+static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rhs[2])
 {
 	const unsigned int	zl = lhs[1];
 	const unsigned int	zr = rhs[1];
@@ -163,25 +163,128 @@ static inline void	ft_merge(int *data, unsigned int lhs[2], unsigned int rhs[2])
 	unsigned int 		j;
 	int 				*left;
 	int 				*right;
-	int					k;
+	int 				*buf;
 
-	left = data + lhs[0];
+	left = data + lhs[0] - 1;
 	right = data + rhs[0];
-	ft_memcpy(buffer, left, zl * sizeof(int));
+	buf = ft_memcpy(buffer, left + 1, zl * sizeof(int));
 	i = 0;
 	j = 0;
-	k = 0;
-	while (i < zl && j < zr)
-	{
-		if (*left <= *right)
-		{
-			//buffer[]
-		}
-		else
-		{
 
-		}
-	}
+//	printf("before merge:\n");
+//	printf("left : ");
+//	for (size_t e = 0; e < lhs[1]; ++e)
+//	{
+//		printf("%3d ", data[lhs[0] + e]);
+//	}
+//	printf("\n");
+//	printf("buff : ");
+//	for (size_t e = 0; e < lhs[1]; ++e)
+//	{
+//		printf("%3d ", buf[e]);
+//	}
+//	printf("\n");
+//	printf("right: ");
+//	for (size_t e = 0; e < rhs[1]; ++e)
+//	{
+//		printf("%3d ", data[rhs[0] + e]);
+//	}
+//	printf("\n");
+
+	while (i < zl && j < zr && ++left)
+		if (*buf <= *right && ++i)
+			*left = *buf++;
+		else if (++j)
+			*left = *right++;
+	while (i++ < zl && ++left)
+		*left = *buf++;
+	while (j++ < zr && ++left)
+		*left = *right++;
+
+
+//	printf("after merge:\n");
+//	printf("left : ");
+//	for (size_t e = 0; e < lhs[1]; ++e)
+//	{
+//		printf("%3d ", data[lhs[0] + e]);
+//	}
+//	printf("\n");
+//	printf("right: ");
+//	for (size_t e = 0; e < rhs[1]; ++e)
+//	{
+//		printf("%3d ", data[rhs[0] + e]);
+//	}
+//	printf("\n");
+}
+
+// todo rhs->size need to be less than lhs->size
+static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int rhs[2])
+{
+	const unsigned int	zl = lhs[1];
+	const unsigned int	zr = rhs[1];
+	int					buffer[zl];
+	unsigned int 		i;
+	unsigned int 		j;
+	int 				*left;
+	int 				*right;
+	int 				*buf;
+
+
+
+	left = data + lhs[0] + zl - 1;
+	right = data + rhs[0] + zr;
+	buf = (int*)ft_memcpy(buffer, right - zr, zr * sizeof(int)) + zr - 1;
+	i = zl;
+	j = zr;
+
+//	printf("before merge:\n");
+//	printf("left : ");
+//	for (size_t e = 0; e < lhs[1]; ++e)
+//	{
+//		printf("%3d ", data[lhs[0] + e]);
+//	}
+//	printf("\n");
+//	printf("buff : ");
+//	for (int e = 0; e < zr; ++e)
+//	{
+//		printf("%3d ", buf[-e]);
+//	}
+//	printf("\n");
+//	printf("right: ");
+//	for (size_t e = 0; e < rhs[1]; ++e)
+//	{
+//		printf("%3d ", data[rhs[0] + e]);
+//	}
+//	printf("\n");
+
+	//printf("Right curr %d, last %d\n", *right, right[-1]);
+	//printf("Left curr %d, last %d\n", *left, left[-1]);
+
+	while (i > 0 && j > 0 && --right)
+		if (*buf > *left && j--)
+			*right = *buf--;
+		else if (i--)
+			*right = *left--;
+	while (j-- > 0 && --right)
+		*right = *buf--;
+	while (i-- > 0 && --right)
+		*right = *left--;
+
+
+//	printf("after merge:\n");
+//	printf("left : ");
+//	for (size_t e = 0; e < lhs[1]; ++e)
+//	{
+//		printf("%3d ", data[lhs[0] + e]);
+//	}
+//	printf("\n");
+//	printf("right: ");
+//	for (size_t e = 0; e < rhs[1]; ++e)
+//	{
+//		printf("%3d ", data[rhs[0] + e]);
+//	}
+//	printf("\n");
+
 }
 
 void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int *const array_end)
@@ -203,6 +306,27 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 		subarrays[subarrays_count][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
 		end += subarrays[subarrays_count++][1];
 	}
+	ft_merge_left(data, (unsigned int[2]){0, 50}, (unsigned int[2]){50, 50});
+
+	if (ft_check_sorted(data, len))
+	{
+		//printf("OK\n");
+	}
+	else
+	{
+		printf("KO: ");
+		for (size_t e = 0; e < len; ++e)
+		{
+			printf("%3d ", data[e]);
+			if ((e + 1) % 50 == 0)
+				printf(" | ");
+		}
+		printf("\n");
+	}
+
+
+	return ;
+
 	curr_subarr = 0;
 	stack_size = 0;
 	while (subarrays_count)
@@ -236,21 +360,21 @@ void	ft_timsort_int(int *data, size_t len)
 	int 				subarays_count;
 
 	ft_timsort_split_and_merge(data, len, minrun, array_end);
-	while (data < array_end)
-	{
-		unsigned int act_minrun = (array_end - data >= minrun) ? minrun : array_end - data;
-
-		if (!ft_check_sorted(data, (int)act_minrun))
-		{
-			printf("HUI(%d)\n", minrun);
-		}
-		data += act_minrun;
-	}
+//	while (data < array_end)
+//	{
+//		unsigned int act_minrun = (array_end - data >= minrun) ? minrun : array_end - data;
+//
+//		if (!ft_check_sorted(data, (int)act_minrun))
+//		{
+//			printf("HUI(%d)\n", minrun);
+//		}
+//		data += act_minrun;
+//	}
 	// todo if len <= 64   {ft_insert_sort}
 }
 
 void ft_timsort_test(void)
 {
-	//ft_test_sort(100000, 1000);
+	ft_test_sort(100, 1000000);
 
 }
