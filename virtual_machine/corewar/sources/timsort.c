@@ -107,7 +107,7 @@ int ft_fill_rand_array(int *arr, int max_size)
 {
 	srand(time(NULL) + rand());
 	int len = rand() % max_size + 64;
-	len = max_size;
+	//len = max_size;
 
 	for (int i = 0; i < len; ++i)
 	{
@@ -207,31 +207,22 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 		*right = *buf--;
 	while (i-- > 0 && --right)
 		*right = *left--;
-
-
-//	printf("\n");
-//	for (size_t e = 0; e < 100; ++e)
-//	{
-//		printf("%3d ", data[e]);
-//	}
-//	printf("\n");
 }
 
 
 // todo change fucking defines to variables
 void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int *const array_end)
 {
-	unsigned int	subarrays[len / minrun + 1][2];
 	unsigned int	end;
-	int 			subarrays_count;
 	unsigned int	stack[len / minrun + 1][2];
-	int 			curr_subarr;
 	int 			stack_size;
+	int				top_arr_size;
+	int				mid_arr_size;
+	int				bot_arr_size;
+
 
 	end = 0;
-	subarrays_count = 0;
 	stack_size = 0;
-	ft_bzero(subarrays, (len / minrun + 1) * 2 * sizeof(int));
 	ft_bzero(stack, (len / minrun + 1) * 2 * sizeof(int));
 	while (end < len)
 	{
@@ -239,7 +230,11 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 		stack[stack_size][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
 		end += stack[stack_size++][1];
 
-		while (!((stack_size < 3 || BOT_ARR_SIZE > MID_ARR_SIZE + TOP_ARR_SIZE) && (stack_size < 2 || MID_ARR_SIZE > TOP_ARR_SIZE))) // todo try without !
+		while (!((stack_size < 3 ||
+		        (bot_arr_size = BOT_ARR_SIZE) >
+		        (mid_arr_size = MID_ARR_SIZE) + (top_arr_size = TOP_ARR_SIZE))
+		        && (stack_size < 2 || (mid_arr_size = MID_ARR_SIZE) >
+		                (top_arr_size = TOP_ARR_SIZE)))) // todo try without !
 		{
 			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
 			{
@@ -263,57 +258,12 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 					ft_merge_left(data, stack[stack_size - 3], stack[stack_size - 2]) :
 					ft_merge_right(data, stack[stack_size - 3], stack[stack_size - 2]);
 					stack[stack_size - 3][1] = BOT_ARR_SIZE + MID_ARR_SIZE;
-					stack[stack_size - 2][0] = stack[stack_size - 1][0];
-					stack[stack_size - 2][1] = stack[stack_size - 1][1];
-					//((void**)stack)[stack_size - 2] = ((void**)stack)[stack_size - 1];
+					((void**)stack)[stack_size - 2] = ((void**)stack)[stack_size - 1];
 					--stack_size;
 				}
 			}
 		}
-
-//		subarrays[subarrays_count][0] = end;
-//		subarrays[subarrays_count][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
-//		end += subarrays[subarrays_count++][1];
 	}
-
-	curr_subarr = 0;
-
-//	while (curr_subarr < subarrays_count)
-//	{
-//		push_to_stack(curr_subarr, subarrays, stack, stack_size++);
-//		while (!((stack_size < 3 || BOT_ARR_SIZE > MID_ARR_SIZE + TOP_ARR_SIZE) && (stack_size < 2 || MID_ARR_SIZE > TOP_ARR_SIZE))) // todo try without !
-//		{
-//			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
-//			{
-//				 ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
-//				 stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
-//				 --stack_size;
-//			}
-//			if (stack_size >= 3 && BOT_ARR_SIZE <= MID_ARR_SIZE + TOP_ARR_SIZE)
-//			{
-//				if (TOP_ARR_SIZE <= BOT_ARR_SIZE)
-//				{
-//					TOP_ARR_SIZE <= MID_ARR_SIZE ?
-//					ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]) :
-//					ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
-//					stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
-//					--stack_size;
-//				}
-//				else
-//				{
-//					BOT_ARR_SIZE <= MID_ARR_SIZE ?
-//					ft_merge_left(data, stack[stack_size - 3], stack[stack_size - 2]) :
-//					ft_merge_right(data, stack[stack_size - 3], stack[stack_size - 2]);
-//					stack[stack_size - 3][1] = BOT_ARR_SIZE + MID_ARR_SIZE;
-//					stack[stack_size - 2][0] = stack[stack_size - 1][0];
-//					stack[stack_size - 2][1] = stack[stack_size - 1][1];
-//					//((void**)stack)[stack_size - 2] = ((void**)stack)[stack_size - 1];
-//					--stack_size;
-//				}
-//			}
-//		}
-//		++curr_subarr;
-//	}
 	while (stack_size > 1)
 	{
 		TOP_ARR_SIZE <= MID_ARR_SIZE ?
