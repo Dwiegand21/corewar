@@ -52,12 +52,9 @@ struct		s_process
 	int32_t			n_lives;
 //	bool			live_in_session;
 
-	uint32_t			ordinal_number;
+	uint32_t		ordinal_number;
 	uint32_t		player;
 	void			(*f)(t_area*, t_process*);
-
-	t_process		*next;
-
 };
 
 struct		s_player

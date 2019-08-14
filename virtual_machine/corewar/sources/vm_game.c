@@ -13,7 +13,7 @@
 #include <time.h>
 #include "virtual_machine.h"
 
-#define DBG 1
+#define DBG 0
 
 int is_ok = 0;
 
@@ -40,74 +40,50 @@ int32_t				set_process_op_and_sleep(t_process *process, u_char byte)
 	return (1);
 }
 
-int 				ft_get_lst_size(t_process *lst)
-{
-	int size;
-
-	size = 0;
-
-	int c = 0;
-	if (lst)
-		c = 1;
-
-	//if (c)
-	//printf("\n>>>>   ");
-
-	while (lst)
-	{
-		++size;
-		//printf("%d ", lst->pc);
-		lst = lst->next;
-	}
-	//if (c)
-	//printf("\n");
-	return (size);
-}
-
-int32_t			insert(t_process **head, t_process *process)
-{
-	t_process *cur;
-
-	static int count = 0;
-	static int big_lst_count = 0;
-
-	if (head == 0)
-	{
-		printf("Insert called %d times\n", count);
-		printf("Big_lst_count = %d\n", big_lst_count);
-		return (0);
-	}
-	++count;
-
-	//struct timespec tw = {0,1000};
-
-	//nanosleep(&tw, 0);
-
-	cur = *head;
-
-	if (ft_get_lst_size(cur) > 1000)
-		++big_lst_count;
-
-	if (cur == NULL)
-	{
-		*head = process;
-		process->next = NULL;
-	}
-	else if (process->ordinal_number >= cur->ordinal_number)
-	{
-		process->next = (*head);
-		(*head) = process;
-	}
-	else
-	{
-		while (cur->next != NULL
-			   && process->ordinal_number < cur->next->ordinal_number)
-			cur = cur->next;
-		process->next = cur->next;
-		cur->next = process;
-	}
-	return (1);
-}
+//int32_t			insert(t_process **head, t_process *process)
+//{
+//	t_process *cur;
+//
+//	static int count = 0;
+//	static int big_lst_count = 0;
+//
+//	if (head == 0)
+//	{
+//		printf("Insert called %d times\n", count);
+//		printf("Big_lst_count = %d\n", big_lst_count);
+//		return (0);
+//	}
+//	++count;
+//
+//	//struct timespec tw = {0,1000};
+//
+//	//nanosleep(&tw, 0);
+//
+//	cur = *head;
+//
+//	if (ft_get_lst_size(cur) > 1000)
+//		++big_lst_count;
+//
+//	if (cur == NULL)
+//	{
+//		*head = process;
+//		process->next = NULL;
+//	}
+//	else if (process->ordinal_number >= cur->ordinal_number)
+//	{
+//		process->next = (*head);
+//		(*head) = process;
+//	}
+//	else
+//	{
+//		while (cur->next != NULL
+//			   && process->ordinal_number < cur->next->ordinal_number)
+//			cur = cur->next;
+//		process->next = cur->next;
+//		cur->next = process;
+//	}
+//	return (1);
+//}
 
 static inline char		*find_cmd_name(void	(*f)())
 {
@@ -124,8 +100,9 @@ static inline char		*find_cmd_name(void	(*f)())
 
 static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 {
+	t_process backup;
 	t_process *curr;
-	int was_next;
+	int       wasnt_next;
 	int * const data = v->data;
 	const int len = v->len;
 	int i;
@@ -153,17 +130,31 @@ static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 				//printf("ACTION: %s {%d}\n", find_cmd_name(curr->f),
 				//	   curr->ordinal_number + 1);
 			}
-			was_next = (curr->f == next_op);
-			curr->f(area, curr);
-//			if (was_next)
-//				real_next = lst;
-			if (!was_next)
+			wasnt_next = (curr->f != next_op);
+			if (curr->f == fork_op || curr->f == lfork_op)
 			{
-				ft_vm_vector_int_push_back((area->time + (area->current_index + curr->sleep) % TIMELINE_SIZE),
-						curr->ordinal_number);
-				//insert(&(area->time[(area->current_index + curr->sleep) % TIMELINE_SIZE]), curr);
+				backup = *curr;
+				backup.f(area, &backup);
+				area->carriages->data[data[i]] = backup; // todo fix it
+				ft_vm_vector_int_push_back((area->time + (area->current_index + backup.sleep) % TIMELINE_SIZE),
+										   backup.ordinal_number);
 				--i;
 			}
+			else
+			{
+				curr->f(area, curr);
+				if (wasnt_next)
+				{
+					ft_vm_vector_int_push_back((area->time + (area->current_index + curr->sleep) % TIMELINE_SIZE),
+											   curr->ordinal_number);
+					--i;
+				}
+			}
+
+			//curr = &area->carriages->data[data[i]]; // todo maybe use if
+//			if (wasnt_next)
+//				real_next = lst;
+
 		}
 	}
 //	while (lst != NULL)
@@ -182,9 +173,9 @@ static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 //		{
 //			//if (DBG)
 //			//	printf("ACTION: %s {%d}\n", find_cmd_name(lst->f), lst->ordinal_number + 1);
-//			was_next = lst->f == next_op;
+//			wasnt_next = lst->f == next_op;
 //			lst->f(area, lst);
-//			if (was_next)
+//			if (wasnt_next)
 //				real_next = lst;
 //			else
 //				insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
@@ -239,18 +230,18 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 	}
 
 //	printf("%d>  ", curr_cycle);
-	i = -1;
-	real_prcs_count = 0;
-	while (++i < TIMELINE_SIZE)
-	{
-		if ((lst_size = ft_get_lst_size(time[i])))
-		{
-			if (lst_size > max_lst)
-				max_lst = lst_size;
-			//printf("%d:%d ", i, lst_size);
-			real_prcs_count += lst_size;
-		}
-	}
+//	i = -1;
+//	real_prcs_count = 0;
+//	while (++i < TIMELINE_SIZE)
+//	{
+//		if ((lst_size = ft_get_lst_size(time[i])))
+//		{
+//			if (lst_size > max_lst)
+//				max_lst = lst_size;
+//			//printf("%d:%d ", i, lst_size);
+//			real_prcs_count += lst_size;
+//		}
+//	}
 	//printf(" (%d/%d) {%d processes are dead}\n", real_prcs_count, prcs_count,
 	//		ft_get_lst_size(time[TIMELINE_SIZE]));
 }

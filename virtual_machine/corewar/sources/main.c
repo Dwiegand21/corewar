@@ -39,6 +39,8 @@ int32_t		main(int argc, char **argv)
 
 	ft_make_vectors_for_timelime(time);
 
+
+
 	//return (0);
 
 	//ft_timsort_test();
