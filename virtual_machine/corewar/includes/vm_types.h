@@ -54,7 +54,7 @@ struct		s_process
 
 	uint32_t		ordinal_number;
 	uint32_t		player;
-	void			(*f)(t_area*, t_process*);
+	void			(*f)(t_area*, t_process**);
 };
 
 struct		s_player
@@ -120,7 +120,7 @@ struct		s_ops
 {
 	char		name[6];
 	int32_t 	sleep;
-	void		(*f)(t_area*, t_process*);
+	void		(*f)(t_area*, t_process**);
 };
 
 #endif // COREWAR_VIRTUAL_MACHINE_TYPES_H

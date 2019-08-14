@@ -91,36 +91,36 @@ int32_t		delete_not_live_processes(t_area *area);
 /*
 **		vm_operations1.c
 */
-void		get_op(t_area *area, t_process *process);
-void		next_op(t_area *area, t_process *process);
-void		live_op(t_area *area, t_process *process);
-void		ld_op(t_area *area, t_process *process);
-void		st_op(t_area *area, t_process *process);
-void		add_op(t_area *area, t_process *process);
+void		get_op(t_area *area, t_process **carr);
+void		next_op(t_area *area, t_process **carr);
+void		live_op(t_area *area, t_process **carr);
+void		ld_op(t_area *area, t_process **carr);
+void		st_op(t_area *area, t_process **carr);
+void		add_op(t_area *area, t_process **carr);
 
 /*
 **		vm_operations2.c
 */
-void		sub_op(t_area *area, t_process *process);
-void		and_op(t_area *area, t_process *process);
-void		or_op(t_area *area, t_process *process);
-void		xor_op(t_area *area, t_process *process);
-void		zjmp_op(t_area *area, t_process *process);
+void		sub_op(t_area *area, t_process **carr);
+void		and_op(t_area *area, t_process **carr);
+void		or_op(t_area *area, t_process **carr);
+void		xor_op(t_area *area, t_process **carr);
+void		zjmp_op(t_area *area, t_process **carr);
 
 /*
 **		vm_operations3.c
 */
-void		ldi_op(t_area *area, t_process *process);
-void		sti_op(t_area *area, t_process *process);
-void		fork_op(t_area *area, t_process *process);
-void		lld_op(t_area *area, t_process *process);
-void		lldi_op(t_area *area, t_process *process);
+void		ldi_op(t_area *area, t_process **carr);
+void		sti_op(t_area *area, t_process **carr);
+void		fork_op(t_area *area, t_process **carr);
+void		lld_op(t_area *area, t_process **carr);
+void		lldi_op(t_area *area, t_process **carr);
 
 /*
 **		vm_operations4.c
 */
-void		lfork_op(t_area *area, t_process *process);
-void		aff_op(t_area *area, t_process *process);
+void		lfork_op(t_area *area, t_process **carr);
+void		aff_op(t_area *area, t_process **carr);
 
 /*
 **		vm_ops_methods.c

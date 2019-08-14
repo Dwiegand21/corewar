@@ -12,8 +12,11 @@
 
 #include "virtual_machine.h"
 
-void		get_op(t_area *area, t_process *process)
+void		get_op(t_area *area, t_process **carr)
 {
+	t_process	*process;
+
+	process = *carr;
 	const unsigned char byte = area->map[process->pc];
 
 	if (byte > 0 && byte < 17)
@@ -28,17 +31,22 @@ void		get_op(t_area *area, t_process *process)
 	}
 }
 
-void		next_op(t_area *area, t_process *process) // dir_size = 4
+void		next_op(t_area *area, t_process **carr) // dir_size = 4
 {
+	t_process	*process;
+
+	process = *carr;
 	PC = SHIFT(1);
 	process->f = get_op;
 	process->sleep = 1;
 }
 
-void		live_op(t_area *area, t_process *process) // dir_size = 4
+void		live_op(t_area *area, t_process **carr) // dir_size = 4
 {
 	int32_t		value;
+	t_process	*process;
 
+	process = *carr;
 //	LIVE_S = true;
 	process->n_lives = area->n_die_cycle + 1;
 	value = get32(area, process, 1);
@@ -53,10 +61,13 @@ void		live_op(t_area *area, t_process *process) // dir_size = 4
 	process->sleep = 1;
 }
 
-void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
+void		ld_op(t_area *area, t_process **carr) // dir_size = 4ca
 {
 	uint32_t	shift;
 	int32_t 	result;
+	t_process	*process;
+
+	process = *carr;
 
 	shift = 2;
 	if (DI_T(OCT00) && R_T(OCT01))
@@ -75,9 +86,12 @@ void		ld_op(t_area *area, t_process *process) // dir_size = 4ca
 	process->sleep = 1;
 }
 
-void		st_op(t_area *area, t_process *process) // dir_size = 4a
+void		st_op(t_area *area, t_process **carr) // dir_size = 4a
 {
 	uint32_t	shift;
+	t_process	*process;
+
+	process = *carr;
 
 	shift = shift_size(PPC(1), 2, 4);
 	if (R_T(OCT00) && RI_T(OCT01)
@@ -101,8 +115,11 @@ void		st_op(t_area *area, t_process *process) // dir_size = 4a
 	process->sleep = 1;
 }
 
-void		add_op(t_area *area, t_process *process) // dir_size = 4ca
+void		add_op(t_area *area, t_process **carr) // dir_size = 4ca
 {
+	t_process	*process;
+
+	process = *carr;
 	if (R_T(OCT00) && R_T(OCT01) && R_T(OCT02))
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))

@@ -42,7 +42,7 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	//insert(&area->time[(area->current_index + new->sleep) % TIMELINE_SIZE], new);
 }
 
-void		new_process(t_area *area, t_process *process, uint32_t pc)
+void		new_process(t_area *area, t_process *process, uint32_t pc) // todo maybe need to move backup here from forks
 {
 	t_process	*new;
 
@@ -50,7 +50,7 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	//	new = extract_dead_node(&area->time[TIMELINE_SIZE]);
 	if (!(new = (t_process *)ft_vm_vector_prc_push_back(&area->carriages)))
 		ft_error(ERRALLOC, __func__);
-	*new = *process;
+	*new = *process; // todo check if it copy whole structure
 	for (int i = 0; i < 16; i++)
 	{
 		new->reg[i] = process->reg[i];

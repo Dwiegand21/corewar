@@ -12,8 +12,12 @@
 
 #include "virtual_machine.h"
 
-void		sub_op(t_area *area, t_process *process) // dir_size = 4ca
+void		sub_op(t_area *area, t_process **carr) // dir_size = 4ca
 {
+
+	t_process	*process;
+
+	process = *carr;
 	if (R_T(OCT00) && R_T(OCT01) && R_T(OCT02))
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))
@@ -27,10 +31,13 @@ void		sub_op(t_area *area, t_process *process) // dir_size = 4ca
 	process->sleep = 1;
 }
 
-void		and_op(t_area *area, t_process *process) // dir_size = 4ca
+void		and_op(t_area *area, t_process **carr) // dir_size = 4ca
 {
 	uint32_t	shift;
 	int32_t		result;
+	t_process	*process;
+
+	process = *carr;
 
 	shift = 2;
 	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
@@ -46,10 +53,13 @@ void		and_op(t_area *area, t_process *process) // dir_size = 4ca
 	process->sleep = 1;
 }
 
-void		or_op(t_area *area, t_process *process) // dir_size = 4ca
+void		or_op(t_area *area, t_process **carr) // dir_size = 4ca
 {
 	uint32_t	shift;
 	int32_t		result;
+	t_process	*process;
+
+	process = *carr;
 
 	shift = 2;
 	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
@@ -65,10 +75,13 @@ void		or_op(t_area *area, t_process *process) // dir_size = 4ca
 	process->sleep = 1;
 }
 
-void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
+void		xor_op(t_area *area, t_process **carr) // dir_size = 4ca
 {
 	uint32_t	shift;
 	int32_t		result;
+	t_process	*process;
+
+	process = *carr;
 
 	shift = 2;
 	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
@@ -84,8 +97,11 @@ void		xor_op(t_area *area, t_process *process) // dir_size = 4ca
 	process->sleep = 1;
 }
 
-void		zjmp_op(t_area *area, t_process *process) // dir_size = 2
+void		zjmp_op(t_area *area, t_process **carr) // dir_size = 2
 {
+	t_process	*process;
+
+	process = *carr;
 	if (CARRY == true)
 		PC = ISHIFT(((int32_t)get16(area, process, 1)));
 	else

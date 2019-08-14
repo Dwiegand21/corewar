@@ -131,30 +131,17 @@ static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 				//	   curr->ordinal_number + 1);
 			}
 			wasnt_next = (curr->f != next_op);
-			if (curr->f == fork_op || curr->f == lfork_op)
-			{
-				backup = *curr;
-				backup.f(area, &backup);
-				area->carriages->data[data[i]] = backup; // todo fix it
-				ft_vm_vector_int_push_back((area->time + (area->current_index + backup.sleep) % TIMELINE_SIZE),
-										   backup.ordinal_number);
-				--i;
-			}
-			else
-			{
-				curr->f(area, curr);
-				if (wasnt_next)
-				{
-					ft_vm_vector_int_push_back((area->time + (area->current_index + curr->sleep) % TIMELINE_SIZE),
-											   curr->ordinal_number);
-					--i;
-				}
-			}
-
+			curr->f(area, &curr);
 			//curr = &area->carriages->data[data[i]]; // todo maybe use if
 //			if (wasnt_next)
 //				real_next = lst;
-
+			if (wasnt_next)
+			{
+				ft_vm_vector_int_push_back((area->time + (area->current_index + curr->sleep) % TIMELINE_SIZE),
+						curr->ordinal_number);
+				//insert(&(area->time[(area->current_index + curr->sleep) % TIMELINE_SIZE]), curr);
+				--i;
+			}
 		}
 	}
 //	while (lst != NULL)
