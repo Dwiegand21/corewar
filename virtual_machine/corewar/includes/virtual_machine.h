@@ -27,6 +27,7 @@
 # include "vm_constants.h"
 # include "vm_types.h"
 # include "libft.h"
+# include "vm_vector.h"
 
 # define DEBUG_			0			// Debug mode
 # define DEBUG_MAP_ 	0			// Print map

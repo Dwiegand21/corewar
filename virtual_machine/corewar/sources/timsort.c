@@ -107,7 +107,7 @@ int ft_fill_rand_array(int *arr, int max_size)
 {
 	srand(time(NULL) + rand());
 	int len = rand() % max_size + 64;
-	//len = max_size;
+	len = max_size;
 
 	for (int i = 0; i < len; ++i)
 	{
@@ -216,9 +216,9 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 	unsigned int	end;
 	unsigned int	stack[len / minrun + 1][2];
 	int 			stack_size;
-	int				top_arr_size;
-	int				mid_arr_size;
-	int				bot_arr_size;
+	unsigned int	top_arr_size;
+	unsigned int	mid_arr_size;
+	unsigned int	bot_arr_size;
 
 
 	end = 0;
@@ -230,47 +230,47 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 		stack[stack_size][1] = (data == array_end) ? 1u : ft_find_subarray_len(data + end + 1, minrun, array_end);
 		end += stack[stack_size++][1];
 
-		while (!((stack_size < 3 ||
-		        (bot_arr_size = BOT_ARR_SIZE) >
-		        (mid_arr_size = MID_ARR_SIZE) + (top_arr_size = TOP_ARR_SIZE))
-		        && (stack_size < 2 || (mid_arr_size = MID_ARR_SIZE) >
-		                (top_arr_size = TOP_ARR_SIZE)))) // todo try without !
+		while((stack_size >= 3 &&
+			(bot_arr_size = BOT_ARR_SIZE) <= (mid_arr_size = MID_ARR_SIZE) +
+				(top_arr_size = TOP_ARR_SIZE)) ||
+			(stack_size >= 2 &&
+			(mid_arr_size = MID_ARR_SIZE) <= (top_arr_size = TOP_ARR_SIZE)))
 		{
-			if (stack_size >= 2 && MID_ARR_SIZE <= TOP_ARR_SIZE)
+			if (stack_size >= 2 && mid_arr_size <= top_arr_size && --stack_size)
 			{
-				ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
-				stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
-				--stack_size;
+				ft_merge_left(data, stack[stack_size - 1], stack[stack_size]);
+				stack[stack_size - 1][1] = mid_arr_size + top_arr_size;
+				//--stack_size;
 			}
-			if (stack_size >= 3 && BOT_ARR_SIZE <= MID_ARR_SIZE + TOP_ARR_SIZE)
+			else if (stack_size >= 3 && bot_arr_size <= mid_arr_size + top_arr_size && --stack_size)
 			{
-				if (TOP_ARR_SIZE <= BOT_ARR_SIZE)
+				if (top_arr_size <= bot_arr_size)
 				{
-					TOP_ARR_SIZE <= MID_ARR_SIZE ?
-					ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]) :
-					ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
-					stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
-					--stack_size;
+					top_arr_size <= mid_arr_size ?
+					ft_merge_right(data, stack[stack_size - 1], stack[stack_size]) :
+					ft_merge_left(data, stack[stack_size - 1], stack[stack_size]);
+					stack[stack_size - 1][1] = mid_arr_size + top_arr_size;
+					//--stack_size;
 				}
 				else
 				{
-					BOT_ARR_SIZE <= MID_ARR_SIZE ?
-					ft_merge_left(data, stack[stack_size - 3], stack[stack_size - 2]) :
-					ft_merge_right(data, stack[stack_size - 3], stack[stack_size - 2]);
-					stack[stack_size - 3][1] = BOT_ARR_SIZE + MID_ARR_SIZE;
-					((void**)stack)[stack_size - 2] = ((void**)stack)[stack_size - 1];
-					--stack_size;
+					bot_arr_size <= mid_arr_size ?
+					ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]) :
+					ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]);
+					stack[stack_size - 2][1] = bot_arr_size + mid_arr_size;
+					((void**)stack)[stack_size - 1] = ((void**)stack)[stack_size];
+					//--stack_size;
 				}
 			}
 		}
 	}
-	while (stack_size > 1)
+	while (--stack_size > 0)
 	{
-		TOP_ARR_SIZE <= MID_ARR_SIZE ?
-		ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]) :
-		ft_merge_left(data, stack[stack_size - 2], stack[stack_size - 1]);
-		stack[stack_size - 2][1] = MID_ARR_SIZE + TOP_ARR_SIZE;
-		--stack_size;
+		(top_arr_size = stack[stack_size][1]) <= (mid_arr_size = stack[stack_size - 1][1]) ?
+		ft_merge_right(data, stack[stack_size - 1], stack[stack_size]) :
+		ft_merge_left(data, stack[stack_size - 1], stack[stack_size]);
+		stack[stack_size - 1][1] = mid_arr_size + top_arr_size;
+		//--stack_size;
 	}
 
 

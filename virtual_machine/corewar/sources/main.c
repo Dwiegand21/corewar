@@ -18,10 +18,36 @@ void		help()
 }
 
 
+int			ft_make_vectors_for_timelime(t_process *time[TIMELINE_SIZE + 1])
+{
+	int			i;
+	const int	count = TIMELINE_SIZE + 1;
+
+	i = -1;
+	while (++i < count)
+	{
+		time[i] = ft_make_vm_vector_int(INIT_VECTOR_SIZE);
+	}
+}
+
+
 int32_t		main(int argc, char **argv)
 {
 	t_area		*area;
 	t_process	*time[TIMELINE_SIZE + 1] = { 0 };
+
+
+	t_vm_vector_int *v = ft_make_vm_vector_int(0);
+
+	for (int e = 0; e < 100000; ++e)
+	{
+		ft_vm_vector_int_push_back(&v, e);
+	}
+	printf("Vector size is %d, capac %d\n", v->len, v->capacity);
+
+	ft_free_vm_vector_int(&v);
+
+	return (0);
 
 	ft_timsort_test();
 	exit(0);
