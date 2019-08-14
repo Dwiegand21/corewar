@@ -15,6 +15,8 @@
 
 #include "libft.h"
 #include "vm_constants.h"
+#include <stdbool.h>
+//#include "vm_vector.h"
 
 typedef struct s_process			t_process;
 typedef struct s_player				t_player;
@@ -22,6 +24,22 @@ typedef struct s_cor_file			t_cor_file;
 typedef struct s_area				t_area;
 typedef struct s_ops				t_ops;
 typedef struct s_game_condition		t_gcond;
+
+typedef struct	s_vm_vector_int
+{
+	int			*data;
+	int			len;
+	int			capacity;
+	int			offset;
+}				t_vm_vector_int;
+
+typedef struct	s_vm_vector_prc
+{
+	t_process	*data;
+	int			len;
+	int			capacity;
+	int			offset;
+}				t_vm_vector_prc;
 
 struct		s_process
 {
@@ -84,12 +102,12 @@ struct		s_game_condition
 
 struct		s_area
 {
+	t_vm_vector_prc *carriages;
 	uint8_t			*map;
 	t_gcond			g_stats;
 
 	t_player		*players;
-//	t_vector		*processes;
-	t_process		**time;
+	t_vm_vector_int		*time;
 
 	uint32_t		flags;
 	int32_t			win;

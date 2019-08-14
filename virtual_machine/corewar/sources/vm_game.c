@@ -15,6 +15,8 @@
 
 #define DBG 1
 
+int is_ok = 0;
+
 static void			winner(t_area *area)
 {
 	printf("Contestant %d, \"%s\", has won !\n",
@@ -120,37 +122,76 @@ static inline char		*find_cmd_name(void	(*f)())
 	return (NULL);
 }
 
-static int32_t			run_next_round(t_area *area, t_process *lst)
+static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 {
-	t_process *real_next = lst;
+	t_process *curr;
 	int was_next;
+	int * const data = v->data;
+	const int len = v->len;
+	int i;
 
-	while (lst != NULL)
+	i = len - 1;
+
+	ft_timsort_int(data, len);
+
+	while (i >= 0)
 	{
-		real_next = lst->next;
+		curr = &area->carriages->data[data[i]];
 
-		if (lst->n_lives < area->n_die_cycle)
+		if (curr->n_lives < area->n_die_cycle)
 		{
-			lst->f = 0;
-			lst->ordinal_number = 0;
-			lst->next = area->time[TIMELINE_SIZE];
-			area->time[TIMELINE_SIZE] = lst;
+			curr->f = 0;
+			curr->ordinal_number = 0;
 			SN_PROCESS--;
+			--i;
 		}
 		else
 		{
-			//if (DBG)
-			//	printf("ACTION: %s {%d}\n", find_cmd_name(lst->f), lst->ordinal_number + 1);
-			was_next = lst->f == next_op;
-			lst->f(area, lst);
-			if (was_next)
-				real_next = lst;
-			else
-				insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
+			if (DBG && curr->f != get_op && curr->f != next_op)
+			{
+				printf("P %d | %s\n", curr->ordinal_number + 1, find_cmd_name(curr->f));
+				//printf("ACTION: %s {%d}\n", find_cmd_name(curr->f),
+				//	   curr->ordinal_number + 1);
+			}
+			was_next = (curr->f == next_op);
+			curr->f(area, curr);
+//			if (was_next)
+//				real_next = lst;
+			if (!was_next)
+			{
+				ft_vm_vector_int_push_back((area->time + (area->current_index + curr->sleep) % TIMELINE_SIZE),
+						curr->ordinal_number);
+				//insert(&(area->time[(area->current_index + curr->sleep) % TIMELINE_SIZE]), curr);
+				--i;
+			}
 		}
-		lst = real_next;
 	}
-	area->time[area->current_index] = NULL;
+//	while (lst != NULL)
+//	{
+//		real_next = lst->next;
+//
+//		if (lst->n_lives < area->n_die_cycle)
+//		{
+//			lst->f = 0;
+//			lst->ordinal_number = 0;
+//			lst->next = area->time[TIMELINE_SIZE];
+//			area->time[TIMELINE_SIZE] = lst;
+//			SN_PROCESS--;
+//		}
+//		else
+//		{
+//			//if (DBG)
+//			//	printf("ACTION: %s {%d}\n", find_cmd_name(lst->f), lst->ordinal_number + 1);
+//			was_next = lst->f == next_op;
+//			lst->f(area, lst);
+//			if (was_next)
+//				real_next = lst;
+//			else
+//				insert(&(area->time[(area->current_index + lst->sleep) % TIMELINE_SIZE]), lst);
+//		}
+//		lst = real_next;
+//	}
+	area->time[area->current_index].len = 0;
 	if (SN_PROCESS <= 0)
 	{
 		return (0);
@@ -214,33 +255,6 @@ void 				ft_print_timeline(t_process *time[TIMELINE_SIZE + 1], int curr_cycle, i
 	//		ft_get_lst_size(time[TIMELINE_SIZE]));
 }
 
-static void
-print_timemap(t_area *area)
-{
-	t_process *p;
-
-//	for (int i = 0; i < TIMELINE_SIZE; i++)
-//	{
-//
-//		if (area->time[i] != NULL)
-//		{
-			//printf("[%d]:", i);
-			//p = area->time[i];
-			p = area->time[area->current_index];
-			while (p != NULL)
-			{
-				printf(" %d :: %d\n", p->ordinal_number, p->n_lives);
-				p = p->next;
-			}
-			printf("\n");
-//		}
-//
-//	}
-	printf("processes: %d\nn_die: %d\n", SN_PROCESS, area->n_die_cycle);
-	char c;
-	scanf("%c", &c);
-}
-
 int32_t				play_game(t_area *area)
 {
 	register int	current_round;
@@ -251,20 +265,20 @@ int32_t				play_game(t_area *area)
 	area->n_die_cycle = 0;
 
 	current_round = 0;
-	//while (true)
-	//{
+	while (true)
+	{
 		area->current_index = 0;
 		while (area->current_index < TIMELINE_SIZE)
 		{
 //			if (DBG)
 //				printf("%d> ", current_round);
-			if (DBG)
-				ft_print_timeline(area->time, current_round, area->g_stats.n_processes);
-			if ((run_next_round(area, area->time[area->current_index])) == false)
+//			if (DBG)
+//				ft_print_timeline(area->time, current_round, area->g_stats.n_processes);
+			if ((run_next_round(area, &area->time[area->current_index])) == false)
 			{
-				insert(0, 0);
-				printf("Peak processes count: %d\n", peak_processes);
-				ft_print_timeline(0,0,0);
+				//insert(0, 0);
+				//printf("Peak processes count: %d\n", peak_processes);
+				//ft_print_timeline(0,0,0);
 				winner(area);
 				free_args(&area);
 				return (0);
@@ -280,16 +294,19 @@ int32_t				play_game(t_area *area)
 				return (0);
 			}
 
+//			if (DBG)
+//				printf("\n");
+
 			if (current_round >= SDIE_CYCLE)
 			{
 				change_area_stats(area);
 				area->n_die_cycle++;
 			}
 			area->current_index++;
-			if (area->current_index == TIMELINE_SIZE)
-				area->current_index = 0;
+			//if (area->current_index == TIMELINE_SIZE)
+			//	area->current_index = 0;
 			current_round++;
 		}
-	//}
+	}
 	return (0);
 }

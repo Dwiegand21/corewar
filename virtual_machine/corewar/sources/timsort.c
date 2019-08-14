@@ -274,21 +274,21 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 	}
 
 
-	if (ft_check_sorted(data, len))
-	{
-		//printf("OK\n");
-	}
-	else
-	{
-		printf("KO: ");
-		for (size_t e = 0; e < len; ++e)
-		{
-			printf("%3d ", data[e]);
-			if ((e + 1) % minrun == 0)
-				printf("| ");
-		}
-		printf("\n");
-	}
+//	if (ft_check_sorted(data, len))
+//	{
+//		//printf("OK\n");
+//	}
+//	else
+//	{
+//		printf("KO: ");
+//		for (size_t e = 0; e < len; ++e)
+//		{
+//			printf("%3d ", data[e]);
+//			if ((e + 1) % minrun == 0)
+//				printf("| ");
+//		}
+//		printf("\n");
+//	}
 
 
 	// todo if subarrays_count >= 3
@@ -302,25 +302,12 @@ void	ft_timsort_int(int *data, size_t len)
 {
 	const unsigned int	minrun = ft_get_minrun(len);
 	int *const			array_end = data + len;
-	unsigned int		subarrays[64][2];
-	unsigned int		end;
-	int 				subarays_count;
 
-	//printf("MINRUN IS: %d\n", minrun);
-
-
+	if (len <= 64)
+	{
+		return (ft_insertion_sort(data, len));
+	}
 	ft_timsort_split_and_merge(data, len, minrun, array_end);
-//	while (data < array_end)
-//	{
-//		unsigned int act_minrun = (array_end - data >= minrun) ? minrun : array_end - data;
-//
-//		if (!ft_check_sorted(data, (int)act_minrun))
-//		{
-//			printf("HUI(%d)\n", minrun);
-//		}
-//		data += act_minrun;
-//	}
-	// todo if len <= 64   {ft_insert_sort}
 }
 
 void ft_timsort_test(void)

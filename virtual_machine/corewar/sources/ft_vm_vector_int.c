@@ -38,7 +38,7 @@ static inline int				*ft_realloc_vm(int *old_data, int prev_size,
 	return (new_data);
 }
 
-t_vm_vector_int		*ft_make_vm_vector_int(size_t init_size)
+t_vm_vector_int		*ft_make_vm_vector_int(int init_size)
 {
 	t_vm_vector_int *v;
 
@@ -56,20 +56,29 @@ t_vm_vector_int		*ft_make_vm_vector_int(size_t init_size)
 	return (v);
 }
 
-char			ft_vm_vector_int_push_back(t_vm_vector_int **v_ptr, int c)
+t_vm_vector_int		*ft_init_vm_vector_int(t_vm_vector_int *v, int init_size)
 {
-	t_vm_vector_int *v;
+	v->len = 0;
+	v->offset = 0;
+	v->capacity = init_size <= 1 ? 2 : init_size;
+	v->data = (int*)malloc(sizeof(int) * (v->capacity));
+	if (!v->data)
+	{
+		free(v);
+		return (0);
+	}
+	v->data[0] = 0;
+	return (v);
+}
 
-	if (!v_ptr || !*v_ptr)
-		return (-1);
-	v = *v_ptr;
+char			ft_vm_vector_int_push_back(t_vm_vector_int *v, int c)
+{
 	if (v->len == v->capacity - 1)
 	{
 		v->data = ft_realloc_vm(v->data, v->capacity,
 								  v->capacity * 2);
 		if (!v->data)
 		{
-			ft_free_vm_vector_int(v_ptr);
 			return (0);
 		}
 		v->capacity *= 2;

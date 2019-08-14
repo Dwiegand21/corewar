@@ -67,7 +67,7 @@ void	print_vector_elems(void **p)
 	ft_putendl("");
 }
 
-static void		print_processes(t_process **time)
+static void		print_processes(t_vm_vector_prc *carriages, t_vm_vector_int *time)
 {
 	if (DUMP_CMP == 0)
 		return ;
@@ -75,13 +75,12 @@ static void		print_processes(t_process **time)
 	t_process *p;
 	for(int i = 0; i < TIMELINE_SIZE; i++)
 	{
-		if (time[i] != NULL)
+		if (time[i].len != 0)
 		{
-			p = time[i];
-			while(p != NULL)
+			for (int j = 0; j < time[i].len; ++j)
 			{
+				p = &carriages->data[time[i].data[j]];
 				print_vector_elems((void **)&p);
-				p = p->next;
 			}
 		}
 	}
@@ -109,7 +108,7 @@ void			print_dump(t_area *area)
 		i++;
 	}
 	if (area->flags & PROCESS_PRINT)
-		print_processes(area->time);
+		print_processes(area->carriages, area->time);
 	//fprintf(stderr, "processes: %u\n", area->g_stats.next_process_index);
 ///	exit (1);
 }

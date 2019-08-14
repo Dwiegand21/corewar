@@ -14,6 +14,7 @@
 # define COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
 
 # define INIT_VECTOR_SIZE 256
+# define INIT_CARRIAGES_COUNT 4096
 
 /*
 **					ERRORS_DEFINES
@@ -33,10 +34,10 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 /*
 **					FLAGS_DEFINES
 */
-# define DUMP				1
-# define VISUALIZATION		2
-# define PROCESS_PRINT		4
-# define STEP_DEBUG			8
+# define DUMP				1u
+# define VISUALIZATION		2u
+# define PROCESS_PRINT		4u
+# define STEP_DEBUG			8u
 
 # define DISPLAY (area->flags & 0x02)
 
