@@ -63,16 +63,6 @@ int32_t			read_cor_file(t_player *player, t_cor_file *files)
 	if (read(files->fd, player->comment, COMMENT_LENGTH) != COMMENT_LENGTH)
 		ft_error(INV_FILE, __func__);
 	skip_2octets(files->fd);
-	if (DEBUG_)					// DEBUG_ # # #
-	{
-		printf("\nName: %s\nComment: %s\nExec size: %d\nStart position: %d\n"
-				"Player_number: %d\n",
-				player->name,
-				player->comment,
-				code_size,
-				player->start_pos,
-				player->ordinal_number);
-	}
 	files->code_size = code_size;
 	return (0);
 }
@@ -93,15 +83,5 @@ int32_t			initialization_players(t_area *area, t_cor_file *files)
 		set_code_to_map(area, files, i);
 		i++;
 	}
-	printf("Introducing contestants...\n");
-	for (int i = 0; i < area->g_stats.n_players; i++)
-	{
-		printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				area->players[i].ordinal_number,
-				files[i].code_size,
-				area->players[i].name,
-				area->players[i].comment);
-	}
-	fflush(stdout);
 	return (0);
 }

@@ -14,11 +14,20 @@
 
 void		free_args(t_area **p)
 {
-	if (*p)
+	t_area * const area = *p;
+	t_vm_vector_int * const timeline = area->time;
+	const int count = TIMELINE_SIZE + 1;
+
+	free((*p)->map);
+	free((*p)->players);
+	for (int e = 0; e < count; ++e)
 	{
-		free((*p)->map);
-		free((*p)->players);
-		free(*p);
+		free(timeline[e].data);
 	}
+	free(area->carriages->data);
+	free(area->carriages);
+	free(buffer->data);
+	free(buffer);
+	free(area);
 	*p = NULL;
 }

@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+#include <time.h>
 
 t_vm_vector_int *buffer = 0;
+long timeout_time;
 
 void		help()
 {
@@ -36,32 +38,19 @@ int			ft_make_vectors_for_timelime(t_vm_vector_int time[TIMELINE_SIZE + 1])
 
 int32_t		main(int argc, char **argv)
 {
-	t_area			*area;
-	t_vm_vector_int	time[TIMELINE_SIZE + 1];
+	t_area          *area;
+	t_vm_vector_int timeline[TIMELINE_SIZE + 1];
 
-	ft_make_vectors_for_timelime(time);
+	ft_make_vectors_for_timelime(timeline);
 	buffer = ft_make_vm_vector_int(INIT_SORT_BUF_SIZE); // todo protect
 
-	//ft_timsort_test();
-	//return (0);
+	area = initialization_area();
+	area->time = timeline;
+	timeout_time = time(0) + atoi(argv[1]);
+	read_arguments(area, argc - 2, argv + 2);
+	play_game(area);
 
-	if (argc == 1)
-	{
-		help();
-	}
-	else
-	{
-		area = initialization_area();
-		area->time = time;
-		read_arguments(area, argc - 1, argv + 1);
-		play_game(area);
-	}
-//	size_t memory_used = 0;
-//	for (int e = 0 ; e < TIMELINE_SIZE + 1; ++e)
-//	{
-//		memory_used += time[e].capacity * sizeof(int);
-//	}
-//	memory_used += area->carriages->capacity * sizeof(t_process);
-//	printf("Total memory used %zu bytes (%f megabytes)\n", memory_used, memory_used / 1000000.);
+
+
 	return 0;
 }

@@ -1,6 +1,7 @@
 import itertools
 import argparse
 import asyncio
+import sys
 import os
 sem = asyncio.BoundedSemaphore(30)
 progress = 0
@@ -23,12 +24,10 @@ dump_file.close()
 async def find_error(player1, player2, directory):
     global progress
 
-    async def sparring(dump_cycle):
+    async def sparring():
         async with sem:
             proc1 = await asyncio.create_subprocess_exec(
-                            './origin_sources/champs/championships/2018/corewar',
-                            '-d',
-                            str(dump_cycle),
+                            './test/corewar',
                             directory + '/' + player1,
                             directory + '/' + player2,
                             stdout=asyncio.subprocess.PIPE,
@@ -36,8 +35,7 @@ async def find_error(player1, player2, directory):
             stdout1, stderr1 = await proc1.communicate()
             proc2 = await asyncio.create_subprocess_exec(
                             './executable/corewar',
-                            '-d',
-                            str(dump_cycle),
+                            '1000',
                             directory + '/' + player1,
                             directory + '/' + player2,
                             stdout=asyncio.subprocess.PIPE,
@@ -47,29 +45,21 @@ async def find_error(player1, player2, directory):
             # progress += 1
             # print(progress)
             # print(b'stdout1 ' + stdout1, b'stderr1 ' + stderr1, b'stdout2 ' + stdout2, b'stderr2 ' + stderr2, sep='\n')
-            return True if stdout1 == stdout2 else False
-    dump_time = 0
-    while dump_time <= 30000:
-        result = await sparring(dump_time)
-        # print(result)
-        if result:
-            # print(dump_time)
-            print('\033[32m' + player1 + ' ' + player2 + ' ' + str(dump_time) + '\033[0m')
-            dump_time += 5000
-        else:
-            # dump_step = 1000
-            # step_side = -1
-            # result = 0
-            # while dump_step > 10:
-            #     dump_time += dump_step * step_side
-            #     if result != await sparring(dump_time):
-            #         dump_step = dump_step / 2
-            #         step_side *= -1
-            #         result = 0 if result else 1
-            print('\033[91m' + player1 + ' ' + player2 + ' ' + str(dump_time) + '\033[0m')
-            with open('dump_file.txt', 'a') as f:
-                f.write(player1 + ' ' + player2 + ' ' + str(dump_time) + '\n')
-            break
+            # print(stdout2.decode()[0], stderr2)
+            # print(stdout1.decode().split('\n')[-2][11], stderr1)
+            return True if stdout1.decode().split('\n')[-2][11] == stdout2.decode()[0] else False
+
+    result = await sparring()
+    # print(result)
+    if result:
+        # print(dump_time)
+        print('\033[32m' + player1 + ' ' + player2 + ' ' + '\033[0m')
+
+    else:
+        print('\033[91m' + player1 + ' ' + player2 + ' ' + '\033[0m')
+        with open('dump_file.txt', 'a') as f:
+            f.write(player1 + ' ' + player2 + '\n')
+
     progress += 1
     # print(progress, end='\r')
 
