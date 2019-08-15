@@ -64,7 +64,7 @@ void		sti_op(t_area *area, t_process **carr) // dir_size = 2a
 void		fork_op(t_area *area, t_process **carr) // dir_size = 2
 {
 	int32_t	result;
-	t_process	*process;
+	register t_process	*process;
 	int process_id;
 	t_process backup;
 

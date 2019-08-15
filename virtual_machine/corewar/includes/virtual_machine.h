@@ -74,7 +74,7 @@ int			initialization_players(t_area *area, t_cor_file *files);
 /*
 **		free_args.c
 */
-void		free_args(t_area **p);
+void		free_args(t_area *area);
 
 /*
 **		check_flags.c

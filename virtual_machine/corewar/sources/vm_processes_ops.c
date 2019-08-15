@@ -47,7 +47,7 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 
 void		new_process(t_area *area, t_process *process, uint32_t pc) // todo maybe need to move backup here from forks
 {
-	t_process	*new;
+	register t_process	*new;
 
 	//if (area->time[TIMELINE_SIZE] != NULL)
 	//	new = extract_dead_node(&area->time[TIMELINE_SIZE]);
@@ -64,14 +64,6 @@ void		new_process(t_area *area, t_process *process, uint32_t pc) // todo maybe n
 	new->sleep = 1;
 
 	///new->n_lives = process->n_lives;
-	if (area->flags & STEP_DEBUG && SN_CYCLES >= g_db_from)
-	{
-		printf(">> new_process:\n>> op_name: %s (%.2hhx)\n>> process pc: %d\n>> run_round: %d\n",
-				g_ops[((MAP[new->pc] > 0 && MAP[new->pc] < 17) ? MAP[new->pc] : 0)].name,
-				MAP[new->pc],
-				new->pc,
-				new->sleep);
-	}
 	new->ordinal_number = area->g_stats.next_process_index++;
 	ft_vm_vector_int_push_back((area->time + (area->current_index + new->sleep) % TIMELINE_SIZE),
 							   new->ordinal_number);

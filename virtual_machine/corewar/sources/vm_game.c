@@ -21,13 +21,11 @@ static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 {
 	t_process *curr;
 	int       wasnt_next;
-	int * const data = v->data;
-	const int len = v->len;
-	int i;
+	register int * const data = v->data;
 
-	i = 0;
-
-	ft_timsort_int(data, len);
+	ft_timsort_int(data, v->len);
+	register int i = 0;
+	register int len = v->len;
 
 	while (i < len)
 	{
@@ -84,9 +82,9 @@ static void			change_area_stats(t_area *area)
 
 #include <stdio.h>
 
-int32_t				play_game(t_area *area)
+int32_t				play_game(register t_area *area)
 {
-	register int	current_round;
+	int	current_round;
 
 	area->win = area->g_stats.n_players - 1;
 	area->n_die_cycle = 0;
@@ -99,8 +97,8 @@ int32_t				play_game(t_area *area)
 		{
 			if ((run_next_round(area, &area->time[area->current_index])) == false)
 			{
-				printf("%d\n", -1 * area->players[area->win].ordinal_number);
-				free_args(&area);
+				write(1, area->players[area->win].ordinal_number == -1 ? "1\n" : "2\n", 2);
+				free_args(area);
 				return (0);
 			}
 			if (current_round >= SDIE_CYCLE)
@@ -110,8 +108,8 @@ int32_t				play_game(t_area *area)
 			}
 			if (timeout_time < time(0))
 			{
-				printf("0\n");
-				free_args(&area);
+				write(1, "0\n", 2);
+				free_args(area);
 				return (0);
 			}
 			area->current_index++;

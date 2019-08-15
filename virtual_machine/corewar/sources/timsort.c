@@ -43,7 +43,7 @@ static inline void	ft_reverse_subarray(int *data, unsigned int len)
 	}
 }
 
-static inline void	ft_insertion_sort(register int *data, register unsigned int len)
+static inline void	ft_insertion_sort(register int *data, unsigned int len)
 {
 	register int i;
 	register int j;
@@ -65,8 +65,8 @@ static inline void	ft_insertion_sort(register int *data, register unsigned int l
 
 /// note only array bigger than 2
 /// note send (data + 1)
-static inline unsigned int	ft_find_subarray_len(int *data, unsigned int minrun,
-		const int *array_end)
+static inline unsigned int	ft_find_subarray_len(register int *data, unsigned int minrun,
+		register const int *array_end)
 {
 	unsigned int		len;
 	const unsigned int	reverse = (data[-1] >= *data ? 0 : 1);
@@ -298,7 +298,7 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 
 
 
-void	ft_timsort_int(int *data, int len)
+void	ft_timsort_int(register int *data, register int len)
 {
 	const unsigned int		minrun = ft_get_minrun(len);
 	int *const				array_end = data + len;

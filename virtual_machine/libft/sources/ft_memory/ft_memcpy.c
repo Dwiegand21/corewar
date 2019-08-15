@@ -27,11 +27,11 @@
 
 void	*ft_memcpy(void *dest, const void *src, register size_t count)
 {
-	ssize_t			*dst1;
-	const ssize_t	*src1;
-	char			*dst2;
-	const char		*src2;
-	size_t			n;
+	register ssize_t			*dst1;
+	register const ssize_t	*src1;
+	register char			*dst2;
+	register const char		*src2;
+	register size_t			n;
 
 	if (dest == src)
 		return (dest);
