@@ -24,7 +24,7 @@ void				ft_free_vm_vector_int(t_vm_vector_int **v);
 void				ft_free_vm_vector_int_simple(void *v);
 int					ft_free_ret_vm_vector_int(t_vm_vector_int **v, int ret);
 char				ft_vm_vector_int_push_back(t_vm_vector_int *v_ptr, int c);
-char				ft_vm_vector_int_fit(t_vm_vector_int **v_ptr);
+char 				ft_vm_vector_int_realloc(t_vm_vector_int *v); // todo myabe double pointer and auto-free??
 
 t_vm_vector_prc* 	ft_make_vm_vector_prc(int init_size);
 t_vm_vector_prc		*ft_init_vm_vector_prc(t_vm_vector_prc *v, int init_size);

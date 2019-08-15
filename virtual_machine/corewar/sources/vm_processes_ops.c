@@ -18,13 +18,16 @@
 void		load_process(t_area *area, int32_t player, uint32_t pc)
 {
 	t_process	*new;
+	int i;
 
 	if (!(new = (t_process *)ft_vm_vector_prc_push_back(&area->carriages)))
 		ft_error(ERRALLOC, __func__);
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
+	i = 0;
+	while (++i < REG_NUMBER)
+		new->reg[i] = 0;
 	new->pc = pc;
-
 	new->f = get_op;
 	new->sleep = 1;
 
@@ -51,16 +54,16 @@ void		new_process(t_area *area, t_process *process, uint32_t pc) // todo maybe n
 	if (!(new = (t_process *)ft_vm_vector_prc_push_back(&area->carriages)))
 		ft_error(ERRALLOC, __func__);
 	*new = *process; // todo check if it copy whole structure
-	for (int i = 0; i < 16; i++)
-	{
-		new->reg[i] = process->reg[i];
-	}
+///	for (int i = 0; i < 16; i++)
+///	{
+///		new->reg[i] = process->reg[i];
+///	}
 	new->pc = SHIFT(pc);
 
 	new->f = get_op;
 	new->sleep = 1;
 
-	new->n_lives = process->n_lives;
+	///new->n_lives = process->n_lives;
 	if (area->flags & STEP_DEBUG && SN_CYCLES >= g_db_from)
 	{
 		printf(">> new_process:\n>> op_name: %s (%.2hhx)\n>> process pc: %d\n>> run_round: %d\n",

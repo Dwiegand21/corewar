@@ -12,6 +12,8 @@
 
 #include "virtual_machine.h"
 
+t_vm_vector_int *buffer = 0;
+
 void		help()
 {
 	printf("%s", USAGE);
@@ -38,15 +40,11 @@ int32_t		main(int argc, char **argv)
 	t_vm_vector_int	time[TIMELINE_SIZE + 1];
 
 	ft_make_vectors_for_timelime(time);
-
-
-
-	//return (0);
+	buffer = ft_make_vm_vector_int(INIT_SORT_BUF_SIZE); // todo protect
 
 	//ft_timsort_test();
-	//exit(0);
+	//return (0);
 
-	area = NULL;
 	if (argc == 1)
 	{
 		help();
@@ -58,5 +56,12 @@ int32_t		main(int argc, char **argv)
 		read_arguments(area, argc - 1, argv + 1);
 		play_game(area);
 	}
+//	size_t memory_used = 0;
+//	for (int e = 0 ; e < TIMELINE_SIZE + 1; ++e)
+//	{
+//		memory_used += time[e].capacity * sizeof(int);
+//	}
+//	memory_used += area->carriages->capacity * sizeof(t_process);
+//	printf("Total memory used %zu bytes (%f megabytes)\n", memory_used, memory_used / 1000000.);
 	return 0;
 }

@@ -1,7 +1,7 @@
 
 NAME		= corewar
 
-CC			= gcc
+CC			= gcc -O3
 CFLAGS		= #-Wall -Wextra -Werror
 
 SFILES		= main.c \

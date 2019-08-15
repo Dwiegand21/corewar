@@ -46,7 +46,7 @@ static inline void				*ft_realloc_vm_free(void *old_data, size_t prev_size,
 
 	if (!old_data)
 		return (0);
-	new_data = ft_memalloc(new_size);
+	new_data = malloc(new_size);
 	if (!new_data)
 	{
 		free(old_data);

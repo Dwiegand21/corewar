@@ -13,7 +13,7 @@
 NAME			=	libft.a
 
 CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -O3
 
 .SUFFIX: .c .o .h .a
 

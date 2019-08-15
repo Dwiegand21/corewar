@@ -87,3 +87,15 @@ char			ft_vm_vector_int_push_back(t_vm_vector_int *v, int c)
 	v->data[v->len] = 0;
 	return (1);
 }
+
+char 			ft_vm_vector_int_realloc(t_vm_vector_int *v)
+{
+	v->data = ft_realloc_vm(v->data, v->capacity,
+							v->capacity * 2);
+	if (!v->data)
+	{
+		return (0);
+	}
+	v->capacity *= 2;
+	return (1);
+}

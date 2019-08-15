@@ -12,9 +12,8 @@
 
 #include "libft.h"
 #include <stdio.h>
-
-void	ft_timsort_int(int *data, size_t len);
-
+#include "vm_constants.h"
+#include "virtual_machine.h"
 
 static inline unsigned int	ft_get_minrun(size_t len)
 {
@@ -55,7 +54,7 @@ static inline void	ft_insertion_sort(register int *data, register unsigned int l
 	{
 		curr = data[i];
 		j = i;
-		while (j > 0 && data[j - 1] > curr)
+		while (j > 0 && data[j - 1] < curr)
 		{
 			data[j] = data[j - 1];
 			--j;
@@ -70,11 +69,11 @@ static inline unsigned int	ft_find_subarray_len(int *data, unsigned int minrun,
 		const int *array_end)
 {
 	unsigned int		len;
-	const unsigned int	reverse = (data[-1] <= *data ? 0 : 1);
+	const unsigned int	reverse = (data[-1] >= *data ? 0 : 1);
 	int *const			start = data - 1;
 
 	len = 1;
-	while (data < array_end && ((data[-1] <= *data) ^ reverse))
+	while (data < array_end && ((data[-1] >= *data) ^ reverse))
 	{
 		++data;
 		++len;
@@ -94,7 +93,7 @@ int ft_check_sorted(const int *data, int len)
 {
 	for (int i = 0; i < len - 1; ++i)
 	{
-		if (data[i] > data[i + 1])
+		if (data[i] < data[i + 1])
 			return (0);
 	}
 	return (1);
@@ -102,6 +101,8 @@ int ft_check_sorted(const int *data, int len)
 
 #include <stdlib.h>
 #include <time.h>
+#include <vm_types.h>
+#include <vm_vector.h>
 
 int ft_fill_rand_array(int *arr, int max_size)
 {
@@ -158,7 +159,7 @@ static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rh
 {
 	const unsigned int	zl = lhs[1];
 	const unsigned int	zr = rhs[1];
-	int					buffer[zl];
+	//int					buffer[zl];
 	unsigned int 		i;
 	unsigned int 		j;
 	int 				*left;
@@ -167,11 +168,11 @@ static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rh
 
 	left = data + lhs[0] - 1;
 	right = data + rhs[0];
-	buf = ft_memcpy(buffer, left + 1, zl * sizeof(int));
+	buf = ft_memcpy(buffer->data, left + 1, zl * sizeof(int));
 	i = 0;
 	j = 0;
 	while (i < zl && j < zr && ++left)
-		if (*buf <= *right && ++i)
+		if (*buf >= *right && ++i)
 			*left = *buf++;
 		else if (++j)
 			*left = *right++;
@@ -186,7 +187,7 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 {
 	const unsigned int	zl = lhs[1];
 	const unsigned int	zr = rhs[1];
-	int					buffer[zl];
+	//int					buffer[zl];
 	unsigned int 		i;
 	unsigned int 		j;
 	int 				*left;
@@ -195,11 +196,11 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 
 	left = data + lhs[0] + zl - 1;
 	right = data + rhs[0] + zr;
-	buf = (int*)ft_memcpy(buffer, right - zr, zr * sizeof(int)) + zr - 1;
+	buf = (int*)ft_memcpy(buffer->data, right - zr, zr * sizeof(int)) + zr - 1;
 	i = zl;
 	j = zr;
 	while (i > 0 && j > 0 && --right)
-		if (*buf > *left && j--)
+		if (*buf < *left && j--)
 			*right = *buf--;
 		else if (i--)
 			*right = *left--;
@@ -208,7 +209,6 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 	while (i-- > 0 && --right)
 		*right = *left--;
 }
-
 
 // todo change fucking defines to variables
 void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int *const array_end)
@@ -298,10 +298,19 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 
 
 
-void	ft_timsort_int(int *data, size_t len)
+void	ft_timsort_int(int *data, int len)
 {
-	const unsigned int	minrun = ft_get_minrun(len);
-	int *const			array_end = data + len;
+	const unsigned int		minrun = ft_get_minrun(len);
+	int *const				array_end = data + len;
+
+//	printf("{");
+//	for (int e = 0; e < len; ++e)
+//		printf("%d, ", data[e]);
+//	printf("}\n");
+
+	//printf("buf capac %d\n", buffer->capacity);
+	while (buffer->capacity < len)
+		ft_vm_vector_int_realloc(buffer); // todo protect ??
 
 	if (len <= 64)
 	{
@@ -312,6 +321,6 @@ void	ft_timsort_int(int *data, size_t len)
 
 void ft_timsort_test(void)
 {
-	ft_test_sort(10000, 1000);
+	ft_test_sort(100000, 100);
 
 }

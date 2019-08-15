@@ -1,2 +1,2 @@
 Asombra.cor turtle.cor 25000
-kamelkaze.cor le_pet_de_nonne.cor 5000
+Code_eater.cor terminator.cor 25000
