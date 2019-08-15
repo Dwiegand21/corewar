@@ -42,7 +42,7 @@ static inline void				*ft_realloc_vm_free(void *old_data, size_t prev_size,
 													  size_t new_size)
 {
 	void	*new_data;
-	size_t	i;
+	//size_t	i;
 
 	if (!old_data)
 		return (0);
@@ -52,12 +52,13 @@ static inline void				*ft_realloc_vm_free(void *old_data, size_t prev_size,
 		free(old_data);
 		return (0);
 	}
-	i = 0;
-	while (i < prev_size && i < new_size)
-	{
-		((char*)new_data)[i] = ((char*)old_data)[i];
-		++i;
-	}
+	ft_memcpy(new_data, old_data, prev_size);
+//	i = 0;
+//	while (i < prev_size && i < new_size)
+//	{
+//		((char*)new_data)[i] = ((char*)old_data)[i];
+//		++i;
+//	}
 	free(old_data);
 	return (new_data);
 }

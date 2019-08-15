@@ -18,7 +18,7 @@ static inline int				*ft_realloc_vm(int *old_data, int prev_size,
 								int new_size)
 {
 	int		*new_data;
-	int		i;
+//	int		i;
 
 	if (!old_data)
 		return (0);
@@ -28,12 +28,13 @@ static inline int				*ft_realloc_vm(int *old_data, int prev_size,
 		free(old_data);
 		return (0);
 	}
-	i = 0;
-	while (i < prev_size && i < new_size)
-	{
-		new_data[i] = old_data[i];
-		++i;
-	}
+	ft_memcpy(new_data, old_data, prev_size * sizeof(int));
+//	i = 0;
+//	while (i < prev_size && i < new_size)
+//	{
+//		new_data[i] = old_data[i];
+//		++i;
+//	}
 	free(old_data);
 	return (new_data);
 }

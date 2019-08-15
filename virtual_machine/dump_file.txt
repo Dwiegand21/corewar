@@ -1,2 +1,1 @@
 Asombra.cor turtle.cor 25000
-Code_eater.cor terminator.cor 25000
