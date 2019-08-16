@@ -93,10 +93,10 @@ int main(int ac, char **av)
 //	av = 0;
 	ac = 0;
 
-	ft_ask("FF%s", "gg");
+	//ft_ask("FF%s", "gg");
 
 
-	//ft_compile(av[1]);
+	ft_compile(av[1]);
 
 //	while (g_names[i][0])
 //	{

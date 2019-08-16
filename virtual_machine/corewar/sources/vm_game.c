@@ -97,7 +97,7 @@ int32_t				play_game(register t_area *area)
 		{
 			if ((run_next_round(area, &area->time[area->current_index])) == false)
 			{
-				write(1, area->players[area->win].ordinal_number == -1 ? "1\n" : "2\n", 2);
+				write(1, area->win == 0 ? "1\n" : "2\n", 2);
 				free_args(area);
 				return (0);
 			}

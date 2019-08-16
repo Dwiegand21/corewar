@@ -16,6 +16,7 @@
 #include "libft.h"
 #include "vm_constants.h"
 #include <stdbool.h>
+#include <stdint.h>
 //#include "vm_vector.h"
 
 typedef struct s_process			t_process;

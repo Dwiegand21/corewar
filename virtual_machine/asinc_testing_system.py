@@ -27,7 +27,8 @@ async def find_error(player1, player2, directory):
     async def sparring():
         async with sem:
             proc1 = await asyncio.create_subprocess_exec(
-                            './test/corewar',
+                            '/home/gg/ref_corewar',
+                            '1000',
                             directory + '/' + player1,
                             directory + '/' + player2,
                             stdout=asyncio.subprocess.PIPE,
@@ -47,7 +48,13 @@ async def find_error(player1, player2, directory):
             # print(b'stdout1 ' + stdout1, b'stderr1 ' + stderr1, b'stdout2 ' + stdout2, b'stderr2 ' + stderr2, sep='\n')
             # print(stdout2.decode()[0], stderr2)
             # print(stdout1.decode().split('\n')[-2][11], stderr1)
-            return True if stdout1.decode().split('\n')[-2][11] == stdout2.decode()[0] else False
+
+            left = stdout1.decode()
+            if len(stdout1.decode()) < 1:
+                left = '3'
+                print('SHIT')
+
+            return True if left[0] == stdout2.decode()[0] else False
 
     result = await sparring()
     # print(result)

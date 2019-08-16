@@ -26,6 +26,7 @@ static inline int				*ft_realloc_vm(int *old_data, int prev_size,
 	if (!new_data)
 	{
 		free(old_data);
+		ft_error(ERRALLOC, __func__);
 		return (0);
 	}
 	ft_memcpy(new_data, old_data, prev_size * sizeof(int));
@@ -45,12 +46,13 @@ t_vm_vector_int		*ft_make_vm_vector_int(int init_size)
 
 	v = (t_vm_vector_int*)ft_memalloc(sizeof(t_vm_vector_int) * 1);
 	if (!v)
-		return (0);
+		ft_error(ERRALLOC, __func__);
 	v->capacity = init_size <= 1 ? 2 : init_size;
 	v->data = (int*)malloc(sizeof(int) * (v->capacity));
 	if (!v->data)
 	{
 		free(v);
+		ft_error(ERRALLOC, __func__);
 		return (0);
 	}
 	v->data[0] = 0;
@@ -66,6 +68,7 @@ t_vm_vector_int		*ft_init_vm_vector_int(t_vm_vector_int *v, int init_size)
 	if (!v->data)
 	{
 		free(v);
+		ft_error(ERRALLOC, __func__);
 		return (0);
 	}
 	v->data[0] = 0;

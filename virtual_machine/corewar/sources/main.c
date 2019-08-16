@@ -41,6 +41,8 @@ int32_t		main(int argc, char **argv)
 	t_area          *area;
 	t_vm_vector_int timeline[TIMELINE_SIZE + 1];
 
+	//t_area a = *area;
+
 	ft_make_vectors_for_timelime(timeline);
 	buffer = ft_make_vm_vector_int(INIT_SORT_BUF_SIZE); // todo protect
 

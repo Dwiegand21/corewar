@@ -30,15 +30,9 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	new->pc = pc;
 	new->f = get_op;
 	new->sleep = 1;
-
-	///set_process_op_and_sleep(new, MAP[new->pc]);
-//	new->sleep = SN_CYCLES + 1;
-//	new->f = g_ops[0].f;
-	//new->sleep = SN_CYCLES + set_process_op_and_sleep(new, MAP[new->pc]);
+	new->carry = false;
 	new->ordinal_number = area->g_stats.next_process_index++;
 	new->n_lives = 0;
-	//ft_bheap_insert(area->processes, new, &heap_cmp);
-	//area->init_processes[SN_PROCESS++] = new;
 	SN_PROCESS++;
 	ft_vm_vector_int_push_back((area->time + (area->current_index + new->sleep) % TIMELINE_SIZE),
 							   new->ordinal_number);

@@ -49,11 +49,12 @@ void		live_op(t_area *area, t_process **carr) // dir_size = 4
 	process = *carr;
 //	LIVE_S = true;
 	process->n_lives = area->n_die_cycle + 1;
-	value = get32(area, process, 1);
-	if (value > -5 && value < 0)
+	value = -get32(area, process, 1) - 1;
+	if (value >= 0 && value < SN_PLAYERS)
 	{
-		area->players[(~(value))].last_live = SN_CYCLES;
-		area->win = ~value;
+		area->players[value].last_live = SN_CYCLES;
+		area->win = value;
+		//printf("<%d>\n", value);
 	}
 	SLIVES_IN_ROUND++;
 	PC = SHIFT(5);
