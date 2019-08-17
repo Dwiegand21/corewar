@@ -14,10 +14,11 @@
 
 void		free_args(t_area *area)
 {
-	t_vm_vector_int * const timeline = area->time;
-	const int count = TIMELINE_SIZE + 1;
+	t_vm_vector_int * const	timeline = area->time;
+	const int				count = TIMELINE_SIZE + 1;
 
 	free(area->map);
+	free(area->map_owners);
 	free(area->players);
 	for (int e = 0; e < count; ++e)
 	{

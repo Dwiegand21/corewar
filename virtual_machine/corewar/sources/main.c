@@ -35,6 +35,21 @@ int			ft_make_vectors_for_timelime(t_vm_vector_int time[TIMELINE_SIZE + 1])
 	return (1); // todo protect
 }
 
+static inline int 	check_if_champ_our(char *name)
+{
+	if (name[0] == 'C' && ft_isdigit(name[1]))
+		return (1);
+	return (0);
+}
+
+static inline void find_and_set_our_champ(t_area *area)
+{
+	area->our_champ = -1;
+	if (check_if_champ_our(area->players[0].name))
+		area->our_champ = 0;
+	if (check_if_champ_our(area->players[1].name))
+		area->our_champ = area->our_champ == -1 ? 1 : -1;
+}
 
 int32_t		main(int argc, char **argv)
 {
@@ -50,6 +65,7 @@ int32_t		main(int argc, char **argv)
 	area->time = timeline;
 	timeout_time = time(0) + atoi(argv[1]);
 	read_arguments(area, argc - 2, argv + 2);
+	find_and_set_our_champ(area);
 	play_game(area);
 
 

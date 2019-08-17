@@ -36,13 +36,18 @@ void			skip_2octets(int32_t fd)
 
 int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
 {
+	int				i;
+	const int		start_pos = area->players[p_index].start_pos;
+	const int		code_end = start_pos + files[p_index].code_size;
 
-	if ( (read(files[p_index].fd,
+	if ((read(files[p_index].fd,
 			   area->map + area->players[p_index].start_pos,
-			   files[p_index].code_size)) != files[p_index].code_size )
+			   files[p_index].code_size)) != files[p_index].code_size)
 		ft_error(INV_CODE_SIZE, __func__);
 	load_process(area, p_index, area->players[p_index].start_pos);
-
+	i = start_pos - 1;
+	while (++i < code_end)
+		area->map_owners[i] = p_index;
 	close(files->fd);
 	return (0);
 }

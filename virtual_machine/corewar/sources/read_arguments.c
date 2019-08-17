@@ -30,14 +30,7 @@ int32_t		check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 
 int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 {
-	int32_t		i;
 	t_cor_file	files[2];
-	int 		champ_idx = -1;
-
-	///area->flags = check_flags(&argc, &argv, &SDUMP_CYCLE);
-	i = 0;
-	///if (argc == 0)
-	///	ft_error(ARGINV, __func__);
 
 	files[0].champ_index = -1;
 	files->file_name = argv[0];

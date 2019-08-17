@@ -28,10 +28,14 @@ void		lfork_op(t_area *area, t_process **carr) // dir_size = 2
 
 	process = area->carriages->data + process_id;
 
+	area->champs_cmd_awared[process->player] +=
+			area->map_owners[process->pc] == process->player;
+
 	PC = SHIFT(3);
 	process->f = get_op;
 	process->sleep = 1;
 	*carr = process;
+	++area->champs_cmd_total[process->player];
 }
 
 void		aff_op(t_area *area, t_process **carr) // dir_size = 4a
@@ -39,11 +43,15 @@ void		aff_op(t_area *area, t_process **carr) // dir_size = 4a
 	t_process	*process;
 
 	process = *carr;
-//	if (IS_REG(PPC(1)))
-//	{
-//		ft_putchar(PREG(PPC(1))); // ???
-//	}
+	if (IS_REG(PPC(1)))
+	{
+		area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
+		//ft_putchar(PREG(PPC(1))); // todo fix it
+	}
+
 	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }

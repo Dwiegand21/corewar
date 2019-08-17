@@ -12,6 +12,8 @@
 
 #include "virtual_machine.h"
 
+
+
 int32_t		get32(t_area *area, t_process *process, uint32_t shift)
 {
 	return ((((int32_t)(PPC(shift))) << 24)
@@ -31,6 +33,10 @@ void		set32(t_area *area,
 							uint32_t shift,
 							int32_t value)
 {
+	area->map_owners[(PC + shift) % MEM_SIZE] = process->player;
+	area->map_owners[(PC + shift + 1) % MEM_SIZE] = process->player;
+	area->map_owners[(PC + shift + 2) % MEM_SIZE] = process->player;
+	area->map_owners[(PC + shift + 3) % MEM_SIZE] = process->player;
 	PPC(shift) = (uint8_t)((value >> 24) & 0xFF);
 	PPC(shift + 1) = (uint8_t)((value >> 16) & 0xFF);
 	PPC(shift + 2) = (uint8_t)((value >> 8) & 0xFF);

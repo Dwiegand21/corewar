@@ -97,7 +97,27 @@ int32_t				play_game(register t_area *area)
 		{
 			if ((run_next_round(area, &area->time[area->current_index])) == false)
 			{
-				write(1, area->win == 0 ? "1\n" : "2\n", 2);
+				printf("%d", area->win + 1);
+				if (area->our_champ >= 0)
+					printf(" %f %d\n",
+						(double)area->champs_cmd_awared[area->our_champ] /
+						area->champs_cmd_total[area->our_champ],
+						   area->players[
+					   		(area->players[0].last_live > area->players[1].last_live ? 0 : 1)
+					   		].last_live);
+				else
+					printf("\n");
+//				write(1, area->win == 0 ? "1\n" : "2\n", 2);
+//				printf("Player 1 awareness: %f (%d/%d)\n",
+//					   (double)area->champs_cmd_awared[0] / area->champs_cmd_total[0],
+//					   area->champs_cmd_awared[0], area->champs_cmd_total[0]);
+//				printf("Player 2 awareness: %f (%d/%d)\n",
+//					   (double)area->champs_cmd_awared[1] / area->champs_cmd_total[1],
+//					   area->champs_cmd_awared[1], area->champs_cmd_total[1]);
+//				printf("Last cycle: %d\n",
+//					   area->players[
+//					   		(area->players[0].last_live > area->players[1].last_live ? 0 : 1)
+//					   		].last_live);
 				free_args(area);
 				return (0);
 			}
@@ -112,8 +132,8 @@ int32_t				play_game(register t_area *area)
 				free_args(area);
 				return (0);
 			}
-			area->current_index++;
-			current_round++;
+			++area->current_index;
+			area->g_stats.n_cycles = ++current_round;
 		}
 	}
 }

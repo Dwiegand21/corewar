@@ -24,11 +24,14 @@ void		sub_op(t_area *area, t_process **carr) // dir_size = 4ca
 		{
 			PREG(PPC(4)) = PREG(PPC(2)) - PREG(PPC(3));
 			CARRY = ((PREG(PPC(4)) == 0) ? true : false);
+			area->champs_cmd_awared[process->player] +=
+					area->map_owners[process->pc] == process->player;
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		and_op(t_area *area, t_process **carr) // dir_size = 4ca
@@ -47,10 +50,13 @@ void		and_op(t_area *area, t_process **carr) // dir_size = 4ca
 		result &= get_argument(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = result;
 		CARRY = ((result == 0) ? true : false);
+		area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		or_op(t_area *area, t_process **carr) // dir_size = 4ca
@@ -69,10 +75,13 @@ void		or_op(t_area *area, t_process **carr) // dir_size = 4ca
 		result |= get_argument(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = result;
 		CARRY = ((result == 0) ? true : false);
+		area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		xor_op(t_area *area, t_process **carr) // dir_size = 4ca
@@ -91,10 +100,13 @@ void		xor_op(t_area *area, t_process **carr) // dir_size = 4ca
 		result ^= get_argument(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = result;
 		CARRY = ((result == 0) ? true : false);
+		area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 4));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		zjmp_op(t_area *area, t_process **carr) // dir_size = 2
@@ -103,9 +115,14 @@ void		zjmp_op(t_area *area, t_process **carr) // dir_size = 2
 
 	process = *carr;
 	if (CARRY == true)
+	{
+		area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
 		PC = ISHIFT(((int32_t)get16(area, process, 1)));
+	}
 	else
 		PC = SHIFT(3);
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }

@@ -31,11 +31,14 @@ void		ldi_op(t_area *area, t_process **carr) // dir_size = 2a
 		if (IS_REG(PPC(shift)))
 		{
 			PREG(PPC(shift)) = get32(area, process, result % IDX_MOD);
+			area->champs_cmd_awared[process->player] +=
+					area->map_owners[process->pc] == process->player;
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		sti_op(t_area *area, t_process **carr) // dir_size = 2a
@@ -54,11 +57,14 @@ void		sti_op(t_area *area, t_process **carr) // dir_size = 2a
 	{
 			result = get_argument2(area, process, &shift, OCT01);
 			result += get_argument2(area, process, &shift, OCT02);
+			area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
 			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
 	}
 	PC = SHIFT(2 + fshift);
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		fork_op(t_area *area, t_process **carr) // dir_size = 2
@@ -77,10 +83,14 @@ void		fork_op(t_area *area, t_process **carr) // dir_size = 2
 
 	process = area->carriages->data + process_id;
 
+	area->champs_cmd_awared[process->player] +=
+			area->map_owners[process->pc] == process->player;
+
 	PC = SHIFT(3);
 	process->f = get_op;
 	process->sleep = 1;
 	*carr = process;
+	++area->champs_cmd_total[process->player];
 }
 
 void		lld_op(t_area *area, t_process **carr) // dir_size = 4ca
@@ -99,11 +109,14 @@ void		lld_op(t_area *area, t_process **carr) // dir_size = 4ca
 		{
 			PREG(PPC(shift)) = result;
 			CARRY = ((result == 0) ? true : false);
+			area->champs_cmd_awared[process->player] +=
+					area->map_owners[process->pc] == process->player;
 		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 2, 4));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }
 
 void		lldi_op(t_area *area, t_process **carr) // dir_size = 2ca
@@ -124,8 +137,11 @@ void		lldi_op(t_area *area, t_process **carr) // dir_size = 2ca
 		result += get_argument2(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = get32(area, process, result);
 		CARRY = (PREG(PPC(shift)) == 0) ? true : false;
+		area->champs_cmd_awared[process->player] +=
+				area->map_owners[process->pc] == process->player;
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
 	process->f = get_op;
 	process->sleep = 1;
+	++area->champs_cmd_total[process->player];
 }

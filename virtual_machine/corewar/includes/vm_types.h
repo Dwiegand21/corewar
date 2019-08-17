@@ -101,8 +101,12 @@ struct		s_game_condition
 struct		s_area
 {
 	t_vm_vector_prc *carriages;
-	uint8_t			*map;
-	t_gcond			g_stats;
+	uint8_t         *map;
+	uint8_t         *map_owners;
+	int8_t			our_champ;
+	int 			champs_cmd_total[2];
+	int 			champs_cmd_awared[2];
+	t_gcond         g_stats;
 
 	t_player		*players;
 	t_vm_vector_int		*time;
