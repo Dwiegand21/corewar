@@ -12,37 +12,50 @@
 
 #include "virtual_machine.h"
 
-void		lfork_op(t_area *area, t_process **carr) // dir_size = 2
+void		get_op(t_area *area, t_process **carr)
+{
+	t_process *const	process = *carr;
+	const unsigned char	byte = area->map[process->pc];
+
+	if (byte > 0 && byte < 17)
+	{
+		process->f = g_ops[byte].f;
+		process->sleep = g_ops[byte].sleep;
+	}
+	else
+	{
+		process->f = g_ops[0].f;
+		process->sleep = g_ops[0].sleep;
+	}
+}
+
+void		lfork_op(t_area *area, t_process **carr)
 {
 	int32_t		result;
 	t_process	*process;
-	int process_id;
-	t_process backup;
+	int			process_id;
+	t_process	backup;
 
 	process = *carr;
 	process_id = process->ordinal_number;
 	backup = *process;
-
 	result = get16(area, process, 1);
 	new_process(area, &backup, result);
-
 	process = area->carriages->data + process_id;
-
 	PC = SHIFT(3);
 	process->f = get_op;
 	process->sleep = 1;
 	*carr = process;
 }
 
-void		aff_op(t_area *area, t_process **carr) // dir_size = 4a
+void		aff_op(t_area *area, t_process **carr)
 {
-	t_process	*process;
+	t_process *const process = *carr;
 
-	process = *carr;
-//	if (IS_REG(PPC(1)))
-//	{
-//		ft_putchar(PREG(PPC(1))); // ???
-//	}
+	if (IS_REG(PPC(1)))
+	{
+//		ft_putchar(PREG(PPC(1))); // todo return it
+	}
 	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));
 	process->f = get_op;
 	process->sleep = 1;

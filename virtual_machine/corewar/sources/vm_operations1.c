@@ -12,48 +12,26 @@
 
 #include "virtual_machine.h"
 
-void		get_op(t_area *area, t_process **carr)
+void		next_op(t_area *area, t_process **carr)
 {
-	t_process	*process;
+	t_process	*const process = *carr;
 
-	process = *carr;
-	const unsigned char byte = area->map[process->pc];
-
-	if (byte > 0 && byte < 17)
-	{
-		process->f = g_ops[byte].f;
-		process->sleep = g_ops[byte].sleep;
-	}
-	else
-	{
-		process->f = g_ops[0].f;
-		process->sleep = g_ops[0].sleep;
-	}
-}
-
-void		next_op(t_area *area, t_process **carr) // dir_size = 4
-{
-	t_process	*process;
-
-	process = *carr;
 	PC = SHIFT(1);
 	process->f = get_op;
 	process->sleep = 1;
 }
 
-void		live_op(t_area *area, t_process **carr) // dir_size = 4
+void		live_op(t_area *area, t_process **carr)
 {
-	int32_t		value;
-	t_process	*process;
+	int32_t				value;
+	t_process *const	process = *carr;
 
-	process = *carr;
-//	LIVE_S = true;
 	process->n_lives = area->n_die_cycle + 1;
-	value = get32(area, process, 1);
-	if (value > -5 && value < 0)
+	value = -get32(area, process, 1) - 1;
+	if (value >= 0 && value < SN_PLAYERS)
 	{
-		area->players[(~(value))].last_live = SN_CYCLES;
-		area->win = ~value;
+		area->players[value].last_live = SN_CYCLES;
+		area->win = value;
 	}
 	SLIVES_IN_ROUND++;
 	PC = SHIFT(5);
@@ -61,20 +39,16 @@ void		live_op(t_area *area, t_process **carr) // dir_size = 4
 	process->sleep = 1;
 }
 
-void		ld_op(t_area *area, t_process **carr) // dir_size = 4ca
+void		ld_op(t_area *area, t_process **carr)
 {
-	uint32_t	shift;
-	int32_t 	result;
-	t_process	*process;
-
-	process = *carr;
+	uint32_t			shift;
+	int32_t				result;
+	t_process *const	process = *carr;
 
 	shift = 2;
 	if (DI_T(OCT00) && R_T(OCT01))
 	{
 		result = get_argument(area, process, &shift, OCT00);
-//		if (I_T(OCT00))
-//			result %= IDX_MOD;
 		if (IS_REG(PPC(shift)))
 		{
 			PREG(PPC(shift)) = result;
@@ -86,12 +60,10 @@ void		ld_op(t_area *area, t_process **carr) // dir_size = 4ca
 	process->sleep = 1;
 }
 
-void		st_op(t_area *area, t_process **carr) // dir_size = 4a
+void		st_op(t_area *area, t_process **carr)
 {
-	uint32_t	shift;
-	t_process	*process;
-
-	process = *carr;
+	uint32_t			shift;
+	t_process *const	process = *carr;
 
 	shift = shift_size(PPC(1), 2, 4);
 	if (R_T(OCT00) && RI_T(OCT01)
@@ -115,11 +87,10 @@ void		st_op(t_area *area, t_process **carr) // dir_size = 4a
 	process->sleep = 1;
 }
 
-void		add_op(t_area *area, t_process **carr) // dir_size = 4ca
+void		add_op(t_area *area, t_process **carr)
 {
-	t_process	*process;
+	t_process *const process = *carr;
 
-	process = *carr;
 	if (R_T(OCT00) && R_T(OCT01) && R_T(OCT02))
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))

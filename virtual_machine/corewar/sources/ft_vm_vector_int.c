@@ -14,11 +14,10 @@
 #include "libft.h"
 #include "vm_vector.h"
 
-static inline int				*ft_realloc_vm(int *old_data, int prev_size,
-								int new_size)
+static inline int		*ft_realloc_vm(int *old_data, int prev_size,
+		int new_size)
 {
 	int		*new_data;
-//	int		i;
 
 	if (!old_data)
 		return (0);
@@ -29,17 +28,11 @@ static inline int				*ft_realloc_vm(int *old_data, int prev_size,
 		return (0);
 	}
 	ft_memcpy(new_data, old_data, prev_size * sizeof(int));
-//	i = 0;
-//	while (i < prev_size && i < new_size)
-//	{
-//		new_data[i] = old_data[i];
-//		++i;
-//	}
 	free(old_data);
 	return (new_data);
 }
 
-t_vm_vector_int		*ft_make_vm_vector_int(int init_size)
+t_vm_vector_int			*ft_make_vm_vector_int(int init_size)
 {
 	t_vm_vector_int *v;
 
@@ -57,7 +50,8 @@ t_vm_vector_int		*ft_make_vm_vector_int(int init_size)
 	return (v);
 }
 
-t_vm_vector_int		*ft_init_vm_vector_int(t_vm_vector_int *v, int init_size)
+t_vm_vector_int			*ft_init_vm_vector_int(t_vm_vector_int *v,
+		int init_size)
 {
 	v->len = 0;
 	v->offset = 0;
@@ -72,12 +66,12 @@ t_vm_vector_int		*ft_init_vm_vector_int(t_vm_vector_int *v, int init_size)
 	return (v);
 }
 
-char			ft_vm_vector_int_push_back(t_vm_vector_int *v, int c)
+char					ft_vm_vector_int_push_back(t_vm_vector_int *v, int c)
 {
 	if (v->len == v->capacity - 1)
 	{
 		v->data = ft_realloc_vm(v->data, v->capacity,
-								  v->capacity * 2);
+				v->capacity * 2);
 		if (!v->data)
 		{
 			return (0);
@@ -89,7 +83,7 @@ char			ft_vm_vector_int_push_back(t_vm_vector_int *v, int c)
 	return (1);
 }
 
-char 			ft_vm_vector_int_realloc(t_vm_vector_int *v)
+char					ft_vm_vector_int_realloc(t_vm_vector_int *v)
 {
 	v->data = ft_realloc_vm(v->data, v->capacity,
 							v->capacity * 2);

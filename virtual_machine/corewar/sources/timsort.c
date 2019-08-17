@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
-#include <stdio.h>
-#include "vm_constants.h"
 #include "virtual_machine.h"
+#include "vm_vector.h"
+
+#define TOP_ARR_SIZE stack[stack_size - 1][1]
+#define MID_ARR_SIZE stack[stack_size - 2][1]
+#define BOT_ARR_SIZE stack[stack_size - 3][1]
 
 static inline unsigned int	ft_get_minrun(size_t len)
 {
@@ -63,8 +67,6 @@ static inline void	ft_insertion_sort(register int *data, register unsigned int l
 	}
 }
 
-/// note only array bigger than 2
-/// note send (data + 1)
 static inline unsigned int	ft_find_subarray_len(int *data, unsigned int minrun,
 		const int *array_end)
 {
@@ -88,78 +90,10 @@ static inline unsigned int	ft_find_subarray_len(int *data, unsigned int minrun,
 	return (len);
 }
 
-
-int ft_check_sorted(const int *data, int len)
-{
-	for (int i = 0; i < len - 1; ++i)
-	{
-		if (data[i] < data[i + 1])
-			return (0);
-	}
-	return (1);
-}
-
-#include <stdlib.h>
-#include <time.h>
-#include <vm_types.h>
-#include <vm_vector.h>
-
-int ft_fill_rand_array(int *arr, int max_size)
-{
-	srand(time(NULL) + rand());
-	int len = rand() % max_size + 64;
-	len = max_size;
-
-	for (int i = 0; i < len; ++i)
-	{
-		arr[i] = rand() % 1000;
-	}
-	return (len);
-}
-
-void ft_test_sort(int maxsize, int try_count)
-{
-	int *arr = malloc(sizeof(int) * maxsize);
-	int i = -1;
-
-	while (++i < try_count)
-	{
-		int len = ft_fill_rand_array(arr, maxsize);
-		int before = ft_check_sorted(arr, len);
-		ft_timsort_int(arr, len);
-		//ft_insertion_sort(arr, len);
-		int after = ft_check_sorted(arr, len);
-		if (after != 1)
-		{
-			//printf("PIDOR SUKA!\n");
-		}
-		//else
-		//	printf("GG\n");
-	}
-}
-
-#define TOP_ARR_SIZE stack[stack_size - 1][1]
-#define MID_ARR_SIZE stack[stack_size - 2][1]
-#define BOT_ARR_SIZE stack[stack_size - 3][1]
-
-static inline void push_to_stack(int curr_subarr, unsigned int subarrays[][2],
-								 unsigned int stack[][2], int idx_stack)
-{
-	stack[idx_stack][0] = subarrays[curr_subarr][0];
-	stack[idx_stack][1] = subarrays[curr_subarr][1];
-}
-
-static inline unsigned int ft_min(unsigned int a, unsigned int b)
-{
-	return (a <= b ? a : b);
-}
-
-// todo lhs->size need to be less than rhs->size
 static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rhs[2])
 {
 	const unsigned int	zl = lhs[1];
 	const unsigned int	zr = rhs[1];
-	//int					buffer[zl];
 	unsigned int 		i;
 	unsigned int 		j;
 	int 				*left;
@@ -168,7 +102,7 @@ static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rh
 
 	left = data + lhs[0] - 1;
 	right = data + rhs[0];
-	buf = ft_memcpy(buffer->data, left + 1, zl * sizeof(int));
+	buf = ft_memcpy(g_buffer->data, left + 1, zl * sizeof(int));
 	i = 0;
 	j = 0;
 	while (i < zl && j < zr && ++left)
@@ -182,12 +116,10 @@ static inline void	ft_merge_left(int *data, unsigned int lhs[2], unsigned int rh
 		*left = *right++;
 }
 
-// todo rhs->size need to be less than lhs->size
 static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int rhs[2])
 {
 	const unsigned int	zl = lhs[1];
 	const unsigned int	zr = rhs[1];
-	//int					buffer[zl];
 	unsigned int 		i;
 	unsigned int 		j;
 	int 				*left;
@@ -196,7 +128,7 @@ static inline void	ft_merge_right(int *data, unsigned int lhs[2], unsigned int r
 
 	left = data + lhs[0] + zl - 1;
 	right = data + rhs[0] + zr;
-	buf = (int*)ft_memcpy(buffer->data, right - zr, zr * sizeof(int)) + zr - 1;
+	buf = (int*)ft_memcpy(g_buffer->data, right - zr, zr * sizeof(int)) + zr - 1;
 	i = zl;
 	j = zr;
 	while (i > 0 && j > 0 && --right)
@@ -220,7 +152,6 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 	unsigned int	mid_arr_size;
 	unsigned int	bot_arr_size;
 
-
 	end = 0;
 	stack_size = 0;
 	ft_bzero(stack, (len / minrun + 1) * 2 * sizeof(int));
@@ -240,7 +171,6 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 			{
 				ft_merge_left(data, stack[stack_size - 1], stack[stack_size]);
 				stack[stack_size - 1][1] = mid_arr_size + top_arr_size;
-				//--stack_size;
 			}
 			else if (stack_size >= 3 && bot_arr_size <= mid_arr_size + top_arr_size && --stack_size)
 			{
@@ -250,7 +180,6 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 					ft_merge_right(data, stack[stack_size - 1], stack[stack_size]) :
 					ft_merge_left(data, stack[stack_size - 1], stack[stack_size]);
 					stack[stack_size - 1][1] = mid_arr_size + top_arr_size;
-					//--stack_size;
 				}
 				else
 				{
@@ -259,7 +188,6 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 					ft_merge_right(data, stack[stack_size - 2], stack[stack_size - 1]);
 					stack[stack_size - 2][1] = bot_arr_size + mid_arr_size;
 					((void**)stack)[stack_size - 1] = ((void**)stack)[stack_size];
-					//--stack_size;
 				}
 			}
 		}
@@ -270,57 +198,20 @@ void	ft_timsort_split_and_merge(int *data, size_t len, unsigned int minrun, int 
 		ft_merge_right(data, stack[stack_size - 1], stack[stack_size]) :
 		ft_merge_left(data, stack[stack_size - 1], stack[stack_size]);
 		stack[stack_size - 1][1] = mid_arr_size + top_arr_size;
-		//--stack_size;
 	}
-
-
-//	if (ft_check_sorted(data, len))
-//	{
-//		//printf("OK\n");
-//	}
-//	else
-//	{
-//		printf("KO: ");
-//		for (size_t e = 0; e < len; ++e)
-//		{
-//			printf("%3d ", data[e]);
-//			if ((e + 1) % minrun == 0)
-//				printf("| ");
-//		}
-//		printf("\n");
-//	}
-
-
-	// todo if subarrays_count >= 3
-
 }
-
-
-
 
 void	ft_timsort_int(int *data, int len)
 {
 	const unsigned int		minrun = ft_get_minrun(len);
 	int *const				array_end = data + len;
 
-//	printf("{");
-//	for (int e = 0; e < len; ++e)
-//		printf("%d, ", data[e]);
-//	printf("}\n");
-
-	//printf("buf capac %d\n", buffer->capacity);
-	while (buffer->capacity < len)
-		ft_vm_vector_int_realloc(buffer); // todo protect ??
+	while (g_buffer->capacity < len)
+		ft_vm_vector_int_realloc(g_buffer); // todo protect ??
 
 	if (len <= 64)
 	{
 		return (ft_insertion_sort(data, len));
 	}
 	ft_timsort_split_and_merge(data, len, minrun, array_end);
-}
-
-void ft_timsort_test(void)
-{
-	ft_test_sort(100000, 100);
-
 }

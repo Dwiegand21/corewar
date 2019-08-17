@@ -14,8 +14,8 @@
 #include "libft.h"
 #include "vm_vector.h"
 
-static inline void				*ft_realloc_vm(void *old_data, size_t prev_size,
-												 size_t new_size)
+static inline void		*ft_realloc_vm(void *old_data, size_t prev_size,
+		size_t new_size)
 {
 	void	*new_data;
 	size_t	i;
@@ -38,11 +38,10 @@ static inline void				*ft_realloc_vm(void *old_data, size_t prev_size,
 	return (new_data);
 }
 
-static inline void				*ft_realloc_vm_free(void *old_data, size_t prev_size,
-													  size_t new_size)
+static inline void		*ft_realloc_vm_free(void *old_data, size_t prev_size,
+		size_t new_size)
 {
 	void	*new_data;
-	//size_t	i;
 
 	if (!old_data)
 		return (0);
@@ -53,17 +52,11 @@ static inline void				*ft_realloc_vm_free(void *old_data, size_t prev_size,
 		return (0);
 	}
 	ft_memcpy(new_data, old_data, prev_size);
-//	i = 0;
-//	while (i < prev_size && i < new_size)
-//	{
-//		((char*)new_data)[i] = ((char*)old_data)[i];
-//		++i;
-//	}
 	free(old_data);
 	return (new_data);
 }
 
-t_vm_vector_prc		*ft_make_vm_vector_prc(int init_size)
+t_vm_vector_prc			*ft_make_vm_vector_prc(int init_size)
 {
 	t_vm_vector_prc *v;
 
@@ -80,7 +73,7 @@ t_vm_vector_prc		*ft_make_vm_vector_prc(int init_size)
 	return (v);
 }
 
-t_process			*ft_vm_vector_prc_push_back(t_vm_vector_prc **v_ptr)
+t_process				*ft_vm_vector_prc_push_back(t_vm_vector_prc **v_ptr)
 {
 	t_vm_vector_prc *v;
 
@@ -89,8 +82,9 @@ t_process			*ft_vm_vector_prc_push_back(t_vm_vector_prc **v_ptr)
 	v = *v_ptr;
 	if (v->len == v->capacity - 1)
 	{
-		v->data = ft_realloc_vm_free(v->data, v->capacity * sizeof(t_process),
-									 v->capacity * 2 * sizeof(t_process));
+		v->data = ft_realloc_vm_free(v->data,
+				v->capacity * sizeof(t_process),
+				v->capacity * 2 * sizeof(t_process));
 		if (!v->data)
 		{
 			ft_free_vm_vector_prc(v_ptr);
@@ -98,7 +92,5 @@ t_process			*ft_vm_vector_prc_push_back(t_vm_vector_prc **v_ptr)
 		}
 		v->capacity *= 2;
 	}
-	//v->data[v->len++] = c;
-	//v->data[v->len] = 0;
 	return (&v->data[v->len++]);
 }

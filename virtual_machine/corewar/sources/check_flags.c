@@ -12,7 +12,6 @@
 
 #include "virtual_machine.h"
 
-
 int32_t			check_dupm_flag(int32_t *argc, char ***argv, int32_t *dump)
 {
 	if (ft_strcmp(**argv, "-d") != 0)
@@ -63,17 +62,6 @@ int32_t			check_flags(int32_t *argc, char ***argv, int32_t *dump)
 			flags |= VISUALIZATION;
 		else if (ft_strcmp(*(*argv), "-p") == 0)
 			flags |= PROCESS_PRINT;
-		else if (ft_strcmp(*(*argv), "-db") == 0)
-		{
-			flags |= STEP_DEBUG;
-			if (*argc - 1 > 0 && ft_strncmp(*((*argv) + 1), "::", 2) == 0)
-			{
-				(*argc)--;
-				(*argv)++;
-				g_db_from = ft_atoi((**argv) + 2);
-
-			}
-		}
 		else
 			break ;
 		(*argc)--;

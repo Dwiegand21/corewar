@@ -13,89 +13,12 @@
 #include <time.h>
 #include "virtual_machine.h"
 
-#define DBG 0
-
-int is_ok = 0;
-
 static void			winner(t_area *area)
 {
 	printf("Contestant %d, \"%s\", has won !\n",
 			area->players[area->win].ordinal_number,
 			area->players[area->win].name);
 	fflush(stdout);
-}
-
-int32_t				set_process_op_and_sleep(t_process *process, u_char byte)
-{
-	if (byte > 0 && byte < 17)
-	{
-		process->f = g_ops[byte].f;
-		process->sleep = g_ops[byte].sleep;
-	}
-	else
-	{
-		process->f = g_ops[0].f;
-		process->sleep = g_ops[0].sleep;
-	}
-	return (1);
-}
-
-//int32_t			insert(t_process **head, t_process *process)
-//{
-//	t_process *cur;
-//
-//	static int count = 0;
-//	static int big_lst_count = 0;
-//
-//	if (head == 0)
-//	{
-//		printf("Insert called %d times\n", count);
-//		printf("Big_lst_count = %d\n", big_lst_count);
-//		return (0);
-//	}
-//	++count;
-//
-//	//struct timespec tw = {0,1000};
-//
-//	//nanosleep(&tw, 0);
-//
-//	cur = *head;
-//
-//	if (ft_get_lst_size(cur) > 1000)
-//		++big_lst_count;
-//
-//	if (cur == NULL)
-//	{
-//		*head = process;
-//		process->next = NULL;
-//	}
-//	else if (process->ordinal_number >= cur->ordinal_number)
-//	{
-//		process->next = (*head);
-//		(*head) = process;
-//	}
-//	else
-//	{
-//		while (cur->next != NULL
-//			   && process->ordinal_number < cur->next->ordinal_number)
-//			cur = cur->next;
-//		process->next = cur->next;
-//		cur->next = process;
-//	}
-//	return (1);
-//}
-
-static inline char		*find_cmd_name(void	(*f)())
-{
-	int i = -1;
-	while (++i < 19)
-	{
-		if (f == g_ops[i].f)
-		{
-			return g_ops[i].name;
-		}
-	}
-	return (NULL);
 }
 
 static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
@@ -123,12 +46,6 @@ static int32_t			run_next_round(t_area *area, t_vm_vector_int *v)
 		}
 		else
 		{
-//			if (DBG && curr->f != get_op && curr->f != next_op)
-//			{
-//				printf("P %d | %s\n", curr->ordinal_number + 1, find_cmd_name(curr->f));
-//				printf("ACTION: %s {%d}\n", find_cmd_name(curr->f),
-//					   curr->ordinal_number + 1);
-//			}
 			wasnt_next = (curr->f != next_op);
 			curr->f(area, &curr);
 			if (wasnt_next)
@@ -187,32 +104,17 @@ int32_t				play_game(t_area *area)
 		area->current_index = 0;
 		while (area->current_index < TIMELINE_SIZE)
 		{
-//			if (DBG)
-//				printf("%d> ", current_round);
-//			if (DBG)
-//				ft_print_timeline(area->time, current_round, area->g_stats.n_processes);
-///			if (area->g_stats.n_processes > peak_processes)
-///			{
-///				peak_processes = area->g_stats.n_processes;
-///				death_count = area->carriages->len - peak_processes;
-///			}
 			if ((run_next_round(area, &area->time[area->current_index])) == false)
 			{
 				winner(area);
-
-				///printf("Peak processes %d, Dead count: %d\n", peak_processes, death_count);
-
 				free_args(&area); // todo uncomment it
 				return (0);
 			}
 			if (current_round == SDUMP_CYCLE)
 			{
-				if (!DBG)
-					print_dump(area);
+				print_dump(area);
 				return (0);
 			}
-//			if (DBG)
-//				printf("\n");
 			if (current_round >= SDIE_CYCLE)
 			{
 				change_area_stats(area);
