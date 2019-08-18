@@ -48,7 +48,7 @@ async def find_error(player1, player2, directory):
             # print(progress)
             # print(b'stdout1 ' + stdout1, b'stderr1 ' + stderr1, b'stdout2 ' + stdout2, b'stderr2 ' + stderr2, sep='\n')
             return True if stdout1 == stdout2 else False
-    dump_time = 5000
+    dump_time = 0
     while dump_time <= 30000:
         result = await sparring(dump_time)
         # print(result)
