@@ -55,11 +55,8 @@ int32_t		get_argument(t_area *area,
 	}
 }
 
-
-int32_t		get_argument2(t_area *area,
-							t_process *process,
-							uint32_t *shift,
-							uint8_t type)
+int32_t		get_argument2(t_area *area, t_process *process, uint32_t *shift,
+		uint8_t type)
 {
 	if (R_T(type))
 	{
@@ -79,9 +76,7 @@ int32_t		get_argument2(t_area *area,
 	}
 }
 
-/* - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - */
-
-int 		escape(uint8_t arg, int32_t dir_size)
+int			escape(uint8_t arg, int32_t dir_size)
 {
 	if (R_T(arg))
 		return (1);
@@ -91,10 +86,8 @@ int 		escape(uint8_t arg, int32_t dir_size)
 		return (dir_size);
 }
 
-int 		check_registers(t_area *area,
-							t_process *process,
-							int32_t	n_args,
-							int32_t	dir_size)
+int			check_registers(t_area *area, t_process *process, int32_t n_args,
+		int32_t dir_size)
 {
 	uint8_t		args_type;
 	int32_t		shift;

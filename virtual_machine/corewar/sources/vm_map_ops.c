@@ -36,12 +36,3 @@ void		set32(t_area *area,
 	PPC(shift + 2) = (uint8_t)((value >> 8) & 0xFF);
 	PPC(shift + 3) = (uint8_t)((value >> 0) & 0xFF);
 }
-
-void		set16(t_area *area,
-							t_process *process,
-							uint32_t shift,
-							int16_t value)
-{
-	PPC(shift) = (uint8_t)(value & 0xFF);
-	PPC(shift + 1) = (uint8_t)((value >> 8) & 0xFF);
-}

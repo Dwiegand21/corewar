@@ -21,11 +21,8 @@ SFILES		= main.c \
 					vm_game.c \
 					vm_print_dump.c \
 					vm_processes_ops.c \
-					ft_custom_tools.c \
 					ft_vm_vector_int.c \
-					ft_vm_vector_int_utils.c \
 					ft_vm_vector_prc.c \
-					ft_vm_vector_prc_utils.c \
 					timsort.c \
 					timsort_merge.c
 

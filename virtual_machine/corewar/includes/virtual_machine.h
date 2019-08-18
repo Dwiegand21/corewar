@@ -54,7 +54,7 @@ void		delete_process(void **p);
 **		helpers.c
 */
 void		bytes_reverse(void *param, size_t size);
-void		print_map(uint8_t *map);
+void		winner(t_area *area);
 
 /*
 **		initialization.c

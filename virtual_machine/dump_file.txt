@@ -1,1 +1,9 @@
+_.cor fast.cor 15000
+_.cor helltrain.cor 15000
+_.cor _honeybadger.cor 20000
+_.cor gateau.cor 25000
+_.cor Code_eater.cor 20000
+_.cor Douceur_power.cor 25000
+Asombra.cor terminator.cor 15000
 Asombra.cor turtle.cor 25000
+Bazou.cor Kappa.cor 20000

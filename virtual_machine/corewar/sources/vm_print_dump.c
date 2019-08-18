@@ -13,23 +13,10 @@
 #include "virtual_machine.h"
 #include <stdlib.h>
 
-void			print_bits(void *p, size_t size)
-{
-	while (size--)
-	{
-		for (int j = 7; j >= 0; j--)
-		{
-			printf("%d", ((*((char*)p) >> (size * 8 + j)) & 0x01));
-		}
-		printf(" ");
-	}
-	printf("\n");
-}
-
 static void		print_hex_addr(int32_t index)
 {
 	int32_t		i;
-	char 		c;
+	char		c;
 
 	write(1, "0x", 2);
 	i = 0;
@@ -58,36 +45,6 @@ static void		char_to_hex(uint8_t c)
 		ft_putchar(((c & 0x0f)) % 10 + 'a');
 }
 
-void	print_vector_elems(void **p)
-{
-	if (p == NULL || *p == NULL)
-		return ;
-	ft_putnbr(((t_process *)(*p))->player);
-	ft_putnbr(((t_process *)(*p))->pc);
-	ft_putendl("");
-}
-
-static void		print_processes(t_vm_vector_prc *carriages, t_vm_vector_int *time)
-{
-	if (DUMP_CMP == 0)
-		return ;
-	ft_putendl(PROC_PRINT);
-	t_process *p;
-	for(int i = 0; i < TIMELINE_SIZE; i++)
-	{
-		if (time[i].len != 0)
-		{
-			for (int j = 0; j < time[i].len; ++j)
-			{
-				p = &carriages->data[time[i].data[j]];
-				print_vector_elems((void **)&p);
-			}
-		}
-	}
-	//ft_vector_iter(v, &print_vector_elems);
-	ft_putendl(PROC_PRINT);
-}
-
 void			print_dump(t_area *area)
 {
 	int32_t		i;
@@ -107,8 +64,4 @@ void			print_dump(t_area *area)
 		write(1, " \n", 2);
 		i++;
 	}
-	if (area->flags & PROCESS_PRINT)
-		print_processes(area->carriages, area->time);
-	//fprintf(stderr, "processes: %u\n", area->g_stats.next_process_index);
-///	exit (1);
 }

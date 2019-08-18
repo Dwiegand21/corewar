@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "virtual_machine.h"
+#include <stdio.h>
 
 void		bytes_reverse(void *param, size_t size)
 {
@@ -25,4 +26,12 @@ void		bytes_reverse(void *param, size_t size)
 		*(((char *)param) + size - 1 - i) = tmp;
 		i++;
 	}
+}
+
+void		winner(t_area *area)
+{
+	printf("Contestant %d, \"%s\", has won !\n",
+			area->players[area->win].ordinal_number,
+			area->players[area->win].name);
+	fflush(stdout);
 }
