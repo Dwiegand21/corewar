@@ -106,6 +106,7 @@ struct		s_area
 	int8_t			our_champ;
 	int 			champs_cmd_total[2];
 	int 			champs_cmd_awared[2];
+	int 			champs_agro[2];
 	t_gcond         g_stats;
 
 	t_player		*players;

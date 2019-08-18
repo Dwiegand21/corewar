@@ -98,15 +98,18 @@ int32_t				play_game(register t_area *area)
 			if ((run_next_round(area, &area->time[area->current_index])) == false)
 			{
 				printf("%d", area->win + 1);
+				int endgame = area->players[
+								(area->players[0].last_live > area->players[1].last_live ? 0 : 1)
+								].last_live;
 				if (area->our_champ >= 0)
-					printf(" %f %d\n",
+					printf(" %f %d %d\n",
 						(double)area->champs_cmd_awared[area->our_champ] /
 						area->champs_cmd_total[area->our_champ],
-						   area->players[
-					   		(area->players[0].last_live > area->players[1].last_live ? 0 : 1)
-					   		].last_live);
+						area->champs_agro[area->our_champ],
+						endgame);
 				else
 					printf("\n");
+				//printf("1 %d\n2 %d\n", area->champs_agro[0], area->champs_agro[1]);
 //				write(1, area->win == 0 ? "1\n" : "2\n", 2);
 //				printf("Player 1 awareness: %f (%d/%d)\n",
 //					   (double)area->champs_cmd_awared[0] / area->champs_cmd_total[0],
