@@ -14,7 +14,7 @@
 
 void				help(void)
 {
-	printf("%s", USAGE);
+	printf("%s", g_usage);
 }
 
 static inline int	ft_make_vectors_for_timelime(
@@ -31,7 +31,7 @@ static inline int	ft_make_vectors_for_timelime(
 int32_t				main(int argc, char **argv)
 {
 	t_area			*area;
-	t_vm_vector_int	time[TIMELINE_SIZE + 1];
+	t_vm_vector_int	time[TIMELINE_SIZE];
 
 	ft_make_vectors_for_timelime(time);
 	if (!(g_sort_buffer = ft_make_vm_vector_int(INIT_SORT_BUF_SIZE)))

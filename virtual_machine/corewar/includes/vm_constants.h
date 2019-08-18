@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
-# define COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
+#ifndef VM_CONSTANTS_H
+# define VM_CONSTANTS_H
 
 # define INIT_VECTOR_SIZE 256
 # define INIT_CARRIAGES_COUNT 4096
@@ -27,10 +27,6 @@
 # define INV_FILE				"Invalid file\n"
 # define INV_ARGS				"Invalide arguments\n"
 # define INV_CODE_SIZE			"Invalide code size\n"
-
-
-# define USAGE					"\
-Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 
 /*
 **					FLAGS_DEFINES
@@ -101,7 +97,6 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define PRS_KEY(x)			(((t_pair *)(x))->key)
 # define PRS_VALUE(x)		((t_process *)(((t_pair *)(x))->value))
 
-
 /*
 **					OP.H DEFINES
 */
@@ -138,4 +133,4 @@ Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
 # define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-#endif // COREWAR_VIRTUAL_MACHINE_CONSTANTS_H
+#endif

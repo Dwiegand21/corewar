@@ -26,6 +26,6 @@ void			ft_merge_rest(unsigned int stack[][2],
 		int stack_size, unsigned int arr_sizes[3], int *data);
 
 int				ft_merge_if_need(unsigned int stack[][2],
-					 int stack_size, unsigned int *arr_sizes, int *data);
+		int stack_size, unsigned int *arr_sizes, int *data);
 
 #endif

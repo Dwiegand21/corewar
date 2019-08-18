@@ -12,13 +12,19 @@
 
 #include "virtual_machine.h"
 
-void		free_args(t_area **p)
+void		free_args(t_area *area)
 {
-	if (*p)
-	{
-		free((*p)->map);
-		free((*p)->players);
-		free(*p);
-	}
-	*p = NULL;
+	t_vm_vector_int *const	timeline = area->time;
+	int						i;
+
+	i = -1;
+	free(area->map);
+	free(area->players);
+	while (++i < TIMELINE_SIZE)
+		free(timeline[i].data);
+	free(area->carriages->data);
+	free(area->carriages);
+	free(g_sort_buffer->data);
+	free(g_sort_buffer);
+	free(area);
 }

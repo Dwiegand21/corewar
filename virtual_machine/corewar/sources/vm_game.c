@@ -82,12 +82,13 @@ static inline int			one_cycle(t_area *area, register int current_round)
 	if ((run_next_round(area, &area->time[area->current_index])) == false)
 	{
 		winner(area);
-		free_args(&area);
+		free_args(area);
 		return (0);
 	}
 	if (current_round == SDUMP_CYCLE)
 	{
 		print_dump(area);
+		free_args(area);
 		return (0);
 	}
 	if (current_round >= SDIE_CYCLE)

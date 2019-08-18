@@ -13,7 +13,7 @@
 #include "virtual_machine.h"
 #include <stdlib.h>
 
-static void		print_hex_addr(int32_t index)
+static inline void	print_hex_addr(int32_t index)
 {
 	int32_t		i;
 	char		c;
@@ -33,7 +33,7 @@ static void		print_hex_addr(int32_t index)
 	write(1, " :", 2);
 }
 
-static void		char_to_hex(uint8_t c)
+static inline void	char_to_hex(uint8_t c)
 {
 	if (((c >> 4) & 0x0f) < 10)
 		ft_putchar(((c & 0xf0) >> 4) + '0');
@@ -45,11 +45,36 @@ static void		char_to_hex(uint8_t c)
 		ft_putchar(((c & 0x0f)) % 10 + 'a');
 }
 
-void			print_dump(t_area *area)
+static inline int	is_endgame(t_area *area, t_process *curr)
+{
+	int				i;
+	int				j;
+	int				*data;
+	int				len;
+	t_vm_vector_int	*v;
+
+	i = -1;
+	while (++i < TIMELINE_SIZE && (j = -1))
+	{
+		v = &area->time[i];
+		data = v->data;
+		len = v->len;
+		while (++j < len && (curr = &area->carriages->data[data[j]]))
+		{
+			if (curr->n_lives >= area->n_die_cycle)
+				return (0);
+		}
+	}
+	return (1);
+}
+
+void				print_dump(t_area *area)
 {
 	int32_t		i;
 	int32_t		j;
 
+	if (is_endgame(area, 0))
+		return (winner(area));
 	i = 0;
 	while (i < 64)
 	{
@@ -61,7 +86,7 @@ void			print_dump(t_area *area)
 			char_to_hex(MAP[i * 64 + j]);
 			j++;
 		}
-		write(1, " \n", 2);
+		write(1, " \n", 2); // todo fucking space
 		i++;
 	}
 }

@@ -20,7 +20,6 @@
 # include <stdbool.h>
 # include <limits.h>
 
-
 # include <fcntl.h>
 # include <sys/types.h>
 
@@ -29,27 +28,15 @@
 # include "libft.h"
 # include "vm_vector.h"
 
-# define DEBUG_			0			// Debug mode
-# define DEBUG_MAP_ 	0			// Print map
-# define DEBUG_OPS_		0			// Operations stats
-# define DUMP_CMP		1			// Print processes position on
-
 extern t_ops			g_ops[19];
-extern int32_t			g_db_from;
-extern int32_t			get_next_op_round(t_vector *p);
-extern void				move_first_process(t_vector *p);
 extern t_vm_vector_int	*g_sort_buffer;
+extern char				g_usage[];
 
 /*
 **		timsort.c
 */
-void		ft_timsort_test(void);
 void		ft_timsort_int(int *data, unsigned int ref_len);
 
-int32_t		set_process_op_and_sleep(t_process *process, u_char byte);
-
-int32_t		heap_cmp(void *p1, void *p2);
-void		delete_process(void **p);
 /*
 **		helpers.c
 */
@@ -74,7 +61,7 @@ int			initialization_players(t_area *area, t_cor_file *files);
 /*
 **		free_args.c
 */
-void		free_args(t_area **p);
+void		free_args(t_area *p);
 
 /*
 **		check_flags.c
@@ -128,29 +115,24 @@ void		aff_op(t_area *area, t_process **carr);
 */
 uint32_t	shift_size(uint8_t arg_byte, int32_t arg_n, uint32_t dir_size);
 int32_t		get_argument(t_area *area, t_process *process,
-							uint32_t *shift, uint8_t type);
+		uint32_t *shift, uint8_t type);
 int32_t		get_argument2(t_area *area, t_process *process,
-							uint32_t *shift, uint8_t type);
-int 		check_registers(t_area *area,
-						   t_process *process,
-						   int32_t	n_args,
-						   int32_t	dir_size);
+		uint32_t *shift, uint8_t type);
+int			check_registers(t_area *area, t_process *process, int32_t n_args,
+		int32_t dir_size);
 /*
 **		vm_map_ops.c
 */
 int32_t		get32(t_area *area, t_process *process, uint32_t shift);
 int16_t		get16(t_area *area, t_process *process, uint32_t shift);
 void		set32(t_area *area,
-							t_process *process, uint32_t shift, int32_t value);
-void		set16(t_area *area,
-							t_process *process, uint32_t shift, int16_t value);
+		t_process *process, uint32_t shift, int32_t value);
 
 /*
 **		vm_game.c
 */
-int32_t		insert(t_process **head, t_process *process);
 int32_t		play_game(t_area *area);
 
 void		print_dump(t_area *area);
 
-#endif // COREWAR_VIRTUAL_MACHINE_H
+#endif
