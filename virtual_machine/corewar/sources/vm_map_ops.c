@@ -28,15 +28,13 @@ int16_t		get16(t_area *area, t_process *process, uint32_t shift)
 			| (((int16_t)(PPC(shift + 1))) << 0));
 }
 
-void		set32(t_area *area,
-							t_process *process,
-							uint32_t shift,
-							int32_t value)
+void set32(t_area *area, t_process *process, uint32_t shift, int32_t value,
+		   int whose)
 {
-	area->map_owners[(PC + shift) % MEM_SIZE] = process->player;
-	area->map_owners[(PC + shift + 1) % MEM_SIZE] = process->player;
-	area->map_owners[(PC + shift + 2) % MEM_SIZE] = process->player;
-	area->map_owners[(PC + shift + 3) % MEM_SIZE] = process->player;
+	area->map_owners[(PC + shift) % MEM_SIZE] = 	whose;
+	area->map_owners[(PC + shift + 1) % MEM_SIZE] = whose;
+	area->map_owners[(PC + shift + 2) % MEM_SIZE] = whose;
+	area->map_owners[(PC + shift + 3) % MEM_SIZE] = whose;
 	PPC(shift) = (uint8_t)((value >> 24) & 0xFF);
 	PPC(shift + 1) = (uint8_t)((value >> 16) & 0xFF);
 	PPC(shift + 2) = (uint8_t)((value >> 8) & 0xFF);

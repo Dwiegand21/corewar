@@ -59,7 +59,8 @@ void		sti_op(t_area *area, t_process **carr) // dir_size = 2a
 			result += get_argument2(area, process, &shift, OCT02);
 			area->champs_cmd_awared[process->player] +=
 				area->map_owners[process->pc] == process->player;
-			set32(area, process, result % IDX_MOD, PREG(PPC(2)));
+		set32(area, process, result % IDX_MOD,
+				PREG(PPC(2)), area->map_owners[process->pc]);
 	}
 	PC = SHIFT(2 + fshift);
 	process->f = get_op;

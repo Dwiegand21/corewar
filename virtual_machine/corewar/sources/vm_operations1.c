@@ -115,7 +115,8 @@ void		st_op(t_area *area, t_process **carr) // dir_size = 4a
 			else
 			{
 				set32(area, process,
-					get16(area, process, 3) % IDX_MOD, PREG(PPC(2)));
+					  get16(area, process, 3) % IDX_MOD,
+					  PREG(PPC(2)), area->map_owners[process->pc]);
 			}
 		}
 	}

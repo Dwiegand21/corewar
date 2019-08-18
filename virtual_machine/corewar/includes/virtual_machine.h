@@ -140,8 +140,8 @@ int 		check_registers(t_area *area,
 */
 int32_t		get32(t_area *area, t_process *process, uint32_t shift);
 int16_t		get16(t_area *area, t_process *process, uint32_t shift);
-void		set32(t_area *area,
-							t_process *process, uint32_t shift, int32_t value);
+void set32(t_area *area, t_process *process, uint32_t shift, int32_t value,
+		   int whose);
 void		set16(t_area *area,
 							t_process *process, uint32_t shift, int16_t value);
 
