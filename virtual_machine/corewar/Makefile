@@ -26,12 +26,14 @@ SFILES		= main.c \
 					ft_vm_vector_int_utils.c \
 					ft_vm_vector_prc.c \
 					ft_vm_vector_prc_utils.c \
-					timsort.c
+					timsort.c \
+					timsort_merge.c
 
 HFILES		= virtual_machine.h \
 					vm_types.h \
 					vm_constants.h \
-					vm_vector.h
+					vm_vector.h \
+					timsort.h
 
 HEADERS		= $(addprefix $(INCDIR),$(HFILES))
 

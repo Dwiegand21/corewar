@@ -44,7 +44,7 @@ extern t_vm_vector_int	*g_buffer;
 **		timsort.c
 */
 void		ft_timsort_test(void);
-void		ft_timsort_int(int *data, int len);
+void		ft_timsort_int(int *data, unsigned int len);
 
 int32_t		set_process_op_and_sleep(t_process *process, u_char byte);
 

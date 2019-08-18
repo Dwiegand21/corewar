@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-int32_t			check_cor_file(t_cor_file *file)
+int32_t				check_cor_file(t_cor_file *file)
 {
 	int32_t		fd;
 	int32_t		magic;
@@ -28,26 +28,26 @@ int32_t			check_cor_file(t_cor_file *file)
 	return (fd);
 }
 
-void			skip_2octets(int32_t fd)
+static inline void	skip_2octets(int32_t fd)
 {
 	int32_t		a;
+
 	read(fd, &a, 4);
 }
 
-int32_t			set_code_to_map(t_area *area, t_cor_file *files, int p_index)
+int32_t				set_code_to_map(t_area *area, t_cor_file *files,
+		int p_index)
 {
-
-	if ( (read(files[p_index].fd,
-			   area->map + area->players[p_index].start_pos,
-			   files[p_index].code_size)) != files[p_index].code_size )
+	if ((read(files[p_index].fd,
+			area->map + area->players[p_index].start_pos,
+			files[p_index].code_size)) != files[p_index].code_size)
 		ft_error(INV_CODE_SIZE, __func__);
 	load_process(area, p_index, area->players[p_index].start_pos);
-
 	close(files->fd);
 	return (0);
 }
 
-int32_t			read_cor_file(t_player *player, t_cor_file *files)
+int32_t				read_cor_file(t_player *player, t_cor_file *files)
 {
 	int32_t		code_size;
 
@@ -63,23 +63,13 @@ int32_t			read_cor_file(t_player *player, t_cor_file *files)
 	if (read(files->fd, player->comment, COMMENT_LENGTH) != COMMENT_LENGTH)
 		ft_error(INV_FILE, __func__);
 	skip_2octets(files->fd);
-	if (DEBUG_)					// DEBUG_ # # #
-	{
-		printf("\nName: %s\nComment: %s\nExec size: %d\nStart position: %d\n"
-				"Player_number: %d\n",
-				player->name,
-				player->comment,
-				code_size,
-				player->start_pos,
-				player->ordinal_number);
-	}
 	files->code_size = code_size;
 	return (0);
 }
 
-int32_t			initialization_players(t_area *area, t_cor_file *files)
+int32_t				initialization_players(t_area *area, t_cor_file *files)
 {
-	int32_t		i;
+	int32_t	i;
 
 	if (!(area->players = malloc(sizeof(t_player) * SN_PLAYERS)))
 		ft_error(ERR_ALLOC, __func__);
@@ -93,8 +83,8 @@ int32_t			initialization_players(t_area *area, t_cor_file *files)
 		set_code_to_map(area, files, i);
 		i++;
 	}
-	printf("Introducing contestants...\n");
-	for (int i = 0; i < area->g_stats.n_players; i++)
+	printf("Introducing contestants...\n", (i = -1));
+	while (++i < area->g_stats.n_players)
 	{
 		printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 				area->players[i].ordinal_number,

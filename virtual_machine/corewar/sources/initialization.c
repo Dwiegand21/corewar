@@ -16,16 +16,12 @@ t_area		*initialization_area(void)
 {
 	t_area		*area;
 
-	area = NULL;
 	if (!(area = ft_memalloc(sizeof(t_area))))
 		ft_error(ERRALLOC, __func__);
-	area->map = NULL;
 	if (!(area->map = ft_memalloc(sizeof(char) * MEM_SIZE)))
 		ft_error(ERRALLOC, __func__);
 	if (!(area->carriages = ft_make_vm_vector_prc(INIT_CARRIAGES_COUNT)))
 		ft_error(ERRALLOC, __func__);
-//	area->processes = ft_vector_create(200, &delete_process);
-
 	SDIE_CYCLE_DELTA = CYCLE_TO_DIE;
 	SDIE_CYCLE = SDIE_CYCLE_DELTA;
 	SNOT_CHANGED = 0;

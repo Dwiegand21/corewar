@@ -20,7 +20,7 @@ set(EXE_FILES corewar/sources/main.c
     corewar/sources/vm_operations4.c
     corewar/sources/vm_map_ops.c
     corewar/sources/vm_ops_methods.c
-    corewar/sources/vm_print_dump.c corewar/sources/vm_processes_ops.c corewar/sources/vm_game.c corewar/sources/timsort.c corewar/sources/ft_vm_vector_int.c corewar/includes/vm_vector.h corewar/sources/ft_vm_vector_prc.c)
+    corewar/sources/vm_print_dump.c corewar/sources/vm_processes_ops.c corewar/sources/vm_game.c corewar/sources/timsort.c corewar/sources/ft_vm_vector_int.c corewar/includes/vm_vector.h corewar/sources/ft_vm_vector_prc.c corewar/sources/timsort_merge.c corewar/includes/timsort.h)
 
 include_directories(corewar/includes
         libft/includes)

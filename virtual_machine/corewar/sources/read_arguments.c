@@ -19,12 +19,6 @@ int32_t		check_filename(t_cor_file *file, char *filename, bool valid)
 	if (ft_strnequ_rev(filename, ".cor", 4) != 0)
 	{
 		file->file_name = filename;
-		if (DEBUG_)						// DEBUG_
-		{
-			printf("%d: %s\n",
-				file->champ_index,
-				file->file_name);
-		}
 	}
 	else
 		ft_error(ARGINV, __func__);
@@ -99,16 +93,5 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 	}
 	fix_ordinal_numbers(files, SN_PLAYERS);
 	initialization_players(area, files);
-	if (DEBUG_)										// DEBUG_
-	{
-		if (DEBUG_MAP_)
-			print_map(area->map);
-		printf("\n");
-		if (area->flags & VISUALIZATION)
-			printf("visualization on\n");
-		if (area->flags & DUMP)
-			printf("dump on\n");
-	}
 	return (0);
 }
-
