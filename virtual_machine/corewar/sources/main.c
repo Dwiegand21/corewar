@@ -34,7 +34,7 @@ int32_t				main(int argc, char **argv)
 	t_vm_vector_int	time[TIMELINE_SIZE + 1];
 
 	ft_make_vectors_for_timelime(time);
-	if (!(g_buffer = ft_make_vm_vector_int(INIT_SORT_BUF_SIZE)))
+	if (!(g_sort_buffer = ft_make_vm_vector_int(INIT_SORT_BUF_SIZE)))
 		ft_error(ERRALLOC, __func__);
 	if (argc == 1)
 		help();

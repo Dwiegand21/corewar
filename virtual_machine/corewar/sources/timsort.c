@@ -94,7 +94,7 @@ void						ft_timsort_split_and_merge(int *data, size_t len,
 		stack[stack_size][1] = (data == array_end) ? 1u :
 				ft_find_subarray_len(data + end + 1, minrun, array_end);
 		end += stack[stack_size++][1];
-		ft_merge_if_need(stack, stack_size, arr_sizes, data);
+		stack_size = ft_merge_if_need(stack, stack_size, arr_sizes, data);
 	}
 	ft_merge_rest(stack, stack_size, arr_sizes, data);
 }
@@ -103,10 +103,11 @@ void						ft_timsort_int(int *data, unsigned int len)
 {
 	unsigned int			minrun;
 	unsigned char			minrun_flag;
-	int *const				array_end = data + len;
+	const unsigned int		ref_len = len;
+	int *const				array_end = data + ref_len;
 
-	if (len <= 64)
-		return (ft_insertion_sort(data, len));
+	if (ref_len < 64)
+		return (ft_insertion_sort(data, ref_len));
 	minrun_flag = 0;
 	while (len >= 64)
 	{
@@ -114,7 +115,7 @@ void						ft_timsort_int(int *data, unsigned int len)
 		len >>= 1u;
 	}
 	minrun = len + minrun_flag;
-	while (g_buffer->capacity < len)
-		ft_vm_vector_int_realloc(g_buffer);
-	ft_timsort_split_and_merge(data, len, minrun, array_end);
+	while (g_sort_buffer->capacity < ref_len)
+		ft_vm_vector_int_realloc(g_sort_buffer);
+	ft_timsort_split_and_merge(data, ref_len, minrun, array_end);
 }

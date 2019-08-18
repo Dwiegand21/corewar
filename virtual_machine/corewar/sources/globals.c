@@ -36,4 +36,4 @@ t_ops	g_ops[19] =
 };
 
 int32_t			g_db_from = 0;
-t_vm_vector_int	*g_buffer = 0;
+t_vm_vector_int	*g_sort_buffer = 0;
