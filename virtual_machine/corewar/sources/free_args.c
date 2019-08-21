@@ -24,7 +24,7 @@ void		free_args(t_area *area)
 		free(timeline[i].data);
 	free(area->carriages->data);
 	free(area->carriages);
-	free(g_sort_buffer->data);
-	free(g_sort_buffer);
+	free(g_sort_buffer.data);
+	free(g_sort_ranges.data);
 	free(area);
 }

@@ -55,7 +55,7 @@ async def find_error(player1, player2, directory):
         if result:
             # print(dump_time)
             print('\033[32m' + player1 + ' ' + player2 + ' ' + str(dump_time) + '\033[0m')
-            dump_time += 1000
+            dump_time += 5000
         else:
             # dump_step = 1000
             # step_side = -1

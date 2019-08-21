@@ -29,7 +29,8 @@
 # include "vm_vector.h"
 
 extern t_ops			g_ops[19];
-extern t_vm_vector_int	*g_sort_buffer;
+extern t_vm_vector_int	g_sort_buffer;
+extern t_vm_vector_rng	g_sort_ranges;
 extern char				g_usage[];
 
 /*

@@ -23,6 +23,7 @@ SFILES		= main.c \
 					vm_processes_ops.c \
 					ft_vm_vector_int.c \
 					ft_vm_vector_prc.c \
+					ft_vm_vector_rng.c \
 					timsort.c \
 					timsort_merge.c
 

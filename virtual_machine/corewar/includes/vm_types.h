@@ -40,6 +40,20 @@ typedef struct	s_vm_vector_prc
 	int			offset;
 }				t_vm_vector_prc;
 
+typedef struct	s_timsort_rng
+{
+	uint32_t	beg;
+	uint32_t	len;
+}				t_timsort_rng;
+
+typedef struct	s_vm_vector_rng
+{
+	t_timsort_rng	*data;
+	int				len;
+	int				capacity;
+	int				offset;
+}				t_vm_vector_rng;
+
 struct			s_process
 {
 	uint32_t		pc;
