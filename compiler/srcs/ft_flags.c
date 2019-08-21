@@ -28,18 +28,25 @@
  *
  **/
 
+static inline void	ft_output_flag(t_flags *fl)
+{
+	char **input_ptr;
+
+	if (!fl->was_input)
+	{
+		fl->is_error = 1;
+		ft_fdprintf(2, g_errors[MISSING_INPUT], "--output");
+		return ;
+	}
+	fl->file_type = !fl->file_type;
+	input_ptr = (char**)&fl->srcs->data[fl->srcs->len - 1];
+	*input_ptr = (char*)((size_t)*input_ptr | (1lu << 63u));
+}
+
 void 			ft_parse_l_flag(char *ln, t_flags *fl)
 {
 	if (!ft_strncmp(ln, "output", 7))
-	{
-		if (fl->file_type == INPUT)
-		{
-			fl->is_error = 1;
-			ft_fdprintf(2, g_errors[MISSING_INPUT], "--output");
-			return ;
-		}
-		fl->file_type = !fl->file_type;
-	}
+		ft_output_flag(fl);
 	else if (!ft_strncmp(ln, "silent", 7))
 		SET_SILENT(fl->flags);
 	else if (!ft_strncmp(ln, "help", 5))
@@ -58,15 +65,7 @@ void			ft_parse_s_flag(char *ln, t_flags *fl)
 	while (*ln)
 	{
 		if (*ln == 'o')
-		{
-			if (fl->file_type == INPUT)
-			{
-				fl->is_error = 1;
-				ft_fdprintf(2, g_errors[MISSING_INPUT], "-o");
-				return ;
-			}
-			fl->file_type = !fl->file_type;
-		}
+			ft_output_flag(fl);
 		else if (*ln == 's')
 			SET_SILENT(fl->flags);
 		else if (*ln == 'h')
@@ -106,26 +105,30 @@ static inline int	ft_ask(char *que, char *param[3])
 	return (1);
 }
 
-void 			ft_parse_filename(char *ln, t_flags *fl) // todo check too long filename
+void 			ft_parse_filename(char *ln, t_flags *fl)
 {
 	char	*ext;
 	int		filename_len;
 
 	ext = ft_rstrchr(ln, '.');
 	ext = !ext ? ln + ft_strlen(ln) : ext;
-	filename_len = ext - ln;
-	if (ft_strcmp(ext, fl->file_type == INPUT ? ".s" : ".cor") &&
-		!GET_SILENT(fl->flags) && !fl->is_error)
-	{
-		ft_ask(g_errors[WRG_EXT],
-				(char*[3]){fl->file_type == INPUT ? "input" : "output", ln,
-			   fl->file_type == INPUT ? ".s" : ".cor"});
-	}
-	//fl = 0;
-	//if (GET_SILENT(fl->flags) || ft_ask(fl->file_type == INPUT))
-	//{
-//
-	//}
+	filename_len = (int)(ext - ln);
+
+	if (filename_len > MAX_FILENAME_LEN)
+		exit(1); // todo free all
+
+	if (!ft_strcmp(ext, fl->file_type == INPUT ? ".s" : ".cor"))
+		ft_vector_push_back(
+				fl->file_type == INPUT ? &fl->srcs : &fl->outputs, ln);
+	else if (GET_SILENT(fl->flags) || ft_ask(g_errors[WRG_EXT],
+			(char*[3]){fl->file_type == INPUT ? "input" : "output", ln,
+			  fl->file_type == INPUT ? ".s" : ".cor"}))
+		ft_vector_push_back(
+				fl->file_type == INPUT ? &fl->srcs : &fl->outputs, ln);
+	else
+		exit(0); // todo free all
+	fl->was_input = fl->file_type == INPUT;
+	fl->file_type = INPUT;
 }
 
 t_flags			*ft_parse_flags(int ac, char **av)
@@ -138,7 +141,7 @@ t_flags			*ft_parse_flags(int ac, char **av)
 	if (!(fl = ft_make_flags()))
 		return (0);
 	i = 0;
-	while (++i < ac)
+	while (++i < ac && !fl->is_error)
 	{
 		if (av[i][0] == '-')
 		{
@@ -147,11 +150,17 @@ t_flags			*ft_parse_flags(int ac, char **av)
 			else
 				ft_parse_s_flag(av[i] + 1, fl);
 		}
-		else
+		else if (!fl->is_error)
 		{
 			ft_parse_filename(av[i], fl);
 		}
 	}
-	ft_printf("Parsed: %#hhB input:%s out:%s\n", fl->flags, fl->srcs->data[0], fl->outputs->data[0]);
+	ft_printf("Parsed: %#hhB\n", fl->flags);
+	ft_printf("Srcs:\n");
+	for (size_t e = 0; e < fl->srcs->len; ++e)
+		ft_printf("%s\n", (size_t)fl->srcs->data[e] & ~(1lu << 63u));
+	ft_printf("Outs:\n");
+	for (size_t e = 0; e < fl->outputs->len; ++e)
+		ft_printf("%s\n", fl->outputs->data[e]);
 	return (fl);
 }

@@ -20,6 +20,7 @@
 # include "libft.h"
 # include "asm.h"
 
+# define MAX_FILENAME_LEN 1000
 # define IND_SIZE 2
 # define REG_SIZE 4
 # define DIR_SIZE REG_SIZE
@@ -144,6 +145,7 @@ typedef struct	s_flags
 	unsigned char	flags;
 	t_file_type		file_type;
 	unsigned char	is_error;
+	unsigned char	was_input;
 }				t_flags;
 
 extern char		g_wrn_ignored[];

@@ -95,6 +95,8 @@ int main(int ac, char **av)
 
 	///ft_ask("FF%s", "gg");
 
+	ft_printf("%#llB\n", ~(1lu << 63u));
+
 	ft_parse_flags(ac, av);
 
 
