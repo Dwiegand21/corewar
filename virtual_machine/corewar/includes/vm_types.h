@@ -26,18 +26,18 @@ typedef struct s_game_condition		t_gcond;
 
 typedef struct	s_vm_vector_int
 {
-	int			*data;
-	int			len;
-	int			capacity;
-	int			offset;
+	int32_t		*data;
+	int32_t		len;
+	int32_t		capacity;
+	int32_t		offset;
 }				t_vm_vector_int;
 
 typedef struct	s_vm_vector_prc
 {
 	t_process	*data;
-	int			len;
-	int			capacity;
-	int			offset;
+	int32_t		len;
+	int32_t		capacity;
+	int32_t		offset;
 }				t_vm_vector_prc;
 
 struct			s_process

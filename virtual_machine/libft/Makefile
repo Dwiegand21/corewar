@@ -10,12 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
+.PHONY: all clean fclean re
+
+.SUFFIX: .c .o .h .a
+
 NAME			=	libft.a
 
 CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror -O3
-
-.SUFFIX: .c .o .h .a
+CFLAGS			=	'-Wall -Wextra -Werror -O3'
 
 SFILES			=	ft_atoi.c \
 					ft_isalnum.c \
@@ -141,4 +143,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+

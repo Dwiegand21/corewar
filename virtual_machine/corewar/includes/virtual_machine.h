@@ -28,14 +28,14 @@
 # include "libft.h"
 # include "vm_vector.h"
 
-extern t_ops			g_ops[19];
+extern const t_ops		g_ops[];
 extern t_vm_vector_int	*g_sort_buffer;
 extern char				g_usage[];
 
 /*
 **		timsort.c
 */
-void		ft_timsort_int(int *data, unsigned int ref_len);
+void		ft_timsort_int(int32_t *data, unsigned int ref_len);
 
 /*
 **		helpers.c
@@ -118,7 +118,7 @@ int32_t		get_argument(t_area *area, t_process *process,
 		uint32_t *shift, uint8_t type);
 int32_t		get_argument2(t_area *area, t_process *process,
 		uint32_t *shift, uint8_t type);
-int			check_registers(t_area *area, t_process *process, int32_t n_args,
+int32_t		check_registers(t_area *area, t_process *process, int32_t n_args,
 		int32_t dir_size);
 /*
 **		vm_map_ops.c
@@ -131,7 +131,7 @@ void		set32(t_area *area,
 /*
 **		vm_game.c
 */
-int32_t		play_game(t_area *area);
+void play_game(t_area *area);
 
 void		print_dump(t_area *area);
 

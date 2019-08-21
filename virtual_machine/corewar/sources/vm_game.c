@@ -21,8 +21,8 @@ static inline void			procede_one_carriage(t_area *area,
 	curr = &area->carriages->data[data[*i]];
 	if (curr->n_lives < area->n_die_cycle)
 	{
-		curr->f = 0;
-		curr->ordinal_number = 0;
+//		curr->f = 0;
+//		curr->ordinal_number = 0;
 		SN_PROCESS--;
 		++(*i);
 	}
@@ -100,7 +100,7 @@ static inline int			one_cycle(t_area *area, register int current_round)
 	return (1);
 }
 
-int32_t						play_game(t_area *area)
+void					play_game(t_area *area)
 {
 	int	current_round;
 
@@ -113,9 +113,8 @@ int32_t						play_game(t_area *area)
 		while (area->current_index < TIMELINE_SIZE)
 		{
 			if (!one_cycle(area, current_round))
-				return (0);
+				return ;
 			current_round++;
 		}
 	}
-	return (0);
 }

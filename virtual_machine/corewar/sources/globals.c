@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-t_ops	g_ops[19] =
+const t_ops	g_ops[] =
 {
 	{ "next", 1, &next_op },
 	{ "live", 10 - 1, &live_op },
@@ -32,7 +32,6 @@ t_ops	g_ops[19] =
 	{ "lfork", 1000 - 1, &lfork_op },
 	{ "aff", 2 - 1, &aff_op },
 	{ "get", 1, &get_op },
-	{ "dead", 2 - 1, 0 }
 };
 
 int32_t			g_db_from = 0;

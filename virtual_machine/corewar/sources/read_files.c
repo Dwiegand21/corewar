@@ -83,14 +83,14 @@ int32_t				initialization_players(t_area *area, t_cor_file *files)
 		set_code_to_map(area, files, i);
 		i++;
 	}
-	printf("Introducing contestants...\n", (i = -1));
-	while (++i < area->g_stats.n_players)
+	printf("Introducing contestants...\n");
+	i = 0;
+	while (i < area->g_stats.n_players)
 	{
 		printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				area->players[i].ordinal_number,
-				files[i].code_size,
-				area->players[i].name,
-				area->players[i].comment);
+				area->players[i].ordinal_number, files[i].code_size,
+				area->players[i].name, area->players[i].comment);
+		i++;
 	}
 	fflush(stdout);
 	return (0);
