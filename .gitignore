@@ -20,3 +20,6 @@ venv
 !/virtual_machine/**/cmake/
 /virtual_machine/**/.hg/
 /virtual_machine/**/external/SDL*/
+/virtual_machine/executable/
+/virtual_machine/corewar/corewar
+/virtual_machine/compare_dumps/

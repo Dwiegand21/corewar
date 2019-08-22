@@ -35,6 +35,7 @@ const t_ops	g_ops[] =
 };
 
 int32_t			g_db_from = 0;
-t_vm_vector_int	*g_sort_buffer = 0;
+t_vm_vector_int	g_sort_buffer = {0};
+t_vm_vector_rng	g_sort_ranges = {0};
 char			g_usage[] =
 "Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n";

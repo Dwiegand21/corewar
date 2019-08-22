@@ -80,20 +80,24 @@ static inline unsigned int	ft_find_subarray_len(int *data, unsigned int minrun,
 void						ft_timsort_split_and_merge(int *data, size_t len,
 		unsigned int minrun, int *const array_end)
 {
+	const uint32_t	stack_max_size = len / minrun + 1;
 	unsigned int	end;
-	unsigned int	stack[len / minrun + 1][2];
+	t_timsort_rng	*stack;
 	int				stack_size;
 	unsigned int	arr_sizes[3];
 
 	end = 0;
 	stack_size = 0;
-	ft_bzero(stack, (len / minrun + 1) * 2 * sizeof(int));
+	while (g_sort_ranges.capacity < stack_max_size)
+		ft_vm_vector_rng_realloc(&g_sort_ranges);
+	stack = g_sort_ranges.data;
+	ft_bzero(stack, stack_max_size * sizeof(t_timsort_rng));
 	while (end < len)
 	{
-		stack[stack_size][0] = end;
-		stack[stack_size][1] = (data == array_end) ? 1u :
+		stack[stack_size].beg = end;
+		stack[stack_size].len = (data == array_end) ? 1u :
 				ft_find_subarray_len(data + end + 1, minrun, array_end);
-		end += stack[stack_size++][1];
+		end += stack[stack_size++].len;
 		stack_size = ft_merge_if_need(stack, stack_size, arr_sizes, data);
 	}
 	ft_merge_rest(stack, stack_size, arr_sizes, data);
@@ -115,7 +119,7 @@ void						ft_timsort_int(int *data, unsigned int len)
 		len >>= 1u;
 	}
 	minrun = len + minrun_flag;
-	while (g_sort_buffer->capacity < ref_len)
-		ft_vm_vector_int_realloc(g_sort_buffer);
+	while (g_sort_buffer.capacity < ref_len)
+		ft_vm_vector_int_realloc(&g_sort_buffer);
 	ft_timsort_split_and_merge(data, ref_len, minrun, array_end);
 }

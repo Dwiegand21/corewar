@@ -28,8 +28,14 @@
 # include "libft.h"
 # include "vm_vector.h"
 
+<<<<<<< HEAD
 extern const t_ops		g_ops[];
 extern t_vm_vector_int	*g_sort_buffer;
+=======
+extern t_ops			g_ops[19];
+extern t_vm_vector_int	g_sort_buffer;
+extern t_vm_vector_rng	g_sort_ranges;
+>>>>>>> 2b4a26223fc87e83aaa5decc48c087699bee5346
 extern char				g_usage[];
 
 /*
