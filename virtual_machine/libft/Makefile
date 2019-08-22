@@ -17,7 +17,7 @@
 NAME			=	libft.a
 
 CC				=	gcc
-CFLAGS			=	'-Wall -Wextra -Werror -O3'
+CFLAGS			=	-Wall -Wextra -Werror
 
 SFILES			=	ft_atoi.c \
 					ft_isalnum.c \
@@ -107,11 +107,33 @@ SFILES			=	ft_atoi.c \
 					ft_bheap_sift_down.c \
 					ft_bheap_tools.c \
 					ft_bheap_init.c \
-					queue.c \
-					queue2.c \
-					stack.c \
-					stack2.c \
-					ft_error.c
+					ft_error.c \
+					ft_printf.c \
+					ft_vprintf.c \
+                    init.c \
+                    init2.c \
+                    args.c \
+                    plist.c \
+                    tools.c \
+                    processing.c \
+                    preprocessing.c \
+                    postprocessing_1.c \
+                    postprocessing_2.c \
+                    checkers_1.c \
+                    checkers_2.c \
+                    ft_scale.c \
+                    char.c \
+                    char_tools.c \
+                    uni_encode.c \
+                    lft_1.c \
+                    lft_2.c \
+                    ldbl_1.c \
+                    ldbl_2.c \
+                    ldbl_3.c \
+                    ldbl_4.c \
+                    validation.c \
+                    print_result.c \
+                    free_printf.c
 
 IFILES			=	libft.h
 

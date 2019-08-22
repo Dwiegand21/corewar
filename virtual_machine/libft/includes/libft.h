@@ -23,5 +23,6 @@
 # include "ft_string.h"
 # include "ft_binary_heap.h"
 # include "ft_vector.h"
+# include "ft_printf.h"
 
 #endif

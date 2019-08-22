@@ -1,20 +1,45 @@
 
-cmake_minimum_required(VERSION 2.9)
+cmake_minimum_required(VERSION 3.10)
 
-project(libft C)
+project( libft C )
+set( CMAKE_C_STANDARD 99 )
+set( CMAKE_C_FLAGS "-Wall -Wextra -Werror" )
 
-include_directories(includes)
+set( _LIB_SRC_DEF ON )
+set( LIB_SRC "" )
 
-FILE(GLOB LIB_FILES
-        sources/ft_iostream/*.c
-        sources/ft_list/*.c
-        sources/ft_matrix/*.c
-        sources/ft_memory/*.c
-        sources/ft_queue/*.c
-        sources/ft_stack/*.c
-        sources/ft_string/*.c
-        sources/ft_project_assets/*.c
-        sources/ft_vector/*.c
-        sources/ft_binary_heap/*.c)
+set( TARGET ft )
 
-add_library(ft STATIC ${LIB_FILES})
+set( SrcDirPathsList
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_binary_heap/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_iostream/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_list/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_matrix/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_memory/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_printf/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_project_assets/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_string/
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_vector/
+        )
+include(${CMAKE_CURRENT_SOURCE_DIR}/sources/ft_printf/AppendSrcFiles.cmake)
+
+foreach( SrcDirPath IN ITEMS ${SrcDirPathsList} )
+    include( ${SrcDirPath}AppendSrcFiles.cmake )
+endforeach()
+
+#
+#list( APPEND LIB_SRC ${LIB_FILES} )
+
+
+add_library( ${TARGET} STATIC ${LIB_SRC})
+
+target_include_directories( ${TARGET} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/includes
+        )
+
+set_target_properties( ${TARGET} PROPERTIES
+        C_STANDART 99
+        C_STANDART_REQUIRED ON
+        )
+
+target_compile_options( ${TARGET} PRIVATE ${BUILD_FLAGS} )
