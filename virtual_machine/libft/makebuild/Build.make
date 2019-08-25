@@ -1,22 +1,22 @@
 
-vpath %.c $(SOURCE_DIRECTORIES_PATHS)
+vpath %.c $(FT_SOURCE_DIRECTORIES_PATHS)
 
-all: $(OBJECTS_DIR) $(TARGET)
-
-
-
-%.a: $(OBJECT_FILES)
-	$(AR) $(ARFLAGS) $@ $^
-
-%.dll: $(OBJECT_FILES)
-	$(CBUILD) $(LDFLAGS) -o $@ $^
-
-%.so: $(OBJECT_FILES)
-	$(CBUILD) $(LDFLAGS) -o $@ $^
+all: $(FT_OBJECTS_DIR) $(FT_TARGET)
 
 
-$(OBJECTS_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) -I $(INCLUDES_DIR) -o $@ -c $<
 
-$(OBJECTS_DIR):
-	@$(shell mkdir $(OBJECTS_DIR))
+%.a: $(FT_OBJECT_FILES)
+	$(FT_AR) $(FT_ARFLAGS) $@ $^
+
+%.dll: $(FT_OBJECT_FILES)
+	$(FT_CC) $(FT_LDFLAGS) -o $@ $^
+
+%.so: $(FT_OBJECT_FILES)
+	$(FT_CC) $(FT_LDFLAGS) -o $@ $^
+
+
+$(FT_OBJECTS_DIR)/%.o: %.c
+	$(FT_CC) $(FT_CFLAGS) -I $(FT_INCLUDES_DIR) -o $@ -c $<
+
+$(FT_OBJECTS_DIR):
+	@$(shell mkdir $(FT_OBJECTS_DIR))

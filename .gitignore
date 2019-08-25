@@ -21,6 +21,6 @@ venv
 /virtual_machine/**/.hg/
 /virtual_machine/**/external/SDL*/
 /virtual_machine/executable/
-/virtual_machine/corewar/corewar
+/virtual_machine/corewar
 /virtual_machine/compare_dumps/
 /virtual_machine/**/libft.*

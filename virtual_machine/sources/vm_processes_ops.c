@@ -12,8 +12,8 @@
 
 #include "virtual_machine.h"
 
-#include "./../../libft/sources/ft_vector/ft_vector_assets.h"
-#include "./../../libft/sources/ft_binary_heap/ft_binary_heap_assets.h"
+#include "../libft/sources/ft_vector/ft_vector_assets.h"
+#include "../libft/sources/ft_binary_heap/ft_binary_heap_assets.h"
 
 void		load_process(t_area *area, int32_t player, uint32_t pc)
 {

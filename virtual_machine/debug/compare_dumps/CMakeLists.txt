@@ -8,6 +8,6 @@ set(EXE_FILES sources/main.c
         )
 
 include_directories(includes
-                   ../libft/includes)
+        ../../libft/includes)
 
 add_executable(dumpcmp ${EXE_FILES})
