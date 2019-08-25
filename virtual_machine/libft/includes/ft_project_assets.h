@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_project_assets.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 05:54:59 by axtazy            #+#    #+#             */
-/*   Updated: 2019/07/04 17:09:22 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/23 05:26:04 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,22 @@
 /*
 **		Error definitions
 */
-# define ARG2MANY			"Too many arguments"
-# define ARGINV				"Invalide arguments"
-# define ARGBA(x)			"Bad argument: '"x"'"
 # define ERRALLOC			"Memory allocated error"
 # define ERROPEN			"File does not open"
 # define ERRDIR(x)			"'"x"' is a directory"
 # define ERRNULLP			"Dereferencing NULL pointer error"
 
-void	ft_error(char const *error_line,
-						char const *function_name);
+# define ERRF(format, args...) _print_err_with_fname(__func__, format, ## args)
+# define ERR(format, args...) _print_err_without_fname(format, ## args)
+
+void		_print_err_without_fname(
+									const char *format,
+									...);
+void		_print_err_with_fname(
+									char const *function_name,
+									char const *format,
+									...);
+
+
 
 #endif

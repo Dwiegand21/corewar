@@ -25,15 +25,15 @@ t_matrix	*matrix_create(int y, int x)
 	if (y <= 0 || x <= 0)
 		return (p);
 	if (!(p = (t_matrix *)malloc(sizeof(t_matrix))))
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	if (!(p->matrix = (int **)malloc(sizeof(int *) * y)))
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	p->size_x = x;
 	p->size_y = y;
 	while (i < y)
 	{
 		if (!(p->matrix[i] = ft_memalloc(sizeof(int) * x)))
-			ft_error(ERRALLOC, __func__);
+			ERRF(ERRALLOC);
 		i++;
 	}
 	return (p);

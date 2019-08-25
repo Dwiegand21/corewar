@@ -17,7 +17,7 @@ void			*ft_bheap_extract(t_vector *v, int (*cmp)(void*, void *))
 	void		*root;
 
 	if (V_DATA(v)->end == 0)
-		ft_error("Binary heap is empty\n", __func__);
+		ERRF("Binary heap is empty\n");
 	root = v->v[0];
 	V_DATA(v)->end--;
 	v->v[0] =

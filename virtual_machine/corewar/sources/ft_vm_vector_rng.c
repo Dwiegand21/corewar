@@ -24,7 +24,7 @@ static inline t_timsort_rng	*ft_realloc_vm(t_timsort_rng *old_data,
 		return (0);
 	new_data = (t_timsort_rng*)malloc(new_size * sizeof(t_timsort_rng));
 	if (!new_data)
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	ft_memcpy(new_data, old_data, prev_size * sizeof(t_timsort_rng));
 	free(old_data);
 	return (new_data);

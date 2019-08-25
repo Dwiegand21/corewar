@@ -21,7 +21,7 @@ void		load_process(t_area *area, int32_t player, uint32_t pc)
 	int			i;
 
 	if (!(new = (t_process *)ft_vm_vector_prc_push_back(&area->carriages)))
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	new->player = (int32_t)player;
 	new->reg[0] = ~player;
 	i = 0;
@@ -43,7 +43,7 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	t_process	*new;
 
 	if (!(new = (t_process *)ft_vm_vector_prc_push_back(&area->carriages)))
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	*new = *process;
 	new->pc = SHIFT(pc);
 	new->f = get_op;

@@ -27,7 +27,7 @@ void		ft_vector_push_back(t_vector *this, void *elem)
 			V_DATA(this)->size * sizeof(void *),
 			new_size * sizeof(void *));
 		if (V_DATA(this)->begin == NULL)
-			ft_error(ERRALLOC, __func__);
+			ERRF(ERRALLOC);
 		V_DATA(this)->size = new_size;
 		V_DATA(this)->end = end_pos;
 		this->v = V_DATA(this)->begin + ptr_pos;

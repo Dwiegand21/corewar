@@ -23,7 +23,7 @@ static inline void		*ft_realloc_vm_free(void *old_data, size_t prev_size,
 		return (0);
 	new_data = malloc(new_size);
 	if (!new_data)
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	ft_memcpy(new_data, old_data, prev_size);
 	free(old_data);
 	return (new_data);
@@ -35,11 +35,11 @@ t_vm_vector_prc			*ft_make_vm_vector_prc(int init_size)
 
 	v = (t_vm_vector_prc*)ft_memalloc(sizeof(t_vm_vector_prc));
 	if (!v)
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	v->capacity = init_size <= 1 ? 2 : init_size;
 	v->data = (t_process*)malloc(sizeof(t_process) * (v->capacity));
 	if (!v->data)
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	return (v);
 }
 

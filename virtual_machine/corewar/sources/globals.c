@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-const t_ops	g_ops[] =
+const t_ops	g_ops[19] =
 {
 	{ "next", 1, &next_op },
 	{ "live", 10 - 1, &live_op },

@@ -3,166 +3,64 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: axtazy <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/29 16:00:14 by dwiegand          #+#    #+#              #
-#    Updated: 2019/07/04 16:59:12 by dwiegand         ###   ########.fr        #
+#    Updated: 2019/08/25 05:19:07 by axtazy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all clean fclean re
+default_tagret: all
 
-.SUFFIX: .c .o .h .a
+.PHONY : default_tagret
 
-NAME			=	libft.a
+.NOTPARALLEL:
+.SUFFIXES:
 
-CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror
+.SUFFIXES: .c .o .h .a
 
-SFILES			=	ft_atoi.c \
-					ft_isalnum.c \
-					ft_isalpha.c \
-					ft_isascii.c \
-					ft_isdigit.c \
-					ft_isprint.c \
-					ft_itoa.c \
-					ft_strcat.c \
-					ft_strchr.c \
-					ft_strclr.c \
-					ft_strcmp.c \
-					ft_strcpy.c \
-					ft_strdel.c \
-					ft_strdup.c \
-					ft_strequ.c \
-					ft_striter.c \
-					ft_striteri.c \
-					ft_strjoin.c \
-					ft_strlcat.c \
-					ft_strlen.c \
-					ft_strmap.c \
-					ft_strmapi.c \
-					ft_strncat.c \
-					ft_strncmp.c \
-					ft_strncpy.c \
-					ft_strnequ.c \
-					ft_strnequ_rev.c \
-					ft_strnew.c \
-					ft_strnstr.c \
-					ft_strrchr.c \
-					ft_strsplit.c \
-					ft_strstr.c \
-					ft_strsub.c \
-					ft_strtrim.c \
-					ft_tolower.c \
-					ft_toupper.c \
-					ft_bzero.c \
-					ft_memalloc.c \
-					ft_memccpy.c \
-					ft_memchr.c \
-					ft_memcmp.c \
-					ft_memcpy.c \
-					ft_memdel.c \
-					ft_memmove.c \
-					ft_memset.c \
-					ft_realloc.c \
-					ft_lstadd.c \
-					ft_lstdel.c \
-					ft_lstdelone.c \
-					ft_lstiter.c \
-					ft_lstmap.c \
-					ft_lstnew.c \
-					ft_lstadd_back.c \
-					ft_lstcpy_elem.c \
-					ft_lstforeach.c \
-					ft_lstlen.c \
-					ft_lstrev.c \
-					ft_lstcpy.c \
-					ft_lstrcpy.c \
-					ft_lstsort.c \
-					ft_lstswap.c \
-					ft_putchar_fd.c \
-					ft_putchar.c \
-					ft_putendl_fd.c \
-					ft_putendl.c \
-					ft_putnbr_fd.c \
-					ft_putnbr.c \
-					ft_putstr_fd.c \
-					ft_putstr.c \
-					ft_get_next_line.c \
-					ft_get_lines_to_lst.c \
-					ft_vector_create.c \
-					ft_vector_delete.c \
-					ft_vector_delete_elem.c \
-					ft_vector_begin.c \
-					ft_vector_end.c \
-					ft_vector_push_back.c \
-					ft_vector_join.c \
-					ft_vector_size.c \
-					ft_vector_iter.c \
-					ft_vector_iteri.c \
-					ft_vector_tools.c \
-					ft_bheap_extract.c \
-					ft_bheap_get.c \
-					ft_bheap_insert.c \
-					ft_bheap_sift_down.c \
-					ft_bheap_tools.c \
-					ft_bheap_init.c \
-					ft_error.c \
-					ft_printf.c \
-					ft_vprintf.c \
-                    init.c \
-                    init2.c \
-                    args.c \
-                    plist.c \
-                    tools.c \
-                    processing.c \
-                    preprocessing.c \
-                    postprocessing_1.c \
-                    postprocessing_2.c \
-                    checkers_1.c \
-                    checkers_2.c \
-                    ft_scale.c \
-                    char.c \
-                    char_tools.c \
-                    uni_encode.c \
-                    lft_1.c \
-                    lft_2.c \
-                    ldbl_1.c \
-                    ldbl_2.c \
-                    ldbl_3.c \
-                    ldbl_4.c \
-                    validation.c \
-                    print_result.c \
-                    free_printf.c
 
-IFILES			=	libft.h
+include makebuild/Config.make
 
-OFILES			=	$(addprefix $(OBJDIR),$(SFILES:.c=.o))
 
-HEADERS			=	$(addprefix $(INCDIR),$(IFILES))
+all: $(DEFAULT_TARGETS)
 
-INCDIR			=	./includes/
-OBJDIR			=	./objects/
+.PHONY : all
 
-INC				=	-I $(INCDIR)
+build_all: build_dll build_so build_static
 
-all: $(OBJDIR) $(NAME)
+.PHONY : build_all
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+build_dll:
+	$(MAKE) -C makebuild -f Build.make
 
-$(NAME): $(OFILES)
-	ar rcs $(NAME) $(OFILES)
+.PHONY : build_dll
 
-$(OBJDIR)%.o: ./sources/ft_*/%.c $(INCDIR)/*
-	gcc $(CFLAGS) $(INC) -o $@ -c $<
+build_so:
+	$(MAKE) -C makebuild -f Build.make
+
+.PHONY : build_so
+
+build_static:
+	$(MAKE) -C makebuild -f Build.make
+
+.PHONY : build_static
 
 clean:
-	rm -f $(OFILES)
+	rm -f $(OBJECT_FILES)
+	rm -f $(SHARED_OBJECTS_FILES)
+
+.PHONY : clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f libft.a
+	rm -f libft.dll
+	rm -f libft.so
+
+.PHONY : fclean
 
 re: fclean all
+
+.PHONY : re
 
 

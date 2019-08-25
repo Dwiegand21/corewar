@@ -15,6 +15,6 @@
 void			*ft_bheap_get(t_vector *v)
 {
 	if (v->size(v) == 0)
-		ft_error("Binary heap is empty\n", __func__);
+		ERRF("Binary heap is empty\n");
 	return (v->v[0]);
 }

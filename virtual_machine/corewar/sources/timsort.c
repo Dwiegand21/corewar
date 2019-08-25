@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timsort.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 16:00:15 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/11 16:00:15 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/08/24 02:29:45 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static inline void			ft_reverse_subarray(int *data, unsigned int len)
 static inline void			ft_insertion_sort(register int *data,
 		register unsigned int len)
 {
-	register int i;
-	register int j;
-	register int curr;
+	register uint32_t	i;
+	register uint32_t	j;
+	register int		curr;
 
 	i = 0;
 	while (++i < len)
@@ -88,7 +88,8 @@ void						ft_timsort_split_and_merge(int *data, size_t len,
 
 	end = 0;
 	stack_size = 0;
-	while (g_sort_ranges.capacity < stack_max_size)
+// todo change param 'capacity' or 'stack_max_size' type
+	while (g_sort_ranges.capacity < (int32_t)stack_max_size)
 		ft_vm_vector_rng_realloc(&g_sort_ranges);
 	stack = g_sort_ranges.data;
 	ft_bzero(stack, stack_max_size * sizeof(t_timsort_rng));
@@ -119,7 +120,8 @@ void						ft_timsort_int(int *data, unsigned int len)
 		len >>= 1u;
 	}
 	minrun = len + minrun_flag;
-	while (g_sort_buffer.capacity < ref_len)
+// todo change param 'capacity' or 'ref_len' type
+	while (g_sort_buffer.capacity < (int32_t)ref_len)
 		ft_vm_vector_int_realloc(&g_sort_buffer);
 	ft_timsort_split_and_merge(data, ref_len, minrun, array_end);
 }

@@ -32,9 +32,9 @@ install: make_all all
 reinstall: fclean all
 
 make_all:
-	@make -C $(COREWAR_DIR) all
-	@make -C $(CMPDUMP_DIR) all
-#	@make -C $(VISUAL_DIR) all
+	make -C $(COREWAR_DIR) all
+	make -C $(CMPDUMP_DIR) all
+#	@makebuild -C $(VISUAL_DIR) all
 
 $(EXE_PATH):
 	mkdir -p $(EXE_PATH)
@@ -79,7 +79,13 @@ clean:
 fclean: clean
 	@make -C $(COREWAR_DIR) fclean
 	@make -C $(CMPDUMP_DIR) fclean
-#	@make -C $(VISUAL_DIR) fclean
+#	@makebuild -C $(VISUAL_DIR) fclean
+
+Name = "John"
+export Name
+testt:
+	@make -C executable
+	@echo "$(Name)"
 
 .PHONY: all install reinstall make_all corewar visualization compare_dumps \
 	clean fclean

@@ -67,7 +67,6 @@ int 	set_to_plist(t_env **env, const char *format, va_list *va)
 		return (-1);
 	if (!prepare_plist(*env))
 	{
-		write(1, "-3\n", 3);
 		free_printf(*env);
 		return (-1);
 	}

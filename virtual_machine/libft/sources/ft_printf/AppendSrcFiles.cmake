@@ -19,7 +19,6 @@ set( SourceFiles
         ft_vprintf.c
         init2.c
         ldbl_2.c
-        lft_1.c
         plist.c
         preprocessing.c
         validation.c
@@ -27,7 +26,6 @@ set( SourceFiles
         checkers_2.c
         init.c
         ldbl_3.c
-        lft_2.c
         postprocessing_1.c
         print_result.c
         tools.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 16:45:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/07/04 17:50:40 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/24 03:19:09 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int32_t				main(int argc, char **argv)
 	t_vm_vector_int	time[TIMELINE_SIZE];
 
 	ft_make_vectors_for_timelime(time);
-	if (!ft_init_vm_vector_int(&g_sort_buffer, INIT_SORT_BUF_SIZE))
-		ft_error(ERRALLOC, __func__);
-	if (!ft_init_vm_vector_rng(&g_sort_ranges, INIT_SORT_RANGES_COUNT))
-		ft_error(ERRALLOC, __func__);
+	if (!ft_init_vm_vector_int(&g_sort_buffer, INIT_SORT_BUF_SIZE)) // todo naxuy peredavat' globalku?
+		ERRF(ERRALLOC);
+	if (!ft_init_vm_vector_rng(&g_sort_ranges, INIT_SORT_RANGES_COUNT)) // todo naxuy peredavat' globalku?
+		ERRF(ERRALLOC);
 	if (argc == 1)
 		help();
 	else

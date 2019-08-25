@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   virtual_machine.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/12 13:11:31 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/24 03:19:19 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,9 @@
 # include "libft.h"
 # include "vm_vector.h"
 
-<<<<<<< HEAD
-extern const t_ops		g_ops[];
-extern t_vm_vector_int	*g_sort_buffer;
-=======
-extern t_ops			g_ops[19];
+extern const t_ops			g_ops[19];
 extern t_vm_vector_int	g_sort_buffer;
 extern t_vm_vector_rng	g_sort_ranges;
->>>>>>> 2b4a26223fc87e83aaa5decc48c087699bee5346
 extern char				g_usage[];
 
 /*

@@ -160,7 +160,7 @@ int32_t			dblinfo_del(t_dblinfo **dbl, int32_t val);
 int32_t			ldbl_process_pre(t_env *env, t_lld lld);
 int32_t			ldbl_process(t_env *env);
 /* init.c */
-t_plist			*create_plist_node();
+t_plist			*create_plist_node(void);
 int32_t			args_init(t_env *env, int32_t count, char *format);
 int32_t			init_arg_list(t_env *env, va_list *ap);
 /* init2.c */

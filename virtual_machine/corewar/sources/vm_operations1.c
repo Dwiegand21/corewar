@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_operations1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:49:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/07/03 20:21:48 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/24 02:31:41 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void		next_op(t_area *area, t_process **carr)
 {
 	t_process	*const process = *carr;
 
+	if (area == NULL)
+		return ;
 	PC = SHIFT(1);
 	process->f = get_op;
 	process->sleep = 1;
@@ -28,7 +30,7 @@ void		live_op(t_area *area, t_process **carr)
 
 	process->n_lives = area->n_die_cycle + 1;
 	value = -get32(area, process, 1) - 1;
-	if (value >= 0 && value < SN_PLAYERS)
+	if ((value >= 0) && (value < (int32_t)SN_PLAYERS))
 	{
 		area->players[value].last_live = SN_CYCLES;
 		area->win = value;

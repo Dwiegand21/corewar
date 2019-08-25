@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_arguments.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/05/27 16:55:36 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/24 02:20:20 by axtazy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,16 @@
 int32_t		check_filename(t_cor_file *file, char *filename, bool valid)
 {
 	if (valid == false)
-		ft_error(ARGINV, __func__);
+		ERRF("Program run with invalid arguments:\n"
+			 "After the ordinal number"
+			 "the name of champion should follow\n");
 	if (ft_strnequ_rev(filename, ".cor", 4) != 0)
 	{
 		file->file_name = filename;
 	}
 	else
-		ft_error(ARGINV, __func__);
+	ERRF("File with name \'%s\' is invalid:\n"
+			"Champion file must have \'.cor\' extension\n");
 	return (0);
 }
 
@@ -61,11 +64,15 @@ int32_t		check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 	else
 	{
 		if (next2args == false)
-			ft_error(ARGINV, __func__);
+			ERRF("Program run with invalid arguments:\n"
+					"After the \'-n\' flag two more arguments should be\n"
+					"./corewar [-d N] [[-n N] filename.cor] ...\n");
 		if (!is_integer(*(argv + 1), champ_i))
-			ft_error(ARGINV, __func__);
+			ERRF("Program run with invalid arguments:\n"
+					"Argument \'%s\' must be a number\n", *(argv + 1));
 		if (*champ_i < 0)
-			ft_error(ARGINV, __func__);
+			ERRF("Program run with invalid arguments"
+					"Champion cannot have a negative ordinal number\n");
 	}
 	return (2);
 }
@@ -78,7 +85,8 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 	area->flags = check_flags(&argc, &argv, &SDUMP_CYCLE);
 	i = 0;
 	if (argc == 0)
-		ft_error(ARGINV, __func__);
+		ERRF("Program run with invalid arguments:\n"
+				"There must be at least one champion in the game.\n");
 	while (i < argc)
 	{
 		files[SN_PLAYERS].champ_index = -1;
@@ -87,7 +95,8 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 		if (SN_PLAYERS < 4)
 			check_filename(files + SN_PLAYERS, argv[i], i < argc);
 		else
-			ft_error(ARG2MANY, __func__);
+			ERRF("Program run with invalid arguments:\n"
+					"A maximum of 4 champions can participate in one game\n");
 		SN_PLAYERS++;
 		i++;
 	}

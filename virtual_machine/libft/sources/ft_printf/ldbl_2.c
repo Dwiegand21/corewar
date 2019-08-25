@@ -94,6 +94,7 @@ void		round_ldbd_more(t_dblinfo *dbl, int32_t elem, int32_t pos)
 	int32_t		mod;
 	int32_t		ffirst;
 
+	mod = 0;
 	ffirst = nbrlen_healper(dbl->fpart[dbl->flen - 1]) - 1;
 	dbl->fpart[elem] += minipowu(10, pos);
 	while ((elem < dbl->flen - 1) && (dbl->fpart[elem] / 100000000000000000ULL))

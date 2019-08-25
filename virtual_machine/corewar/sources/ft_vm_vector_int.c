@@ -23,7 +23,7 @@ static inline int		*ft_realloc_vm(int *old_data, int prev_size,
 		return (0);
 	new_data = (int*)malloc(new_size * sizeof(int));
 	if (!new_data)
-		ft_error(ERRALLOC, __func__);
+		ERRF(ERRALLOC);
 	ft_memcpy(new_data, old_data, prev_size * sizeof(int));
 	free(old_data);
 	return (new_data);
