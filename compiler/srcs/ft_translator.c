@@ -21,11 +21,8 @@ static inline char	*ft_int_to_bytes(char buf[5], unsigned int n, int len)
 	while (--i >= 0)
 	{
 		buf[i] = (char)n;
-		//ft_printf("%#B -> %#hhB = %#B\n", n, buf[i], *(int*)buf);
 		n >>= 8u;
-		//ft_printf("%#B\n\n", n);
 	}
-	//exit(0);
 	return (buf);
 }
 
@@ -102,7 +99,7 @@ static inline void	ft_translate_exec_part(t_champ *champ)
 	}
 }
 
-void				ft_translate_to_bytecode(t_champ *champ)
+int				ft_translate_to_bytecode(t_champ *champ)
 {
 	char		buf[5];
 	const int 	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
@@ -110,7 +107,7 @@ void				ft_translate_to_bytecode(t_champ *champ)
 			((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
 
 	if (champ->error_count)
-		return ;
+		return (0);
 	champ->res = ft_make_string(4096);
 	ft_string_push_back_mem(&champ->res,
 			ft_int_to_bytes(buf, COREWAR_EXEC_MAGIC, 4), 4);
@@ -123,6 +120,5 @@ void				ft_translate_to_bytecode(t_champ *champ)
 	ft_string_push_back_n_c(&champ->res,
 			COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
 	ft_translate_exec_part(champ);
-	if (!champ->res)
-		exit(ft_free_champ(&champ, 666));
+	return (champ->res ? 1 : 0);
 }

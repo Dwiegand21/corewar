@@ -23,7 +23,7 @@ void ft_free_cmd(void *p)
 	cmd = p;
 	while (++i < 3)
 	{
-		if (cmd->arg_types[i] == T_LAB)
+		if (cmd->arg_types[i] & T_LAB)
 		{
 			free(cmd->args[i]);
 		}
@@ -58,11 +58,6 @@ void		ft_make_error(t_error type, t_champ *champ, int pos, void *args[4])
 	ft_fdprintf(2, g_errors[type], args[0], args[1], args[2], args[3]);
 	ft_fdprintf(2, g_pos, champ->file, champ->line, pos);
 	++champ->error_count;
-}
-
-void		*tokenize(t_token_type type, void *carry) // fixme make `extern inline`
-{
-	return ((void*)((size_t)carry | ((unsigned long)type << 61u)));
 }
 
 unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i)

@@ -11,120 +11,120 @@
 /* ************************************************************************** */
 
 #include <stdio.h> // todo delete
+#include <sys/stat.h>
 #include "asm.h"
 
-t_string *ft_readall(char *name)
+static inline int	ft_isdir(char *name)
 {
-	/* declare a file pointer */
-	FILE    *infile;
-	char    *buffer;
-	long    numbytes;
-	t_string *res = ft_make_string(10);
-
-/* open an existing file for reading */
-	infile = fopen(name, "r");
-
-/* quit if the file does not exist */
-	if(infile == NULL)
-		return 0;
-
-/* Get the number of bytes */
-	fseek(infile, 0L, SEEK_END);
-	numbytes = ftell(infile);
-
-/* reset the file position indicator to
-the beginning of the file */
-	fseek(infile, 0L, SEEK_SET);
-
-/* grab sufficient memory for the
-buffer to hold the text */
-	buffer = (char*)calloc(numbytes, sizeof(char));
-
-/* memory error */
-	if(buffer == NULL)
-		return 0;
-
-/* copy all the text into the buffer */
-	fread(buffer, sizeof(char), numbytes, infile);
-	fclose(infile);
-
-	res->data = buffer;
-	res->len = numbytes;
-	return (res);
+	struct stat statbuf;
+	if (stat(name, &statbuf) != 0)
+		return (0);
+	return (S_ISDIR(statbuf.st_mode));
 }
 
-char *ft_upd_name(char *name, char *postfix)
+static inline char	*ft_change_postfix(char *src)
 {
-	int len = ft_strlen(name);
-	name[len - 1] = '\0';
-	return (ft_strjoin(name, postfix));
+	char *const		ext_pos = ft_rstrchr(src, '.') ;
+	char 			*ret;
+
+	if (!ext_pos)
+		return (ft_strjoin(src, ".cor"));
+	*ext_pos = '\0';
+	ret = ft_strjoin(src, ".cor");
+	*ext_pos = '.';
+	return (ret);
 }
 
-int ft_compile(char *name)
+static inline char 	*ft_add_slash_if_need(char *dir)
+{
+	const size_t len = ft_strlen(dir);
+
+	if (!len)
+		return (ft_strjoin(dir, "\0"));
+	if (dir[len - 1] == '/')
+		return (ft_strjoin(dir, "\0"));
+	return (ft_strjoin(dir, "/"));
+}
+
+char				*ft_get_out_name(char *src, char *out)
+{
+	char *name;
+	char *tmp;
+
+	if (out && ft_isdir(out))
+	{
+		name = ft_rstrchr(src, '/');
+		name = !name ? src : name + 1;
+		if (!(out = ft_add_slash_if_need(out)))
+			return (0);
+		tmp = out;
+		if (!(out = ft_strjoin(out, name)) && free_ret(tmp, 1))
+			return (0);
+		free(tmp);
+		tmp = out;
+		if (!(out = ft_change_postfix(out)) && free_ret(out, 1))
+			return (0);
+		free (tmp);
+		return (out);
+	}
+	if (out)
+		return (ft_strjoin(out, "\0"));
+	return (ft_change_postfix(src));
+}
+
+int ft_compile_one(char *src, char *out)
 {
 	t_champ	*champ;
-	champ = ft_parser(name); // todo too big champ error
-	ft_translate_to_bytecode(champ);
-	if (champ->error_count)
-		return (0);
-	char *new_name = ft_upd_name(name, "cor");
-	int fd = open(new_name, O_CREAT | O_TRUNC | O_WRONLY, 0666);
-	write(fd, champ->res->data, champ->res->len);
+	int		fd;
+
+	if (!(champ = ft_parser(src)) || !ft_translate_to_bytecode(champ) || champ->error_count)
+		return (ft_free_champ(&champ, 1) +
+			ft_printf("Error while compiling file '%s'\n", src) * 0);
+	if ((fd = open(out, O_CREAT | O_TRUNC | O_WRONLY, 0666)) == -1)
+		return (ft_free_champ(&champ, 1) +
+			ft_printf("Error while opening file '%s'\n", out) * 0);
+	if (write(fd, champ->res->data, champ->res->len) == -1)
+		return (ft_free_champ(&champ, 1) +
+			ft_printf("Error while writing to file '%s'\n", out) * 0);
 	ft_free_champ(&champ, 0);
-	ft_printf("compiled %s \n", name);
+	ft_printf("Compiled %s to %s\n", src, out);
+	return (0);
+}
+
+int ft_compile_all(t_flags *fl)
+{
+	size_t	i;
+	size_t	j;
+	char	*out;
+	int 	error_count;
+
+	i = -1;
+	j = 0;
+	error_count = 0;
+	while (++i < fl->srcs->len)
+	{
+		if ((size_t)fl->srcs->data[i] & (1lu << 63u))
+		{
+			fl->srcs->data[i] =
+					(void*)((size_t)fl->srcs->data[i] & ~(1lu << 63u));
+			out = ft_get_out_name(fl->srcs->data[i], fl->outputs->data[j++]);
+		}
+		else
+			out = ft_get_out_name(fl->srcs->data[i], 0);
+		error_count += ft_compile_one(fl->srcs->data[i], out);
+		free(out);
+	}
 	return (1);
 }
 
-//static inline int	ft_ask(char *que, char *param)
-//{
-//	char b;
-//	ft_fdprintf(2, que, param);
-//	read(0, &b, 1);
-//	ft_printf("<%c>\n", b);
-//	return (1);
-//}
-
 int main(int ac, char **av)
 {
-	//if (ac != 2)
-	//	return (0);
+	t_flags		*fl;
 
-//	int i = 0;
-//	av = 0;
-//	ac = 0;
-
-	///ft_ask("FF%s", "gg");
-
-	ft_printf("%#llB\n", ~(1lu << 63u));
-
-	ft_parse_flags(ac, av);
-
-
-	//ft_compile(av[1]);
-
-//	while (g_names[i][0])
-//	{
-//		ft_compile(g_names[i]);
-//		++i;
-//	}
-
-//	t_string *ref = ft_readall(new_name);
-//	t_string *my = champ->res;
-//	size_t i = 0;
-//	while (i < my->len && i < ref->len)
-//	{
-//		ft_printf("Different chars ref:{Yellow}%.2x{eof} my:{Yellow}%.2x{eof} in pos %5d |%s\n",
-//				  (u_char)ref->data[i], (u_char)my->data[i], i,
-//			ref->data[i] == my->data[i] ?
-//			"\x1B[32m+\x1B[0m" : "\x1B[1m\x1B[31m-\x1B[0m err");
-//		i++;
-//	}
-//	if (i == ref->len)
-//		ft_printf("{Red}Ref ended{eof}\n");
-//	if (i == my->len)
-//		ft_printf("{Red}My ended{eof}\n");
-
-
-
-	return 0;
+	if (!(fl = ft_find_s_h_flags(ac, (const char *const *)av)))
+		exit(1);
+	ft_parse_flags(fl, ac, av);
+	ft_compile_all(fl);
+	ft_free_flags(fl, 0);
+	return (0);
 }
