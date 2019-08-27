@@ -12,24 +12,6 @@
 
 #include "asm.h"
 
-int 		ft_free_champ(t_champ **champ, int ret)
-{
-	if (!champ || !*champ)
-		return (ret);
-	ft_free_vector(&(*champ)->cmds);
-	ft_free_vector(&(*champ)->current_labels);
-	ft_free_string(&(*champ)->comment);
-	ft_free_string(&(*champ)->name);
-	ft_free_string(&(*champ)->res);
-	free((*champ)->curr_line);
-	ft_free_cmd((*champ)->curr_cmd);
-	ft_free_map(&(*champ)->labels);
-	ft_get_next_line((*champ)->fd, 0, -1);
-	free(*champ);
-	*champ = 0;
-	return (ret);
-}
-
 t_champ		*ft_make_champ(char *file, int fd)
 {
 	t_champ *champ;
@@ -47,7 +29,7 @@ t_champ		*ft_make_champ(char *file, int fd)
 	return (champ);
 }
 
-void 		ft_champ_upd_line(t_champ *champ, char *line)
+void		ft_champ_upd_line(t_champ *champ, char *line)
 {
 	free(champ->curr_line);
 	champ->curr_line = line;

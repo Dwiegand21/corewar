@@ -26,11 +26,12 @@ static inline char	*ft_int_to_bytes(char buf[5], unsigned int n, int len)
 	return (buf);
 }
 
-static inline char ft_get_types_byte(t_cmd *cmd)
+static inline char	ft_get_types_byte(t_cmd *cmd)
 {
 	unsigned char	res;
 	unsigned char	code;
 	int				i;
+
 	i = -1;
 	res = 0;
 	while (++i < 4)
@@ -56,7 +57,7 @@ static inline void	ft_translate_args(t_champ *champ, t_cmd *cmd)
 	int				i;
 	int				arg_len;
 	unsigned int	arg;
-	char 			buf[5];
+	char			buf[5];
 	unsigned char	type_backup;
 
 	i = -1;
@@ -99,13 +100,13 @@ static inline void	ft_translate_exec_part(t_champ *champ)
 	}
 }
 
-int				ft_translate_to_bytecode(t_champ *champ)
+int					ft_translate_to_bytecode(t_champ *champ)
 {
 	char		buf[5];
-	const int 	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
-	const int 	padding_size =
-			((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
+	const int	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
+	int			padding_size;
 
+	padding_size = ((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
 	if (champ->error_count)
 		return (0);
 	champ->res = ft_make_string(4096);

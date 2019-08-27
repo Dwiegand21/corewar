@@ -12,60 +12,9 @@
 
 #include "asm.h"
 
-static inline void			ft_output_flag(t_flags *fl)
+void		ft_parse_filename(char *ln, t_flags *fl)
 {
-	char **input_ptr;
-
-	if (!fl->was_input)
-	{
-		fl->is_error = 1;
-		ft_fdprintf(2, g_errors[MISSING_INPUT], "--output");
-		return ;
-	}
-	fl->file_type = !fl->file_type;
-	input_ptr = (char**)&fl->srcs->data[fl->srcs->len - 1];
-	*input_ptr = (char*)((size_t)*input_ptr | (1lu << 63u));
-}
-
-static inline void 			ft_parse_l_flag(char *ln, t_flags *fl)
-{
-	if (!ft_strncmp(ln, "output", 7))
-		ft_output_flag(fl);
-}
-
-static inline void			ft_parse_s_flag(char *ln, t_flags *fl)
-{
-	while (*ln)
-	{
-		if (*ln == 'o')
-			ft_output_flag(fl);
-		++ln;
-	}
-}
-
-static inline int	ft_ask(char *que, char *param[3])
-{
-	char b;
-
-	b = 0;
-	ft_fdprintf(2, que, param[0], param[1], param[2]);
-	read(0, &b, 1);
-	if (b == 'n' || b == 'N')
-		return (0);
-	return (1);
-}
-
-static inline int	ft_isdir(char *name)
-{
-	struct stat statbuf;
-	if (stat(name, &statbuf) != 0)
-		return (0);
-	return (S_ISDIR(statbuf.st_mode));
-}
-
-void 				ft_parse_filename(char *ln, t_flags *fl)
-{
-	char	*ext;
+	char *ext;
 
 	ext = ft_rstrchr(ln, '.');
 	ext = !ext ? ln + ft_strlen(ln) : ext;
@@ -75,7 +24,7 @@ void 				ft_parse_filename(char *ln, t_flags *fl)
 	else if ((fl->file_type == OUTPUT && ft_isdir(ln)) ||
 			(GET_SILENT(fl->flags) || ft_ask(g_errors[WRG_EXT],
 			(char*[3]){fl->file_type == INPUT ? "input" : "output", ln,
-			  fl->file_type == INPUT ? ".s" : ".cor"})))
+			fl->file_type == INPUT ? ".s" : ".cor"})))
 		ft_vector_push_back(
 				fl->file_type == INPUT ? &fl->srcs : &fl->outputs, ln);
 	else
@@ -84,9 +33,9 @@ void 				ft_parse_filename(char *ln, t_flags *fl)
 	fl->file_type = INPUT;
 }
 
-t_flags				*ft_parse_flags(t_flags	*fl, int ac, char **av)
+t_flags		*ft_parse_flags(t_flags *fl, int ac, char **av)
 {
-	int 	i;
+	int i;
 
 	i = 0;
 	while (++i < ac && !fl->is_error)

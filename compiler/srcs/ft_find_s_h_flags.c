@@ -12,12 +12,12 @@
 
 #include "asm.h"
 
-static void 			ft_find_in_long(const char *ln, t_flags *fl)
+static void				ft_find_in_long(const char *ln, t_flags *fl)
 {
 	if (!ft_strncmp(ln, "silent", 7))
 		SET_SILENT(fl->flags);
 	else if (!ft_strncmp(ln, "help", 5))
-		SET_HELP(fl->flags); // todo print help and exit
+		exit(ft_printf(g_help) * 0 + ft_free_flags(fl, 0));
 	else if (ft_strncmp(ln, "output", 7))
 	{
 		ft_printf("%s\n", g_err_unknown_flag);
@@ -34,7 +34,7 @@ static void				ft_find_in_shrt(const char *ln, t_flags *fl)
 		if (*ln == 's')
 			SET_SILENT(fl->flags);
 		else if (*ln == 'h')
-			SET_HELP(fl->flags); // todo print help and exit
+			exit(ft_printf(g_help) * 0 + ft_free_flags(fl, 0));
 		else if (*ln != 'o')
 		{
 			fl->is_error = 1;
@@ -44,7 +44,7 @@ static void				ft_find_in_shrt(const char *ln, t_flags *fl)
 	}
 }
 
-t_flags					*ft_find_s_h_flags(int ac, char const * const * av)
+t_flags					*ft_find_s_h_flags(int ac, char const *const *av)
 {
 	t_flags	*fl;
 	int		i;

@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-void 	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
+void	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 {
 	char *tmp;
 	char tmp_char;
@@ -30,12 +30,12 @@ void 	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 	if (radix == 16 && *ln - tmp != 3)
 	{
 		ft_make_error(BAD_BYTE, champ, tmp - champ->curr_line,
-					  (void*[4]){(void*)(*ln - tmp + 1), tmp - 1, 0, 0});
+				(void*[4]){(void*)(*ln - tmp + 1), tmp - 1, 0, 0});
 	}
 	--(*ln);
 }
 
-void 	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
+void	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
 {
 	char *pos;
 
@@ -48,10 +48,9 @@ void 	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
 	{
 		ft_parse_byte(ln, res, champ);
 	}
-
 }
 
-int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
+int		ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 {
 	while (*++ln)
 	{
@@ -61,7 +60,7 @@ int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 		{
 			ft_printf(g_wrn_ignored, type == NAME ? "name" : "comment");
 			ft_printf(g_pos, champ->file, champ->line,
-					  ln - champ->curr_line + 1);
+					ln - champ->curr_line + 1);
 			break ;
 		}
 	}

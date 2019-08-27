@@ -80,8 +80,6 @@ char g_pos[] =
 char g_pos_before[] =
 "          Before {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 
-char g_usage[] =
-"I'm usage\n"; // TODO
 char g_err_unknown_flag[] =
 "{Bold}{Red}ERROR{eof}  -  Unknown flag >>> {\\226}%s%.*s{eof} <<<\n";
 char g_err_missing_in[] =
@@ -92,6 +90,11 @@ char g_wrn_wrong_ext[] =
 "{Bold}{\\202}WARNING{eof} - Extension of %s file {\\226}%s{eof} is not"
 " {\\226}%s{eof}\n"
 "          Continue? [Y/n] ";
+
+char g_usage[] =
+"I'm usage\n"; // TODO
+char g_help[] =
+"I'm help!\n"; // TODO
 
 char *g_errors[] = {
 	g_unexp_token,

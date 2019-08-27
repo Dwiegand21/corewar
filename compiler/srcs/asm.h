@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/27 20:28:40 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/27 20:28:40 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/08/27 21:40:10 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/08/27 21:40:10 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define ASM_H
 # include <sys/stat.h>
 # include "fcntl.h"
-# include <stdio.h> 
 # include "stdint.h"
 # include "zconf.h"
 # include <stdio.h>
@@ -142,11 +141,12 @@ extern char		g_missing_param[];
 extern t_op		g_functions[16];
 extern char		g_names[][300];
 extern char		g_exp_same_line[];
+extern char		g_help[];
 extern char		g_unexp_token[];
 extern char		g_mult_label[];
 extern char		g_bad_byte[];
 extern char		g_miss_arg[];
-extern char		g_pos_before[];
+extern char		g_chars[];
 extern char		g_nm_cmd_wrg_place[];
 extern char		g_bad_arg_type[];
 extern char		*g_errors[];
@@ -158,9 +158,9 @@ extern char		g_backslash_literals[];
 extern char		g_usage[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_pos[];
-extern char		g_nbrs[][4];
-extern char		g_chars[];
+extern char		g_unknown_lbl[];
+extern char		g_pos_before[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
@@ -168,26 +168,62 @@ extern char		g_bad_arg_count[];
 extern char		g_err_unknown_flag[];
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_wrn_too_long[];
+extern char		g_pos[];
 extern char		g_err_missing_in[];
-extern char		g_unknown_lbl[];
+extern char		g_nbrs[][4];
 
+/*
+** ft_args_parse.c
+*/
+int				ft_check_arg(t_champ *champ, char **ln, char *begin,
+			unsigned int type);
+int				ft_get_arg_type(char **ln, t_champ *champ);
+void			*ft_get_arg_val(char **ln, unsigned int type,
+			t_champ *champ, const char *begin);
+void			ft_move_to_next_arg(t_champ *champ, char **ln);
+void			ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
+			unsigned int type, char *begin);
 /*
 ** ft_champ.c
 */
-int				ft_free_champ(t_champ **champ, int ret);
 t_champ			*ft_make_champ(char *file, int fd);
 void			ft_champ_upd_line(t_champ *champ, char *line);
 /*
+** ft_cmds_parse.c
+*/
+int				ft_is_command(char *line);
+int				ft_get_op_size(t_cmd *cmd);
+void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
+size_t			ft_find_bad_cmd_len(char *ln);
+/*
+** ft_compile.c
+*/
+char			*ft_get_out_name(char *src, char *out);
+int				ft_compile_one(char *src, char *out);
+int				ft_compile_all(t_flags *fl);
+/*
 ** ft_find_s_h_flags.c
 */
-t_flags			*ft_find_s_h_flags(int ac, char const * const * av);
+t_flags			*ft_find_s_h_flags(int ac, char const *const *av);
+/*
+** ft_flag_parse_utils.c
+*/
+void			ft_output_flag(t_flags *fl);
+void			ft_parse_l_flag(char *ln, t_flags *fl);
+void			ft_parse_s_flag(char *ln, t_flags *fl);
+int				ft_ask(char *que, char *param[3]);
+int				ft_isdir(char *name);
 /*
 ** ft_flags.c
 */
-void			ft_parse_path(char *ln, t_flags *fl, int is_out);
 void			ft_parse_filename(char *ln, t_flags *fl);
 t_flags			*ft_parse_flags(t_flags *fl, int ac, char **av);
+/*
+** ft_freeshers.c
+*/
+int				ft_free_champ(t_champ **champ, int ret);
+void			ft_free_cmd(void *p);
+int				ft_free_flags(t_flags *fl, int ret);
 /*
 ** ft_header_utils.c
 */
@@ -198,6 +234,14 @@ int				ft_check_empty_string(char *ln, t_champ *champ,
 			t_token_type type);
 void			ft_skip_line(char *ln, int *qoute_count);
 void			ft_skip_string(t_champ *champ, char *ln);
+/*
+** ft_labels_parse.c
+*/
+char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
+void			ft_upd_labels(t_champ *champ);
+void			ft_add_label(t_champ *champ, char *lbl);
+void			ft_parse_label(t_champ *champ, char *ln);
+int				ft_is_lbl(char *ln, t_champ *champ, int is_cmd, int pos);
 /*
 ** ft_parse_header.c
 */
@@ -217,29 +261,17 @@ int				ft_translate_to_bytecode(t_champ *champ);
 /*
 ** ft_utils.c
 */
-void			ft_free_cmd(void *p);
-int				ft_free_flags(t_flags *fl, int ret);
-t_flags			*ft_make_flags();
+size_t			ft_get_max_len(t_token_type type);
+t_flags			*ft_make_flags(void);
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void *args[4]);
 unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i);
 void			ft_check_exist_name_cmt(t_champ *champ);
 /*
-** main.c
-*/
-char			*ft_get_out_name(char *src, char *out);
-int				ft_compile_one(char *src, char *out);
-int				ft_compile_all(t_flags *fl);
-/*
 ** parser.c
 */
-char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
-int				ft_is_command(char *line);
 int				ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
-void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
-size_t			ft_find_bad_cmd_len(char *ln);
-void			ft_add_label(t_champ *champ, char *lbl);
-void			ft_parse_label(t_champ *champ, char *ln);
+void			ft_check_arg_count(t_champ *champ, t_cmd *cmd);
 void			ft_parse_line(t_champ *champ, char *ln);
 void			ft_parse_exec(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);

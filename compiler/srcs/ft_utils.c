@@ -12,36 +12,12 @@
 
 #include "asm.h"
 
-void ft_free_cmd(void *p)
+size_t			ft_get_max_len(t_token_type type)
 {
-	t_cmd *cmd;
-	int i;
-
-	if (!p)
-		return ;
-	i = -1;
-	cmd = p;
-	while (++i < 3)
-	{
-		if (cmd->arg_types[i] & T_LAB)
-		{
-			free(cmd->args[i]);
-		}
-	}
-	free(cmd);
+	return ((type == NAME ? PROG_NAME_LENGTH : COMMENT_LENGTH));
 }
 
-int			ft_free_flags(t_flags *fl, int ret)
-{
-	if (!fl)
-		return (ret);
-	ft_free_vector(&fl->srcs);
-	ft_free_vector(&fl->outputs);
-	free(fl);
-	return (ret);
-}
-
-t_flags		*ft_make_flags()
+t_flags			*ft_make_flags(void)
 {
 	t_flags *fl;
 
@@ -53,7 +29,8 @@ t_flags		*ft_make_flags()
 	return (fl);
 }
 
-void		ft_make_error(t_error type, t_champ *champ, int pos, void *args[4])
+void			ft_make_error(t_error type, t_champ *champ, int pos,
+		void *args[4])
 {
 	ft_fdprintf(2, g_errors[type], args[0], args[1], args[2], args[3]);
 	ft_fdprintf(2, g_pos, champ->file, champ->line, pos);
@@ -70,22 +47,22 @@ unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i)
 		exit(ft_free_champ(&champ, 666));
 	if (*map_val == champ->labels->nil)
 		ft_make_error(UNKNOWN_LAB, champ, cmd->lbl_poses[i],
-					  (void*[4]){cmd->args[i], g_functions[cmd->cmd].name, 0, 0});
+				(void*[4]){cmd->args[i], g_functions[cmd->cmd].name, 0, 0});
 	else
 		arg = (unsigned)((int)*map_val - cmd->address);
 	return (arg);
 }
 
-void		ft_check_exist_name_cmt(t_champ *champ)
+void			ft_check_exist_name_cmt(t_champ *champ)
 {
 	if (!champ->name->offset)
-	{ // todo use ft_make_error
+	{
 		ft_fdprintf(2, g_missing_param, "name");
 		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
 		++champ->error_count;
 	}
 	if (!champ->comment->offset)
-	{ // todo use ft_make_error
+	{
 		ft_fdprintf(2, g_missing_param, "comment");
 		ft_fdprintf(2, g_pos_before, champ->file, champ->line, 0);
 		++champ->error_count;

@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-void 	ft_parse_header(t_champ *champ, int fd)
+void		ft_parse_header(t_champ *champ, int fd)
 {
 	char *ln;
 
@@ -33,7 +33,7 @@ void 	ft_parse_header(t_champ *champ, int fd)
 	ft_check_exist_name_cmt(champ);
 }
 
-void 	ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
+void		ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
 {
 	int ignore;
 
@@ -57,18 +57,18 @@ void 	ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
 		ft_parse_string(ln, 0, type, champ);
 }
 
-int 	ft_validate_string(t_champ *champ, char **ln, t_token_type type)
+int			ft_validate_string(t_champ *champ, char **ln, t_token_type type)
 {
 	int pos;
 
 	pos = type == NAME ? ft_strlen(NAME_CMD_STRING) :
-		  ft_strlen(COMMENT_CMD_STRING);
+					ft_strlen(COMMENT_CMD_STRING);
 	*ln += pos;
 	ft_skip_spaces(ln);
 	if (**ln != '"' && **ln)
 	{
 		ft_make_error(UNEXP_TOKEN, champ, *ln - champ->curr_line + 1,
-					  (void*[4]){(void*)*ln, (void*)(size_t)'"', 0, 0});
+					(void*[4]){(void*)*ln, (void*)(size_t)'"', 0, 0});
 		return (0);
 	}
 	else if (!**ln)
@@ -87,7 +87,7 @@ void		ft_parse_string(char *ln, t_string **res, t_token_type type,
 	if (!ft_get_data_from_line(ln, res, type, champ))
 	{
 		while ((ln = (void*)1lu) &&
-			   ft_get_next_line(champ->fd, &ln, BUFF_SIZE) && ++champ->line)
+				ft_get_next_line(champ->fd, &ln, BUFF_SIZE) && ++champ->line)
 		{
 			if (!ln)
 				exit(ft_free_champ(&champ, 13));
@@ -100,15 +100,15 @@ void		ft_parse_string(char *ln, t_string **res, t_token_type type,
 	}
 }
 
-int 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
+int			ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 		t_champ *chmp)
 {
-	const		size_t max_len = (size_t)--ln * 0 + (type == NAME ?
-									 PROG_NAME_LENGTH : COMMENT_LENGTH);
-	static int	name_warning = 0;
-	static int	comment_warning = 0;
+	const size_t	max_len = ft_get_max_len(type);
+	static int		name_warning = 0;
+	static int		comment_warning = 0;
 
-	while (*++ln) // todo maybe need to go `while (*ln != COMMENT_CHAR)`
+	--ln;
+	while (*++ln && *ln != COMMENT_CHAR && *ln != ALT_CMT_CHAR) // todo need ??
 	{
 		if (*ln != '"' && (!res || (*res)->len <= max_len))
 		{
@@ -121,8 +121,8 @@ int 	ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 				ft_parse_backslash(&ln, res, chmp);
 		}
 		else if (*ln != '"' && (*res)->len > max_len &&
-				 (type == NAME ? name_warning++ : comment_warning++) == 0 &&
-				 ft_printf(g_wrn_too_long, type == NAME ? "name" : "comment"))
+				(type == NAME ? name_warning++ : comment_warning++) == 0 &&
+				ft_printf(g_wrn_too_long, type == NAME ? "name" : "comment"))
 			ft_printf(g_pos, chmp->file, chmp->line, ln - chmp->curr_line);
 		if (*ln == '"' && *(ln - 1) != '\\')
 			return (ft_check_empty_string(ln, chmp, type));
