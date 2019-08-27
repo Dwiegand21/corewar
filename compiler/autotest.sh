@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ARGS=($(find ../subject -name '*.s'))
+ARGS=($(find all_srcs -name '*.s'))
 
 function compile_ref {
     for arg in ${ARGS[@]}
@@ -65,7 +65,9 @@ function compare {
 
 mkdir -p tests
 rm -f tests/*
+echo "Compiling ref"
 ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
+echo "Compiling my"
 my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )
 
 echo ""

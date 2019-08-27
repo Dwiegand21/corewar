@@ -49,7 +49,7 @@ static inline char	ft_get_types_byte(t_cmd *cmd)
 		}
 		res |= code;
 	}
-	return (0b00100000);
+	return (res);
 }
 
 static inline void	ft_translate_args(t_champ *champ, t_cmd *cmd)
