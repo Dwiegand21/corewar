@@ -64,6 +64,7 @@ __SOURCE_FILES := \
 				ft_memalloc.c \
 				ft_memccpy.c \
 				ft_memchr.c \
+				ft_memclear_n_del.c \
 				ft_memcmp.c \
 				ft_memcpy.c \
 				ft_memdel.c \

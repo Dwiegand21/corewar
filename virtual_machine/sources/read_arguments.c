@@ -16,14 +16,14 @@ int32_t		check_filename(t_cor_file *file, char *filename, bool valid)
 {
 	if (valid == false)
 		ERRF("Program run with invalid arguments:\n"
-			 "After the ordinal number"
-			 "the name of champion should follow\n");
+			"After the ordinal number"
+			"the name of champion should follow\n");
 	if (ft_strnequ_rev(filename, ".cor", 4) != 0)
 	{
 		file->file_name = filename;
 	}
 	else
-	ERRF("File with name \'%s\' is invalid:\n"
+		ERRF("File with name \'%s\' is invalid:\n"
 			"Champion file must have \'.cor\' extension\n");
 	return (0);
 }
@@ -65,14 +65,14 @@ int32_t		check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 	{
 		if (next2args == false)
 			ERRF("Program run with invalid arguments:\n"
-					"After the \'-n\' flag two more arguments should be\n"
-					"./corewar [-d N] [[-n N] filename.cor] ...\n");
+				"After the \'-n\' flag two more arguments should be\n"
+				"./corewar [-d N] [[-n N] filename.cor] ...\n");
 		if (!is_integer(*(argv + 1), champ_i))
 			ERRF("Program run with invalid arguments:\n"
-					"Argument \'%s\' must be a number\n", *(argv + 1));
+				"Argument \'%s\' must be a number\n", *(argv + 1));
 		if (*champ_i < 0)
 			ERRF("Program run with invalid arguments"
-					"Champion cannot have a negative ordinal number\n");
+				"Champion cannot have a negative ordinal number\n");
 	}
 	return (2);
 }
@@ -86,7 +86,7 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 	i = 0;
 	if (argc == 0)
 		ERRF("Program run with invalid arguments:\n"
-				"There must be at least one champion in the game.\n");
+			"There must be at least one champion in the game.\n");
 	while (i < argc)
 	{
 		files[SN_PLAYERS].champ_index = -1;
@@ -96,7 +96,7 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 			check_filename(files + SN_PLAYERS, argv[i], i < argc);
 		else
 			ERRF("Program run with invalid arguments:\n"
-					"A maximum of 4 champions can participate in one game\n");
+				"A maximum of 4 champions can participate in one game\n");
 		SN_PLAYERS++;
 		i++;
 	}

@@ -18,18 +18,18 @@ int32_t			check_dupm_flag(int32_t *argc, char ***argv, int32_t *dump)
 		return (0);
 	if (*argc - 1 <= 0)
 		ERRF("Program run with invalid arguments:\n"
-			 "After the \'-d\' flag one more argument should be\n"
-			 "./corewar [-d N] [[-n N] filename.cor] ...\n");
+			"After the \'-d\' flag one more argument should be\n"
+			"./corewar [-d N] [[-n N] filename.cor] ...\n");
 	(*argc)--;
 	(*argv)++;
 	if (!is_integer(**argv, dump))
 		ERRF("Program run with invalid arguments:\n"
-				"After the \'-d\' flag"
-				"one more argument must be is positive digit\n");
+			"After the \'-d\' flag"
+			"one more argument must be is positive digit\n");
 	if (*dump < 0)
 		ERRF("Program run with invalid arguments:\n"
-			 "After the \'-d\' flag"
-			 "one more argument must be is positive digit\n");
+			"After the \'-d\' flag"
+			"one more argument must be is positive digit\n");
 	return (1);
 }
 

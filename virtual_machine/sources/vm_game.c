@@ -12,8 +12,9 @@
 
 #include "virtual_machine.h"
 
-static inline void			procede_one_carriage(t_area *area,
-		int const *data, int *i)
+static inline void		procede_one_carriage(
+								t_area *area,
+								int32_t const *data, int *i)
 {
 	t_process	*curr;
 	int			wasnt_next;
@@ -21,8 +22,6 @@ static inline void			procede_one_carriage(t_area *area,
 	curr = &area->carriages->data[data[*i]];
 	if (curr->n_lives < area->n_die_cycle)
 	{
-//		curr->f = 0;
-//		curr->ordinal_number = 0;
 		SN_PROCESS--;
 		++(*i);
 	}
@@ -40,7 +39,7 @@ static inline void			procede_one_carriage(t_area *area,
 	}
 }
 
-static inline int32_t		run_next_round(t_area *area, t_vm_vector_int *v)
+static inline int32_t	run_next_round(t_area *area, t_vm_vector_int *v)
 {
 	int *const	data = v->data;
 	const int	len = v->len;
@@ -56,7 +55,7 @@ static inline int32_t		run_next_round(t_area *area, t_vm_vector_int *v)
 	return (1);
 }
 
-static inline void			change_area_stats(t_area *area)
+static inline void		change_area_stats(t_area *area)
 {
 	if (SLIVES_IN_ROUND >= NBR_LIVE)
 	{
@@ -77,7 +76,7 @@ static inline void			change_area_stats(t_area *area)
 	SLIVES_IN_ROUND = 0;
 }
 
-static inline int			one_cycle(t_area *area, register int current_round)
+static inline int32_t	one_cycle(t_area *area, register int current_round)
 {
 	if ((run_next_round(area, &area->time[area->current_index])) == false)
 	{
@@ -100,7 +99,7 @@ static inline int			one_cycle(t_area *area, register int current_round)
 	return (1);
 }
 
-void					play_game(t_area *area)
+void						play_game(t_area *area)
 {
 	int	current_round;
 

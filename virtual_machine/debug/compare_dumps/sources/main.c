@@ -18,9 +18,9 @@ t_dump		*init_structs()
 
 	dd = NULL;
 	if (!(dd = (t_dump *)malloc(sizeof(t_dump))))
-		ft_error("Memory allocated error\n", __func__);
+		ERRF("Memory allocated error\n");
 	if (!(dd->strings = (t_output *)malloc(sizeof(t_output))))
-		ft_error("Memory allocated error\n", __func__);
+		ERRF("Memory allocated error\n");
 	dd->origin_vm = NULL;
 	dd->our_vm = NULL;
 	dd->strings->origin = NULL;
@@ -48,6 +48,6 @@ int 		main(int ac, char *av[])
 		free_args(dd);
 	}
 	else
-		ft_error("invalide arguments\n", __func__);
+		ERRF("Memory allocated error\n");
 	return (0);
 }

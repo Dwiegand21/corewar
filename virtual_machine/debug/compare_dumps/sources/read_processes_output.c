@@ -18,15 +18,15 @@ static FILE* 	open_process(char* process, char* flag, int our)
 	char 	*s;
 
 	if ((strstr(process, "corewar")) == NULL)
-		ft_error("Invalide name of file\n", __func__);
+		ERRF("Invalide name of file '%s'\n", process);
 	command = ft_strjoin("./", process);
 	if (command == NULL)
-		ft_error("ft_strjoin: memory allocated error", __func__);
+		ERRF("ft_strjoin: memory allocated error\n");
 	s = command;
 	command = ft_strjoin(command, " ");
 	free(s);
 	if (command == NULL)
-		ft_error("ft_strjoin: memory allocated error", __func__);
+		ERRF("ft_strjoin: memory allocated error\n");
 
 	if (our)
 		flag = ft_strjoin(" -p ", flag);
@@ -35,10 +35,10 @@ static FILE* 	open_process(char* process, char* flag, int our)
 	command = ft_strjoin(command, flag);
 	free(s);
 	if (command == NULL)
-		ft_error("ft_strjoin: memory allocated error", __func__);
+		ERRF("ft_strjoin: memory allocated error\n");
 	FILE	*p = popen(command, "r");
 	if (p == NULL)
-		ft_error("popen: open error", __func__);
+		ERRF("popen: open error '%s'\n", command);
 	return (p);
 }
 
@@ -59,7 +59,7 @@ static t_list*	get_process(char *buff)
 {
 	t_process *p = malloc(sizeof(t_process));
 	if (p == NULL)
-		ft_error(ERRALLOC, __func__);
+		ERRF("Memory allocated error\n");
 	p->player = (int32_t)(buff[0] - '0');
 	p->pc = ft_atoi(buff + 1);
 	return (ft_lstnew(p, sizeof(t_process)));
@@ -111,7 +111,7 @@ static char* 	read_process(FILE* process, t_list **processes_list)
 	pclose(process);
 	if (output[0] == 0)
 	{
-		ft_error("Invalide output", __func__);
+		ERRF("Invalide output from file ''\n");
 	}
 	return (output);
 }

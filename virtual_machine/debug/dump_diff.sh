@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-ORIGIN_EXE="./origin_sources/corewar"
-OUR_EXE="./executable/corewar"
+ORIGIN_EXE="./origin_sources/champs/championships/2018/corewar"
+#ORIGIN_EXE="./origin_sources/corewar"
+OUR_EXE="../corewar"
 
-TMP_DIFFS="./diffs/"
+TMP_DIFFS="./diffs_dir/"
 
 if [[ ! -d ${TMP_DIFFS} ]]; then
     echo "mkdir!"
@@ -15,7 +16,9 @@ ${OUR_EXE} -d $1 $2 $3 > "${TMP_DIFFS}our_output"
 
 diff_res=$(diff "${TMP_DIFFS}origin_output" "${TMP_DIFFS}our_output" | wc -l)
 if (( ${diff_res} )); then
-    echo "0"
+    echo "< origin"
+    echo "> our"
+    echo "$(diff "${TMP_DIFFS}origin_output" "${TMP_DIFFS}our_output")"
 else
     echo "1"
 fi

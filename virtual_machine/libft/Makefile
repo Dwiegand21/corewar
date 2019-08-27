@@ -12,7 +12,7 @@
 
 default_tagret: all
 
-.PHONY : default_tagret
+.PHONY: default_tagret
 
 .NOTPARALLEL:
 .SUFFIXES:
@@ -25,42 +25,42 @@ include makebuild/Config.make
 
 all: $(DEFAULT_TARGETS)
 
-.PHONY : all
+.PHONY: all
 
 build_all: build_dll build_so build_static
 
-.PHONY : build_all
+.PHONY: build_all
 
 build_dll:
 	$(MAKE) -C ./makebuild -f Build.make
 
-.PHONY : build_dll
+.PHONY: build_dll
 
 build_so:
 	$(MAKE) -C ./makebuild -f Build.make
 
-.PHONY : build_so
+.PHONY: build_so
 
 build_static:
 	$(MAKE) -C ./makebuild -f Build.make
 
-.PHONY : build_static
+.PHONY: build_static
 
 clean:
-	@rm -f $(FT_OBJECT_FILES)
-	@rm -f $(FT_SHARED_OBJECTS_FILES)
+	rm -f $(FT_OBJECT_FILES)
+	rm -f $(FT_SHARED_OBJECTS_FILES)
 
-.PHONY : clean
+.PHONY: clean
 
 fclean: clean
 	rm -f $(FT_TARGET_PATH)/libft.a
 	rm -f $(FT_TARGET_PATH)/libft.dll
 	rm -f $(FT_TARGET_PATH)/libft.so
 
-.PHONY : fclean
+.PHONY: fclean
 
 re: fclean all
 
-.PHONY : re
+.PHONY: re
 
 

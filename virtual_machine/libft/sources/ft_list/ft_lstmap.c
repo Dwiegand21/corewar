@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_memory.h"
 #include "ft_list.h"
 #include "ft_iostream.h"
-#include "ft_memory.h"
 
 t_list		*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
@@ -25,7 +25,7 @@ t_list		*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 	{
 		if (!(ft_lstadd_back(&copy, ft_lstcpy_elem(f(lst)))))
 		{
-			ft_lstdel(&copy, ft_memclear_n_del);
+			ft_lstdel(&copy, &ft_memclear_n_del);
 			return (copy);
 		}
 		lst = lst->next;

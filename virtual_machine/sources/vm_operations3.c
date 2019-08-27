@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm_operations3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:49 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/05 14:33:28 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/08/27 23:02:04 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void		ldi_op(t_area *area, t_process **carr)
 		&& check_registers(area, process, 3, 2))
 	{
 		result = get_argument2(area, process, &shift, OCT00);
-		if (I_T(OCT00))
-			result %= IDX_MOD;
 		result += get_argument2(area, process, &shift, OCT01);
 		if (IS_REG(PPC(shift)))
 		{
@@ -85,9 +83,16 @@ void		lld_op(t_area *area, t_process **carr)
 	shift = 2;
 	if (DI_T(OCT00) && R_T(OCT01))
 	{
-		result = get_argument(area, process, &shift, OCT00);
+		if (I_T(OCT00))
+		{
+			result = (get32(area, process, get16(area, process, shift)));
+			shift += 2;
+		}
+		else
+			result = get_argument(area, process, &shift, OCT00);
 		if (IS_REG(PPC(shift)))
 		{
+//			PREG(PPC(shift)) = (result >> 16) & 0xFFFF; // ???
 			PREG(PPC(shift)) = result;
 			CARRY = ((result == 0) ? true : false);
 		}
@@ -107,12 +112,19 @@ void		lldi_op(t_area *area, t_process **carr)
 	if (RDI_T(OCT00) && RD_T(OCT01) && R_T(OCT02)
 		&& check_registers(area, process, 3, 2))
 	{
-		result = get_argument2(area, process, &shift, OCT00);
 		if (I_T(OCT00))
-			result %= IDX_MOD;
+		{
+			result = (get32(area, process, get16(area, process, shift)));
+			shift += 2;
+		}
+		else
+			result = get_argument2(area, process, &shift, OCT00);
 		result += get_argument2(area, process, &shift, OCT01);
-		PREG(PPC(shift)) = get32(area, process, result);
-		CARRY = (PREG(PPC(shift)) == 0) ? true : false;
+		if (IS_REG(PPC(shift)))
+		{
+			PREG(PPC(shift)) = get32(area, process, result);
+			CARRY = (PREG(PPC(shift)) == 0) ? true : false;
+		}
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 3, 2));
 	process->f = get_op;

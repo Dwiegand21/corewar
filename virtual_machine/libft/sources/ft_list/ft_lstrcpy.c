@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
 #include "ft_memory.h"
+#include "ft_list.h"
 
 t_list			*ft_lstrcpy(t_list *lst)
 {

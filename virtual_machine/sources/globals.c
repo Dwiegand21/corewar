@@ -12,7 +12,7 @@
 
 #include "virtual_machine.h"
 
-const t_ops	g_ops[19] =
+const t_ops		g_ops[19] =
 {
 	{ "next", 1, &next_op },
 	{ "live", 10 - 1, &live_op },
@@ -35,7 +35,17 @@ const t_ops	g_ops[19] =
 };
 
 int32_t			g_db_from = 0;
-t_vm_vector_int	g_sort_buffer = {0};
-t_vm_vector_rng	g_sort_ranges = {0};
+t_vm_vector_int	g_sort_buffer = {
+	NULL,
+	0,
+	0,
+	0
+};
+t_vm_vector_rng	g_sort_ranges = {
+	NULL,
+	0,
+	0,
+	0
+};
 char			g_usage[] =
 "Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n";

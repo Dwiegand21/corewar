@@ -22,7 +22,7 @@ INCDIR			= ./includes/
 
 FT			= $(addprefix $(FT_DIR),$(FT_NAME))
 FT_NAME		= libft.a
-FT_DIR		= ../libft
+FT_DIR		= ../../libft
 FT_INC		= -I $(FT_DIR)/includes
 FT_LIB		= -L $(FT_DIR) -l ft
 
@@ -32,7 +32,7 @@ $(NAME): $(OFILES)
 	$(CC) $(OFILES) $(FT_LIB) -o $(NAME)
 
 $(FT):
-	@make -C $(FT_DIR) all
+	make -C $(FT_DIR) build_static
 
 objects:
 	@mkdir -p objects

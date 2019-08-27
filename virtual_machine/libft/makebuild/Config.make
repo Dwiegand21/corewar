@@ -1,6 +1,6 @@
 
 # By default: Static Library
-FT_DEFAULT_TARGETS			?= build_dll build_static build_so
+DEFAULT_TARGETS			    ?= build_static
 
 
 include makebuild/SourceDefinitions.make

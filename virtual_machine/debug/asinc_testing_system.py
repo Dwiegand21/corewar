@@ -35,7 +35,7 @@ async def find_error(player1, player2, directory):
                             stderr=asyncio.subprocess.PIPE)
             stdout1, stderr1 = await proc1.communicate()
             proc2 = await asyncio.create_subprocess_exec(
-                            './executable/corewar',
+                            '../corewar',
                             '-d',
                             str(dump_cycle),
                             directory + '/' + player1,

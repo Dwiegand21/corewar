@@ -18,7 +18,6 @@ int32_t				check_cor_file(t_cor_file *file)
 	int32_t		magic;
 
 	if ((fd = open(file->file_name, O_RDWR)) == -1)
-//		ft_error(ERR_OPEN, __func__);
 		ERRF("Can not open file with name \'%s\'\n", file->file_name);
 	if (read(fd, NULL, 0) == -1)
 		ERRF("Can not read file with name \'%s\'\n", file->file_name);
@@ -26,7 +25,7 @@ int32_t				check_cor_file(t_cor_file *file)
 	bytes_reverse(&magic, sizeof(magic));
 	if (magic != COREWAR_EXEC_MAGIC)
 		ERRF("File with name \'%s\' is invalid\nMagic key not found.\n",
-				file->file_name);
+			file->file_name);
 	return (fd);
 }
 
@@ -45,7 +44,7 @@ int32_t				set_code_to_map(t_area *area, t_cor_file *files,
 			area->map + area->players[p_index].start_pos,
 			files[p_index].code_size)) != files[p_index].code_size)
 		ERRF("File with name \'%s\' is invalid:\nCode size in file is wrong.",
-				files[p_index].file_name);
+			files[p_index].file_name);
 	load_process(area, p_index, area->players[p_index].start_pos);
 	close(files->fd);
 	return (0);
@@ -58,7 +57,7 @@ int32_t				read_cor_file(t_player *player, t_cor_file *files)
 	files->fd = check_cor_file(files);
 	if (read(files->fd, player->name, PROG_NAME_LENGTH) != PROG_NAME_LENGTH)
 		ERRF("File with name \'%s\' is invalid:\nFile size is too small\n",
-				files->file_name);
+			files->file_name);
 	player->name[PROG_NAME_LENGTH] = 0;
 	skip_2octets(files->fd);
 	read(files->fd, &code_size, 4);
@@ -69,7 +68,7 @@ int32_t				read_cor_file(t_player *player, t_cor_file *files)
 			files->file_name);
 	if (read(files->fd, player->comment, COMMENT_LENGTH) != COMMENT_LENGTH)
 		ERRF("File with name \'%s\' is invalid:\nFile size is too small\n",
-				files->file_name);
+			files->file_name);
 	skip_2octets(files->fd);
 	files->code_size = code_size;
 	return (0);
@@ -92,10 +91,10 @@ int32_t				initialization_players(t_area *area, t_cor_file *files)
 		i++;
 	}
 	i = 0;
-	printf("Introducing contestants...\n");
+	ft_printf("Introducing contestants...\n");
 	while (i < SN_PLAYERS)
 	{
-		printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
 				area->players[i].ordinal_number, files[i].code_size,
 				area->players[i].name, area->players[i].comment);
 		i++;
