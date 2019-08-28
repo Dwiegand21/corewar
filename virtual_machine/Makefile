@@ -1,85 +1,81 @@
 
-EXE_PATH			= ./executable/
+NAME		= corewar
 
-COREWAR_DIR			= ./corewar/
-COREWAR_EXE_NAME	= corewar
-COREWAR_EXE			= $(addprefix $(COREWAR_DIR),$(COREWAR_EXE_NAME))
-COREWAR_COPY		= $(addprefix $(EXE_PATH),$(COREWAR_EXE_NAME))
+CC			= gcc
+CFLAGS		= #-Wall -Wextra -Werror
 
-CMPDUMP_DIR			= ./compare_dumps/
-CMPDUMP_EXE_NAME	= dumpcmp
-CMPDUMP_EXE			= $(addprefix $(CMPDUMP_DIR),$(CMPDUMP_EXE_NAME))
-CMPDUMP_COPY		= $(addprefix $(EXE_PATH),$(CMPDUMP_EXE_NAME))
+SFILES		= main.c \
+					globals.c \
+					initialization.c \
+					read_arguments.c \
+					check_flags.c \
+					read_files.c \
+					processes_ops.c \
+					free_args.c \
+					vm_operations1.c \
+					vm_operations2.c \
+					vm_operations3.c \
+					vm_operations4.c \
+					vm_ops_methods.c \
+					vm_map_ops.c \
+					vm_game.c \
+					dump.c \
+					helpers.c
 
-VISUAL_DIR			= ./visualization/
-VISUAL_EXE_NAME		= visualization
-VISUAL_EXE			= $(addprefix $(VISUAL_DIR),$(VISUAL_EXE_NAME))
-VISUAL_COPY			= $(addprefix $(EXE_PATH),$(VISUAL_EXE_NAME))
+HFILES		= virtual_machine.h \
+					vm_types.h \
+					vm_constants.h
 
-EXEFILES			= $(addprefix $(EXE_PATH),	$(COREWAR_EXE_NAME) \
-												$(CMPDUMP_EXE_NAME))
-#												$(VISUAL_EXE_NAME)
+HEADERS		= $(addprefix $(INCDIR),$(HFILES))
 
-ASSETS_NAME			= champs
-ASSETS_DIR			= ./original_sources/
-ASSETS_PATH			= $(addprefix $(ASSETS_DIR),$(ASSETS_NAME))
-ASSETS_LNK			= $(addprefix $(EXE_PATH),$(ASSETS_NAME))
+OFILES		= $(addprefix $(OBJDIR),$(SFILES:.c=.o))
 
-all: corewar compare_dumps $(ASSETS_LNK)
+INC			= -I $(INCDIR)
 
-install: make_all all
+INCDIR		= ./includes/
+SRCDIR		= ./sources/
+OBJDIR		= ./objs/
 
-reinstall: fclean all
-
-make_all:
-	@make -C $(COREWAR_DIR) all
-	@make -C $(CMPDUMP_DIR) all
-#	@make -C $(VISUAL_DIR) all
-
-$(EXE_PATH):
-	mkdir -p $(EXE_PATH)
-
-$(ASSETS_LNK):
-	rm -f $(ASSETS_LNK)
-	ln -s $(ASSETS_PATH) $(ASSETS_LNK)
-
-# - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
-
-corewar:
-	@make -C $(COREWAR_DIR)
-	rm -f $(COREWAR_COPY)
-	cp $(COREWAR_EXE) $(COREWAR_COPY)
+FT			= $(addprefix $(FT_DIR),$(FT_NAME))
+FT_NAME		= libft.a
+FT_DIR		= ./libft
+FT_INC		= -I $(FT_DIR)
+FT_LIB		= -L $(FT_DIR) -l ft
 
 
-# - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
+all: objs $(FT) $(NAME)
 
-compare_dumps:
-	@make -C $(CMPDUMP_DIR)
-	rm -f $(CMPDUMP_COPY)
-	cp $(CMPDUMP_EXE) $(CMPDUMP_COPY)
+$(NAME): $(OFILES)
+	$(CC) $(OFILES) $(FT_LIB) -o $(NAME)
 
+$(FT):
+	@make -C $(FT_DIR) all
 
-# - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
+objs:
+	@mkdir -p $(OBJDIR)
 
-visualization: $(VISUAL_COPY)
+$(OBJDIR)%.o: $(SRCDIR)%.c $(HEADERS)
+	$(CC) $(CFLAGS) $(FT_INC) $(INC) -o $@ -c $<
 
-$(VISUAL_COPY): $(VISUAL_EXE)
-	rm -f $(VISUAL_COPY)
-	cp $(VISUAL_EXE) $(VISUAL_COPY)
+dd_l:
+	make -C ./dump_diff
+	ln -s ./dump_diff/dump_diff ./dd_l
 
-$(VISUAL_EXE):
-	@make -C $(VISUAL_DIR)
-
-# - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - #
+dd_l-fclean:
+	rm -f dd_l
+	make -C dump_diff fclean
 
 clean:
-	rm -f $(EXEFILES)
-	rm -f $(ASSETS_LNK)
+	rm -f $(OFILES)
+	make -C $(FT_DIR) clean
 
 fclean: clean
-	@make -C $(COREWAR_DIR) fclean
-	@make -C $(CMPDUMP_DIR) fclean
-#	@make -C $(VISUAL_DIR) fclean
+	rm -f $(NAME)
+	make -C $(FT_DIR) fclean
 
-.PHONY: all install reinstall make_all corewar visualization compare_dumps \
-	clean fclean
+re: fclean all
+
+recode:
+	rm -f $(OFILES)
+	rm -f $(NAME)
+	make -C . all
