@@ -19,7 +19,8 @@ void		ft_output_flag(t_flags *fl)
 	if (!fl->was_input)
 	{
 		fl->is_error = 1;
-		ft_fdprintf(2, g_errors[MISSING_INPUT], "--output");
+		ft_fdprintf(2, g_is_silent ? "" : g_errors[MISSING_INPUT],
+				"--output");
 		return ;
 	}
 	fl->file_type = !fl->file_type;
@@ -31,6 +32,13 @@ void		ft_parse_l_flag(char *ln, t_flags *fl)
 {
 	if (!ft_strncmp(ln, "output", 7))
 		ft_output_flag(fl);
+	else if (ft_strncmp(ln, "silent", 7) &&
+				ft_strncmp(ln, "help", 5))
+	{
+		fl->is_error = 1;
+		ft_fdprintf(2, g_is_silent ? "" :
+					   g_errors[UNKNOWN_FLAG], "--", 100, ln);
+	}
 }
 
 void		ft_parse_s_flag(char *ln, t_flags *fl)
@@ -39,6 +47,12 @@ void		ft_parse_s_flag(char *ln, t_flags *fl)
 	{
 		if (*ln == 'o')
 			ft_output_flag(fl);
+		else if (*ln != 's' && *ln != 'h')
+		{
+			fl->is_error = 1;
+			ft_fdprintf(2, g_is_silent ? "" :
+						   g_errors[UNKNOWN_FLAG], "-", 1, ln);
+		}
 		++ln;
 	}
 }
