@@ -20,6 +20,9 @@
 # include "libft.h"
 # include "asm.h"
 
+# ifndef MIN_REG_IDX
+#  define MIN_REG_IDX 1
+# endif
 # define IND_SIZE 2
 # define REG_SIZE 4
 # define DIR_SIZE REG_SIZE

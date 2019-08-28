@@ -77,7 +77,7 @@ void		*ft_get_arg_val(char **ln, unsigned int type,
 	if (bad_arg)
 		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_ln + 1,
 					(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
-	if (type & T_REG && (int)(size_t)arg < 0) // todo <=
+	if (type & T_REG && (int)(size_t)arg < MIN_REG_IDX)
 		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_ln + 1,
 					(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	if (type & T_LAB && champ->curr_cmd->arg_count >=

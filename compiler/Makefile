@@ -156,7 +156,9 @@ novis: ADD_FLAGS_LINK =
 novis: ADD_FLAGS_COMPILE = -D NO_VISUALIZATION
 novis: print_novis make_lib re_this
 
-#--tool=massif
+as_original: ADD_FLAGS_COMPILE = -D MIN_REG_IDX=0
+as_original: print_as_orig make_lib re_this
+
 valgrind: print_valgrind debug
 	 @~/.brew/bin/valgrind --leak-check=full --show-leak-kinds=all \
 	 --dsymutil=yes --track-origins=yes ./$(NAME) $(VALGRIND_ARGS)
@@ -234,6 +236,9 @@ print_norm:
 
 print_novis:
 	@echo "\x1B[38;5;196mVISUALIZATION DISABLED!\x1B[0m\n"
+
+print_as_orig:
+	@echo "\x1B[38;5;196mCOMPILING 'AS_ORIGINAL_VERSION'!\x1B[0m\n"
 
 ###################################--ATTRS--####################################
 .PHONY: all clean fclean re debug sanitize valgrind
