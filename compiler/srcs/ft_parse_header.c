@@ -14,10 +14,11 @@
 
 void		ft_parse_header(t_champ *champ, int fd)
 {
-	char *ln;
+	char	*ln;
+	int		gnl_ret;
 
-	while ((ln = (void*)1lu) && ft_get_next_line(fd, &ln, BUFF_SIZE) &&
-										++champ->line)
+	while ((ln = (void*)1lu) && (gnl_ret = ft_get_next_line(fd, &ln, BUFF_SIZE))
+				&& ++champ->line)
 	{
 		if (!ln)
 			exit(ft_free_champ(&champ, 13));
@@ -31,6 +32,9 @@ void		ft_parse_header(t_champ *champ, int fd)
 			return (ft_check_exist_name_cmt(champ));
 	}
 	ft_check_exist_name_cmt(champ);
+	if (!gnl_ret)
+		ft_champ_upd_line(champ, 0);
+	ft_fdprintf(2, FRMT(g_wrn_empty));
 }
 
 void		ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
@@ -110,7 +114,7 @@ int			ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 	static int		comment_warning = 0;
 
 	--ln;
-	while (*++ln && *ln != COMMENT_CHAR && *ln != ALT_CMT_CHAR) // todo need ??
+	while (*++ln)
 	{
 		if (*ln != '"' && (!res || (*res)->len <= max_len))
 		{

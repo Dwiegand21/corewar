@@ -76,6 +76,8 @@ char g_wrn_ignored[] =
 char g_wrn_double[] =
 "{Bold}{\\202}WARNING{eof} - Extra appearance of {\\226}player-%s{eof} "
 "ignored\n";
+char g_wrn_empty[] =
+"{Bold}{\\202}WARNING{eof} - Champion has empty exec-part\n";
 
 char g_pos[] =
 "          In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";

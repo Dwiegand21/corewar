@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 ARGS=($(find all_srcs -name '*.s'))
+#echo "${ARGS[@]}"
+#exit
 
 function compile_ref {
-    for arg in ${ARGS[@]}
+    for arg in "${ARGS[@]}"
     do
         ../subject/asm ${arg} 2> /dev/null 1> /dev/null
         compiled=$(echo ${arg} | sed 's/.s$/.cor/g')
@@ -12,11 +14,30 @@ function compile_ref {
 }
 
 function compile_my {
-    for arg in ${ARGS[@]}
+    ./asm -s "${ARGS[@]}"
+    for arg in "${ARGS[@]}"
     do
-        ./asm ${arg} 2> /dev/null 1> /dev/null
+        #./asm ${arg} 2> /dev/null 1> /dev/null
         compiled=$(echo ${arg} | sed 's/.s$/.cor/g')
-        mv ${compiled} tests/$(basename ${compiled} | sed 's/.cor$/.mycor/g') 2> /dev/null
+        mv "${compiled}" tests/$(basename ${compiled} | sed 's/.cor$/.mycor/g') 2> /dev/null
+    done
+}
+
+function VG_test {
+    for arg in "${ARGS[@]}"
+    do
+
+        leaks=$(valgrind --log-fd=1 ./asm -s ${arg} | grep 'definitely')
+        leaks=$(echo "$leaks" | awk '{print $4}')
+
+        mv "${arg}" "tested_files"
+        if (( leaks + 0 )); then
+          printf "%s " "$arg"
+          printf "%s\n" "$leaks"
+        fi
+
+        #compiled=$(echo ${arg} | sed 's/.s$/.cor/g')
+        #mv ${compiled} tests/$(basename ${compiled} | sed 's/.cor$/.mycor/g') 2> /dev/null
     done
 }
 
@@ -66,9 +87,12 @@ function compare {
 mkdir -p tests
 rm -f tests/*
 echo "Compiling ref"
-ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
+#ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
 echo "Compiling my"
-my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )
+#my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )
+
+VG_test
+
 
 echo ""
 echo ""

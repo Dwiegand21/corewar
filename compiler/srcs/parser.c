@@ -49,7 +49,7 @@ void				ft_parse_line(t_champ *champ, char *ln)
 	int	cmd;
 	int	is_lbl;
 
-	if (!*ln)
+	if (!ln || !*ln)
 		return ;
 	ft_skip_spaces(&ln);
 	if (!*ln || *ln == COMMENT_CHAR || *ln == ALT_CMT_CHAR)
