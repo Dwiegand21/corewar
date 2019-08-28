@@ -27,7 +27,7 @@ l22: and :l76,%:l75,r15
 l23: lldi :l9,%:l33,r15
 l24: zjmp %23731
 l25: zjmp %:l2
-l26: xor 12701,%-1171324354,r0
+l26: xor 12701,%-1171324354,r1
 l27: or :l25,-13500,r11
 l28: ld %2116588573,r13
 l29: add r2,r14,r14
@@ -35,7 +35,7 @@ l30: lldi r10,r9,r7
 l31: ldi r7,%-15056,r8
 l32: st r3,-30634
 l33: or :l66,%-774661286,r7
-l34: sub r14,r2,r0
+l34: sub r14,r2,r1
 l35: sti r1,%-11093,%:l13
 l36: sub r5,r11,r4
 l37: xor r11,%:l7,r13
@@ -93,9 +93,9 @@ l88: zjmp %:l54
 l89: lld %:l37,r12
 l90: lfork %:l2
 l91: st r6,:l28
-l92: ldi r0,r15,r1
+l92: ldi r1,r15,r1
 l93: sti r1,%:l39,%-28778
-l94: sti r12,:l79,r0
+l94: sti r12,:l79,r1
 l95: sti r15,%:l15,%-18770
 l96: xor r13,:l17,r9
 l97: fork %:l36
