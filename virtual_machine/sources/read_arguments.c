@@ -92,7 +92,7 @@ int32_t		read_arguments(t_area *area, int32_t argc, char **argv)
 		files[SN_PLAYERS].champ_index = -1;
 		i += check_numeric_flag(argv + i,
 					&files[SN_PLAYERS].champ_index, i + 2 < argc);
-		if (SN_PLAYERS < 4)
+		if (SN_PLAYERS < MAX_PLAYERS)
 			check_filename(files + SN_PLAYERS, argv[i], i < argc);
 		else
 			ERRF("Program run with invalid arguments:\n"

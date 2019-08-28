@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:51:10 by axtazy            #+#    #+#             */
-/*   Updated: 2019/06/13 19:39:17 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/28 21:16:44 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void		aff_op(t_area *area, t_process **carr)
 {
 	t_process *const process = *carr;
 
-	if (IS_REG(PPC(1)))
+	if (IS_REG(PPC(1)) && (area->flags & AFF_ON))
 	{
-//		ft_putchar(PREG(PPC(1))); // todo return it
+		ft_putchar((char)PREG(PPC(1)));
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));
 	process->f = get_op;

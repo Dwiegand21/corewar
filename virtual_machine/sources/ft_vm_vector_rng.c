@@ -31,7 +31,7 @@ static inline t_timsort_rng	*ft_realloc_vm(t_timsort_rng *old_data,
 	return (new_data);
 }
 
-int32_t				ft_init_vm_vector_rng(void)
+int32_t						ft_init_vm_vector_rng(void)
 {
 	t_vm_vector_rng		*v;
 

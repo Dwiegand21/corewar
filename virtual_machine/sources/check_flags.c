@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_flags.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/08/24 02:22:07 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/08/28 21:18:35 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int32_t			check_dupm_flag(int32_t *argc, char ***argv, int32_t *dump)
 	if (*argc - 1 <= 0)
 		ERRF("Program run with invalid arguments:\n"
 			"After the \'-d\' flag one more argument should be\n"
-			"./corewar [-d N] [[-n N] filename.cor] ...\n");
+			"./corewar [-][-d N] [[-n N] filename.cor] ...\n");
 	(*argc)--;
 	(*argv)++;
 	if (!is_integer(**argv, dump))
@@ -64,10 +64,8 @@ int32_t			check_flags(int32_t *argc, char ***argv, int32_t *dump)
 	{
 		if (check_dupm_flag(argc, argv, dump))
 			flags |= DUMP;
-		else if (ft_strcmp(*(*argv), "-v") == 0)
-			flags |= VISUALIZATION;
-		else if (ft_strcmp(*(*argv), "-p") == 0)
-			flags |= PROCESS_PRINT;
+		else if (ft_strcmp(*(*argv), "-a") == 0)
+			flags |= AFF_ON;
 		else
 			break ;
 		(*argc)--;

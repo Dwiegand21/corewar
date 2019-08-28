@@ -98,7 +98,7 @@ static inline int32_t	one_cycle(t_area *area, register int current_round)
 	return (1);
 }
 
-void						play_game(t_area *area)
+void					play_game(t_area *area)
 {
 	int	current_round;
 
