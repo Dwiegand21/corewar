@@ -34,21 +34,6 @@ void	change_prepared(t_env *env, char **tmp, int width)
 		env->cur->len = ft_strlen(env->cur->prepared);
 }
 
-//char	*read_ull(char *str, unsigned long long int *n)
-//{
-//	int res;
-//
-//	res = 0;
-//	while (*str >= '0' && *str <= '9')
-//	{
-//		res = res * 10;
-//		res += *str - '0';
-//		str++;
-//	}
-//	*n = res;
-//	return (str);
-//}
-
 int		shift_int(char *str, int *n)
 {
 	int res;

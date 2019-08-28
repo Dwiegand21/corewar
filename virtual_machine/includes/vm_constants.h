@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 16:32:56 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/28 17:36:08 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@
 # define TIMELINE_SIZE		1001
 # define APLAYER(x)			area->players[x]
 
-# define SCYCLE_INROUND		area->g_stats.cycle_in_round
-# define SN_CYCLES			area->g_stats.n_cycles
 # define SDIE_CYCLE			area->g_stats.cycle_to_die
 # define SDIE_CYCLE_DELTA	area->g_stats.cycle_to_die_delta
 # define SNOT_CHANGED		area->g_stats.not_changed_checks
@@ -97,6 +95,22 @@
 
 # define PRS_KEY(x)			(((t_pair *)(x))->key)
 # define PRS_VALUE(x)		((t_process *)(((t_pair *)(x))->value))
+
+/*
+**					VERSION DEFINES
+*/
+# if defined(COREWAR_VERSION)
+#  if COREWAR_VERSION == 2018
+#   define OP_1 (result)
+#   define OP_2 (get32(area, process, get16(area, process, shift)))
+#  else
+#   define OP_1 ((result >> 16) & 0xFFFF)
+#   define OP_2 (get32(area, process, get16(area, process, shift) % IDX_MOD))
+#  endif
+# else
+#  define OP_1 ((result >> 16) & 0xFFFF)
+#  define OP_2 (get32(area, process, get16(area, process, shift) % IDX_MOD))
+# endif
 
 /*
 **					OP.H DEFINES

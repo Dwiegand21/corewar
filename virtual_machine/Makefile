@@ -13,6 +13,16 @@ all:
 
 .PHONY : all
 
+build_old:
+	make -C makebuild -f Makefile build_old
+
+.PHONY : build_old
+
+build_2018:
+	make -C makebuild -f Makefile build_2018
+
+.PHONY : build_2018
+
 debug:
 	make -C makebuild -f Makefile debug
 

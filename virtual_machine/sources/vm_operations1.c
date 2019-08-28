@@ -32,7 +32,6 @@ void		live_op(t_area *area, t_process **carr)
 	value = -get32(area, process, 1) - 1;
 	if ((value >= 0) && (value < (int32_t)SN_PLAYERS))
 	{
-		area->players[value].last_live = SN_CYCLES;
 		area->win = value;
 	}
 	SLIVES_IN_ROUND++;

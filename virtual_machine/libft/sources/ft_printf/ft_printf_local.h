@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_printf_local.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbradama <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 18:25:31 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/02/26 17:32:02 by lbradama         ###   ########.fr       */
+/*   Updated: 2019/08/28 15:05:28 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef LIBFT_FT_PRINTF_LOCAL_H
+# define LIBFT_FT_PRINTF_LOCAL_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -102,8 +102,6 @@ typedef struct	s_print_list
 {
 	char				*original;
 	int32_t				original_width;
-	// int32_t				is_color;
-	// char				*color;
 
 	t_pflags			flags;
 	int32_t				width;
@@ -166,8 +164,8 @@ int32_t			init_arg_list(t_env *env, va_list *ap);
 /* init2.c */
 int32_t			ft_printf_init(const char *format, t_env *env);
 t_env			*init_env(void);
-char 			*allocate_buffer(const t_plist *cur);
-int 			set_to_plist(t_env **env, const char *format, va_list *va);
+char			*allocate_buffer(const t_plist *cur);
+int				set_to_plist(t_env **env, const char *format, va_list *va);
 /* tools.c */
 int32_t			char_in_string(char c, char *str);
 void			change_prepared(t_env *env, char **tmp, int width);
@@ -252,6 +250,6 @@ int				print_result_str(t_plist *cur, char *buff);
 int				print_result_file(t_plist *cur, FILE *file);
 
 /* free_printf.c */
-int		free_printf(t_env *env);
+int				free_printf(t_env *env);
 
 #endif

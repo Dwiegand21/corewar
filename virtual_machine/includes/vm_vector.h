@@ -24,7 +24,7 @@ char				ft_vm_vector_int_realloc(t_vm_vector_int *v);
 t_vm_vector_prc		*ft_make_vm_vector_prc(int init_size);
 t_process			*ft_vm_vector_prc_push_back(t_vm_vector_prc **v_ptr);
 
-t_vm_vector_rng		*ft_init_vm_vector_rng(t_vm_vector_rng *v, int init_size);
+int32_t				ft_init_vm_vector_rng(void);
 char				ft_vm_vector_rng_realloc(t_vm_vector_rng *v);
 
 #endif

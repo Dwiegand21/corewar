@@ -2,7 +2,7 @@ import itertools
 import argparse
 import asyncio
 import os
-sem = asyncio.BoundedSemaphore(30)
+sem = asyncio.BoundedSemaphore(5)
 progress = 0
 
 
@@ -26,6 +26,7 @@ async def find_error(player1, player2, directory):
     async def sparring(dump_cycle):
         async with sem:
             proc1 = await asyncio.create_subprocess_exec(
+                            # './origin_sources/corewar',
                             './origin_sources/champs/championships/2018/corewar',
                             '-d',
                             str(dump_cycle),
@@ -35,6 +36,7 @@ async def find_error(player1, player2, directory):
                             stderr=asyncio.subprocess.PIPE)
             stdout1, stderr1 = await proc1.communicate()
             proc2 = await asyncio.create_subprocess_exec(
+                            # '../corewar_old',
                             '../corewar',
                             '-d',
                             str(dump_cycle),

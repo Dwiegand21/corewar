@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init2.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/28 15:06:25 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/08/28 15:07:19 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf_local.h"
 
@@ -36,9 +47,9 @@ int		ft_printf_init(const char *format, t_env *env)
 	return (1);
 }
 
-char 	*allocate_buffer(const t_plist *cur)
+char	*allocate_buffer(const t_plist *cur)
 {
-	char 	*buff;
+	char	*buff;
 	int		length;
 
 	buff = NULL;
@@ -55,7 +66,7 @@ char 	*allocate_buffer(const t_plist *cur)
 	return (buff);
 }
 
-int 	set_to_plist(t_env **env, const char *format, va_list *va)
+int		set_to_plist(t_env **env, const char *format, va_list *va)
 {
 	if (!format)
 		return (0);

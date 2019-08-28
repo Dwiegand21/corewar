@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_vprintf.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/28 15:07:42 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/08/28 15:08:10 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf_local.h"
 
-int 	ft_vprintf(const char *format, va_list *va)
+int		ft_vprintf(const char *format, va_list *va)
 {
 	return (ft_vdprintf(1, format, va));
 }

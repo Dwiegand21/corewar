@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-ORIGIN_EXE="./origin_sources/champs/championships/2018/corewar"
-#ORIGIN_EXE="./origin_sources/corewar"
-OUR_EXE="../corewar"
+#ORIGIN_EXE="./origin_sources/champs/championships/2018/corewar"
+ORIGIN_EXE="./origin_sources/corewar"
+#OUR_EXE="../corewar"
+OUR_EXE="../corewar_old"
 
 TMP_DIFFS="./diffs_dir/"
 

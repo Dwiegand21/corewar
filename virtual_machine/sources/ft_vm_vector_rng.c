@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vm_vector_rng.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 19:48:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/21 19:48:55 by ggerardy         ###   ########.fr       */
+/*   Updated: 2019/08/28 14:39:18 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <virtual_machine.h>
 #include "libft.h"
 #include "vm_vector.h"
 
@@ -30,19 +31,22 @@ static inline t_timsort_rng	*ft_realloc_vm(t_timsort_rng *old_data,
 	return (new_data);
 }
 
-t_vm_vector_rng				*ft_init_vm_vector_rng(t_vm_vector_rng *v,
-												int init_size)
+int32_t				ft_init_vm_vector_rng(void)
 {
+	t_vm_vector_rng		*v;
+
+	v = &g_sort_ranges;
 	v->len = 0;
 	v->offset = 0;
-	v->capacity = init_size <= 1 ? 2 : init_size;
+	// todo ??
+	v->capacity = INIT_SORT_RANGES_COUNT <= 1 ? 2 : INIT_SORT_RANGES_COUNT;
 	v->data = (t_timsort_rng*)malloc(sizeof(t_timsort_rng) * (v->capacity));
 	if (!v->data)
 	{
 		free(v);
 		return (0);
 	}
-	return (v);
+	return (1);
 }
 
 char						ft_vm_vector_rng_realloc(t_vm_vector_rng *v)

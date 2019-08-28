@@ -10,7 +10,6 @@ set( SourceFiles
         ft_scale.c
         ldbl_1.c
         ldbl_4.c
-        main_func.c
         postprocessing_2.c
         processing.c
         uni_encode.c

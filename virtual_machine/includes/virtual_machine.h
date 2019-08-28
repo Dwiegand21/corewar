@@ -75,7 +75,6 @@ int32_t		check_flags(int32_t *av, char ***ac, int32_t *dump);
 */
 void		new_process(t_area *area, t_process *parent, uint32_t pc);
 void		load_process(t_area *area, int32_t player, uint32_t pc);
-// int32_t		delete_not_live_processes(t_area *area);
 
 /*
 **		vm_operations1.c

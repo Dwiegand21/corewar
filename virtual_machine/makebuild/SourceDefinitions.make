@@ -5,11 +5,13 @@ __CONFIGS_DIR			:= $(__PROJECT_MAIN_DIR)/makebuild
 __SOURCES_DIR			:= $(__PROJECT_MAIN_DIR)/sources
 __INCLUDES_DIR			:= $(__PROJECT_MAIN_DIR)/includes
 __OBJECTS_DIR			:= $(__PROJECT_MAIN_DIR)/objects
+__OBJECTS_DIR_2			:= $(__PROJECT_MAIN_DIR)/objects_2
 __DEPENDENCY_DIR		:= $(__PROJECT_MAIN_DIR)/dependencies
 __LIBRARIES_DIR			:= $(__PROJECT_MAIN_DIR)/libft
-__BUILD_DIRS			:= $(__OBJECTS_DIR)
+__BUILD_DIRS			:= $(__OBJECTS_DIR) $(__OBJECTS_DIR_2)
 
 __OBJECT_FILES			= $(addprefix $(__OBJECTS_DIR)/,$(__SOURCE_FILES:%.c=%.o))
+__OBJECT_FILES_2		= $(addprefix $(__OBJECTS_DIR_2)/,$(__SOURCE_FILES:%.c=%.o))
 
 __SOURCE_FILES			:=  \
 					main.c \

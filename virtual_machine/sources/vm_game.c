@@ -72,7 +72,6 @@ static inline void		change_area_stats(t_area *area)
 	if (SDIE_CYCLE_DELTA < 0)
 		SDIE_CYCLE_DELTA = 0;
 	SDIE_CYCLE += SDIE_CYCLE_DELTA;
-	SCYCLE_INROUND = 0;
 	SLIVES_IN_ROUND = 0;
 }
 

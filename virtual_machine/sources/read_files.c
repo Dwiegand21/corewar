@@ -42,7 +42,7 @@ int32_t				set_code_to_map(t_area *area, t_cor_file *files,
 // todo the condition does not cover all possible cases
 	if ((read(files[p_index].fd,
 			area->map + area->players[p_index].start_pos,
-			files[p_index].code_size)) != files[p_index].code_size)
+			files[p_index].code_size + 1)) != files[p_index].code_size)
 		ERRF("File with name \'%s\' is invalid:\nCode size in file is wrong.",
 			files[p_index].file_name);
 	load_process(area, p_index, area->players[p_index].start_pos);

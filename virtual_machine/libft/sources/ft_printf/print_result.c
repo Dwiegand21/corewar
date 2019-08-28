@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_result.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/28 15:02:26 by dwiegand          #+#    #+#             */
+/*   Updated: 2019/08/28 15:02:40 by dwiegand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf_local.h"
 
@@ -34,20 +45,18 @@ int			print_result_file(t_plist *cur, FILE *file)
 		{
 			res += cur->original_width;
 			fwrite(cur->original, sizeof(char), cur->original_width, file);
-//			write(fd, cur->original, cur->original_width);
 		}
 		else
 		{
 			res += cur->len;
 			fwrite(cur->prepared, sizeof(char), cur->len, file);
-//			write(fd, cur->prepared, cur->len);
 		}
 		cur = cur->next;
 	}
 	return (res);
 }
 
-int 		print_result_str(t_plist *cur, char *buff)
+int			print_result_str(t_plist *cur, char *buff)
 {
 	int		length;
 

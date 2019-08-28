@@ -13,18 +13,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-//void		*ft_memcpy(void *dst, const void *src, size_t length)
-//{
-//	size_t		i;
-//
-//	if (dst == src || length == 0)
-//		return (dst);
-//	i = -1;
-//	while (++i < length)
-//		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
-//	return (dst);
-//}
-
 void	*ft_memcpy(void *dest, const void *src, register size_t count)
 {
 	ssize_t			*dst1;

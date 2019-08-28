@@ -16,9 +16,9 @@
 #include "ft_iostream.h"
 #include "ft_printf.h"
 
-void		_print_err_without_fname(
-		char const *const format,
-		...)
+void	print_err_without_fname(
+				char const *const format,
+				...)
 {
 	va_list		va;
 
@@ -28,10 +28,10 @@ void		_print_err_without_fname(
 	exit(1);
 }
 
-void		_print_err_with_fname(
-		char const *restrict const function_name,
-		char const *const format,
-		...)
+void	print_err_with_fname(
+				char const *restrict const function_name,
+				char const *const format,
+				...)
 {
 	va_list		va;
 

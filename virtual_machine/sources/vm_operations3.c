@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:49 by axtazy            #+#    #+#             */
-/*   Updated: 2019/08/27 23:02:04 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/28 18:38:39 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ void		ldi_op(t_area *area, t_process **carr)
 	if (RDI_T(OCT00) && RD_T(OCT01) && R_T(OCT02)
 		&& check_registers(area, process, 3, 2))
 	{
+//		if (I_T(OCT00))
+//		{
+//			result = (get32(area,
+//					process, get16(area, process, shift)));
+//			shift += 2;
+//		}
+//		else
+//			result = get_argument2(area, process, &shift, OCT00);
 		result = get_argument2(area, process, &shift, OCT00);
 		result += get_argument2(area, process, &shift, OCT01);
 		if (IS_REG(PPC(shift)))
@@ -92,8 +100,9 @@ void		lld_op(t_area *area, t_process **carr)
 			result = get_argument(area, process, &shift, OCT00);
 		if (IS_REG(PPC(shift)))
 		{
+			PREG(PPC(shift)) = OP_1;
 //			PREG(PPC(shift)) = (result >> 16) & 0xFFFF; // ???
-			PREG(PPC(shift)) = result;
+//			PREG(PPC(shift)) = result;
 			CARRY = ((result == 0) ? true : false);
 		}
 	}
@@ -114,7 +123,9 @@ void		lldi_op(t_area *area, t_process **carr)
 	{
 		if (I_T(OCT00))
 		{
-			result = (get32(area, process, get16(area, process, shift)));
+			result = OP_2;
+//			result = get_argument2(area, process, &shift, OCT00);
+//			result = (get32(area, process, get16(area, process, shift)));
 			shift += 2;
 		}
 		else
