@@ -87,11 +87,11 @@ function compare {
 mkdir -p tests
 rm -f tests/*
 echo "Compiling ref"
-#ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
+ref_time=$( TIMEFORMAT="%R"; { time compile_ref; } 2>&1 )
 echo "Compiling my"
-#my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )
+my_time=$( TIMEFORMAT="%R"; { time compile_my; } 2>&1 )
 
-VG_test
+#VG_test
 
 
 echo ""

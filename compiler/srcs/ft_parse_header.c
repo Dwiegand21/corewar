@@ -17,7 +17,8 @@ void		ft_parse_header(t_champ *champ, int fd)
 	char	*ln;
 	int		gnl_ret;
 
-	while ((ln = (void*)1lu) && (gnl_ret = ft_get_next_line(fd, &ln, BUFF_SIZE))
+	while ((ln = (void*)1lu) &&
+			(gnl_ret = ft_get_next_line(fd, &ln, BUFF_SIZE))
 				&& ++champ->line)
 	{
 		if (!ln)

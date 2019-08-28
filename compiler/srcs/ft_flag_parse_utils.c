@@ -37,7 +37,7 @@ void		ft_parse_l_flag(char *ln, t_flags *fl)
 	{
 		fl->is_error = 1;
 		ft_fdprintf(2, g_is_silent ? "" :
-					   g_errors[UNKNOWN_FLAG], "--", 100, ln);
+			g_errors[UNKNOWN_FLAG], "--", 100, ln);
 	}
 }
 
@@ -51,7 +51,7 @@ void		ft_parse_s_flag(char *ln, t_flags *fl)
 		{
 			fl->is_error = 1;
 			ft_fdprintf(2, g_is_silent ? "" :
-						   g_errors[UNKNOWN_FLAG], "-", 1, ln);
+				g_errors[UNKNOWN_FLAG], "-", 1, ln);
 		}
 		++ln;
 	}
