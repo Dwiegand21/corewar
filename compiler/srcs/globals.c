@@ -12,6 +12,8 @@
 
 #include "asm.h"
 
+char g_is_silent = 0;
+
 char g_unexp_token[] =
 "{Bold}{Red}ERROR{eof}  -  Unexpected symbol >>> {\\226}%.1r{eof} <<<\n"
 "          >>> {\\226}%c{eof} <<< expected\n";

@@ -21,7 +21,7 @@ int			ft_free_champ(t_champ **champ, int ret)
 	ft_free_string(&(*champ)->comment);
 	ft_free_string(&(*champ)->name);
 	ft_free_string(&(*champ)->res);
-	free((*champ)->curr_line);
+	free((*champ)->curr_ln);
 	ft_free_cmd((*champ)->curr_cmd);
 	ft_free_map(&(*champ)->labels);
 	ft_get_next_line((*champ)->fd, 0, -1);

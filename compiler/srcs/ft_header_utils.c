@@ -29,7 +29,7 @@ void	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 		tmp[3] = tmp_char;
 	if (radix == 16 && *ln - tmp != 3)
 	{
-		ft_make_error(BAD_BYTE, champ, tmp - champ->curr_line,
+		ft_make_error(BAD_BYTE, champ, tmp - champ->curr_ln,
 				(void*[4]){(void*)(*ln - tmp + 1), tmp - 1, 0, 0});
 	}
 	--(*ln);
@@ -58,9 +58,11 @@ int		ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 			break ;
 		if (!ft_isspace(*ln))
 		{
-			ft_printf(g_wrn_ignored, type == NAME ? "name" : "comment");
-			ft_printf(g_pos, champ->file, champ->line,
-					ln - champ->curr_line + 1);
+			ft_printf(g_is_silent ? "" : g_wrn_ignored,
+					type == NAME ? "name" : "comment");
+			ft_printf(g_is_silent ? "" : g_pos,
+					champ->file, champ->line,
+					ln - champ->curr_ln + 1);
 			break ;
 		}
 	}

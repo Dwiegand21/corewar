@@ -20,13 +20,13 @@ int			ft_check_arg(t_champ *champ, char **ln, char *begin,
 		return (type);
 	if (type & T_DIR || type & T_REG)
 		ft_make_error(MISS_ARG_AFT_PRFX, champ,
-				begin - champ->curr_line + 1,
+				begin - champ->curr_ln + 1,
 					(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 					(void*)1lu, begin, g_functions[champ->curr_cmd->cmd].name});
 	if (type & T_IND &&
 				champ->curr_cmd->arg_count <
 				g_functions[champ->curr_cmd->cmd].arg_count)
-		ft_make_error(MISS_ARG, champ, begin - champ->curr_line + 1,
+		ft_make_error(MISS_ARG, champ, begin - champ->curr_ln + 1,
 					(void*[4]){g_nbrs[champ->curr_cmd->arg_count + 1],
 					g_functions[champ->curr_cmd->cmd].name, 0, 0});
 	return (-1 * (int)type);
@@ -49,7 +49,7 @@ int			ft_get_arg_type(char **ln, t_champ *champ)
 		if (champ->curr_cmd->arg_count <
 			g_functions[champ->curr_cmd->cmd].arg_count)
 			champ->curr_cmd->lbl_poses[champ->curr_cmd->arg_count] =
-					*ln - champ->curr_line;
+					*ln - champ->curr_ln;
 		type |= T_LAB;
 	}
 	type = (type & T_REG) ? T_REG : type;
@@ -75,10 +75,10 @@ void		*ft_get_arg_val(char **ln, unsigned int type,
 			&& **ln != ALT_CMT_CHAR && **ln)
 		++(*ln);
 	if (bad_arg)
-		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_line + 1,
+		ft_make_error(BAD_ARG, champ, bad_arg - champ->curr_ln + 1,
 					(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	if (type & T_REG && (int)(size_t)arg <= 0)
-		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_line + 1,
+		ft_make_error(BAD_REG_IDX, champ, begin - champ->curr_ln + 1,
 					(void*[4]){(void*)(*ln - begin), (void*)begin, 0, 0});
 	if (type & T_LAB && champ->curr_cmd->arg_count >=
 		g_functions[champ->curr_cmd->cmd].arg_count)
@@ -94,14 +94,14 @@ void		ft_move_to_next_arg(t_champ *champ, char **ln)
 	((*ln) += (sep != 0));
 	ft_skip_spaces(ln);
 	if (!sep)
-		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_line + 1,
+		ft_make_error(MISSING_SEP, champ, *ln - champ->curr_ln + 1,
 				(void*[4]){(void*)(size_t)SEPARATOR_CHAR, 0, 0, 0});
 	if ((!**ln || **ln == COMMENT_CHAR || **ln == ALT_CMT_CHAR ||
 		**ln == SEPARATOR_CHAR) &&
 		champ->curr_cmd->arg_count >=
 		g_functions[champ->curr_cmd->cmd].arg_count)
 	{
-		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_line + 1,
+		ft_make_error(EXTRA_SEP, champ, sep - champ->curr_ln + 1,
 		(void *[4]) {(void *)(size_t)SEPARATOR_CHAR, 0, 0, 0});
 		champ->curr_cmd->arg_count -=
 				champ->curr_cmd->arg_count >
@@ -117,7 +117,7 @@ void		ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
 	type = ((int)type < 0) ? (int)type * -1 : type;
 	if (type & g_functions[cmd->cmd].arg[cmd->arg_count - 1])
 		return ;
-	ft_make_error(BAD_ARG_TYPE, champ, begin - champ->curr_line + 1,
+	ft_make_error(BAD_ARG_TYPE, champ, begin - champ->curr_ln + 1,
 			(void*[4]){g_nbrs[cmd->arg_count], g_functions[cmd->cmd].name,
 			g_types[g_functions[cmd->cmd].arg[cmd->arg_count - 1] - 1],
 			g_types[(type & ~T_LAB) - 1]});

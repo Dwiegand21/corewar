@@ -52,5 +52,6 @@ t_flags		*ft_parse_flags(t_flags *fl, int ac, char **av)
 			ft_parse_filename(av[i], fl);
 		}
 	}
+	g_is_silent = GET_SILENT(fl->flags);
 	return (fl);
 }

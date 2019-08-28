@@ -71,20 +71,23 @@ int					ft_compile_one(char *src, char *out)
 				champ->error_count)
 	{
 		return (ft_free_champ(&champ, 1) +
-				ft_printf("Error while compiling file '%s'\n", src) * 0);
+				ft_printf(g_is_silent ? "" :
+				"Error while compiling file '%s'\n", src) * 0);
 	}
 	if ((fd = open(out, O_CREAT | O_TRUNC | O_WRONLY, 0666)) == -1)
 	{
 		return (ft_free_champ(&champ, 1) +
-				ft_printf("Error while opening file '%s'\n", out) * 0);
+				ft_printf(g_is_silent ? "" :
+				"Error while opening file '%s'\n", out) * 0);
 	}
 	if (write(fd, champ->res->data, champ->res->len) == -1)
 	{
 		return (ft_free_champ(&champ, 1) +
-				ft_printf("Error while writing to file '%s'\n", out) * 0);
+				ft_printf(g_is_silent ? "" :
+				"Error while writing to file '%s'\n", out) * 0);
 	}
 	ft_free_champ(&champ, 0);
-	ft_printf("Compiled %s to %s\n", src, out);
+	ft_printf(g_is_silent ? "" : "Compiled %s to %s\n", src, out);
 	return (0);
 }
 

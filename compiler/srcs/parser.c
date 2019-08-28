@@ -56,7 +56,7 @@ void				ft_parse_line(t_champ *champ, char *ln)
 		return ;
 	cmd = ft_is_command(ln);
 	is_lbl = ft_is_lbl(ln, champ, cmd >= 0,
-			(int)(size_t)(ln - champ->curr_line) + 1);
+			(int)(size_t)(ln - champ->curr_ln) + 1);
 	if (is_lbl)
 		ft_parse_label(champ, ln);
 	else if (cmd >= 0)
@@ -67,7 +67,7 @@ void				ft_parse_exec(t_champ *champ, int fd)
 {
 	char *ln;
 
-	ft_parse_line(champ, champ->curr_line);
+	ft_parse_line(champ, champ->curr_ln);
 	while ((ln = (void*)1lu) && ft_get_next_line(fd, &ln, BUFF_SIZE) &&
 			++champ->line)
 	{

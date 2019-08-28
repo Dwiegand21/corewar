@@ -31,6 +31,6 @@ t_champ		*ft_make_champ(char *file, int fd)
 
 void		ft_champ_upd_line(t_champ *champ, char *line)
 {
-	free(champ->curr_line);
-	champ->curr_line = line;
+	free(champ->curr_ln);
+	champ->curr_ln = line;
 }

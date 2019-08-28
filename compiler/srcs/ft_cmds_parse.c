@@ -55,7 +55,7 @@ void				ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 		exit(ft_free_champ(&champ, 666));
 	champ->curr_cmd = cmd;
 	cmd->cmd = (unsigned char)cmd_num;
-	cmd->begin_pos = (int)(size_t)(ln - champ->curr_line) + 1;
+	cmd->begin_pos = (int)(size_t)(ln - champ->curr_ln) + 1;
 	ln += g_functions[cmd_num].namelen;
 	ft_skip_spaces(&ln);
 	while (ft_parse_arg(champ, cmd, &ln))

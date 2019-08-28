@@ -40,8 +40,10 @@ void		ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
 	ignore = 0;
 	if ((type == NAME ? champ->name->offset : champ->comment->offset) == 1)
 	{
-		ft_printf(g_wrn_double, type == NAME ? "name" : "comment");
-		ft_printf(g_pos, champ->file, champ->line, 0);
+		ft_printf(g_is_silent ? "" : g_wrn_double,
+				type == NAME ? "name" : "comment");
+		ft_printf(g_is_silent ? "" : g_pos,
+				champ->file, champ->line, 0);
 		ignore = 1;
 	}
 	if (type == NAME)
@@ -67,13 +69,13 @@ int			ft_validate_string(t_champ *champ, char **ln, t_token_type type)
 	ft_skip_spaces(ln);
 	if (**ln != '"' && **ln)
 	{
-		ft_make_error(UNEXP_TOKEN, champ, *ln - champ->curr_line + 1,
+		ft_make_error(UNEXP_TOKEN, champ, *ln - champ->curr_ln + 1,
 					(void*[4]){(void*)*ln, (void*)(size_t)'"', 0, 0});
 		return (0);
 	}
 	else if (!**ln)
 	{
-		ft_make_error(SAME_LINE_EXP, champ, *ln - champ->curr_line + 1,
+		ft_make_error(SAME_LINE_EXP, champ, *ln - champ->curr_ln + 1,
 		(void*[4]){(type == NAME ? (void*)"name" : (void*)"comment"), 0, 0, 0});
 		return (0);
 	}
@@ -121,9 +123,9 @@ int			ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 				ft_parse_backslash(&ln, res, chmp);
 		}
 		else if (*ln != '"' && (*res)->len > max_len &&
-				(type == NAME ? name_warning++ : comment_warning++) == 0 &&
-				ft_printf(g_wrn_too_long, type == NAME ? "name" : "comment"))
-			ft_printf(g_pos, chmp->file, chmp->line, ln - chmp->curr_line);
+			(type == NAME ? name_warning++ : comment_warning++) == 0 &&
+			ft_printf(FRMT(g_wrn_too_long), type == NAME ? "name" : "comment"))
+			ft_printf(FRMT(g_pos), chmp->file, chmp->line, ln - chmp->curr_ln);
 		if (*ln == '"' && *(ln - 1) != '\\')
 			return (ft_check_empty_string(ln, chmp, type));
 	}

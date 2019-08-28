@@ -20,10 +20,9 @@ static void				ft_find_in_long(const char *ln, t_flags *fl)
 		exit(ft_printf(g_help) * 0 + ft_free_flags(fl, 0));
 	else if (ft_strncmp(ln, "output", 7))
 	{
-		ft_printf("%s\n", g_err_unknown_flag);
-		ft_printf("%s\n", ln);
 		fl->is_error = 1;
-		ft_fdprintf(2, g_errors[UNKNOWN_FLAG], "--", 100, ln);
+		ft_fdprintf(2, g_is_silent ? "" :
+		g_errors[UNKNOWN_FLAG], "--", 100, ln);
 	}
 }
 
@@ -38,7 +37,8 @@ static void				ft_find_in_shrt(const char *ln, t_flags *fl)
 		else if (*ln != 'o')
 		{
 			fl->is_error = 1;
-			ft_fdprintf(2, g_errors[UNKNOWN_FLAG], "-", 1, ln);
+			ft_fdprintf(2, g_is_silent ? "" :
+			g_errors[UNKNOWN_FLAG], "-", 1, ln);
 		}
 		++ln;
 	}

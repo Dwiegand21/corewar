@@ -33,7 +33,7 @@ char				*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars)
 	free(res);
 	if (bad_char)
 		ft_make_error(WRONG_CHAR_LBL, champ,
-				(int)(size_t)(bad_char - champ->curr_line) + 1,
+				(int)(size_t)(bad_char - champ->curr_ln) + 1,
 					(void*[4]){bad_char, str, 0, 0});
 	return (str);
 }
@@ -81,7 +81,7 @@ void				ft_parse_label(t_champ *champ, char *ln)
 	ft_skip_spaces(&ln);
 	if (*ln != LABEL_CHAR)
 		ft_make_error(MISS_LBL_CHAR, champ,
-				(int)(size_t)(ln - champ->curr_line) + 1,
+				(int)(size_t)(ln - champ->curr_ln) + 1,
 				(void*[4]){(void*)(size_t)LABEL_CHAR, label, 0, 0});
 	ft_add_label(champ, label);
 	ln += (*ln && *ln == LABEL_CHAR);
@@ -91,7 +91,7 @@ void				ft_parse_label(t_champ *champ, char *ln)
 		ft_parse_command(champ, ln, cmd);
 	else if (cmd == -1)
 		ft_make_error(BAD_CMD, champ,
-				(int)(size_t)(ln - champ->curr_line) + 1,
+				(int)(size_t)(ln - champ->curr_ln) + 1,
 					(void*[4]){(void*)ft_find_bad_cmd_len(ln), ln, 0, 0});
 }
 

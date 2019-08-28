@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/27 23:03:29 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/27 23:03:29 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/08/28 16:20:48 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/08/28 16:20:48 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define SET_SILENT(flags)	((flags) |= 1u << 0u)
 # define SET_HELP(flags)	((flags) |= 1u << 1u)
 # define GET_SILENT(flags)	(((flags) & (1u << 0u)) != 0)
+# define FRMT(frmt) (g_is_silent ? "" : (frmt))
 
 typedef struct	s_op
 {
@@ -114,7 +115,7 @@ typedef struct	s_champ
 	t_string		*comment;
 	t_string		*res;
 	t_vector		*cmds;
-	char			*curr_line;
+	char			*curr_ln;
 	int				line;
 	char			*file;
 	int				fd;
@@ -146,7 +147,7 @@ extern char		g_unexp_token[];
 extern char		g_mult_label[];
 extern char		g_bad_byte[];
 extern char		g_miss_arg[];
-extern char		g_pos_before[];
+extern char		g_chars[];
 extern char		g_nm_cmd_wrg_place[];
 extern char		g_bad_arg_type[];
 extern char		*g_errors[];
@@ -158,19 +159,20 @@ extern char		g_backslash_literals[];
 extern char		g_usage[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_pos[];
-extern char		g_nbrs[][4];
-extern char		g_chars[];
+extern char		g_unknown_lbl[];
+extern char		g_pos_before[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
 extern char		g_bad_arg_count[];
 extern char		g_err_unknown_flag[];
+extern char		g_is_silent;
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_wrn_too_long[];
+extern char		g_pos[];
 extern char		g_err_missing_in[];
-extern char		g_unknown_lbl[];
+extern char		g_nbrs[][4];
 
 /*
 ** ft_args_parse.c
