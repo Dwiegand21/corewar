@@ -111,7 +111,9 @@ int					ft_compile_all(t_flags *fl)
 		}
 		else
 			out = ft_get_out_name(fl->srcs->data[i], 0);
+		fl->out_to_free = out;
 		error_count += ft_compile_one(fl->srcs->data[i], out);
+		fl->out_to_free = 0;
 		free(out);
 	}
 	return (1);

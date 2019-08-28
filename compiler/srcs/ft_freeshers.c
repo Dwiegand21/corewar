@@ -55,6 +55,7 @@ int			ft_free_flags(t_flags *fl, int ret)
 		return (ret);
 	ft_free_vector(&fl->srcs);
 	ft_free_vector(&fl->outputs);
+	free(fl->out_to_free);
 	free(fl);
 	return (ret);
 }

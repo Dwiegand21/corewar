@@ -162,6 +162,8 @@ char g_types[6][30] = {
 	"Direct(%x) or Indirect(x)",
 };
 
+t_flags *g_fls;
+
 t_op g_functions[16] = {
 	{"live",
 		{T_DIR, 0, 0}, 0, 0, 4, 1},

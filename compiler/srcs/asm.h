@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 19:57:59 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/28 19:57:59 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/08/28 21:03:41 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/08/28 21:03:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct	s_flags
 	t_file_type		file_type;
 	unsigned char	is_error;
 	unsigned char	was_input;
+	char			*out_to_free;
 }				t_flags;
 
 extern char		g_wrn_ignored[];
@@ -143,6 +144,7 @@ extern char		g_err_missing_out[];
 extern char		g_missing_param[];
 extern t_op		g_functions[16];
 extern char		g_names[][300];
+extern t_flags	*g_fls;
 extern char		g_exp_same_line[];
 extern char		g_help[];
 extern char		g_unexp_token[];

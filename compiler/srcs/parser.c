@@ -72,7 +72,7 @@ void				ft_parse_exec(t_champ *champ, int fd)
 			++champ->line)
 	{
 		if (!ln)
-			exit(ft_free_champ(&champ, 13));
+			exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 		ft_champ_upd_line(champ, ln);
 		ft_parse_line(champ, ln);
 	}
@@ -82,9 +82,20 @@ t_champ				*ft_parser(char *file)
 {
 	t_champ	*champ;
 	int		fd;
+	char	b;
 
 	if ((fd = open(file, O_RDONLY)) == -1)
+	{
+		ft_fdprintf(2, g_is_silent ? "" :
+			"Error while opening '%s'\n", file);
 		return (0);
+	}
+	if (read(fd, &b, 0) == -1)
+	{
+		ft_fdprintf(2, g_is_silent ? "" :
+			"Error while reading from '%s'\n", file);
+		return (0);
+	}
 	if (!(champ = ft_make_champ(file, fd)))
 		return (0);
 	ft_parse_header(champ, fd);

@@ -26,6 +26,7 @@ t_flags			*ft_make_flags(void)
 	if (!(fl->srcs = ft_make_vector(8)) ||
 		!(fl->outputs = ft_make_vector(8)))
 		return ((void*)(size_t)fl);
+	g_fls = fl;
 	return (fl);
 }
 
@@ -46,7 +47,7 @@ unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i)
 
 	arg = 0;
 	if (!(map_val = ft_map_get(champ->labels, cmd->args[i])))
-		exit(ft_free_champ(&champ, 666));
+		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	if (*map_val == champ->labels->nil)
 		ft_make_error(UNKNOWN_LAB, champ, cmd->lbl_poses[i],
 				(void*[4]){cmd->args[i], g_functions[cmd->cmd].name, 0, 0});

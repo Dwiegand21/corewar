@@ -52,7 +52,7 @@ void				ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 	t_cmd *cmd;
 
 	if (!(cmd = (t_cmd*)ft_memalloc(sizeof(t_cmd))))
-		exit(ft_free_champ(&champ, 666));
+		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	champ->curr_cmd = cmd;
 	cmd->cmd = (unsigned char)cmd_num;
 	cmd->begin_pos = (int)(size_t)(ln - champ->curr_ln) + 1;
@@ -63,7 +63,7 @@ void				ft_parse_command(t_champ *champ, char *ln, int cmd_num)
 	ft_check_arg_count(champ, cmd);
 	cmd->address = champ->address;
 	if (!ft_vector_push_back(&champ->cmds, cmd) || (champ->curr_cmd = 0))
-		exit(ft_free_champ(&champ, 666));
+		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	ft_upd_labels(champ);
 	champ->address += ft_get_op_size(cmd);
 }

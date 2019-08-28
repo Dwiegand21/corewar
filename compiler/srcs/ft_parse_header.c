@@ -22,7 +22,7 @@ void		ft_parse_header(t_champ *champ, int fd)
 				&& ++champ->line)
 	{
 		if (!ln)
-			exit(ft_free_champ(&champ, 13));
+			exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 		ft_champ_upd_line(champ, ln);
 		ft_skip_spaces(&ln);
 		if (!ft_strncmp(ln, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
@@ -97,9 +97,9 @@ void		ft_parse_string(char *ln, t_string **res, t_token_type type,
 				ft_get_next_line(champ->fd, &ln, BUFF_SIZE) && ++champ->line)
 		{
 			if (!ln)
-				exit(ft_free_champ(&champ, 13));
+				exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 			if (!ft_string_push_back(res, '\n'))
-				exit(ft_free_champ(&champ, 666));
+				exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 			ft_champ_upd_line(champ, ln);
 			if (ft_get_data_from_line(ln, res, type, champ))
 				break ;
@@ -122,7 +122,7 @@ int			ft_get_data_from_line(char *ln, t_string **res, t_token_type type,
 			if (*ln != '\\')
 			{
 				if (!ft_string_push_back(res, *ln))
-					exit(ft_free_champ(&chmp, 666));
+					exit(ft_free_champ(&chmp, 1) + ft_free_flags(g_fls, 0));
 			}
 			else if (++ln)
 				ft_parse_backslash(&ln, res, chmp);

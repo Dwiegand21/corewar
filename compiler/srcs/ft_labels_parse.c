@@ -26,7 +26,7 @@ char				*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars)
 		if (!ft_strchr(LABEL_CHARS, **s))
 			bad_char = bad_char ? bad_char : *s;
 		if (!ft_string_push_back(&res, **s))
-			exit(ft_free_champ(&champ, 13));
+			exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 		++(*s);
 	}
 	str = res->data;
@@ -55,7 +55,7 @@ void				ft_upd_labels(t_champ *champ)
 			need_free = ((size_t)curr & 1lu << 63u) != 0;
 			curr = (void*)((size_t)curr & ~(1lu << 63u));
 			if (!(map_val = ft_map_get(champ->labels, curr)))
-				exit(ft_free_champ(&champ, 666));
+				exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 			if (*map_val == champ->labels->nil || *map_val == (void*)(size_t)-1)
 				*map_val = (void*)(size_t)champ->address;
 			if (need_free)
@@ -70,13 +70,13 @@ void				ft_add_label(t_champ *champ, char *lbl)
 	void **map_val;
 
 	if (!(map_val = ft_map_get(champ->labels, lbl)))
-		exit(ft_free_champ(&champ, 666));
+		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	if (*map_val != champ->labels->nil)
 		lbl = (void*)((size_t)lbl | (1lu << 63u));
 	else
 		*map_val = (void*)(size_t)-1;
 	if (!ft_vector_push_back(&champ->current_labels, lbl))
-		exit(ft_free_champ(&champ, 666));
+		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 }
 
 void				ft_parse_label(t_champ *champ, char *ln)

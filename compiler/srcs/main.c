@@ -17,7 +17,7 @@ int		main(int ac, char **av)
 	t_flags	*fl;
 
 	if (!(fl = ft_find_s_h_flags(ac, (const char *const *)av)))
-		exit(1);
+		return (1);
 	ft_parse_flags(fl, ac, av);
 	if (!fl->is_error)
 		ft_compile_all(fl);
