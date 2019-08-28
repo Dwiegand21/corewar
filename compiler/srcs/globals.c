@@ -96,9 +96,14 @@ char g_wrn_wrong_ext[] =
 "          Continue? [Y/n] ";
 
 char g_usage[] =
-"I'm usage\n"; // TODO
+"./asm input.s [-o (dir | output.s) ] [-sh]\n";
 char g_help[] =
-"I'm help!\n"; // TODO
+"-o    --output :   Specify output directory or file\n"
+"-s    --silent :   Silent mode\n"
+"                   (Disable all output)\n"
+"                   (Answer 'Yes' to all\n"
+"                    questions automatically)\n"
+"-h    --help   :   Print help\n";
 
 char *g_errors[] = {
 	g_unexp_token,

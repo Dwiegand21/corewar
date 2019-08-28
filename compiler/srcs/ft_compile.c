@@ -88,7 +88,7 @@ int					ft_compile_one(char *src, char *out)
 	}
 	ft_free_champ(&champ, 0);
 	ft_printf(g_is_silent ? "" : "Compiled %s to %s\n", src, out);
-	return (0);
+	return (close(fd) * 0);
 }
 
 int					ft_compile_all(t_flags *fl)
