@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 17:23:31 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/07/04 19:53:56 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/29 17:54:52 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static inline void		procede_one_carriage(
 	else
 	{
 		wasnt_next = (curr->f != next_op);
+
 		curr->f(area, &curr);
 		if (wasnt_next)
 		{

@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 10:09:39 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/08/29 16:26:06 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/29 20:36:15 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,28 @@ static inline int	is_endgame(t_area *area, t_process *curr)
 	return (1);
 }
 
-int *g_prcs;
-int g_prcs_count;
-
-void		set_prcs(t_area *area)
-{
-	int k = 0;
-	int i = -1;
-	while (++i < TIMELINE_SIZE)
-	{
-		for (int e = 0; e < area->time[i].len; ++e)
-		{
-			g_prcs[k++] =  area->carriages->data[area->time[i].data[e]].pc;
-		}
-	}
-	g_prcs_count = k;
-	ft_timsort_int(g_prcs, k);
-	for (int e = k - 1; e >= 0; --e)
-	{
-		printf("%d ", g_prcs[e]);
-	}
-	printf("\nNUMBER = %d/%d %d\n", SN_PROCESS, g_prcs_count, (g_prcs[0] == 772));
-}
+//int *g_prcs;
+//int g_prcs_count;
+//
+//void		set_prcs(t_area *area)
+//{
+//	int k = 0;
+//	int i = -1;
+//	while (++i < TIMELINE_SIZE)
+//	{
+//		for (int e = 0; e < area->time[i].len; ++e)
+//		{
+//			g_prcs[k++] =  area->carriages->data[area->time[i].data[e]].pc;
+//		}
+//	}
+//	g_prcs_count = k;
+//	ft_timsort_int(g_prcs, k);
+////	for (int e = k - 1; e >= 0; --e)
+////	{
+////		printf("%d ", g_prcs[e]);
+////	}
+////	printf("\nNUMBER = %d/%d %d\n", SN_PROCESS, g_prcs_count, (g_prcs[0] == 772));
+//}
 
 void				print_dump(t_area *area)
 {
@@ -97,18 +97,14 @@ void				print_dump(t_area *area)
 	int32_t		j;
 
 
-	g_prcs = ft_memalloc(sizeof(int) * 1000000 * 5);
-	set_prcs(area);
-	int k = g_prcs_count - 1;
+//	g_prcs = ft_memalloc(sizeof(int) * 1000000 * 5);
+//	set_prcs(area);
+//	int k = g_prcs_count - 1;
 
 	if (is_endgame(area, 0))
 		return (winner(area));
 	i = 0;
-//	printf("AAAAAAA %d BBBB %d%d%d%d\n", k,
-//			(g_prcs[0] == 772),
-//			(g_prcs[1] == 464),
-//			(g_prcs[2] == 464),
-//			(g_prcs[3] == 151));
+//	ft_printf("n_processes: %d\n", SN_PROCESS);
 	while (i < 64)
 	{
 		print_hex_addr(i * 64);
@@ -116,19 +112,19 @@ void				print_dump(t_area *area)
 		while (j < 64)
 		{
 			write(1, " ", 1);
-			if (k >= 0 && g_prcs[k] == (i * 64 + j))
-			{
+//			if (k >= 0 && g_prcs[k] == (i * 64 + j))
+//			{
 				//write(1, "|", 1);
-				write(1, "\033[91m", 5);
-			}
+//				write(1, "\033[91m", 5);
+//			}
 			char_to_hex(MAP[i * 64 + j]);
-			if (k >= 0 && g_prcs[k] == (i * 64 + j))
-			{
+//			if (k >= 0 && g_prcs[k] == (i * 64 + j))
+//			{
 				//write(1, "|", 1);
-				while (g_prcs[k] == (i * 64 + j))
-					--k;
-				write(1, "\033[0m", 4);
-			}
+//				while (g_prcs[k] == (i * 64 + j))
+//					--k;
+//				write(1, "\033[0m", 4);
+//			}
 			j++;
 		}
 		write(1, " \n", 2); // todo fucking space

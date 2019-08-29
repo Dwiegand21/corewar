@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:50:20 by axtazy            #+#    #+#             */
-/*   Updated: 2019/08/29 13:39:34 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/29 14:29:55 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		sub_op(t_area *area, t_process **carr)
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))
 		{
-			printf("P %d | sub\n", process->ordinal_number + 1);
+//			printf("P %d | sub\n", process->ordinal_number + 1);
 			PREG(PPC(4)) = PREG(PPC(2)) - PREG(PPC(3));
 			CARRY = ((PREG(PPC(4)) == 0) ? true : false);
 		}
@@ -40,7 +40,7 @@ void		and_op(t_area *area, t_process **carr)
 	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
 		&& check_registers(area, process, 3, 4))
 	{
-		printf("P %d | and\n", process->ordinal_number + 1);
+//		printf("P %d | and\n", process->ordinal_number + 1);
 		result = get_argument(area, process, &shift, OCT00);
 		result &= get_argument(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = result;
@@ -61,7 +61,7 @@ void		or_op(t_area *area, t_process **carr)
 	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
 		&& check_registers(area, process, 3, 4))
 	{
-		printf("P %d | or\n", process->ordinal_number + 1);
+//		printf("P %d | or\n", process->ordinal_number + 1);
 		result = get_argument(area, process, &shift, OCT00);
 		result |= get_argument(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = result;
@@ -82,7 +82,7 @@ void		xor_op(t_area *area, t_process **carr)
 	if (RDI_T(OCT00) && RDI_T(OCT01) && R_T(OCT02)
 		&& check_registers(area, process, 3, 4))
 	{
-		printf("P %d | xor\n", process->ordinal_number + 1);
+//		printf("P %d | xor\n", process->ordinal_number + 1);
 		result = get_argument(area, process, &shift, OCT00);
 		result ^= get_argument(area, process, &shift, OCT01);
 		PREG(PPC(shift)) = result;
@@ -104,7 +104,7 @@ void		zjmp_op(t_area *area, t_process **carr)
 	}
 	else
 		PC = SHIFT(3);
-	printf("P %d | zjmp\n", process->ordinal_number + 1);
+//	printf("P %d | zjmp\n", process->ordinal_number + 1);
 	process->f = get_op;
 	process->sleep = 1;
 }
