@@ -102,6 +102,8 @@ void					play_game(t_area *area)
 {
 	int	current_round;
 
+	area->g_stats.n_cycles = 0;
+
 	area->win = area->g_stats.n_players - 1;
 	area->n_die_cycle = 0;
 	current_round = 0;
@@ -113,6 +115,7 @@ void					play_game(t_area *area)
 			if (!one_cycle(area, current_round))
 				return ;
 			current_round++;
+			area->g_stats.n_cycles++;
 		}
 	}
 }

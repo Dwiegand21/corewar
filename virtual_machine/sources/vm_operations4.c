@@ -37,6 +37,7 @@ void		lfork_op(t_area *area, t_process **carr)
 	t_process	backup;
 
 	process = *carr;
+	printf("P %d | lfork\n", process->ordinal_number + 1);
 	process_id = process->ordinal_number;
 	backup = *process;
 	result = get16(area, process, 1);
@@ -54,6 +55,7 @@ void		aff_op(t_area *area, t_process **carr)
 
 	if (IS_REG(PPC(1)) && (area->flags & AFF_ON))
 	{
+		printf("P %d | aff\n", process->ordinal_number + 1);
 		ft_putchar((char)PREG(PPC(1)));
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));

@@ -87,6 +87,7 @@ struct			s_cor_file
 
 struct			s_game_condition
 {
+	int32_t 		n_cycles;
 	int32_t			cycle_to_die_delta;
 	int32_t			cycle_to_die;
 	int32_t			not_changed_checks;
