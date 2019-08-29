@@ -37,10 +37,10 @@ void		lfork_op(t_area *area, t_process **carr)
 	t_process	backup;
 
 	process = *carr;
-	printf("P %d | lfork\n", process->ordinal_number + 1);
 	process_id = process->ordinal_number;
 	backup = *process;
 	result = get16(area, process, 1);
+	printf("P %d | lfork %d\n", process->ordinal_number + 1, result);
 	new_process(area, &backup, result);
 	process = area->carriages->data + process_id;
 	PC = SHIFT(3);

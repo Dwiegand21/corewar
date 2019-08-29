@@ -84,11 +84,11 @@ void		set_prcs(t_area *area)
 	}
 	g_prcs_count = k;
 	ft_timsort_int(g_prcs, k);
-	for (int e = k - 1; e >= 0; --e)
-	{
-		printf("%d ", g_prcs[e]);
-	}
-	printf("\nNUMBER = %d/%d %d\n", SN_PROCESS, g_prcs_count, (g_prcs[0] == 772));
+//	for (int e = k - 1; e >= 0; --e)
+//	{
+//		printf("%d ", g_prcs[e]);
+//	}
+//	printf("\n");
 }
 
 void				print_dump(t_area *area)

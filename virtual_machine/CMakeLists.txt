@@ -60,5 +60,4 @@ target_compile_options( ${TARGET} PRIVATE
 		-Wundef
 		-Wno-unused-result
 		-D_FORTIFY_SOURCE=2
-		-D TEST
 		)

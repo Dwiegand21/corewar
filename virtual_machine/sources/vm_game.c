@@ -39,6 +39,17 @@ static inline void		procede_one_carriage(
 	}
 }
 
+//static int need_print(int *cars, int len, t_area *area) // todo
+//{
+//	int need = 0;
+//	for (int i = 0; i < len; ++i)
+//	{
+//		need += area->carriages->data[cars[i]].f != get_op &&
+//				area->carriages->data[cars[i]].f != next_op;
+//	}
+//	return (need);
+//}
+
 static inline int32_t	run_next_round(t_area *area, t_vm_vector_int *v)
 {
 	int *const	data = v->data;
@@ -47,9 +58,17 @@ static inline int32_t	run_next_round(t_area *area, t_vm_vector_int *v)
 
 	i = 0;
 	ft_timsort_int(data, len);
+
+
+	printf("%d \n", area->g_stats.n_cycles); // todo
+	fflush(stdout);
+
 	while (i < len)
 		procede_one_carriage(area, data, &i);
 	area->time[area->current_index].len = 0;
+
+	fflush(stdout); // todo
+
 	if (SN_PROCESS <= 0)
 		return (0);
 	return (1);

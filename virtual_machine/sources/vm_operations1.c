@@ -35,7 +35,7 @@ void		live_op(t_area *area, t_process **carr)
 	{
 		area->win = value;
 	}
-	printf("P %d | live\n", process->ordinal_number + 1);
+	printf("P %d | live %d\n", process->ordinal_number + 1, -(value + 1));
 	SLIVES_IN_ROUND++;
 	PC = SHIFT(5);
 	process->f = get_op;
@@ -54,7 +54,7 @@ void		ld_op(t_area *area, t_process **carr)
 		result = get_argument(area, process, &shift, OCT00);
 		if (IS_REG(PPC(shift)))
 		{
-			printf("P %d | ld\n", process->ordinal_number + 1);
+			printf("P %d | ld %d r%d\n", process->ordinal_number + 1, result, PPC(shift));
 			PREG(PPC(shift)) = result;
 			CARRY = ((result == 0) ? true : false);
 		}
@@ -77,14 +77,17 @@ void		st_op(t_area *area, t_process **carr)
 		{
 			if (R_T(OCT01) && IS_REG(PPC(3)))
 			{
+				int v = PPC(3);
 				PREG(PPC(3)) = PREG(PPC(2));
+				printf("P %d | st r%d %d\n", process->ordinal_number + 1, PPC(2), v);
 			}
 			else
 			{
-				set32(area, process,
-						get16(area, process, 3) % IDX_MOD, PREG(PPC(2)));
+				int v = get16(area, process, 3) % IDX_MOD;
+				set32(area, process, v , PREG(PPC(2)));
+				printf("P %d | st r%d %d\n", process->ordinal_number + 1, PPC(2), v);
 			}
-			printf("P %d | st\n", process->ordinal_number + 1);
+
 		}
 	}
 	PC = SHIFT(2 + shift);
@@ -100,7 +103,11 @@ void		add_op(t_area *area, t_process **carr)
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))
 		{
-			printf("P %d | add\n", process->ordinal_number + 1);
+			printf("P %d | add r%d r%d r%d\n",
+					process->ordinal_number + 1,
+				   PPC(2),
+				   PPC(3),
+				   PPC(4));
 			PREG(PPC(4)) = PREG(PPC(2)) + PREG(PPC(3));
 			CARRY = (PREG(PPC(4)) == 0) ? true : false;
 		}
