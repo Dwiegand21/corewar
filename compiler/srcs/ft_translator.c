@@ -121,7 +121,7 @@ int					ft_translate_to_bytecode(t_champ *champ)
 	ft_string_push_back_n_c(&champ->res,
 			COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
 	ft_translate_exec_part(champ);
-	if (!champ->size)
+	if (!champ->cmds->len)
 		ft_fdprintf(2, FRMT(g_wrn_empty));
 	return (champ->res ? 1 : 0);
 }
