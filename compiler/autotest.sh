@@ -7,7 +7,7 @@ ARGS=($(find all_srcs -name '*.s'))
 function compile_ref {
     for arg in "${ARGS[@]}"
     do
-        ../subject/asm ${arg} 2> /dev/null 1> /dev/null
+        ../subject/asm_2018 ${arg} 2> /dev/null 1> /dev/null
         compiled=$(echo ${arg} | sed 's/.s$/.cor/g')
         mv ${compiled} tests/$(basename ${compiled} | sed 's/.cor$/.refcor/g') 2> /dev/null
     done

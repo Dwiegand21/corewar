@@ -35,7 +35,6 @@ void		ft_parse_header(t_champ *champ, int fd)
 	ft_check_exist_name_cmt(champ);
 	if (!gnl_ret)
 		ft_champ_upd_line(champ, 0);
-	ft_fdprintf(2, FRMT(g_wrn_empty));
 }
 
 void		ft_parse_name_comment(t_champ *champ, char *ln, t_token_type type)
