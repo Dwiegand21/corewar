@@ -2,9 +2,10 @@ import itertools
 import argparse
 import asyncio
 import os
-sem = asyncio.BoundedSemaphore(15)
+sem = asyncio.BoundedSemaphore(8)
 progress = 0
 
+total = 0
 
 class ExistingDir(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -26,8 +27,8 @@ async def find_error(player1, player2, directory):
     async def sparring(dump_cycle):
         async with sem:
             proc1 = await asyncio.create_subprocess_exec(
-                            './origin_sources/corewar',
-                            # './origin_sources/champs/championships/2018/corewar',
+                            #'./origin_sources/corewar',
+                            './origin_sources/champs/championships/2018/corewar',
                             '-d',
                             str(dump_cycle),
                             directory + '/' + player1,
@@ -36,8 +37,8 @@ async def find_error(player1, player2, directory):
                             stderr=asyncio.subprocess.PIPE)
             stdout1, stderr1 = await proc1.communicate()
             proc2 = await asyncio.create_subprocess_exec(
-                            '../corewar_old',
-                            # '../corewar',
+                            #'../corewar_old',
+                            '../corewar',
                             '-d',
                             str(dump_cycle),
                             directory + '/' + player1,
@@ -56,7 +57,8 @@ async def find_error(player1, player2, directory):
         # print(result)
         if result:
             # print(dump_time)
-            print('\033[32m' + player1 + ' ' + player2 + ' ' + str(dump_time) + '\033[0m')
+            print('\033[32m' + player1 + ' ' + player2 + ' ' + str(dump_time) +
+                  '  | ' + str(progress) + '/' + str(total) + '\033[0m')
             dump_time += 5000
         else:
             # dump_step = 1000
@@ -77,12 +79,14 @@ async def find_error(player1, player2, directory):
 
 
 def start_testing():
+    global total
     parser = argparse.ArgumentParser()
     parser.add_argument('directory', action=ExistingDir, help='path to champs bins')
     args = parser.parse_args()
     champs_list = list(itertools.product(os.listdir(args.directory), repeat=2))
     loop = asyncio.get_event_loop()
-    tasks = [loop.create_task(find_error(*i, args.directory)) for i in champs_list]
+    total = len(champs_list)
+    tasks = [loop.create_task(find_error(*i, args.directory)) for i in reversed(champs_list)]
     loop.run_until_complete(asyncio.gather(*tasks))
 
 
