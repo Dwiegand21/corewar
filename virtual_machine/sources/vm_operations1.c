@@ -83,9 +83,11 @@ void		st_op(t_area *area, t_process **carr)
 			}
 			else
 			{
-				int v = get16(area, process, 3) % IDX_MOD;
-				set32(area, process, v , PREG(PPC(2)));
+				int v = get16(area, process, 3);
 				printf("P %d | st r%d %d\n", process->ordinal_number + 1, PPC(2), v);
+				v %= IDX_MOD;
+				set32(area, process, v , PREG(PPC(2)));
+
 			}
 
 		}

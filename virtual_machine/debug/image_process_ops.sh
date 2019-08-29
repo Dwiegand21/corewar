@@ -1,13 +1,16 @@
 #!/usr/bin/env zsh
 
 # 5720
-DUMP=1000
+DUMP=20000000
 
 #ORIGIN=$( ./origin_sources/corewar -v 4 -d $DUMP ./champs_bins/C248.cor ./champs_bins/O-Maley_Miaou.cor | \
 # grep 'P ' | tr -s ' ' | cut -d ' ' -f -4 )
 
-ORIGIN=$( ./origin_sources/corewar -v 6 -d $DUMP ./champs_bins/C248.cor ./champs_bins/O-Maley_Miaou.cor | grep -v '0x\|->' | tr -d '\n' | sed 's/It/#It/g' | tr '#' '\n' | sed 's/P/ P/g' | tr -s ' ' | cut -d ' ' -f 5- | awk '{if (NF > 1) {print $0}}'  | grep -v "'" | sed 's/P/#P/g' | tr '#' '\n' | grep -v 'Cycle' \
-  | awk '{if ($4 == "gg") {$5=$6=$7=$8=$9=""} print $0}' | tr -s ' ' | sed 's/ $//g' | \
+ORIGIN=$( ./origin_sources/corewar -v 6 -d $DUMP ./champs_bins/C248.cor ./champs_bins/O-Maley_Miaou.cor | \
+grep -v '0x\|->\|die' | tr -d '\n' | sed 's/It/#It/g' | tr '#' '\n' | sed 's/P/ P/g' |\
+ tr -s ' ' | cut -d ' ' -f 5- | awk '{if (NF > 1) {print $0}}'  | grep -v "'" |\
+  sed 's/P/#P/g' | tr '#' '\n' |\
+  tr -s ' ' | sed 's/ $//g' | \
   sed -E 's/^[0-9]+$/#&/g' | tr -d '\n' | tr '#' '\n' | tr -d '|' | sed 's/P/ | P/g' | sed 's/(.*)//g' | \
   sed 's/ $//g'
  )

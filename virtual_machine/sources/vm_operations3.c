@@ -99,14 +99,16 @@ void		lld_op(t_area *area, t_process **carr)
 		if (I_T(OCT00))
 		{
 			result = (get32(area, process, get16(area, process, shift)));
+			result = OP_1;
 			shift += 2;
 		}
 		else
 			result = get_argument(area, process, &shift, OCT00);
+
 		if (IS_REG(PPC(shift)))
 		{
 			printf("P %d | lld %d r%d\n", process->ordinal_number + 1, result, PPC(shift));
-			PREG(PPC(shift)) = OP_1;
+			PREG(PPC(shift)) = result;
 //			PREG(PPC(shift)) = (result >> 16) & 0xFFFF; // ???
 //			PREG(PPC(shift)) = result;
 			CARRY = ((result == 0) ? true : false);
