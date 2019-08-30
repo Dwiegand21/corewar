@@ -50,11 +50,11 @@ void		lfork_op(t_area *area, t_process **carr)
 
 void		aff_op(t_area *area, t_process **carr)
 {
-	t_process *const process = *carr;
+	t_process *const	process = *carr;
 
-	if (IS_REG(PPC(1)) && (area->flags & AFF_ON))
+	if (R_T(OCT00) && IS_REG(PPC(2)) && (area->flags & AFF_ON))
 	{
-		ft_putchar((char)PREG(PPC(1)));
+		ft_printf("Aff: %c\n", (char)PREG(PPC(2)));
 	}
 	PC = SHIFT(2 + shift_size(PPC(1), 1, 4));
 	process->f = get_op;

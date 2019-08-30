@@ -4,9 +4,14 @@ ASM = asm
 VM = corewar
 CHAMP = $(addsuffix .cor,$(CHAMP_NAME))
 
-all: $(ASM) $(VM) $(CHAMP)
+all: call_makes $(ASM) $(VM) $(CHAMP)
 
 ################################### COMPILE ####################################
+
+call_makes:
+	@$(MAKE) -C compiler
+	@$(MAKE) -C virtual_machine
+	@$(MAKE) -C champion
 
 $(ASM): compiler/asm
 	@cp compiler/asm ./

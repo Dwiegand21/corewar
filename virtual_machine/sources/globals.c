@@ -46,4 +46,7 @@ t_vm_vector_rng	g_sort_ranges = {
 	0,
 };
 char			g_usage[] =
-"Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n";
+"Usage: ./corewar [ -d N | -v ] [ [ -n N ] <champion1.cor> ] ...\n"
+"\t-a        : Prints output from \"aff\" (Default is to hide it)\n"
+"\t-d N      : Dumps memory after N cycles then exits"
+"\t-n N      : Specifies the player's number";

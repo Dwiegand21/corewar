@@ -24,11 +24,11 @@ int32_t			check_dupm_flag(int32_t *argc, char ***argv, int32_t *dump)
 	(*argv)++;
 	if (!is_integer(**argv, dump))
 		ERRF("Program run with invalid arguments:\n"
-			"After the \'-d\' flag"
+			"After the \'-d\' flag "
 			"one more argument must be is positive digit\n");
 	if (*dump < 0)
 		ERRF("Program run with invalid arguments:\n"
-			"After the \'-d\' flag"
+			"After the \'-d\' flag "
 			"one more argument must be is positive digit\n");
 	return (1);
 }
@@ -66,6 +66,8 @@ int32_t			check_flags(int32_t *argc, char ***argv, int32_t *dump)
 			flags |= DUMP;
 		else if (ft_strcmp(*(*argv), "-a") == 0)
 			flags |= AFF_ON;
+		else if (ft_strcmp(*(*argv), "--help") == 0)
+			help();
 		else
 			break ;
 		(*argc)--;

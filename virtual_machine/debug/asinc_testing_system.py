@@ -29,8 +29,8 @@ async def find_error(player1, player2, directory):
             proc1 = await asyncio.create_subprocess_exec(
                             './origin_sources/corewar',
                             # './origin_sources/champs/championships/2018/corewar',
-                            '-d',
-                            str(dump_cycle),
+                            '-a',
+                            #str(dump_cycle),
                             directory + '/' + player1,
                             directory + '/' + player2,
                             stdout=asyncio.subprocess.PIPE,
@@ -39,8 +39,8 @@ async def find_error(player1, player2, directory):
             proc2 = await asyncio.create_subprocess_exec(
                             '../corewar_old',
                             # '../corewar',
-                            '-d',
-                            str(dump_cycle),
+                            '-a',
+                            #str(dump_cycle),
                             directory + '/' + player1,
                             directory + '/' + player2,
                             stdout=asyncio.subprocess.PIPE,
@@ -52,7 +52,7 @@ async def find_error(player1, player2, directory):
             # print(b'stdout1 ' + stdout1, b'stderr1 ' + stderr1, b'stdout2 ' + stdout2, b'stderr2 ' + stderr2, sep='\n')
             return True if stdout1 == stdout2 else False
     dump_time = 0
-    while dump_time <= 30000:
+    while dump_time <= 0:
         result = await sparring(dump_time)
         # print(result)
         if result:

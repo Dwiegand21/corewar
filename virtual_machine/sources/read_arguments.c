@@ -23,8 +23,8 @@ int32_t		check_filename(t_cor_file *file, char *filename, bool valid)
 		file->file_name = filename;
 	}
 	else
-		ERRF("File with name \'%s\' is invalid:\n"
-			"Champion file must have \'.cor\' extension\n");
+		ERRF("File with name '%s' is invalid:\n"
+			"Champion file must have '.cor' extension\n", filename);
 	return (0);
 }
 
@@ -65,14 +65,14 @@ int32_t		check_numeric_flag(char **argv, int32_t *champ_i, bool next2args)
 	{
 		if (next2args == false)
 			ERRF("Program run with invalid arguments:\n"
-				"After the \'-n\' flag two more arguments should be\n"
+				"After the '-n' flag two more arguments should be\n"
 				"./corewar [-d N] [[-n N] filename.cor] ...\n");
 		if (!is_integer(*(argv + 1), champ_i))
 			ERRF("Program run with invalid arguments:\n"
-				"Argument \'%s\' must be a number\n", *(argv + 1));
-		if (*champ_i < 0)
-			ERRF("Program run with invalid arguments"
-				"Champion cannot have a negative ordinal number\n");
+				"Argument '%s' must be a number\n", *(argv + 1));
+		if (*champ_i <= 0)
+			ERRF("Program run with invalid arguments\n"
+				"Champion can have only positive ordinal number\n");
 	}
 	return (2);
 }

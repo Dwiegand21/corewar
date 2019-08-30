@@ -34,6 +34,11 @@ extern t_vm_vector_rng	g_sort_ranges;
 extern char				g_usage[];
 
 /*
+**		main.c
+*/
+void		help(void);
+
+/*
 **		timsort.c
 */
 void		ft_timsort_int(int32_t *data, unsigned int ref_len);

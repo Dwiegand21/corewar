@@ -64,9 +64,9 @@ int			ft_ask(char *que, char *param[3])
 	b = 0;
 	ft_fdprintf(2, que, param[0], param[1], param[2]);
 	read(0, &b, 1);
-	if (b == 'n' || b == 'N')
-		return (0);
-	return (1);
+	if (b == 10 || b == 'y' || b == 'Y')
+		return (1);
+	return (0);
 }
 
 int			ft_isdir(char *name)

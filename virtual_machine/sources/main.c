@@ -14,7 +14,7 @@
 
 void				help(void)
 {
-	printf("%s", g_usage);
+	ft_printf("%s", g_usage);
 }
 
 static inline int	ft_make_vectors_for_timelime(
