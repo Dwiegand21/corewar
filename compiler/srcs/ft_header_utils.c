@@ -12,7 +12,7 @@
 
 #include "asm.h"
 
-void 	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
+void	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 {
 	char *tmp;
 	char tmp_char;
@@ -24,34 +24,33 @@ void 	ft_parse_byte(char **ln, t_string **res, t_champ *champ)
 		tmp[3] = '#';
 	(*ln) += (radix == 16);
 	if (!ft_string_push_back(res, (char)ft_atoi_base_m_non_trim(ln, radix)))
-		exit(ft_free_champ(&champ, 666));
+		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	if (tmp[1] && tmp[2] && tmp[3])
 		tmp[3] = tmp_char;
 	if (radix == 16 && *ln - tmp != 3)
 	{
-		ft_make_error(BAD_BYTE, champ, tmp - champ->curr_line,
-					  (void*[4]){(void*)(*ln - tmp + 1), tmp - 1, 0, 0});
+		ft_make_error(BAD_BYTE, champ, tmp - champ->curr_ln,
+				(void*[4]){(void*)(*ln - tmp + 1), tmp - 1, 0, 0});
 	}
 	--(*ln);
 }
 
-void 	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
+void	ft_parse_backslash(char **ln, t_string **res, t_champ *champ)
 {
 	char *pos;
 
 	if ((pos = ft_strchr(g_backslash_literals, (**ln))))
 	{
 		if (!ft_string_push_back(res, g_chars[pos - g_backslash_literals]))
-			exit(ft_free_champ(&champ, 666));
+			exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	}
 	if (ft_isdigit(**ln) || **ln == 'x' || **ln == 'X')
 	{
 		ft_parse_byte(ln, res, champ);
 	}
-
 }
 
-int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
+int		ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 {
 	while (*++ln)
 	{
@@ -59,9 +58,11 @@ int 	ft_check_empty_string(char *ln, t_champ *champ, t_token_type type)
 			break ;
 		if (!ft_isspace(*ln))
 		{
-			ft_printf(g_wrn_ignored, type == NAME ? "name" : "comment");
-			ft_printf(g_pos, champ->file, champ->line,
-					  ln - champ->curr_line + 1);
+			ft_printf(g_is_silent ? "" : g_wrn_ignored,
+					type == NAME ? "name" : "comment");
+			ft_printf(g_is_silent ? "" : g_pos,
+					champ->file, champ->line,
+					ln - champ->curr_ln + 1);
 			break ;
 		}
 	}
@@ -91,7 +92,7 @@ void	ft_skip_string(t_champ *champ, char *ln)
 		ft_get_next_line(champ->fd, &ln, BUFF_SIZE) && ++champ->line)
 	{
 		if (!ln)
-			exit(ft_free_champ(&champ, 13));
+			exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 		ft_champ_upd_line(champ, ln);
 		ft_skip_line(ln, &qoute_count);
 	}

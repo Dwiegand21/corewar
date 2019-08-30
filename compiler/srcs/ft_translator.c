@@ -21,19 +21,17 @@ static inline char	*ft_int_to_bytes(char buf[5], unsigned int n, int len)
 	while (--i >= 0)
 	{
 		buf[i] = (char)n;
-		//ft_printf("%#B -> %#hhB = %#B\n", n, buf[i], *(int*)buf);
 		n >>= 8u;
-		//ft_printf("%#B\n\n", n);
 	}
-	//exit(0);
 	return (buf);
 }
 
-static inline char ft_get_types_byte(t_cmd *cmd)
+static inline char	ft_get_types_byte(t_cmd *cmd)
 {
 	unsigned char	res;
 	unsigned char	code;
 	int				i;
+
 	i = -1;
 	res = 0;
 	while (++i < 4)
@@ -51,7 +49,7 @@ static inline char ft_get_types_byte(t_cmd *cmd)
 		}
 		res |= code;
 	}
-	return (0b00100000);
+	return (res);
 }
 
 static inline void	ft_translate_args(t_champ *champ, t_cmd *cmd)
@@ -59,7 +57,7 @@ static inline void	ft_translate_args(t_champ *champ, t_cmd *cmd)
 	int				i;
 	int				arg_len;
 	unsigned int	arg;
-	char 			buf[5];
+	char			buf[5];
 	unsigned char	type_backup;
 
 	i = -1;
@@ -102,15 +100,15 @@ static inline void	ft_translate_exec_part(t_champ *champ)
 	}
 }
 
-void				ft_translate_to_bytecode(t_champ *champ)
+int					ft_translate_to_bytecode(t_champ *champ)
 {
 	char		buf[5];
-	const int 	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
-	const int 	padding_size =
-			((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
+	const int	header_size = PROG_NAME_LENGTH + COMMENT_LENGTH + 4 + 4;
+	int			padding_size;
 
+	padding_size = ((int)(header_size / 16. + 0.5) * 16 - header_size) / 2;
 	if (champ->error_count)
-		return ;
+		return (0);
 	champ->res = ft_make_string(4096);
 	ft_string_push_back_mem(&champ->res,
 			ft_int_to_bytes(buf, COREWAR_EXEC_MAGIC, 4), 4);
@@ -123,6 +121,7 @@ void				ft_translate_to_bytecode(t_champ *champ)
 	ft_string_push_back_n_c(&champ->res,
 			COMMENT_LENGTH - champ->comment->len + padding_size, '\0');
 	ft_translate_exec_part(champ);
-	if (!champ->res)
-		exit(ft_free_champ(&champ, 666));
+	if (!champ->cmds->len)
+		ft_fdprintf(2, FRMT(g_wrn_empty));
+	return (champ->res ? 1 : 0);
 }

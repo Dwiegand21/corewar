@@ -1,31 +1,29 @@
 CHAMP_NAME = gg
 
-CHAMP_NAME_BYTE = $(addsuffix .cor,$(CHAMP_NAME))
+ASM = asm
+VM = corewar
+CHAMP = $(addsuffix .cor,$(CHAMP_NAME))
 
-all: call_makes asm corewar $(CHAMP_NAME_BYTE)
+all: $(ASM) $(VM) $(CHAMP)
 
 ################################### COMPILE ####################################
-call_makes:
-	@$(MAKE) -C compiler
-	@$(MAKE) -C virtual_machine
-	@$(MAKE) -C champion
 
-asm: compiler/asm
+$(ASM): compiler/asm
 	@cp compiler/asm ./
 
 compiler/asm:
 	@$(MAKE) -C compiler
 
-corewar: virtual_machine/corewar
+$(VM): virtual_machine/corewar
 	@cp virtual_machine/corewar ./
 
 virtual_machine/corewar:
 	@$(MAKE) -C virtual_machine
 
-$(CHAMP_NAME_BYTE): champion/$(CHAMP_NAME_BYTE)
-	@cp champion/$(CHAMP_NAME_BYTE) ./
+$(CHAMP): champion/$(CHAMP)
+	@cp champion/$(CHAMP) ./
 
-champion/$(CHAMP_NAME_BYTE):
+champion/$(CHAMP):
 	@$(MAKE) -C champion
 
 #################################### CLEAN #####################################
@@ -40,6 +38,6 @@ fclean:
 	@$(MAKE) -C champion fclean
 	@rm -f asm
 	@rm -f corewar
-	@rm -f $(CHAMP_NAME_BYTE)
+	@rm -f $(CHAMP)
 
 re: fclean all

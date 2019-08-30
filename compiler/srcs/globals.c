@@ -12,6 +12,8 @@
 
 #include "asm.h"
 
+char g_is_silent = 0;
+
 char g_unexp_token[] =
 "{Bold}{Red}ERROR{eof}  -  Unexpected symbol >>> {\\226}%.1r{eof} <<<\n"
 "          >>> {\\226}%c{eof} <<< expected\n";
@@ -74,28 +76,34 @@ char g_wrn_ignored[] =
 char g_wrn_double[] =
 "{Bold}{\\202}WARNING{eof} - Extra appearance of {\\226}player-%s{eof} "
 "ignored\n";
+char g_wrn_empty[] =
+"{Bold}{\\202}WARNING{eof} - Champion has empty exec-part\n";
 
 char g_pos[] =
 "          In {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 char g_pos_before[] =
 "          Before {Bold}%s{eof}:{\\202}{Bold}%d{eof}:{Bold}%d{eof}\n";
 
-char g_usage[] =
-"I'm usage\n"; // TODO
 char g_err_unknown_flag[] =
-"{Bold}{Red}ERROR{eof}  -  Unknown flag >>> {\\226}%s.*%s{eof} <<<\n";
+"{Bold}{Red}ERROR{eof}  -  Unknown flag >>> {\\226}%s%.*s{eof} <<<\n";
 char g_err_missing_in[] =
 "{Bold}{Red}ERROR{eof}  -  Missing input file before flag {\\226}%s{eof}\n";
 char g_err_missing_out[] =
 "{Bold}{Red}ERROR{eof}  -  Missing output file after flag {\\226}%s{eof}\n";
-char g_wrn_wrong_in_ext[] =
-"{Bold}{\\202}WARNING{eof} - Extension of input file {\\226}%s{eof} is not"
-" {\\226}.s{eof}\n"
-"          Continue? [Y/n]";
-char g_wrn_wrong_out_ext[] =
-"{Bold}{\\202}WARNING{eof} - Extension of output file {\\226}%s{eof} is not"
-" {\\226}.cor{eof}\n"
-"          Use {\\226}.cor{eof} instead? [Y/n]";
+char g_wrn_wrong_ext[] =
+"{Bold}{\\202}WARNING{eof} - Extension of %s file {\\226}%s{eof} is not"
+" {\\226}%s{eof}\n"
+"          Continue? [Y/n] ";
+
+char g_usage[] =
+"./asm input.s [-o (dir | output.s) ] [-sh]\n";
+char g_help[] =
+"-o    --output :   Specify output directory or file\n"
+"-s    --silent :   Silent mode\n"
+"                   (Disable all output)\n"
+"                   (Answer 'Yes' to all\n"
+"                    questions automatically)\n"
+"-h    --help   :   Print help\n";
 
 char *g_errors[] = {
 	g_unexp_token,
@@ -119,8 +127,7 @@ char *g_errors[] = {
 	g_err_unknown_flag,
 	g_err_missing_in,
 	g_err_missing_out,
-	g_wrn_wrong_in_ext,
-	g_wrn_wrong_out_ext,
+	g_wrn_wrong_ext,
 };
 
 char g_chars[] = {
@@ -154,6 +161,8 @@ char g_types[6][30] = {
 	"Register(rx) or Indirect(x)",
 	"Direct(%x) or Indirect(x)",
 };
+
+t_flags *g_fls;
 
 t_op g_functions[16] = {
 	{"live",

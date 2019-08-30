@@ -5,31 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggerardy <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/13 17:36:19 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/06/13 17:36:19 by ggerardy         ###   ########.fr       */
+/*   Created: 2019/08/28 21:03:41 by ggerardy          #+#    #+#             */
+/*   Updated: 2019/08/28 21:03:41 by ggerardy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ASM_H
 # define ASM_H
-# include "fcntl.h"
-# include <stdio.h>
-# include "stdint.h"
-# include "zconf.h"
+# include <sys/stat.h>
+# include <zconf.h>
+# include <fcntl.h>
+# include <stdint.h>
 # include "libft.h"
 # include "asm.h"
 
+# ifndef MIN_REG_IDX
+#  define MIN_REG_IDX 1
+# endif
 # define IND_SIZE 2
 # define REG_SIZE 4
 # define DIR_SIZE REG_SIZE
 # define REG_CODE 1
 # define DIR_CODE 2
 # define IND_CODE 3
-# define MAX_ARGS_NUMBER 4
-# define MAX_PLAYERS 4
-# define MEM_SIZE (4 * 1024)
-# define IDX_MOD (MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE (MEM_SIZE / 6)
 # define COMMENT_CHAR '#'
 # define ALT_CMT_CHAR ';'
 # define LABEL_CHAR ':'
@@ -38,11 +36,6 @@
 # define LABEL_CHARS "abcdefghijklmnopqrstuvwxyz_0123456789"
 # define NAME_CMD_STRING ".name"
 # define COMMENT_CMD_STRING ".comment"
-# define REG_NUMBER 16
-# define CYCLE_TO_DIE 1536
-# define CYCLE_DELTA 50
-# define NBR_LIVE	21
-# define MAX_CHECKS  10
 # define T_REG 1u
 # define T_DIR 2u
 # define T_IND 4u
@@ -50,13 +43,11 @@
 # define PROG_NAME_LENGTH (128)
 # define COMMENT_LENGTH (2048)
 # define COREWAR_EXEC_MAGIC 0xea83f3
-# define GET_DATA(p) (((size_t)(p) << 3u) >> 3u)
-# define GET_TYPE(p) ((t_token_type)((size_t)(p) >> 61u))
 # define BUFF_SIZE 4096
-
 # define SET_SILENT(flags)	((flags) |= 1u << 0u)
 # define SET_HELP(flags)	((flags) |= 1u << 1u)
 # define GET_SILENT(flags)	(((flags) & (1u << 0u)) != 0)
+# define FRMT(frmt) (g_is_silent ? "" : (frmt))
 
 typedef struct	s_op
 {
@@ -91,8 +82,7 @@ typedef enum	e_error
 	UNKNOWN_FLAG = 18,
 	MISSING_INPUT = 19,
 	MISSING_OUTPUT = 20,
-	WRG_IN_EXT = 21,
-	WRG_OUT_EXT = 22,
+	WRG_EXT = 21,
 }				t_error;
 
 typedef enum	e_token_type
@@ -127,7 +117,7 @@ typedef struct	s_champ
 	t_string		*comment;
 	t_string		*res;
 	t_vector		*cmds;
-	char			*curr_line;
+	char			*curr_ln;
 	int				line;
 	char			*file;
 	int				fd;
@@ -143,52 +133,104 @@ typedef struct	s_flags
 	t_vector		*srcs;
 	t_vector		*outputs;
 	unsigned char	flags;
-	t_file_type 	file_type;
+	t_file_type		file_type;
 	unsigned char	is_error;
+	unsigned char	was_input;
+	char			*out_to_free;
 }				t_flags;
 
 extern char		g_wrn_ignored[];
+extern char		g_err_missing_out[];
 extern char		g_missing_param[];
 extern t_op		g_functions[16];
 extern char		g_names[][300];
+extern t_flags	*g_fls;
 extern char		g_exp_same_line[];
+extern char		g_help[];
 extern char		g_unexp_token[];
 extern char		g_mult_label[];
 extern char		g_bad_byte[];
 extern char		g_miss_arg[];
-extern char		g_pos_before[];
+extern char		g_chars[];
 extern char		g_nm_cmd_wrg_place[];
 extern char		g_bad_arg_type[];
 extern char		*g_errors[];
 extern char		g_bad_cmd[];
+extern char		g_wrn_wrong_ext[];
 extern char		g_extra_sep[];
 extern char		g_types[6][30];
 extern char		g_backslash_literals[];
 extern char		g_usage[];
 extern char		g_wrong_char_lbl[];
 extern char		g_miss_lbl_chr[];
-extern char		g_pos[];
-extern char		g_nbrs[][4];
-extern char		g_chars[];
+extern char		g_unknown_lbl[];
+extern char		g_pos_before[];
+extern char		g_wrn_too_long[];
 extern char		g_bad_reg_idx[];
 extern char		g_miss_arg_aft_prfx[];
 extern char		g_wrn_double[];
+extern char		g_wrn_empty[];
 extern char		g_bad_arg_count[];
+extern char		g_err_unknown_flag[];
+extern char		g_is_silent;
 extern char		g_missing_sep[];
 extern char		g_bad_arg[];
-extern char		g_wrn_too_long[];
-extern char		g_unknown_lbl[];
+extern char		g_pos[];
+extern char		g_err_missing_in[];
+extern char		g_nbrs[][4];
 
+/*
+** ft_args_parse.c
+*/
+int				ft_check_arg(t_champ *champ, char **ln, char *begin,
+			unsigned int type);
+int				ft_get_arg_type(char **ln, t_champ *champ);
+void			*ft_get_arg_val(char **ln, unsigned int type,
+			t_champ *champ, const char *begin);
+void			ft_move_to_next_arg(t_champ *champ, char **ln);
+void			ft_check_arg_type_for_op(t_champ *champ, t_cmd *cmd,
+			unsigned int type, char *begin);
 /*
 ** ft_champ.c
 */
-int				ft_free_champ(t_champ **champ, int ret);
 t_champ			*ft_make_champ(char *file, int fd);
 void			ft_champ_upd_line(t_champ *champ, char *line);
 /*
+** ft_cmds_parse.c
+*/
+int				ft_is_command(char *line);
+int				ft_get_op_size(t_cmd *cmd);
+void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
+size_t			ft_find_bad_cmd_len(char *ln);
+/*
+** ft_compile.c
+*/
+char			*ft_get_out_name(char *src, char *out);
+int				ft_compile_one(char *src, char *out);
+int				ft_compile_all(t_flags *fl);
+/*
+** ft_find_s_h_flags.c
+*/
+t_flags			*ft_find_s_h_flags(int ac, char const *const *av);
+/*
+** ft_flag_parse_utils.c
+*/
+void			ft_output_flag(t_flags *fl);
+void			ft_parse_l_flag(char *ln, t_flags *fl);
+void			ft_parse_s_flag(char *ln, t_flags *fl);
+int				ft_ask(char *que, char *param[3]);
+int				ft_isdir(char *name);
+/*
 ** ft_flags.c
 */
-t_flags			*ft_parse_flags(int ac, char **av);
+void			ft_parse_filename(char *ln, t_flags *fl);
+t_flags			*ft_parse_flags(t_flags *fl, int ac, char **av);
+/*
+** ft_freeshers.c
+*/
+int				ft_free_champ(t_champ **champ, int ret);
+void			ft_free_cmd(void *p);
+int				ft_free_flags(t_flags *fl, int ret);
 /*
 ** ft_header_utils.c
 */
@@ -199,6 +241,14 @@ int				ft_check_empty_string(char *ln, t_champ *champ,
 			t_token_type type);
 void			ft_skip_line(char *ln, int *qoute_count);
 void			ft_skip_string(t_champ *champ, char *ln);
+/*
+** ft_labels_parse.c
+*/
+char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
+void			ft_upd_labels(t_champ *champ);
+void			ft_add_label(t_champ *champ, char *lbl);
+void			ft_parse_label(t_champ *champ, char *ln);
+int				ft_is_lbl(char *ln, t_champ *champ, int is_cmd, int pos);
 /*
 ** ft_parse_header.c
 */
@@ -214,34 +264,21 @@ int				ft_get_data_from_line(char *ln, t_string **res,
 /*
 ** ft_translator.c
 */
-void			ft_translate_to_bytecode(t_champ *champ);
+int				ft_translate_to_bytecode(t_champ *champ);
 /*
 ** ft_utils.c
 */
-void			ft_free_cmd(void *p);
-int				ft_free_flags(t_flags *fl, int ret);
-t_flags			*ft_make_flags();
+size_t			ft_get_max_len(t_token_type type);
+t_flags			*ft_make_flags(void);
 void			ft_make_error(t_error type, t_champ *champ, int pos,
 			void *args[4]);
-void			*tokenize(t_token_type type, void *carry);
 unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i);
 void			ft_check_exist_name_cmt(t_champ *champ);
 /*
-** main.c
-*/
-t_string		*ft_readall(char *name);
-char			*ft_upd_name(char *name, char *postfix);
-int				ft_compile(char *name);
-/*
 ** parser.c
 */
-char			*ft_get_lbl_name(t_champ *champ, char **s, char *stop_chars);
-int				ft_is_command(char *line);
 int				ft_parse_arg(t_champ *champ, t_cmd *cmd, char **ln);
-void			ft_parse_command(t_champ *champ, char *ln, int cmd_num);
-size_t			ft_find_bad_cmd_len(char *ln);
-void			ft_add_label(t_champ *champ, char *lbl);
-void			ft_parse_label(t_champ *champ, char *ln);
+void			ft_check_arg_count(t_champ *champ, t_cmd *cmd);
 void			ft_parse_line(t_champ *champ, char *ln);
 void			ft_parse_exec(t_champ *champ, int fd);
 t_champ			*ft_parser(char *file);
