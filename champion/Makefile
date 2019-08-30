@@ -6,7 +6,7 @@ NAME_BYTE = $(addsuffix .cor,$(NAME))
 all: $(NAME_BYTE)
 
 $(NAME_BYTE): $(NAME_ASM)
-	@../asm $(NAME_ASM)
+	@../compiler/asm $(NAME_ASM)
 
 clean:
 

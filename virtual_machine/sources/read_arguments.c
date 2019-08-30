@@ -16,7 +16,7 @@ int32_t		check_filename(t_cor_file *file, char *filename, bool valid)
 {
 	if (valid == false)
 		ERRF("Program run with invalid arguments:\n"
-			"After the ordinal number"
+			"After the ordinal number "
 			"the name of champion should follow\n");
 	if (ft_strnequ_rev(filename, ".cor", 4) != 0)
 	{
