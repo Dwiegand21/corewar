@@ -45,7 +45,7 @@ void		new_process(t_area *area, t_process *process, uint32_t pc)
 	if (!(new = (t_process *)ft_vm_vector_prc_push_back(&area->carriages)))
 		ERRF(ERRALLOC);
 	i = -1;
-	while (++i > REG_NUMBER)
+	while (++i < REG_NUMBER)
 	{
 		new->reg[i] = process->reg[i];
 	}
