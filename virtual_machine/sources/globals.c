@@ -39,13 +39,11 @@ t_vm_vector_int	g_sort_buffer = {
 	NULL,
 	0,
 	0,
-	0
 };
 t_vm_vector_rng	g_sort_ranges = {
 	NULL,
 	0,
 	0,
-	0
 };
 char			g_usage[] =
 "Usage: ./corewar [ -dump N | -v ] [ [ -n N ] <champion1.cor> ] ...\n";

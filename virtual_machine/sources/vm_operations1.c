@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 10:49:37 by axtazy            #+#    #+#             */
-/*   Updated: 2019/08/29 14:31:44 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/30 14:05:02 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ void		live_op(t_area *area, t_process **carr)
 	int32_t				value;
 	t_process *const	process = *carr;
 
-
 	process->n_lives = area->n_die_cycle + 1;
-	value = -get32(area, process, 1) - 1;
+	value = ~(get32(area, process, 1));
 	if ((value >= 0) && (value < (int32_t)SN_PLAYERS))
 	{
 		area->win = value;
 	}
-//	printf("P %d | live\n", process->ordinal_number + 1);
 	SLIVES_IN_ROUND++;
 	PC = SHIFT(5);
 	process->f = get_op;
@@ -54,7 +52,6 @@ void		ld_op(t_area *area, t_process **carr)
 		result = get_argument(area, process, &shift, OCT00);
 		if (IS_REG(PPC(shift)))
 		{
-//			printf("P %d | ld\n", process->ordinal_number + 1);
 			PREG(PPC(shift)) = result;
 			CARRY = ((result == 0) ? true : false);
 		}
@@ -84,7 +81,6 @@ void		st_op(t_area *area, t_process **carr)
 				set32(area, process,
 						get16(area, process, 3) % IDX_MOD, PREG(PPC(2)));
 			}
-//			printf("P %d | st\n", process->ordinal_number + 1);
 		}
 	}
 	PC = SHIFT(2 + shift);
@@ -100,7 +96,6 @@ void		add_op(t_area *area, t_process **carr)
 	{
 		if (IS_REG(PPC(2)) && IS_REG(PPC(3)) && IS_REG(PPC(4)))
 		{
-//			printf("P %d | add\n", process->ordinal_number + 1);
 			PREG(PPC(4)) = PREG(PPC(2)) + PREG(PPC(3));
 			CARRY = (PREG(PPC(4)) == 0) ? true : false;
 		}

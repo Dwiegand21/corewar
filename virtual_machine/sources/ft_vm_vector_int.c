@@ -33,7 +33,6 @@ t_vm_vector_int			*ft_init_vm_vector_int(t_vm_vector_int *v,
 		int init_size)
 {
 	v->len = 0;
-	v->offset = 0;
 	v->capacity = init_size <= 1 ? 2 : init_size;
 	v->data = (int*)malloc(sizeof(int) * (v->capacity));
 	if (!v->data)

@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 19:48:55 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/28 14:39:18 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/30 14:26:58 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,7 @@ int32_t						ft_init_vm_vector_rng(void)
 
 	v = &g_sort_ranges;
 	v->len = 0;
-	v->offset = 0;
-	// todo ??
-	v->capacity = INIT_SORT_RANGES_COUNT <= 1 ? 2 : INIT_SORT_RANGES_COUNT;
+	v->capacity = INIT_SORT_RANGES_COUNT;
 	v->data = (t_timsort_rng*)malloc(sizeof(t_timsort_rng) * (v->capacity));
 	if (!v->data)
 	{

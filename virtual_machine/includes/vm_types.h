@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 16:55:36 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/06/30 16:32:56 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/30 14:30:08 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ typedef struct s_game_condition		t_gcond;
 typedef struct	s_vm_vector_int
 {
 	int32_t		*data;
-	int32_t		len;
-	int32_t		capacity;
-	int32_t		offset;
+	uint32_t	len;
+	uint32_t	capacity;
 }				t_vm_vector_int;
 
 typedef struct	s_vm_vector_prc
@@ -38,7 +37,6 @@ typedef struct	s_vm_vector_prc
 	t_process	*data;
 	int32_t		len;
 	int32_t		capacity;
-	int32_t		offset;
 }				t_vm_vector_prc;
 
 typedef struct	s_timsort_rng
@@ -50,9 +48,8 @@ typedef struct	s_timsort_rng
 typedef struct	s_vm_vector_rng
 {
 	t_timsort_rng	*data;
-	int				len;
-	int				capacity;
-	int				offset;
+	uint32_t		len;
+	uint32_t		capacity;
 }				t_vm_vector_rng;
 
 struct			s_process
@@ -63,7 +60,6 @@ struct			s_process
 	bool			carry;
 	int32_t			n_lives;
 	uint32_t		ordinal_number;
-	uint32_t		player;
 	void			(*f)(t_area*, t_process**);
 };
 
@@ -73,7 +69,6 @@ struct			s_player
 	char			comment[COMMENT_LENGTH + 1];
 	uint32_t		ordinal_number;
 	uint32_t		start_pos;
-	int32_t			last_live;
 };
 
 struct			s_cor_file
@@ -87,7 +82,6 @@ struct			s_cor_file
 
 struct			s_game_condition
 {
-	int32_t 		n_cycles;
 	int32_t			cycle_to_die_delta;
 	int32_t			cycle_to_die;
 	int32_t			not_changed_checks;

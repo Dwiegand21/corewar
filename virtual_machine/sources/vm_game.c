@@ -6,7 +6,7 @@
 /*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 17:23:31 by dwiegand          #+#    #+#             */
-/*   Updated: 2019/08/29 17:54:52 by dwiegand         ###   ########.fr       */
+/*   Updated: 2019/08/30 14:01:38 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static inline void		procede_one_carriage(
 	else
 	{
 		wasnt_next = (curr->f != next_op);
-
 		curr->f(area, &curr);
 		if (wasnt_next)
 		{
@@ -103,8 +102,6 @@ void					play_game(t_area *area)
 {
 	int	current_round;
 
-	area->g_stats.n_cycles = 0;
-
 	area->win = area->g_stats.n_players - 1;
 	area->n_die_cycle = 0;
 	current_round = 0;
@@ -116,7 +113,6 @@ void					play_game(t_area *area)
 			if (!one_cycle(area, current_round))
 				return ;
 			current_round++;
-			area->g_stats.n_cycles++;
 		}
 	}
 }

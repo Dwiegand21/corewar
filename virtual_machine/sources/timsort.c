@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timsort.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axtazy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: dwiegand <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 16:00:15 by ggerardy          #+#    #+#             */
-/*   Updated: 2019/08/24 02:29:45 by axtazy           ###   ########.fr       */
+/*   Updated: 2019/08/30 14:26:58 by dwiegand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void						ft_timsort_split_and_merge(int *data, size_t len,
 
 	end = 0;
 	stack_size = 0;
-// todo change param 'capacity' or 'stack_max_size' type
-	while (g_sort_ranges.capacity < (int32_t)stack_max_size)
+	while (g_sort_ranges.capacity < stack_max_size)
 		ft_vm_vector_rng_realloc(&g_sort_ranges);
 	stack = g_sort_ranges.data;
 	ft_bzero(stack, stack_max_size * sizeof(t_timsort_rng));
@@ -120,8 +119,7 @@ void						ft_timsort_int(int *data, unsigned int len)
 		len >>= 1u;
 	}
 	minrun = len + minrun_flag;
-// todo change param 'capacity' or 'ref_len' type
-	while (g_sort_buffer.capacity < (int32_t)ref_len)
+	while (g_sort_buffer.capacity < ref_len)
 		ft_vm_vector_int_realloc(&g_sort_buffer);
 	ft_timsort_split_and_merge(data, ref_len, minrun, array_end);
 }
