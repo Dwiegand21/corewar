@@ -1,0 +1,18 @@
+[submodule "virtual_machine/visualization/external/glfw-3.4"]
+	path = virtual_machine/visualization/external/glfw-3.4
+	url = https://github.com/glfw/glfw.git
+[submodule "virtual_machine/visualization/external/glew-2.2.0"]
+	path = virtual_machine/visualization/external/glew-2.2.0
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "virtual_machine/visualization/external/soil-1.16"]
+	path = virtual_machine/visualization/external/soil-1.16
+	url = https://github.com/paralin/soil.git
+[submodule "virtual_machine/visualization/external/freeglut-3.0.0"]
+	path = virtual_machine/visualization/external/freeglut-3.0.0
+	url = https://github.com/dcnieho/FreeGLUT.git
+[submodule "virtual_machine/visualization/external/SDL-2.0.mirror"]
+	path = virtual_machine/visualization/external/SDL-2.0.mirror
+	url = https://github.com/davidsiaw/SDL2.git
+[submodule "virtual_machine/libft"]
+	path = virtual_machine/libft
+	url = https://github.com/Axtazy/libft_C.git

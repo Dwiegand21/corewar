@@ -1,7 +1,7 @@
 /corewar
 /asm
 compiler/asm
-virtual_machine/corewar
+#virtual_machine/corewar
 *.cor
 .norm_script.sh
 *.o
@@ -15,6 +15,12 @@ cmake-build-debug
 *.a
 .DS_Store
 venv
-*.refcor
-*.mycor
-virtual_machine/origin_sources
+
+/virtual_machine/visualization/**/build/
+!/virtual_machine/**/cmake/
+/virtual_machine/**/.hg/
+/virtual_machine/**/external/SDL*/
+/virtual_machine/executable/
+/virtual_machine/corewar
+/virtual_machine/compare_dumps/
+/virtual_machine/**/libft.*
