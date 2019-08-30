@@ -13,7 +13,7 @@ TARGET_2					= $(__TARGET_2)
 TARGET_NAME_2				:= corewar_old
 __TARGET_2					:= $(shell echo "$(TARGET_PATH)/$(TARGET_NAME_2)" | sed 's/\/\//\//g')
 
-CFLAGS						:= -Wall -Wextra -Werror -O3
+CFLAGS						:= -Wall -Wextra -Werror
 LFLAGS						= -L $(FT_DIR) -l ft
 IFLAGS						= -I $(FT_DIR)/includes -I $(INCLUDES_DIR)
 

@@ -32,17 +32,17 @@ build_all: build_dll build_so build_static
 .PHONY: build_all
 
 build_dll:
-	$(MAKE) -C ./makebuild -f Build.make
+	@$(MAKE) -C ./makebuild -f Build.make
 
 .PHONY: build_dll
 
 build_so:
-	$(MAKE) -C ./makebuild -f Build.make
+	@$(MAKE) -C ./makebuild -f Build.make
 
 .PHONY: build_so
 
 build_static:
-	$(MAKE) -C ./makebuild -f Build.make
+	@$(MAKE) -C ./makebuild -f Build.make
 
 .PHONY: build_static
 

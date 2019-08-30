@@ -16,10 +16,6 @@ t_area		*initialization_area(void)
 {
 	t_area		*area;
 
-	if (!ft_init_vm_vector_rng())
-		ERRF(ERRALLOC);
-	if (!ft_init_vm_vector_int(&g_sort_buffer, INIT_SORT_BUF_SIZE))
-		ERRF(ERRALLOC);
 	if (!(area = ft_memalloc(sizeof(t_area))))
 		ERRF(ERRALLOC);
 	if (!(area->map = ft_memalloc(sizeof(char) * MEM_SIZE)))

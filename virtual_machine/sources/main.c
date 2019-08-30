@@ -41,10 +41,14 @@ int32_t				main(int argc, char **argv)
 		help();
 	else
 	{
-		ft_make_vectors_for_timelime(time);
 		area = initialization_area();
+		ft_make_vectors_for_timelime(time);
 		area->time = time;
 		read_arguments(area, argc - 1, argv + 1);
+		if (!ft_init_vm_vector_rng())
+			ERRF(ERRALLOC);
+		if (!ft_init_vm_vector_int(&g_sort_buffer, INIT_SORT_BUF_SIZE))
+			ERRF(ERRALLOC);
 		play_game(area);
 	}
 	return (0);

@@ -46,6 +46,11 @@ int32_t			is_integer(const char *str, int32_t *nbr)
 	}
 	while (*str && *str >= '0' && *str <= '9')
 	{
+		if (*nbr < 0 && sign == 0)
+		{
+			ERRF("Program run with invalid arguments:\nAfter the '-d' flag"
+				" argument is bigger than max integer value\n");
+		}
 		(*nbr) *= 10;
 		(*nbr) += *str - '0';
 		str++;
