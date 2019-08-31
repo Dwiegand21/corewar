@@ -49,8 +49,11 @@ unsigned int	ft_get_lbl_arg(t_champ *champ, t_cmd *cmd, int i)
 	if (!(map_val = ft_map_get(champ->labels, cmd->args[i])))
 		exit(ft_free_champ(&champ, 1) + ft_free_flags(g_fls, 0));
 	if (*map_val == champ->labels->nil)
+	{
 		ft_make_error(UNKNOWN_LAB, champ, cmd->lbl_poses[i],
-				(void*[4]){cmd->args[i], g_functions[cmd->cmd].name, 0, 0});
+			(void *[4]){cmd->args[i], g_functions[cmd->cmd].name, 0, 0});
+		cmd->args[i] = 0;
+	}
 	else
 		arg = (unsigned)((int)*map_val - cmd->address);
 	return (arg);
